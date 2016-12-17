@@ -1,2 +1,3 @@
 # keeptrack
-This project serves two purposes. One : this is a simple React/Reduc/Saga/Reselect example. Two : Simple open source application that allows to keep track of customers with a simple filing system and dynamic forms.
+This project is a simple React / Redux / Saga / Reselect example. 
+The application is designed from small business that want to keep track of information regarding its customers using a simple filing system and dynamic forms that allows to link multiple simple documents to them.
