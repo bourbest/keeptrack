@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -126,10 +126,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\BaseOwnedEntityService.cs" />
-    <Compile Include="Common\IMEDomainContext.cs" />
+    <Compile Include="Common\IKTDomainContext.cs" />
     <Compile Include="ClientFileService.cs" />
-    <Compile Include="Common\MEDomainContext.cs" />
-    <Compile Include="IdentityUserService.cs" />
+    <Compile Include="Common\KTDomainContext.cs" />
+    <Compile Include="UserIdentityService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

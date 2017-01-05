@@ -11,8 +11,8 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ME.API</RootNamespace>
-    <AssemblyName>ME.API</AssemblyName>
+    <RootNamespace>KT.API</RootNamespace>
+    <AssemblyName>KT.API</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
@@ -213,11 +213,12 @@
     <Compile Include="App_Start\NinjectConfig.cs" />
     <Compile Include="Controllers\ClientFilesController.cs" />
     <Compile Include="Controllers\BaseApiController.cs" />
+    <Compile Include="DTO\SessionInfo.cs" />
     <Compile Include="Security\AccessToken.cs" />
     <Compile Include="Security\LoginData.cs" />
-    <Compile Include="Security\MEClientAuthProvider.cs" />
+    <Compile Include="Security\AuthProvider.cs" />
     <Compile Include="Security\ClaimsAuthorize.cs" />
-    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\JWTFormat.cs" />
     <Compile Include="Startup.cs" />
@@ -292,7 +293,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>10856</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/me-api</IISUrl>
+          <IISUrl>http://localhost/kt-api</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -9,19 +9,19 @@ using System;
 
 namespace KT.Data
 {
-    public class MEMongoDBUnitOfWork : IMEUnitOfWork
+    public class KTMongoDBUnitOfWork : IKTUnitOfWork
     {
         private MongoDBContext _context;
         protected bool _disposed = false;
 
         protected static IMongoDatabase _database;
 
-        public MEMongoDBUnitOfWork(bool performReadsOnReplicaSet = false, bool unsafeFastWrites = false)
+        public KTMongoDBUnitOfWork(bool performReadsOnReplicaSet = false, bool unsafeFastWrites = false)
         {
             _context = new MongoDBContext(_database, performReadsOnReplicaSet, unsafeFastWrites);
         }
 
-        static MEMongoDBUnitOfWork()
+        static KTMongoDBUnitOfWork()
         {
             MongoClient client = new MongoClient(ConfigurationManager.AppSettings["DatabaseHost"]);
             _database = client.GetDatabase(ConfigurationManager.AppSettings["DatabaseName"]);
@@ -51,24 +51,24 @@ namespace KT.Data
             }
         }
 
-        private IMEUnitOfWork _fromReplicaSet;
-        public IMEUnitOfWork FromReplicaSet
+        private IKTUnitOfWork _fromReplicaSet;
+        public IKTUnitOfWork FromReplicaSet
         {
             get
             {
                 if (_fromReplicaSet == null)
-                    _fromReplicaSet = new MEMongoDBUnitOfWork(true);
+                    _fromReplicaSet = new KTMongoDBUnitOfWork(true);
                 return _fromReplicaSet;
             }
         }
 
-        private IMEUnitOfWork _unsafeReplicaset;
-        public IMEUnitOfWork UnsafeFastWrites
+        private IKTUnitOfWork _unsafeReplicaset;
+        public IKTUnitOfWork UnsafeFastWrites
         {
             get
             {
                 if (_unsafeReplicaset == null)
-                    _unsafeReplicaset = new MEMongoDBUnitOfWork(false, true);
+                    _unsafeReplicaset = new KTMongoDBUnitOfWork(false, true);
                 return _unsafeReplicaset;
             }
         }

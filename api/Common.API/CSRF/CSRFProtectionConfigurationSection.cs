@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
 
-namespace Common.API.OWin
+namespace Common.API.CSRF
 {
     public class CSRFProtectionConfigurationSection : ConfigurationSection
     {

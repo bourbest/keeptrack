@@ -21,13 +21,13 @@ namespace KT.API.Controllers
     [RequireHttps]
     public abstract class BaseApiController<TKey, TModel> : ApiController where TModel : IModel<TKey>, new()
     {
-        protected IMEUnitOfWork _uow;
-        protected MEDomainContext _ctx;
+        protected IKTUnitOfWork _uow;
+        protected KTDomainContext _ctx;
 
-        public BaseApiController(IMEUnitOfWork uow)
+        public BaseApiController(IKTUnitOfWork uow)
         {
             _uow = uow;
-            _ctx = new MEDomainContext(uow, RequestContext.Principal);
+            _ctx = new KTDomainContext(uow, RequestContext.Principal);
         }
 
         protected ICRUDService<TKey, TModel> CreateService()
@@ -36,22 +36,22 @@ namespace KT.API.Controllers
             return CreateServiceWithContext(_ctx);
         }
 
-        protected abstract ICRUDService<TKey, TModel> CreateServiceWithContext(IMEDomainContext ctx);
+        protected abstract ICRUDService<TKey, TModel> CreateServiceWithContext(IKTDomainContext ctx);
 
         protected string DoOptions()
         {
             return null;
         }
 
-        // ListQueryFromRequest est un binding défini dans Common.API qui va instancier
-        // un HttpRequestListQuery
-        protected async Task<IHttpActionResult> DoGet(QueryParameters queryParameters)
+        protected async Task<IHttpActionResult> DoList(QueryParameters query = null)
         {
-            List<TModel> list; 
+            List<TModel> list;
+            if (query == null)
+                query = new QueryParameters();
 
             using (ICRUDService<TKey, TModel> service = CreateService())
             {
-                list = await service.ListEntitiesAsync(queryParameters);
+                list = await service.ListEntitiesAsync(query);
             }
 
             HttpResponseMessage msg = Request.CreateResponse(HttpStatusCode.OK, list);

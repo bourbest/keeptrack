@@ -15,9 +15,9 @@ namespace KT.API.Controllers
     [RoutePrefix("client-files")]
     public class ClientFilesController : BaseApiController<Guid, ClientFile>
     {
-        public ClientFilesController(IMEUnitOfWork uow) : base(uow) { }
+        public ClientFilesController(IKTUnitOfWork uow) : base(uow) { }
 
-        protected override ICRUDService<Guid, ClientFile> CreateServiceWithContext(IMEDomainContext ctx)
+        protected override ICRUDService<Guid, ClientFile> CreateServiceWithContext(IKTDomainContext ctx)
         {
             return new ClientFileService(_ctx);
         }
@@ -27,6 +27,12 @@ namespace KT.API.Controllers
         public string Options()
         {
             return base.DoOptions();
+        }
+
+        [HttpGet, Route("")]
+        public Task<IHttpActionResult> List()
+        {
+            return base.DoList();
         }
 
         [HttpGet, Route("{id}")]

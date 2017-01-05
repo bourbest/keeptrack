@@ -35,7 +35,7 @@ namespace KT.Data.MongoDB.Test
                 PasswordHash = "test",
                 UserName = "bourbest"
             };
-            MEDomainContext ctx = new MEDomainContext();
+            KTDomainContext ctx = new KTDomainContext();
             UserIdentityService svc = new UserIdentityService(ctx);
 
             await svc.AddEntityAsync(identity);
@@ -52,7 +52,7 @@ namespace KT.Data.MongoDB.Test
                 PasswordHash = "test",
                 UserName = "bourbest"
             };
-            MEDomainContext ctx = new MEDomainContext();
+            KTDomainContext ctx = new KTDomainContext();
             UserIdentityService svc = new UserIdentityService(ctx);
 
             await svc.AddEntityAsync(identity);
@@ -69,7 +69,7 @@ namespace KT.Data.MongoDB.Test
                 PasswordHash = "test",
                 UserName = "bourbest"
             };
-            MEDomainContext ctx = new MEDomainContext();
+            KTDomainContext ctx = new KTDomainContext();
             UserIdentityService svc = new UserIdentityService(ctx);
 
             await svc.AddEntityAsync(identity);
@@ -87,7 +87,7 @@ namespace KT.Data.MongoDB.Test
                 PasswordHash = "test",
                 UserName = "bourbest"
             };
-            MEDomainContext ctx = new MEDomainContext();
+            KTDomainContext ctx = new KTDomainContext();
             UserIdentityService svc = new UserIdentityService(ctx);
 
             await svc.AddEntityAsync(identity);
@@ -102,7 +102,7 @@ namespace KT.Data.MongoDB.Test
         {
             string password = "test";
             UserIdentity identity = new UserIdentity() { PasswordHash = password };
-            MEDomainContext ctx = new MEDomainContext();
+            KTDomainContext ctx = new KTDomainContext();
             UserIdentityService svc = new UserIdentityService(ctx);
 
             await svc.AddEntityAsync(identity);

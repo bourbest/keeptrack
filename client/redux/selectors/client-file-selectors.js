@@ -6,7 +6,7 @@ export const getClientFiles = (state) => state.clientFile.filesById
 
 export const getCurrentFile = (state, props) => {
   let id = get(props, 'params.id', null)
-  if (props.params.id === 'create') {
+  if (id === 'create') {
     return state.clientFile.draft
   } else if (id) {
     return state.clientFile.filesById[id]

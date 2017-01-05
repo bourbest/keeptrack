@@ -7,7 +7,7 @@ using Microsoft.Owin;
 using Owin;
 using System.Configuration;
 
-namespace Common.API.OWin
+namespace Common.API.CSRF
 {
     public class CSRFProtectionMiddleware : OwinMiddleware   
     {
@@ -19,11 +19,6 @@ namespace Common.API.OWin
         {
             CSRFProtectionConfigurationSection csrfConfig = (CSRFProtectionConfigurationSection )ConfigurationManager.GetSection("Web.CSRFProtection");
             _cookieName = csrfConfig.CookieName;
-        }
-
-        protected string GenerateCsrfToken()
-        {
-            return Guid.NewGuid().ToString();
         }
 
         protected bool IsExceptionPath(string path)
@@ -46,6 +41,8 @@ namespace Common.API.OWin
             return isException;
         }
 
+       
+
         public async override Task Invoke(IOwinContext owinContext)
         {
             var environment = owinContext.Environment;
@@ -58,25 +55,8 @@ namespace Common.API.OWin
                 
                 if(owinContext.Request.User != null && owinContext.Request.User.Identity != null && owinContext.Request.User.Identity.IsAuthenticated)
                 {
-                    string cookiePath = "/";
-                    string scopedCookieName = _cookieName;
-
-                    var nameInRequest = requestHeaders.Where(kv => kv.Key.ToUpper() == "X-COOKIE-NAME").FirstOrDefault();
-                    if (nameInRequest.Value != null && nameInRequest.Value.Length > 0)
-                    {
-                        scopedCookieName = nameInRequest.Value.FirstOrDefault();
-                    }
-
-                    //owinContext.Request.Headers.FirstOrDefault()
-                    string token = GenerateCsrfToken();
+                    CSRFService.SetCsrfToken();
                     environment["owin.ResponseStatusCode"] = 200;
-                    CookieOptions options = new CookieOptions();
-                    options.HttpOnly = true;
-                    options.Path = cookiePath;
-                    options.Expires = DateTime.Now.AddHours(8);
-                    owinContext.Response.Cookies.Append(scopedCookieName, token, options);
-                    owinContext.Response.Headers.Append("content-type", "application/json");
-                    owinContext.Response.Write(string.Format("{{ \"token\": \"{0}\" }}", token));
                     return;
                 }
                 else
@@ -101,15 +81,10 @@ namespace Common.API.OWin
             else
             {   // veut modifier l'état d'une ressource, doit avoir le token
                 string authCookie = "";
-                string portalCSRFCookie = "";
                 string csrfToken = "";
 
                 // obtient le cookie
-                if (owinContext.Request.Cookies.Count() > 0 &&
-                    string.IsNullOrWhiteSpace(owinContext.Request.Cookies[_cookieName]) == false)
-                {
-                    authCookie = owinContext.Request.Cookies[_cookieName];
-                }
+                authCookie = CSRFService.ReadCsrfCookie(owinContext);
                 
                 // obtient le token dans le header  
                 var header = requestHeaders.Where(kv => kv.Key.ToUpper() == "X-CSRF-TOKEN").FirstOrDefault();

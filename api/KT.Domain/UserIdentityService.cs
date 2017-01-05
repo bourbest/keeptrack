@@ -15,8 +15,8 @@ namespace KT.Domain
 {
     public class UserIdentityService : ServiceBase<string, UserIdentityRepository, UserIdentity>
     {
-        IMEDomainContext _context;
-        public UserIdentityService(IMEDomainContext ctx) :
+        IKTDomainContext _context;
+        public UserIdentityService(IKTDomainContext ctx) :
             base(ctx.Uow, ctx.Uow.UserIdentities)
         {
             _context = ctx;
