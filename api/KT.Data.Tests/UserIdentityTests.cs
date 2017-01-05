@@ -59,9 +59,9 @@ namespace KT.Data.MongoDB.Test
                 Permissions = new string[] {"perm1", "perm2"}
             };
 
-            Assert.IsTrue(user1.Claims.Any(c => c.Type == MEClaimTypes.FirstName && c.Value == user1.FirstName));
-            Assert.IsTrue(user1.Claims.Any(c => c.Type == MEClaimTypes.LastName && c.Value == user1.LastName));
-            Assert.IsTrue(user1.Claims.Any(c => c.Type == MEClaimTypes.Permissions && c.Value == string.Join(",", user1.Permissions)));
+            Assert.IsTrue(user1.Claims.Any(c => c.Type == KTClaimTypes.FirstName && c.Value == user1.FirstName));
+            Assert.IsTrue(user1.Claims.Any(c => c.Type == KTClaimTypes.LastName && c.Value == user1.LastName));
+            Assert.IsTrue(user1.Claims.Any(c => c.Type == KTClaimTypes.Permissions && c.Value == string.Join(",", user1.Permissions)));
 
             Assert.IsTrue(user1.Claims.Any(c => c.Type == ClaimTypes.NameIdentifier && c.Value == user1.Id));
             Assert.IsTrue(user1.Claims.Any(c => c.Type == ClaimTypes.Name && c.Value == user1.UserName));
@@ -73,9 +73,9 @@ namespace KT.Data.MongoDB.Test
             ClaimsIdentity ci = new ClaimsIdentity();
             ci.AddClaim(new Claim(ClaimTypes.NameIdentifier, "1"));
             ci.AddClaim(new Claim(ClaimTypes.Name, "test"));
-            ci.AddClaim(new Claim(MEClaimTypes.FirstName, "stephane"));
-            ci.AddClaim(new Claim(MEClaimTypes.LastName, "bourbeau"));
-            ci.AddClaim(new Claim(MEClaimTypes.Permissions, "perm1,perm2"));
+            ci.AddClaim(new Claim(KTClaimTypes.FirstName, "stephane"));
+            ci.AddClaim(new Claim(KTClaimTypes.LastName, "bourbeau"));
+            ci.AddClaim(new Claim(KTClaimTypes.Permissions, "perm1,perm2"));
 
             UserIdentity user = new UserIdentity(ci);
             Assert.AreEqual("1", user.Id);

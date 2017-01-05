@@ -13,10 +13,10 @@ namespace KT.Domain
             where TModel : IOwnedModel<TKey, string>, new()
             where TRepository : IOwnedModelRepository<TKey, TModel, string>
     {
-        protected IMEDomainContext _context;
+        protected IKTDomainContext _context;
         protected TRepository _mainRepository;
 
-        public BaseOwnedEntityService(IMEDomainContext ctx, TRepository mainRepository)
+        public BaseOwnedEntityService(IKTDomainContext ctx, TRepository mainRepository)
         {
             _context = ctx;
             _mainRepository = mainRepository;

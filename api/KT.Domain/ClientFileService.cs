@@ -11,7 +11,7 @@ namespace KT.Domain
     public class ClientFileService : ServiceBase<Guid, ClientFileRepository, ClientFile>
     {
 
-        public ClientFileService(IMEDomainContext ctx) : 
+        public ClientFileService(IKTDomainContext ctx) : 
             base(ctx.Uow, ctx.Uow.ClientFiles)
         {
         }

@@ -20,7 +20,7 @@ namespace KT.API
 
         private static void RegisterUnitOfWork(KernelBase kernel)
         {
-            kernel.Bind<IMEUnitOfWork>().To<MEMongoDBUnitOfWork>();
+            kernel.Bind<IKTUnitOfWork>().To<KTMongoDBUnitOfWork>();
         }
     }
 }

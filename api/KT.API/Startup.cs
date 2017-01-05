@@ -25,7 +25,7 @@ using System.Web.Http;
 using System.Web.Http.ExceptionHandling;
 using System.Web.Routing;
 using Common.API.Cors;
-using Common.API.OWin;
+using Common.API.CSRF;
 
 
 
@@ -43,7 +43,7 @@ namespace KT.API
 
             //ConfigureAuth(app);
             string issuer = ConfigurationManager.AppSettings["as:Issuer"];
-            string authType = ConfigurationManager.AppSettings["ME:AuthType"];
+            string authType = ConfigurationManager.AppSettings["KT:AuthType"];
             string audienceId = ConfigurationManager.AppSettings["as:AudienceId"];
             string symmetricKeyAsBase64 = ConfigurationManager.AppSettings["as:AudienceSecret"];
 
@@ -130,10 +130,10 @@ namespace KT.API
 
             config.Filters.Add(new HostAuthenticationFilter(authenticationType));
 
-            var cookieName = ConfigurationManager.AppSettings["ME:CookieName"];
+            var cookieName = ConfigurationManager.AppSettings["KT:CookieName"];
             app.SetDefaultSignInAsAuthenticationType(authenticationType);
 
-            var rootUrl = ConfigurationManager.AppSettings["ME:RootUrl"];
+            var rootUrl = ConfigurationManager.AppSettings["KT:RootUrl"];
             Uri myUri = new Uri(rootUrl);
             string domain = myUri.Host;
 
@@ -147,7 +147,7 @@ namespace KT.API
                 CookieDomain = domain
             };
 
-            if ((ConfigurationManager.AppSettings["ME:CookieSecureOnly"].ToLower() == bool.FalseString.ToLower()))
+            if ((ConfigurationManager.AppSettings["KT:CookieSecureOnly"].ToLower() == bool.FalseString.ToLower()))
                 cookieAuthenticationOptions.CookieSecure = CookieSecureOption.SameAsRequest;
 
             app.UseCookieAuthentication(cookieAuthenticationOptions);

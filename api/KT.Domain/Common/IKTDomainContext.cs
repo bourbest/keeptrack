@@ -4,9 +4,9 @@ using KT.Data.Models;
 
 namespace KT.Domain
 {
-    public interface IMEDomainContext
+    public interface IKTDomainContext
     {
-        IMEUnitOfWork Uow { get; }
+        IKTUnitOfWork Uow { get; }
 
         UserIdentity CurrentUser { get; }
 

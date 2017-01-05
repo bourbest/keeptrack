@@ -10,11 +10,11 @@ using System.Linq;
 
 namespace KT.Data.Models
 {
-    public class MEClaimTypes
+    public class KTClaimTypes
     {
-        public const string FirstName = "ME:FirstName";
-        public const string LastName = "ME:LastName";
-        public const string Permissions = "ME:Permissions";
+        public const string FirstName = "KT:FirstName";
+        public const string LastName = "KT:LastName";
+        public const string Permissions = "KT:Permissions";
     }
 
     public class UserIdentity : IUser<string>, IModel<string>
@@ -62,7 +62,7 @@ namespace KT.Data.Models
             }
         }
 
-        // ME specific data
+        // KT specific data
         [JsonIgnore]
         public string PasswordHash { get; set; }
         [JsonIgnore]
@@ -75,7 +75,7 @@ namespace KT.Data.Models
             set
             {
                 _firstName = (value != null ? value : string.Empty);
-                SetClaim(MEClaimTypes.FirstName, _firstName);
+                SetClaim(KTClaimTypes.FirstName, _firstName);
             }
         }
 
@@ -86,11 +86,12 @@ namespace KT.Data.Models
             set
             {
                 _lastName = (value != null ? value : string.Empty);
-                SetClaim(MEClaimTypes.LastName, _lastName);
+                SetClaim(KTClaimTypes.LastName, _lastName);
             }
         }
 
         [BsonIgnore]
+        [JsonIgnore]
         public string Name { get { return $"{FirstName} {LastName}"; } }
 
         private HashSet<string> _permissions = new HashSet<string>();
@@ -105,7 +106,7 @@ namespace KT.Data.Models
                     _permissions = new HashSet<string>();
 
                 string strPerm = string.Join(",", _permissions.AsEnumerable());
-                SetClaim(MEClaimTypes.Permissions, strPerm);
+                SetClaim(KTClaimTypes.Permissions, strPerm);
             }
         }
 
@@ -120,7 +121,9 @@ namespace KT.Data.Models
         }
 
         private List<Claim> _claims = new List<Claim>();
+
         [BsonIgnore]
+        [JsonIgnore]
         public IEnumerable<Claim> Claims { get { return _claims; } }
 
         private void LoadPrincipal(IPrincipal principal)
@@ -141,12 +144,12 @@ namespace KT.Data.Models
                 {
                     switch (claim.Type)
                     {
-                        case MEClaimTypes.FirstName: this.FirstName = claim.Value; break;
-                        case MEClaimTypes.LastName: this.LastName = claim.Value; break;
+                        case KTClaimTypes.FirstName: this.FirstName = claim.Value; break;
+                        case KTClaimTypes.LastName: this.LastName = claim.Value; break;
                         case ClaimTypes.NameIdentifier: this.Id = claim.Value; break;
                         case ClaimTypes.Name: this.UserName = claim.Value; break;
 
-                        case MEClaimTypes.Permissions:
+                        case KTClaimTypes.Permissions:
                             string[] permissions = claim.Value.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                             _permissions = new HashSet<string>(permissions);
                             break;

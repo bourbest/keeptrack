@@ -7,26 +7,26 @@ using KT.Data.Models;
 
 namespace KT.Domain
 {
-    public class MEDomainContext : IMEDomainContext, IDisposable
+    public class KTDomainContext : IKTDomainContext, IDisposable
     {
         DateTime _taskBeginTime = DateTime.Now;
 
         public DateTime? ForcedCurrentTime { get; set; }
 
-        public MEDomainContext(IMEUnitOfWork uow = null, System.Security.Principal.IPrincipal principal = null)
+        public KTDomainContext(IKTUnitOfWork uow = null, System.Security.Principal.IPrincipal principal = null)
         {
-            Uow = uow != null ? uow : new MEMongoDBUnitOfWork();
+            Uow = uow != null ? uow : new KTMongoDBUnitOfWork();
             CurrentUser = new UserIdentity(principal);
         }
 
-        public MEDomainContext(UserIdentity user, IMEUnitOfWork uow = null)
+        public KTDomainContext(UserIdentity user, IKTUnitOfWork uow = null)
         {
-            Uow = uow != null ? uow : new MEMongoDBUnitOfWork();
+            Uow = uow != null ? uow : new KTMongoDBUnitOfWork();
             CurrentUser = user;
         }
 
         public UserIdentity CurrentUser { get; set; }
-        public IMEUnitOfWork Uow { get; set; }
+        public IKTUnitOfWork Uow { get; set; }
 
         public DateTime TaskBeginTime
         {
