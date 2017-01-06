@@ -1,12 +1,13 @@
 {
-  "name": "maison-eclaircie",
-  "version": "1.0.0",
+  "name": "keep-track",
+  "version": "0.1.0",
   "description": "TODO",
   "main": "index.js",
   "scripts": {
     "test": "mocha --require test/helpers/setup.js",
     "lint": "standard",
     "build": "webpack",
+    "server": "babel-node ./index.js",
     "watch": "webpack --watch",
     "cover": "nyc --reporter=lcov --reporter=text --reporter=html --require babel-register --extension .jsx npm test"
   },
@@ -15,6 +16,7 @@
   "dependencies": {
     "axios": "^0.15.3",
     "es6-promise": "^4.0.5",
+    "express": "^4.14.0",
     "lodash": "4.6.1",
     "moment": "^2.17.1",
     "react": "^0.14.7",
@@ -26,15 +28,17 @@
     "reselect": "^2.5.4"
   },
   "devDependencies": {
+    "babel-cli": "^6.18.0",
     "babel-core": "^6.18.2",
+    "babel-eslint": "^7.1.0",
     "babel-loader": "^6.2.9",
     "babel-polyfill": "^6.16.0",
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-react": "^6.16.0",
     "babel-preset-stage-0": "^6.16.0",
-    "babel-eslint": "^7.1.0",
     "babel-register": "^6.5.2",
     "chai": "^3.5.0",
+    "cookie-parser": "^1.4.3",
     "enzyme": "^2.0.0",
     "eslint": "^2.2.0",
     "eslint-config-standard": "^5.1.0",
