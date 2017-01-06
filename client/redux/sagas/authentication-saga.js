@@ -11,6 +11,8 @@ import {
   ActionCreators as AuthActionCreators
 } from '../modules/authentication'
 
+import { ActionCreators as AppActions } from '../modules/app'
+
 function * authSaga (action) {
   const svc = yield select(getService, 'auth')
 
@@ -20,6 +22,7 @@ function * authSaga (action) {
         const ret = yield call(svc.login, action.username, action.password)
 
         if (ret && ret.identity) {
+          yield put(AppActions.setCsrfToken(ret.csrfToken))
           yield put(AuthActionCreators.setSessionInfo(ret))
 
           // redirect to target location if any

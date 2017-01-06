@@ -10,8 +10,8 @@ import Layout from './containers/Layout'
 export default (
   <Route path='/' component={Layout}>
     <IndexRoute component={ManageClientFiles} />
-    <Route path='/client/:id' component={EditClientFile} />
-    <Route path='/login' component={LoginPage} />
+    <Route path='client/:id' component={EditClientFile} />
+    <Route path='login' component={LoginPage} />
     <Route path="*" component={ErrorPage} code={"404"} />
   </Route>
 )
