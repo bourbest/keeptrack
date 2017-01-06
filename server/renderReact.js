@@ -25,9 +25,13 @@ export default function(request, res, props) {
   const authCookie = request.cookies['KT-Auth'] || ''
   const csrfToken = request.cookies['KT-CSRF'] || ''
 
-  if (request.url !== '/login' && 
-      (authCookie === '' || csrfToken === '')) {
-    res.redirect('/login')
+  if (!request.url.startsWith('/login') && (authCookie === '' || csrfToken === '')) {
+    let redir = '/login'
+    if (request.url !== '/login') {
+      const target = encodeURIComponent(request.url)
+      redir = `/login?ret=${target}`
+    }
+    res.redirect(redir)
   } else {
 
     const cookies = `KT-Auth=${authCookie}; KT-CSRF=${csrfToken};`

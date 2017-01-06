@@ -13,7 +13,7 @@ export const Actions = {
 }
 
 export const ActionCreators = {
-  loginUser: (username, password) => ({ type: Actions.LOG_IN, username, password }),
+  loginUser: (username, password, redirect) => ({ type: Actions.LOG_IN, username, password, redirect }),
   setSessionInfo: (sessionInfo) => ({ type: Actions.SET_SESSION_INFO, sessionInfo }),
   logoutUser: () => ({ type: Actions.LOG_OUT }),
 

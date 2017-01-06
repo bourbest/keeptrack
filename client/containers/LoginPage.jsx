@@ -37,7 +37,7 @@ class LoginPage extends React.Component {
   }
   handleSubmit (event) {
     event.preventDefault()
-    this.props.actions.loginUser(this.state.username, this.state.password)
+    this.props.actions.loginUser(this.state.username, this.state.password, this.props.location.query.ret)
   }
   render () {
     return (
