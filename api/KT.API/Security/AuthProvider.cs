@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Configuration;
 using System.Security.Principal;
+using System.Linq;
 
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
@@ -54,7 +55,7 @@ namespace KT.API.Security
             UserManager<UserIdentity> userManager = new UserManager<UserIdentity>(ctx.Uow.UserIdentities);
             ClaimsIdentity oAuthIdentity = await userManager.CreateIdentityAsync(identity, _authenticationType);
 
-            oAuthIdentity.AddClaims(identity.Claims);
+            oAuthIdentity.AddClaims(identity.Claims.Where(c => c.Type.StartsWith("KT:")).ToList());
             AuthenticationProperties authProperties = new AuthenticationProperties()
             {
                 AllowRefresh = true,

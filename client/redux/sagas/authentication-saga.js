@@ -21,9 +21,10 @@ function * authSaga (action) {
       try {
         const ret = yield call(svc.login, action.username, action.password)
 
-        if (ret && ret.identity) {
+        if (ret && ret.ticket) {
           yield put(AppActions.setCsrfToken(ret.csrfToken))
-          yield put(AuthActionCreators.setSessionInfo(ret))
+
+          yield put(AuthActionCreators.setTicket(ret.ticket))
 
           // redirect to target location if any
           const targetLocation = action.redirect || '/'
@@ -32,7 +33,7 @@ function * authSaga (action) {
           yield put(AuthActionCreators.setLoginError(ret.error))
         }
       } catch (error) {
-        yield put(AuthActionCreators.setLoginError(error.message))
+        yield put(AuthActionCreators.setLoginError(error))
       }
       break
 
