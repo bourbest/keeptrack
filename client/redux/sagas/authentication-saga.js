@@ -26,7 +26,7 @@ function * authSaga (action) {
           yield put(AuthActionCreators.setSessionInfo(ret))
 
           // redirect to target location if any
-          const targetLocation = '/'
+          const targetLocation = action.redirect || '/'
           browserHistory.push(targetLocation)
         } else {
           yield put(AuthActionCreators.setLoginError(ret.error))

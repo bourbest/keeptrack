@@ -1,13 +1,9 @@
 import express from 'express'
 import cookieParser from 'cookie-parser'
-import React from 'react'
-import ReactDOMServer from 'react-dom/server'
-import { match, RouterContext } from 'react-router'
-import { Provider } from 'react-redux'
+import { match } from 'react-router'
 import routes from '../client/routes'
 import renderReact from './renderReact'
 const port = 5050
-
 
 const app = express()
 
