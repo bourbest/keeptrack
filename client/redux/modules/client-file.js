@@ -8,11 +8,16 @@ export const Actions = {
   FETCH_FILES: `${actionPrefix}FETCH_FILES`,
   SET_FILES: `${actionPrefix}SET_FILES`,
 
-  CLEAR_DRAFT: `${actionPrefix}CLEAR_DRAFT`,
+  LOAD_EDITED_FILE: `${actionPrefix}LOAD_EDITED_FILE`,
+  SET_EDITED_FILE: `${actionPrefix}SET_EDITED_FILE`,
+  UPDATE_EDITED_FILE: `${actionPrefix}UPDATE_EDITED_FILE`,
+  CLEAR_EDITED_FILE: `${actionPrefix}CLEAR_EDITED_FILE`,
+
   CREATE_FILE: `${actionPrefix}CREATE_FILE`,
   UPDATE_FILE: `${actionPrefix}UPDATE_FILE`,
   DELETE_FILES: `${actionPrefix}DELETE_FILES`,
 
+  SET_FETCHING: `${actionPrefix}SET_FETCHING`,
   SET_FETCH_ERROR: `${actionPrefix}SET_FETCH_ERROR`
 }
 
@@ -21,9 +26,14 @@ export const ActionCreators = {
   fetchFiles: (id) => ({ type: Actions.FETCH_FILES, id }),
   setFiles: (files) => ({ type: Actions.SET_FILES, files }),
 
+  setFetching: (isFetching) => ({ type: Actions.SET_FETCHING, isFetching }),
   setFetchError: (error) => ({ type: Actions.SET_FETCH_ERROR, error }),
 
-  clearDraft: () => ({ type: Actions.CLEAR_DRAFT }),
+  loadEditedFile: (id) => ({ type: Actions.LOAD_EDITED_FILE, id }),
+  setEditedFile: (file) => ({ type: Actions.SET_EDITED_FILE, file }),
+  updateEditedFile: (update) => ({ type: Actions.UPDATE_EDITED_FILE, update }),
+  clearEditedFile: () => ({ type: Actions.CLEAR_EDITED_FILE }),
+
   createFile: (file) => ({ type: Actions.CREATE_FILE, file }),
   updateFile: (file) => ({ type: Actions.UPDATE_FILE, file }),
   deleteFiles: (remoteIds) => ({ type: Actions.DELETE_FILES, remoteIds })
@@ -33,7 +43,7 @@ const initialState = {
   fetching: false,
   filesById: {},
   filterValue: '',
-  draft: {}
+  editedFile: {}
 }
 
 export default function clientFileReducer (state = initialState, action = {}) {
@@ -49,8 +59,14 @@ export default function clientFileReducer (state = initialState, action = {}) {
       const filesById = keyBy(fileArray, (f) => (f.id))
       return {...state, fetching: false, filesById: {...state.filesById, ...filesById}}
 
-    case Actions.CLEAR_DRAFT:
-      return {...state, draft: {}}
+    case Actions.SET_EDITED_FILE:
+      return {...state, editedFile: {...action.file}}
+
+    case Actions.UPDATE_EDITED_FILE:
+      return {...state, editedFile: {...state.editedFile, ...action.update}}
+
+    case Actions.CLEAR_EDITED_FILE:
+      return {...state, editedFile: {}}
 
     case Actions.SET_FETCH_ERROR:
       return {...state, fetching: false}

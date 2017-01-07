@@ -58,6 +58,7 @@ class LoginPage extends React.Component {
 LoginPage.propTypes = {
   actions: object.isRequired,
   params: object,
+  location: object.isRequired,
   loginError: string
 }
 

@@ -36,6 +36,11 @@ function * clientFileSaga (action) {
       yield put(ClientFileActionCreators.setFiles(newFile))
       break
 
+    case Actions.LOAD_EDITED_FILE:
+      const file = yield call(svc.get, action.id)
+      yield put(ClientFileActionCreators.setEditedFile(file))
+      break
+
     default:
       throw new Error('Unsupported trigger action in client-file saga', action)
   }
@@ -45,6 +50,7 @@ export default function * clientFileSagaWatcher () {
   yield * takeLatest([
     Actions.FETCH_FILES,
     Actions.CREATE_FILE,
-    Actions.UPDATE_FILE
+    Actions.UPDATE_FILE,
+    Actions.LOAD_EDITED_FILE
   ], clientFileSaga)
 }

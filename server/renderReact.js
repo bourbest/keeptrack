@@ -10,15 +10,15 @@ import configureStore from '../client/redux/store'
 import AppConfig from '../client/config'
 import { ActionCreators as AppActions } from '../client/redux/modules/app'
 
-function renderApplication(props) {
-    return doctype + renderToStaticMarkup(<HTMLDocument {...props} />)
+function renderApplication (props) {
+  return doctype + renderToStaticMarkup(<HTMLDocument {...props} />)
 }
 
 const apiConfig = {
   baseURL: AppConfig.apiEndpoint
 }
 
-export default function(request, res, props) {
+export default function (request, res, props) {
   console.log('url', request.url)
 
   const store = configureStore()
@@ -33,7 +33,6 @@ export default function(request, res, props) {
     }
     res.redirect(redir)
   } else {
-
     const cookies = `KT-Auth=${authCookie}; KT-CSRF=${csrfToken};`
 
     store.dispatch(AppActions.setApiConfig(apiConfig))

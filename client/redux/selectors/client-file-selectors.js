@@ -1,19 +1,10 @@
 import { createSelector } from 'reselect'
-import { filter, keyBy, get } from 'lodash'
+import { filter, keyBy } from 'lodash'
 
 export const getClientFileFilter = (state) => state.clientFile.filterValue
 export const getClientFiles = (state) => state.clientFile.filesById
 
-export const getCurrentFile = (state, props) => {
-  let id = get(props, 'params.id', null)
-  if (id === 'create') {
-    return state.clientFile.draft
-  } else if (id) {
-    return state.clientFile.filesById[id]
-  } else {
-    return null
-  }
-}
+export const getEditedFile = (state) => state.clientFile.editedFile
 
 export const getFilteredClientFiles = createSelector(
   [getClientFiles, getClientFileFilter],
