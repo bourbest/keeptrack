@@ -1,6 +1,6 @@
 import React from 'react'
 import { renderToString, renderToStaticMarkup } from 'react-dom/server'
-import { match, RouterContext } from 'react-router'
+import { RouterContext } from 'react-router'
 import { Provider } from 'react-redux'
 import HTMLDocument, { doctype } from './HTMLTemplate'
 
@@ -9,6 +9,7 @@ import configureStore from '../client/redux/store'
 
 import AppConfig from '../client/config'
 import { ActionCreators as AppActions } from '../client/redux/modules/app'
+import { ActionCreators as AuthActions } from '../client/redux/modules/authentication'
 
 function renderApplication (props) {
   return doctype + renderToStaticMarkup(<HTMLDocument {...props} />)
@@ -38,6 +39,8 @@ export default function (request, res, props) {
     store.dispatch(AppActions.setApiConfig(apiConfig))
     store.dispatch(AppActions.setCookies(cookies))
     store.dispatch(AppActions.setCsrfToken(csrfToken))
+
+    store.dispatch(AuthActions.setTicket(authCookie))
 
     const rootComponent = (
       <Provider store={store}>

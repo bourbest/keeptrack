@@ -46,32 +46,6 @@ namespace KT.API.Controllers
 
         public SessionController(IKTUnitOfWork uow) { _uow = uow; }
 
-        [HttpGet]
-        [Route("")]
-        public IHttpActionResult Resume()
-        {
-            IHttpActionResult res = null;
-
-            IOwinContext context = HttpContext.Current.GetOwinContext();
-
-            if (context.Request.User.Identity.IsAuthenticated)
-            {
-                SessionInfo session = new SessionInfo();
-
-                session.CsrfToken = CSRFService.ReadCsrfCookie(context);
-                if (string.IsNullOrEmpty(session.CsrfToken))
-                    session.CsrfToken = CSRFService.SetCsrfToken();
-
-                session.ExpiresOn = DateTime.Now.AddDays(1); // TODO
-                session.Identity = new Data.Models.UserIdentity(context.Request.User);
-                res = Ok(session);
-            }
-            else
-                res = Ok((SessionInfo) null);
-
-            return res;
-        }
-
         [HttpPost]
         [Route("")]
         public async Task<IHttpActionResult> Login()
@@ -98,9 +72,7 @@ namespace KT.API.Controllers
                     session.CsrfToken = CSRFService.SetCsrfToken();
 
                     HttpCookie cookie = CreateAuthCookie(ticket);
-                    session.ExpiresOn = cookie.Expires;
-                    
-                    session.Identity = identity;
+                    session.Ticket = cookie.Value;
                     res = Ok(session);
                 }
                 else
@@ -108,7 +80,6 @@ namespace KT.API.Controllers
                     session.Error = "Code usager ou mot de passe invalide";
                     res = Ok(session);
                 }
-                    
             }
 
             return res;

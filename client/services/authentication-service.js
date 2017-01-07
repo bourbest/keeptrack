@@ -21,4 +21,6 @@ export default class AuthService {
   logout () {
     return this.apiClient.delete(url, '')
   }
+
 }
+
