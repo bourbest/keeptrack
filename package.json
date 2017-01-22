@@ -7,7 +7,7 @@
     "test": "mocha --require test/helpers/setup.js",
     "lint": "standard",
     "build": "webpack",
-    "server": "babel-node ./index.js",
+    "server": "nodemon ./index.js --exec babel-node",
     "watch": "webpack --watch",
     "cover": "nyc --reporter=lcov --reporter=text --reporter=html --require babel-register --extension .jsx npm test"
   },

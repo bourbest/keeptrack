@@ -17,8 +17,13 @@ function * clientFileSaga (action) {
   switch (action.type) {
     case Actions.FETCH_FILES:
       const optionalId = action.id || null
+
+      yield put(ClientFileActionCreators.setFetching(true))
+
       const files = yield call(svc.get, optionalId)
-      yield put(ClientFileActionCreators.setFiles(files))
+      yield put(ClientFileActionCreators.setFiles(files, true))
+
+      yield put(ClientFileActionCreators.setFetching(false))
       break
 
     case Actions.CREATE_FILE:
@@ -26,14 +31,22 @@ function * clientFileSaga (action) {
         const newFile = yield call(svc.save, action.file)
         yield put(ClientFileActionCreators.setFiles(newFile))
         browserHistory.replace(`/client/${newFile.id}`)
+        browserHistory.push('/client/')
       } catch (error) {
         yield put(ClientFileActionCreators.setFetchError(error))
       }
       break
 
+    case Actions.DELETE_FILES:
+      yield call(svc.delete, action.remoteIds)
+      yield put(ClientFileActionCreators.clearSelectedItems())
+      yield put(ClientFileActionCreators.fetchFiles())
+      break
+
     case Actions.UPDATE_FILE:
       const newFile = yield call(svc.save, action.file)
       yield put(ClientFileActionCreators.setFiles(newFile))
+      browserHistory.push('/client/')
       break
 
     case Actions.LOAD_EDITED_FILE:
@@ -51,6 +64,7 @@ export default function * clientFileSagaWatcher () {
     Actions.FETCH_FILES,
     Actions.CREATE_FILE,
     Actions.UPDATE_FILE,
-    Actions.LOAD_EDITED_FILE
+    Actions.LOAD_EDITED_FILE,
+    Actions.DELETE_FILES
   ], clientFileSaga)
 }

@@ -44,7 +44,7 @@ function * authSaga (action) {
         console.log('logout error', error)
       } finally {
         yield put(AuthActionCreators.setSessionInfo, {user: null, expiresOn: null})
-        browserHistory.replace('/login')
+        browserHistory.push('/login')
       }
       break
 
