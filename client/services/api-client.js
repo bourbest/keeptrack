@@ -1,4 +1,4 @@
-import { endsWith, isObject } from 'lodash'
+import { endsWith, isObject, isArray } from 'lodash'
 import { normalize, denormalize } from './format'
 import axios from 'axios'
 
@@ -43,6 +43,10 @@ function serialize (obj) {
 }
 
 function deserialize (json) {
+  if (!json || json === '') {
+    return null
+  }
+
   let obj = JSON.parse(json)
   return normalize(obj)
 }
@@ -107,9 +111,16 @@ export default class ApiClient {
     return callAxios(config)
   }
 
-  delete (url, id) {
-    url = getUrlWithId(url, id)
-    const config = {...this.axiosConfig, method: 'delete', url}
+  delete (url, ids) {
+    const config = {...this.axiosConfig, method: 'delete'}
+    if (isArray(ids)) {
+      config.url = url
+      config.data = JSON.stringify(ids)
+      config.headers['Content-Type'] = 'application/json'
+    } else {
+      config.url = getUrlWithId(url, ids)
+    }
+
     return callAxios(config)
   }
 }

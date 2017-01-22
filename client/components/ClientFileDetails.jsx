@@ -4,7 +4,7 @@ const { object, func } = React.PropTypes
 const ClientFileDetails = React.createClass({
   propTypes: {
     clientFile: object.isRequired,
-    onModifiedAttribute: func
+    onModifiedAttribute: func.isRequired
   },
   handleChange (event) {
     this.props.onModifiedAttribute(event.target.name, event.target.value)

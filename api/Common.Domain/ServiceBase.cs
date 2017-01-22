@@ -94,7 +94,7 @@ namespace Common.Domain
             _mainRepository.DeleteMany(ids);
             long count = await UnitOfWork.SaveAsync().ConfigureAwait(false);
 
-            if (count < ids.Count())
+            if (count < (long) ids.Count())
                 throw new BaseDomainException(typeof(TModel).Name, $"Not all entities deleted");
         }
 

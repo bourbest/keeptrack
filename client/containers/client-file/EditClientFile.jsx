@@ -20,30 +20,36 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const EditClientFile = React.createClass({
-  propTypes: {
-    file: object,
-    actions: object.isRequired,
-    params: object
-  },
+class EditClientFile extends React.Component {
+  constructor (props) {
+    super(props)
+
+    this.save = this.save.bind(this)
+    this.componentWillMount = this.componentWillMount.bind(this)
+    this.handleAttributeModified = this.handleAttributeModified.bind(this)
+  }
+
   save () {
     if (this.props.file.id) {
       this.props.actions.updateFile(this.props.file)
     } else {
       this.props.actions.createFile(this.props.file)
     }
-  },
+  }
+
   handleAttributeModified (attr, value) {
     const update = {[attr]: value}
     this.props.actions.updateEditedFile(update)
-  },
+  }
+
   componentWillMount () {
     const id = this.props.params.id || null
     this.props.actions.clearEditedFile()
     if (id !== 'create') {
       this.props.actions.loadEditedFile(id)
     }
-  },
+  }
+
   render () {
     const file = this.props.file
     return (
@@ -55,6 +61,12 @@ const EditClientFile = React.createClass({
       </div>
     )
   }
-})
+}
+
+EditClientFile.propTypes = {
+  file: object,
+  actions: object.isRequired,
+  params: object
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditClientFile)
