@@ -3,26 +3,9 @@ import { trim, forEach } from 'lodash'
 // import moment from 'moment'
 import { normalize } from '../../services/format'
 
-const actionPrefix = 'AUTH/'
+import config from './config'
 
-// Action names
-export const Actions = {
-  LOG_IN: `${actionPrefix}LOG_IN`,
-  SET_TICKET: `${actionPrefix}SET_TICKET`,
-  LOG_OUT: `${actionPrefix}LOG_OUT`,
-
-  SET_LOGIN_ERROR: `${actionPrefix}SET_LOGIN_ERROR`,
-  CLEAR_LOGIN_ERROR: `${actionPrefix}CLEAR_LOGIN_ERROR`
-}
-
-export const ActionCreators = {
-  loginUser: (username, password, redirect) => ({ type: Actions.LOG_IN, username, password, redirect }),
-  setTicket: (ticket) => ({ type: Actions.SET_TICKET, ticket }),
-  logoutUser: () => ({ type: Actions.LOG_OUT }),
-
-  setLoginError: (error) => ({ type: Actions.SET_LOGIN_ERROR, error }),
-  clearLoginError: (error) => ({ type: Actions.CLEAR_LOGIN_ERROR, error: error })
-}
+import { Actions } from './actions'
 
 const initialState = {
   authenticating: false,
@@ -68,7 +51,7 @@ function deserializeTicket (ticket) {
   return userModel
 }
 
-export default function authenticationReducer (state = initialState, action = {}) {
+const authenticationReducer = (state = initialState, action = {}) => {
   switch (action.type) {
     case Actions.LOG_IN:
       return {...state, authenticating: true}
@@ -86,4 +69,8 @@ export default function authenticationReducer (state = initialState, action = {}
     default:
       return state
   }
+}
+
+export default {
+  [config.storeBranch]: authenticationReducer
 }

@@ -1,8 +1,10 @@
-import { ActionCreators as ClientFileActions } from '../../redux/modules/client-file'
+import React from 'react'
+import { browserHistory } from 'react-router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { getEditedFile } from '../../redux/selectors/client-file-selectors'
-import React from 'react'
+
+import { ActionCreators as ClientFileActions } from '../../modules/client-file/actions'
+import ClientFileSelectors from '../../modules/client-file/selectors'
 
 import ClientFileDetails from '../../components/ClientFileDetails'
 
@@ -10,7 +12,7 @@ const { object } = React.PropTypes
 
 const mapStateToProps = (state, props) => {
   return {
-    file: getEditedFile(state)
+    file: ClientFileSelectors.getEditedEntity(state)
   }
 }
 
@@ -29,24 +31,33 @@ class EditClientFile extends React.Component {
     this.handleAttributeModified = this.handleAttributeModified.bind(this)
   }
 
+  navToListPostUpdate () {
+    browserHistory.push('/client/')
+  }
+
+  navToListPostCreate (entity) {
+    browserHistory.replace(`/client/${entity.id}`)
+    browserHistory.push('/client/')
+  }
+
   save () {
     if (this.props.file.id) {
-      this.props.actions.updateFile(this.props.file)
+      this.props.actions.updateEntity(this.props.file, this.navToListPostUpdate)
     } else {
-      this.props.actions.createFile(this.props.file)
+      this.props.actions.createEntity(this.props.file, this.navToListPostCreate)
     }
   }
 
   handleAttributeModified (attr, value) {
     const update = {[attr]: value}
-    this.props.actions.updateEditedFile(update)
+    this.props.actions.updateEditedEntity(update)
   }
 
   componentWillMount () {
     const id = this.props.params.id || null
-    this.props.actions.clearEditedFile()
+    this.props.actions.clearEditedEntity()
     if (id !== 'create') {
-      this.props.actions.loadEditedFile(id)
+      this.props.actions.loadEditedEntity(id)
     }
   }
 

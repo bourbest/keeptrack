@@ -3,8 +3,8 @@ import { render } from 'react-dom'
 import { match, Router, browserHistory as history } from 'react-router'
 import { Provider } from 'react-redux'
 import routes from './routes'
-import rootSaga from './redux/sagas'
-import configureStore from './redux/store'
+import rootSaga from './modules/root-saga'
+import configureStore from './store'
 
 const store = configureStore(window.__INITIAL_STATE__)
 

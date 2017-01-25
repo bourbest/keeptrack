@@ -4,8 +4,8 @@ import { browserHistory } from 'react-router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import { ActionCreators as ClientFileActions } from '../../redux/modules/client-file'
-import { getClientFiles, getFilteredClientFiles, getClientFileFilter, getSelectedItemIds } from '../../redux/selectors/client-file-selectors'
+import { ActionCreators as ClientFileActions } from '../../modules/client-file/actions'
+import ClientFileSelectors from '../../modules/client-file/selectors'
 
 import ClientFileList from '../../components/ClientFileList'
 
@@ -13,10 +13,10 @@ const { object, string, array } = React.PropTypes
 
 const mapStateToProps = (state) => {
   return {
-    clientFiles: getClientFiles(state),
-    clientFileFilter: getClientFileFilter(state),
-    filteredClientFiles: getFilteredClientFiles(state),
-    selectedItemIds: getSelectedItemIds(state)
+    clientFiles: ClientFileSelectors.getEntities(state),
+    clientFileFilter: ClientFileSelectors.getListFilter(state),
+    filteredClientFiles: ClientFileSelectors.getFilteredList(state),
+    selectedItemIds: ClientFileSelectors.getSelectedItemIds(state)
   }
 }
 
@@ -35,16 +35,16 @@ class ManageClientFiles extends React.Component {
     this.deleteSelected = this.deleteSelected.bind(this)
   }
   componentWillMount () {
-    this.props.actions.fetchFiles()
+    this.props.actions.fetchAll()
   }
   handleFilterEvent (event) {
-    this.props.actions.setFilter(event.target.value)
+    this.props.actions.setListFilter(event.target.value)
   }
   createNewFile () {
     browserHistory.push('/client/create')
   }
   deleteSelected () {
-    this.props.actions.deleteFiles(this.props.selectedItemIds)
+    this.props.actions.deleteEntities(this.props.selectedItemIds)
   }
   render () {
     return (

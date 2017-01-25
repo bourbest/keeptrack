@@ -4,12 +4,12 @@ import { RouterContext } from 'react-router'
 import { Provider } from 'react-redux'
 import HTMLDocument, { doctype } from './HTMLTemplate'
 
-import rootSaga from '../client/redux/sagas'
-import configureStore from '../client/redux/store'
+import rootSaga from '../client/modules/root-saga'
+import configureStore from '../client/store'
 
 import AppConfig from '../client/config'
-import { ActionCreators as AppActions } from '../client/redux/modules/app'
-import { ActionCreators as AuthActions } from '../client/redux/modules/authentication'
+import { ActionCreators as AppActions } from '../client/modules/app/actions'
+import { ActionCreators as AuthActions } from '../client/modules/authentication/actions'
 
 function renderApplication (props) {
   return doctype + renderToStaticMarkup(<HTMLDocument {...props} />)
