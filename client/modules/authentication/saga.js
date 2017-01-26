@@ -1,17 +1,16 @@
-
 import { browserHistory } from 'react-router'
 
 import { call, put, select } from 'redux-saga/effects'
 import { takeLatest } from 'redux-saga'
 
-import { getService } from '../selectors/app-selectors'
+import { getService } from '../app/selectors'
 
 import {
   Actions,
   ActionCreators as AuthActionCreators
-} from '../modules/authentication'
+} from './actions'
 
-import { ActionCreators as AppActions } from '../modules/app'
+import { ActionCreators as AppActions } from '../app/actions'
 
 function * authSaga (action) {
   const svc = yield select(getService, 'auth')

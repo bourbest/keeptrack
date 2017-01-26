@@ -1,7 +1,7 @@
-import { ActionCreators as AuthActions } from '../redux/modules/authentication'
+import { ActionCreators as AuthActions } from '../modules/authentication/actions'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { getLoginError } from '../redux/selectors/authentication-selectors'
+import { getLoginError } from '../modules/authentication/selectors'
 import React from 'react'
 
 const { object, string } = React.PropTypes

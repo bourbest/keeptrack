@@ -14,7 +14,7 @@ export const createService = (serviceName, apiConfig) => {
     case 'auth':
       return new AuthService(apiClient)
 
-    case 'client-files':
+    case 'client-file':
       return new RestService('client-files', apiClient)
 
     default:

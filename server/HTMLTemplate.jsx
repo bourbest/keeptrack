@@ -24,7 +24,7 @@ export default class Albums extends React.Component {
 
                 </head>
                 <body>
-                  <div class="container-fluid">
+                  <div className="container-fluid">
                     <div id="mount" dangerouslySetInnerHTML={{__html: this.props.html}} />
                     <script dangerouslySetInnerHTML={{__html: `window.__INITIAL_STATE__ = ${JSON.stringify(this.props.state)};`}} />
 

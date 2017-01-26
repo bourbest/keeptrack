@@ -6,4 +6,3 @@ export const getService = (state, serviceName) => {
   const apiConfig = getApiConfig(state)
   return createService(serviceName, apiConfig)
 }
-
