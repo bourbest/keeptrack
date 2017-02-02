@@ -57,7 +57,7 @@ class EditClientFile extends React.Component {
     const id = this.props.params.id || null
     this.props.actions.clearEditedEntity()
     if (id !== 'create') {
-      this.props.actions.loadEditedEntity(id)
+      this.props.actions.fetchEditedEntity(id)
     }
   }
 
