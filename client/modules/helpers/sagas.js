@@ -6,7 +6,6 @@ import { getService } from '../app/selectors'
 export const createBaseSaga = (entityName, Actions, ActionCreators) => {
   function * baseSaga (action) {
     const svc = yield select(getService, entityName)
-    let entity = null
 
     switch (action.type) {
       case Actions.FETCH_ALL:
@@ -23,8 +22,10 @@ export const createBaseSaga = (entityName, Actions, ActionCreators) => {
       case Actions.CREATE_REMOTE_ENTITY:
         try {
           const newEntity = yield call(svc.save, action.entity)
+          if (action.callback) {
+            yield call(action.callback, newEntity)
+          }
           yield put(ActionCreators.setFiles(newEntity))
-          entity = newEntity
         } catch (error) {
           yield put(ActionCreators.setFetchError(error))
         }
@@ -39,20 +40,18 @@ export const createBaseSaga = (entityName, Actions, ActionCreators) => {
       case Actions.UPDATE_REMOTE_ENTITY:
         const newEntity = yield call(svc.save, action.entity)
         yield put(ActionCreators.setEntities(newEntity))
-        entity = newEntity
+        if (action.callback) {
+          yield call(action.callback, newEntity)
+        }
         break
 
-      case Actions.LOAD_EDITED_ENTITY:
+      case Actions.FETCH_EDITED_ENTITY:
         const file = yield call(svc.get, action.id)
         yield put(ActionCreators.setEditedEntity(file))
         break
 
       default:
         throw new Error('Unsupported trigger action in default saga', action)
-    }
-
-    if (action.callback) {
-      action.callback(entity)
     }
   }
 
@@ -65,7 +64,7 @@ export const createBaseSagaWatcher = (Actions, saga) => {
       Actions.FETCH_ALL,
       Actions.CREATE_REMOTE_ENTITY,
       Actions.UPDATE_REMOTE_ENTITY,
-      Actions.LOAD_EDITED_ENTITY,
+      Actions.FETCH_EDITED_ENTITY,
       Actions.DELETE_REMOTE_ENTITIES
     ], saga)
   }
