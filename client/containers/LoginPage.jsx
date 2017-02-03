@@ -4,6 +4,23 @@ import { connect } from 'react-redux'
 import { getLoginError } from '../modules/authentication/selectors'
 import React from 'react'
 
+import GenericForm from '../components/GenericForm'
+
+const fields = [
+  {
+    name: 'username',
+    type: 'text',
+    isRequired: true,
+    label: 'Code usager'
+  },
+  {
+    name: 'password',
+    type: 'password',
+    isRequired: true,
+    label: 'Mot de passe'
+  }
+]
+
 const { object, string } = React.PropTypes
 
 const mapStateToProps = (state) => {
@@ -27,18 +44,31 @@ class LoginPage extends React.Component {
       password: ''
     }
 
-    this.handleInputEvent = this.handleInputEvent.bind(this)
+    this.onValueChanged = this.onValueChanged.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
-  handleInputEvent (event) {
-    const newState = {}
-    newState[event.target.name] = event.target.value
+  onValueChanged (attr, value) {
+    const newState = { }
+    newState[attr] = value
     this.setState(newState)
   }
   handleSubmit (event) {
     event.preventDefault()
     this.props.actions.loginUser(this.state.username, this.state.password, this.props.location.query.ret)
   }
+
+  render () {
+    return (
+      <div className="container">
+        <form onSubmit={this.handleSubmit} className='col-4' >
+          <GenericForm fields={fields} values={this.state} onValueChanged={this.onValueChanged} />
+          <button onClick={this.handleSubmit}>Authentifier</button>
+        </form>
+        <span>{this.props.loginError}</span>
+      </div>
+    )
+  }
+  /*
   render () {
     return (
       <div>
@@ -53,6 +83,7 @@ class LoginPage extends React.Component {
       </div>
     )
   }
+  */
 }
 
 LoginPage.propTypes = {

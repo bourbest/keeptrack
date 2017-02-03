@@ -18,8 +18,6 @@ export default class Albums extends React.Component {
 
                     <title>Keep Track</title>
 
-                    <link rel="stylesheet" href="/public/normalize.css" />
-
                     <link rel="stylesheet" href="/public/bootstrap.min.css" />
 
                 </head>
