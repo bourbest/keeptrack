@@ -126,6 +126,11 @@ namespace KT.Data.Models
         [JsonIgnore]
         public IEnumerable<Claim> Claims { get { return _claims; } }
 
+        public DateTime CreatedOn { get; set; }
+
+        public DateTime ModifiedOn { get; set; }
+        
+
         private void LoadPrincipal(IPrincipal principal)
         {
             if (principal != null && principal.Identity != null)

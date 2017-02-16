@@ -71,6 +71,8 @@ namespace Common.Domain
             if (errors != null)
                 throw new EntityIsInvalidException(typeof(TModel).Name, newEntity.Id, errors);
 
+            newEntity.CreatedOn = DateTime.Now.RemoveTicks();
+            newEntity.ModifiedOn = DateTime.Now.RemoveTicks();
             _mainRepository.Insert(newEntity);
             return UnitOfWork.SaveAsync(); 
         }
@@ -104,7 +106,7 @@ namespace Common.Domain
             IEnumerable<string> errors = ValidateEntity(entity, false);
             if (errors != null)
                 throw new EntityIsInvalidException(typeof(TModel).Name, entity.Id, errors);
-
+            entity.ModifiedOn = DateTime.Now.RemoveTicks();
             _mainRepository.Update(entity);
             long count = await UnitOfWork.SaveAsync().ConfigureAwait(false);
 

@@ -5,7 +5,7 @@ const Layout = (props) => (
   <div>
     <nav>
       <span><Link to="/client">Clients</Link></span>
-      <span><Link to="/call-form/">Formulaire d'appel</Link></span>
+      <span><Link to="/form-template/">Formulaires</Link></span>
     </nav>
     <div>
     {props.children}
