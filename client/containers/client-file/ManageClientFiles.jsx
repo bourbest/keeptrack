@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import { ActionCreators as ClientFileActions } from '../../modules/client-file/actions'
 import ClientFileSelectors from '../../modules/client-file/selectors'
 
-import ClientFileList from '../../components/ClientFileList'
+import ClientFileList from './components/ClientFileList'
 
 const { object, string, array } = React.PropTypes
 

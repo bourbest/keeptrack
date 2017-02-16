@@ -1,5 +1,5 @@
 import React from 'react'
-import GenericForm from './GenericForm'
+import GenericForm from '../../../components/GenericForm'
 const { object, func } = React.PropTypes
 
 const fields = [

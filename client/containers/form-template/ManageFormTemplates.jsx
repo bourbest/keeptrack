@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import { ActionCreators as FormTemplateActions } from '../../modules/form-template/actions'
 import FormTemplateSelectors from '../../modules/form-template/selectors'
 
-import FormTemplateList from '../../components/FormTemplateList'
+import FormTemplateList from './components/FormTemplateList'
 
 const { object, string, array } = React.PropTypes
 
