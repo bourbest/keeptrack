@@ -5,7 +5,7 @@ module.exports = {
   entry: ['babel-polyfill', './client/BrowserEntry.jsx'],
   output: {
     path: path.join(__dirname, '/public'),
-    filename: 'bundle.js',
+    filename: 'bundle.js'
   },
   resolve: {
     extensions: ['', '.js', '.jsx', '.json']
@@ -19,7 +19,7 @@ module.exports = {
     preLoaders: [
       {
         test: /\.jsx?$/,
-        loader: "eslint-loader",
+        loader: 'eslint-loader',
         exclude: /node_modules/
       }
     ],
@@ -31,6 +31,10 @@ module.exports = {
       {
         test: /\.json$/,
         loader: 'json-loader'
+      },
+      {
+        test: /\.css$/,
+        loader: 'style-loader!css-loader'
       }
     ]
   }

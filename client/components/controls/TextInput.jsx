@@ -1,20 +1,28 @@
 import React from 'react'
-const { object, func, string } = React.PropTypes
+const { func, string } = React.PropTypes
 
 const TextInput = (props) => {
-  const className = props.field.className || ''
+  const className = props.className || ''
   return (
     <div className={'form-group ' + className} >
-      <label htmlFor={props.field.name}>{props.field.label}</label>
-      <input type={props.field.type} className='form-control' name={props.field.name} value={props.value || ''} onChange={props.onChange} />
+      <label htmlFor={props.name}>{props.label}</label>
+      <input type={props.type} className='form-control' name={props.name} value={props.value || ''} onChange={props.onChange} placeholder={props.placeholder} />
     </div>
   )
 }
 
 TextInput.propTypes = {
-  field: object.isRequired,
+  className: string,
+  name: string.isRequired,
+  placeholder: string,
+  label: string,
+  type: string,
   value: string,
   onChange: func
+}
+
+TextInput.defaultProps = {
+  type: 'text'
 }
 
 export default TextInput

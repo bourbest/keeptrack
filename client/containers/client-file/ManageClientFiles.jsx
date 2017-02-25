@@ -7,7 +7,8 @@ import { connect } from 'react-redux'
 import { ActionCreators as ClientFileActions } from '../../modules/client-file/actions'
 import ClientFileSelectors from '../../modules/client-file/selectors'
 
-import ClientFileList from './components/ClientFileList'
+// import ClientFileList from './components/ClientFileList'
+import EntityList from '../../components/EntityList'
 
 const { object, string, array } = React.PropTypes
 
@@ -25,6 +26,8 @@ const mapDispatchToProps = (dispatch) => {
     actions: bindActionCreators(ClientFileActions, dispatch)
   }
 }
+
+const formatName = (file) => `${file.firstName} ${file.lastName}`
 
 class ManageClientFiles extends React.Component {
   constructor (props) {
@@ -53,7 +56,11 @@ class ManageClientFiles extends React.Component {
         <button onClick={this.deleteSelected}>Supprimer</button>
         <input type='text' className='search-input' placeholder='search' value={this.props.clientFileFilter} onChange={this.handleFilterEvent} />
         <div>
-          <ClientFileList clientFiles={this.props.filteredClientFiles} onToggleSelected={this.props.actions.toggleSelectedItem} selectedItemIds={this.props.selectedItemIds} />
+          <EntityList entities={this.props.filteredClientFiles}
+            onToggleSelected={this.props.actions.toggleSelectedItem}
+            selectedItemIds={this.props.selectedItemIds}
+            linkTo="/client"
+            formatName={formatName} />
         </div>
       </div>
     )
@@ -64,7 +71,7 @@ ManageClientFiles.propTypes = {
   actions: object.isRequired,
   clientFileFilter: string.isRequired,
   clientFiles: object.isRequired,
-  filteredClientFiles: object.isRequired,
+  filteredClientFiles: array.isRequired,
   selectedItemIds: array.isRequired,
   params: object
 }

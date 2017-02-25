@@ -6,6 +6,8 @@ import routes from './routes'
 import rootSaga from './modules/root-saga'
 import configureStore from './store'
 
+import 'react-datepicker/dist/react-datepicker.css'
+
 const store = configureStore(window.__INITIAL_STATE__)
 
 store.runSaga(rootSaga)

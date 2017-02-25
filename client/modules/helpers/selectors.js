@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { filter, keyBy } from 'lodash'
+import { filter } from 'lodash'
 
 export const createBaseSelectors = (storeBranch) => {
   const selectors = {}
@@ -22,9 +22,8 @@ export const createFilteredListSelector = (Selectors, concatFunc, groupBy) => {
       let filteredEntities = []
       if (filterValue.length > 0) {
         filteredEntities = filter(entities, (entity) => concatFunc(entity).toUpperCase().indexOf(filterValue) >= 0)
-        filteredEntities = keyBy(filteredEntities, groupBy)
       } else {
-        filteredEntities = entities
+        filteredEntities = filter(entities, (entity) => true)
       }
 
       return filteredEntities

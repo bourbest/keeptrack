@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import { ActionCreators as FormTemplateActions } from '../../modules/form-template/actions'
 import FormTemplateSelectors from '../../modules/form-template/selectors'
 
-import FormTemplateList from './components/FormTemplateList'
+import EntityList from '../../components/EntityList'
 
 const { object, string, array } = React.PropTypes
 
@@ -26,6 +26,8 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
+const formatName = (form) => form.name
+
 class ManageFormTemplates extends React.Component {
   constructor (props) {
     super(props)
@@ -36,6 +38,7 @@ class ManageFormTemplates extends React.Component {
   }
   componentWillMount () {
     this.props.actions.fetchAll()
+    this.props.actions.setEditedEntity(null)
   }
   handleFilterEvent (event) {
     this.props.actions.setListFilter(event.target.value)
@@ -49,11 +52,15 @@ class ManageFormTemplates extends React.Component {
   render () {
     return (
       <div>
-        <button onClick={this.createNewFile}>Nouveau dossier</button>
+        <button onClick={this.createNewFile}>Nouveau formulaire</button>
         <button onClick={this.deleteSelected}>Supprimer</button>
         <input type='text' className='search-input' placeholder='search' value={this.props.formTemplateFilter} onChange={this.handleFilterEvent} />
         <div>
-          <FormTemplateList formTemplates={this.props.filteredFormTemplates} onToggleSelected={this.props.actions.toggleSelectedItem} selectedItemIds={this.props.selectedItemIds} />
+          <EntityList entities={this.props.filteredFormTemplates}
+            onToggleSelected={this.props.actions.toggleSelectedItem}
+            selectedItemIds={this.props.selectedItemIds}
+            linkTo={'/form-template'}
+            formatName={formatName} />
         </div>
       </div>
     )
@@ -64,7 +71,7 @@ ManageFormTemplates.propTypes = {
   actions: object.isRequired,
   formTemplateFilter: string.isRequired,
   formTemplates: object.isRequired,
-  filteredFormTemplates: object.isRequired,
+  filteredFormTemplates: array.isRequired,
   selectedItemIds: array.isRequired,
   params: object
 }

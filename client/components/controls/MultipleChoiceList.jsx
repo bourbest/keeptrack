@@ -1,5 +1,5 @@
 import React from 'react'
-const { object, func, array } = React.PropTypes
+const { string, func, array } = React.PropTypes
 
 class MultipleChoiceList extends React.Component {
   constructor (props) {
@@ -29,20 +29,20 @@ class MultipleChoiceList extends React.Component {
   }
 
   render () {
-    const field = this.props.field
+    const props = this.props
     const onChange = this.onChange
-    const className = field.className || ''
-    const selectedValues = this.props.value || []
-
+    const className = props.className || ''
+    const selectedValues = props.value || []
+    const selectedItemIds = new Set(selectedValues)
     return (
       <div>
-        <label>{field.label}</label>
+        <label>{props.label}</label>
         {
-          field.choices.map((choice) => {
+          props.choices.map((choice) => {
             return (
               <div className={`form-group checkbox ${className}`} key={choice.value} >
                 <label className="custom-control custom-radio">
-                  <input name={field.name} type='checkbox' value={choice.value} onChange={onChange} checked={selectedValues.indexOf(choice.value) >= 0} />
+                  <input name={props.name} type='checkbox' value={choice.value} onChange={onChange} checked={selectedItemIds.has(choice.value)} />
                   {choice.label}
                 </label>
               </div>
@@ -55,7 +55,10 @@ class MultipleChoiceList extends React.Component {
 }
 
 MultipleChoiceList.propTypes = {
-  field: object.isRequired,
+  className: string,
+  name: string.isRequired,
+  label: string.isRequired,
+  choices: array.isRequired,
   value: array,
   onChange: func
 }

@@ -1,18 +1,17 @@
 import React from 'react'
 const { func, string } = React.PropTypes
 
-const MultilineInput = (props) => {
+const Checkbox = (props) => {
   const className = props.className || ''
   return (
     <div className={'form-group ' + className} >
-      <label htmlFor={props.name}>{props.label}</label>
-      <textarea className='form-control' name={props.name} onChange={props.onChange} value={props.value || ''}>
-      </textarea>
+      <input name={props.name} type='checkbox' value={!props.value} onChange={props.onChange} checked={props.value} />
+      <label>{props.label}</label>
     </div>
   )
 }
 
-MultilineInput.propTypes = {
+Checkbox.propTypes = {
   className: string,
   name: string.isRequired,
   label: string.isRequired,
@@ -20,4 +19,4 @@ MultilineInput.propTypes = {
   onChange: func
 }
 
-export default MultilineInput
+export default Checkbox

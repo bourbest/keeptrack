@@ -3,10 +3,13 @@ import { browserHistory } from 'react-router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
+import { buildInstanceFromFields } from '../../common/entity-utils'
+
 import { ActionCreators as ClientFileActions } from '../../modules/client-file/actions'
 import ClientFileSelectors from '../../modules/client-file/selectors'
 
-import ClientFileDetails from './components/ClientFileDetails'
+import GenericForm from '../../components/GenericForm'
+import clientFileFormFields from './ClientFileFormFields'
 
 const { object } = React.PropTypes
 
@@ -58,6 +61,9 @@ class EditClientFile extends React.Component {
     this.props.actions.clearEditedEntity()
     if (id !== 'create') {
       this.props.actions.fetchEditedEntity(id)
+    } else {
+      const newEntity = buildInstanceFromFields(clientFileFormFields)
+      this.props.actions.setEditedEntity(newEntity)
     }
   }
 
@@ -66,7 +72,7 @@ class EditClientFile extends React.Component {
     return (
       <div>
         <div>
-          <ClientFileDetails onModifiedAttribute={this.handleAttributeModified} clientFile={file} />
+          <GenericForm onChange={this.handleAttributeModified} fields={clientFileFormFields} values={file} />
           <button onClick={this.save}>Enregistrer</button>
         </div>
       </div>

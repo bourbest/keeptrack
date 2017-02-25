@@ -20,9 +20,9 @@ namespace KT.Data.Models
         public string Label { get; set; }
         public string ClassName { get; set; }
         public bool AllowMultipleChoices { get; set; }
-        public bool IsMultiline { get; set; }
         public List<FormFieldChoice> Choices { get; set; }
         public int Order { get; set; }
+        public int Height { get; set; }
     }
 
     public class FormTemplate : IModel<Guid>

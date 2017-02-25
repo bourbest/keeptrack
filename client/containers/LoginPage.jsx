@@ -44,10 +44,10 @@ class LoginPage extends React.Component {
       password: ''
     }
 
-    this.onValueChanged = this.onValueChanged.bind(this)
+    this.onChange = this.onChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
-  onValueChanged (attr, value) {
+  onChange (attr, value) {
     const newState = { }
     newState[attr] = value
     this.setState(newState)
@@ -59,31 +59,15 @@ class LoginPage extends React.Component {
 
   render () {
     return (
-      <div className="container">
+      <div>
         <form onSubmit={this.handleSubmit} className='col-4' >
-          <GenericForm fields={fields} values={this.state} onValueChanged={this.onValueChanged} />
+          <GenericForm fields={fields} values={this.state} onChange={this.onChange} />
           <button onClick={this.handleSubmit}>Authentifier</button>
         </form>
         <span>{this.props.loginError}</span>
       </div>
     )
   }
-  /*
-  render () {
-    return (
-      <div>
-        <div>
-          <form onSubmit={this.handleSubmit} >
-            <label>Code utilisateur:</label><input type="text" name="username" onChange={this.handleInputEvent} value={this.state.username} />
-            <label>Mot de passe</label><input type="password" name="password" onChange={this.handleInputEvent} value={this.state.password} />
-            <button onClick={this.handleSubmit}>Authentifier</button>
-          </form>
-          <span>{this.props.loginError}</span>
-        </div>
-      </div>
-    )
-  }
-  */
 }
 
 LoginPage.propTypes = {

@@ -1,18 +1,17 @@
 import React from 'react'
-const { object, func, string, oneOfType, number } = React.PropTypes
+const { func, array, string, oneOfType, number } = React.PropTypes
 
 const SingleChoiceList = (props) => {
-  const field = props.field
-  const className = field.className || ''
+  const className = props.className || ''
   return (
     <div>
-      <label>{field.label}</label>
+      <label>{props.label}</label>
       {
-        field.choices.map((choice) => {
+        props.choices.map((choice) => {
           return (
             <div className={`form-group radio ${className}`} key={choice.value} >
               <label className="custom-control custom-radio">
-                <input name={field.name} type='radio' value={choice.value} onChange={props.onChange} checked={props.value === choice.value} />
+                <input name={props.name} type='radio' value={choice.value} onChange={props.onChange} checked={props.value === choice.value} />
                 {choice.label}
               </label>
             </div>
@@ -24,7 +23,10 @@ const SingleChoiceList = (props) => {
 }
 
 SingleChoiceList.propTypes = {
-  field: object.isRequired,
+  className: string,
+  name: string.isRequired,
+  label: string.isRequired,
+  choices: array.isRequired,
   value: oneOfType([string, number]),
   onChange: func
 }
