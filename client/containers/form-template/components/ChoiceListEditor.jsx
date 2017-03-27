@@ -2,7 +2,6 @@ import React from 'react'
 
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import { sortBy, map, find, filter, maxBy } from 'lodash'
-import ContentEditable from '../../../components/controls/ContentEditable'
 
 const { func, array, bool } = React.PropTypes
 
@@ -13,15 +12,8 @@ class ChoiceListEditor extends React.Component {
     this.onClickRemove = this.onClickRemove.bind(this)
     this.onChoiceLabelChanged = this.onChoiceLabelChanged.bind(this)
     this.onNewChoiceEntered = this.onNewChoiceEntered.bind(this)
-    this.onBeginEditLabel = this.onBeginEditLabel.bind(this)
 
-    this.state = {
-      editedChoiceKey: null
-    }
-  }
-
-  onBeginEditLabel (event) {
-    this.setState({editedChoiceKey: event.target.name})
+    this.onKeyDown = this.onKeyDown.bind(this)
   }
 
   generateChoiceId (actualChoices) {
@@ -60,6 +52,8 @@ class ChoiceListEditor extends React.Component {
 
       this.resetOrder(newChoices)
       this.props.onChoicesChanged(newChoices)
+      event.target.value = ''
+      event.target.focus()
     }
   }
 
@@ -67,6 +61,14 @@ class ChoiceListEditor extends React.Component {
     const newChoices = filter(this.props.choices, (choice) => choice.value !== event.target.dataset.value)
     this.resetOrder(newChoices)
     this.props.onChoicesChanged(newChoices)
+  }
+
+  onKeyDown (e) {
+    const key = e.keyCode || e.charCode  // ie||others
+
+    if (key === 13) {
+      this.refs.input.blur()
+    }
   }
 
   resetOrder (choices) {
@@ -80,27 +82,30 @@ class ChoiceListEditor extends React.Component {
     const inputType = this.props.allowMultipleChoices ? 'checkbox' : 'radio'
 
     const items = map(orderedChoices, (choice) => (
-      <div className={`form-group editable-choice ${inputType}`} key={choice.value} >
-        <input type={inputType} readOnly />
-        <ContentEditable name={choice.value} value={choice.label} onEditEnded={this.onChoiceLabelChanged} onEditStarted={this.onBeginEditLabel} />
-        {this.state.editedChoiceKey !== choice.value &&
-          <i className="fa fa-trash-o" data-value={choice.value} onClick={this.onClickRemove}></i>
-        }
+      <div className={`form-group ${inputType}`} key={choice.value} >
+        <i className="fa fa-trash-o" data-value={choice.value} onClick={this.onClickRemove}></i>
+        <input name={choice.value} className="form-control editable-choice" value={choice.label} onChange={this.onChoiceLabelChanged} />
       </div>
     ))
 
     return (
       <div>
-        <ReactCSSTransitionGroup transitionName="deletable"
-          transitionEnterTimeout={500}
-          transitionLeaveTimeout={300}>
-            {items}
-          <div className={`form-group editable-choice ${inputType}`} >
-            <input type={inputType} readOnly style={{'paddingLeft': '40px'}} />
-            <ContentEditable name="newValue" className="new-choice" placeholder="Nouveau choix" onEditEnded={this.onNewChoiceEntered} resetOnEnter />
-          </div>
-        </ReactCSSTransitionGroup>
+        <span>Choix</span>
+        <div className="form-inline">
+          <ReactCSSTransitionGroup transitionName="deletable"
+            transitionEnterTimeout={500}
+            transitionLeaveTimeout={300}>
+              {items}
 
+            <div className="form-group text" >
+              <input name="newValue" className="form-control" placeholder="Nouveau choix"
+                onBlur={this.onNewChoiceEntered}
+                onKeyDown={this.onKeyDown}
+                ref="input"
+              />
+            </div>
+          </ReactCSSTransitionGroup>
+        </div>
       </div>
     )
   }

@@ -47,9 +47,9 @@ class LoginPage extends React.Component {
     this.onChange = this.onChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
-  onChange (attr, value) {
+  onChange (event) {
     const newState = { }
-    newState[attr] = value
+    newState[event.target.name] = event.target.value
     this.setState(newState)
   }
   handleSubmit (event) {

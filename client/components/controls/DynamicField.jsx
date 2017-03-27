@@ -9,28 +9,28 @@ import DatePicker from 'react-datepicker'
 const { object, func, string, number, bool, array, oneOfType } = React.PropTypes
 
 const DynamicField = (props) => {
-  const value = this.props.value
-  const field = this.props.field
+  const value = props.value
+  const field = props.field
   let control = null
   switch (field.type) {
     case 'text':
     case 'password':
-      control = <TextInput name={field.name} label={field.label} type={field.type} onChange={props.onChange} value={value} className={this.props.className} />
+      control = <TextInput name={field.name} label={field.label} type={field.type} onChange={props.onChange} value={value} className={props.className} />
       break
 
     case 'textarea':
-      control = <MultilineInput name={field.name} label={field.label} onChange={props.onChange} value={value} className={this.props.className} />
+      control = <MultilineInput name={field.name} label={field.label} onChange={props.onChange} value={value} className={props.className} />
       break
 
     case 'checkbox':
-      control = <Checkbox name={field.name} label={field.label} onChange={props.onChange} value={value} className={this.props.className} />
+      control = <Checkbox name={field.name} label={field.label} onChange={props.onChange} value={value} className={props.className} />
       break
 
     case 'choices':
       if (field.allowMultipleChoices) {
-        control = <MultipleChoiceList name={field.name} label={field.label} choices={field.choices} onChange={props.onChange} value={value} className={this.props.className} />
+        control = <MultipleChoiceList name={field.name} label={field.label} choices={field.choices} onChange={props.onChange} value={value} className={props.className} />
       } else {
-        control = <SingleChoiceList name={field.name} label={field.label} choices={field.choices} onChange={props.onChange} value={value} className={this.props.className} />
+        control = <SingleChoiceList name={field.name} label={field.label} choices={field.choices} onChange={props.onChange} value={value} className={props.className} />
       }
       break
 

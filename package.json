@@ -8,7 +8,8 @@
     "lint": "standard",
     "build": "webpack",
     "server": "nodemon ./index.js --exec babel-node",
-    "watch": "webpack --watch",
+    "client": "webpack --watch",
+    "app": "npm-run-all --parallel app server",
     "cover": "nyc --reporter=lcov --reporter=text --reporter=html --require babel-register --extension .jsx npm test"
   },
   "author": "Stehane Bourbeau <bourbest@gmail.com>",
@@ -20,6 +21,7 @@
     "jwt-decode": "^2.1.0",
     "lodash": "^4.6.1",
     "moment": "^2.17.1",
+    "npm-run-all": "^4.0.2",
     "react": "^15.4.2",
     "react-addons-css-transition-group": "^15.4.2",
     "react-datepicker": "^0.41.1",

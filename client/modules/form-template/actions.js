@@ -4,5 +4,17 @@ import { createActions, createBaseActionCreators, standardActions } from '../hel
 
 const prefix = config.entityName.toUpperCase()
 
-export const Actions = createActions(prefix, standardActions)
-export const ActionCreators = createBaseActionCreators(Actions)
+const BaseActions = createActions(prefix, standardActions)
+
+const SpecificActions = createActions(prefix, [
+  'SET_EDITED_FIELD'
+])
+
+const BaseActionCreators = createBaseActionCreators(BaseActions)
+
+const SpecificActionCreators = {
+  setEditedFieldName: (fieldName) => ({ type: SpecificActions.SET_EDITED_FIELD, fieldName })
+}
+
+export const Actions = {...BaseActions, ...SpecificActions}
+export const ActionCreators = {...BaseActionCreators, ...SpecificActionCreators}

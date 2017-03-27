@@ -8,4 +8,6 @@ const concatInfo = (template) => template.name
 
 Selectors.getFilteredList = createFilteredListSelector(Selectors, concatInfo, 'id')
 
+Selectors.getEditedFieldName = (state) => state[config.storeBranch].editedFieldName
+
 export default Selectors
