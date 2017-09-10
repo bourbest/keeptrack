@@ -1,3 +1,1 @@
-export default {
-  apiEndpoint: 'http://localhost/kt-api'
-}
+export default process.env.appConfig

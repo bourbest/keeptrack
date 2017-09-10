@@ -1,12 +1,7 @@
-import RestService from './rest-service'
-import ApiClient from './api-client'
+// import RestService from '../../lib/services/rest-service'
+import ApiClient from './base/api-client'
 import AuthService from './authentication-service'
-
-export {
-  RestService,
-  ApiClient,
-  AuthService
-}
+import RestService from './base/rest-service'
 
 export const createService = (serviceName, apiConfig) => {
   const apiClient = new ApiClient(apiConfig)
@@ -14,7 +9,7 @@ export const createService = (serviceName, apiConfig) => {
     case 'auth':
       return new AuthService(apiClient)
 
-    case 'client-file':
+    case 'clients':
       return new RestService('client-files', apiClient)
 
     case 'form-template':

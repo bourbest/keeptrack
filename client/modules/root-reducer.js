@@ -1,13 +1,16 @@
 import { combineReducers } from 'redux'
 
-import clientFile from './client-file/reducer'
-import formTemplate from './form-template/reducer'
 import auth from './authentication/reducer'
 import app from './app/reducer'
+import clients from './clients/reducer'
+
+import { reducer as formReducer } from 'redux-form'
+import {reducer as toastrReducer} from 'react-redux-toastr'
 
 export default combineReducers({
-  ...clientFile,
-  ...formTemplate,
   ...auth,
-  ...app
+  ...app,
+  ...clients,
+  toastr: toastrReducer,
+  form: formReducer
 })

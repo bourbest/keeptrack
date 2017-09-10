@@ -26,8 +26,7 @@ using System.Web.Http.ExceptionHandling;
 using System.Web.Routing;
 using Common.API.Cors;
 using Common.API.CSRF;
-
-
+using Newtonsoft.Json.Serialization;
 
 [assembly: OwinStartup(typeof(Startup))]
 
@@ -66,8 +65,8 @@ namespace KT.API
             config.Formatters.JsonFormatter.SerializerSettings = new JsonSerializerSettings
             {
                 NullValueHandling = NullValueHandling.Ignore,
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
             };
-
 
             //ValidationResultExtension configuration
             FluentValidationModelValidatorProvider.Configure(config);

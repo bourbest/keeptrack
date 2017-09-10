@@ -1,7 +1,5 @@
 import jwtDecode from 'jwt-decode'
-import { trim, forEach } from 'lodash'
-// import moment from 'moment'
-import { normalize } from '../../services/format'
+import { trim, forEach, camelCase } from 'lodash'
 
 import config from './config'
 
@@ -14,12 +12,12 @@ const initialState = {
 }
 
 function convertPermissions (strPermissions = '') {
-  const ret = {}
+  const ret = []
   const keys = strPermissions.split(',')
   forEach(keys, (key) => {
     key = trim(key)
     if (key !== '') {
-      ret[key] = true
+      ret.push(key)
     }
   })
 
@@ -36,15 +34,13 @@ function deserializeTicket (ticket) {
 
   for (let key in serverModel) {
     if (key.indexOf('KT:') === 0) {
-      userModel[key.substring(3)] = serverModel[key]
+      userModel[camelCase(key.substring(3))] = serverModel[key]
     }
   }
 
   userModel.userId = serverModel.nameid
   userModel.userName = serverModel.unique_name
   // userModel.expires = moment('1970-01-01 0:00 +0000').add(serverModel.exp, 'seconds')
-
-  userModel = normalize(userModel)
 
   userModel.permissions = convertPermissions(userModel.permissions)
 

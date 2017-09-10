@@ -1,13 +1,12 @@
 export const getCookieValue = (cookieName) => {
   const name = cookieName + '='
-  const ca = document.cookie.split('')
+  const ca = document.cookie.split(' ')
+                    .filter(c => c.startsWith(name))
 
-  for (let i = 0; i < ca.length; i++) {
-    let c = ca[i]
-    while (c.charAt(0) === ' ') c = c.substring(1)
-    if (c.indexOf(name) === 0) return c.substring(name.length, c.length)
+  if (ca.length >= 1) {
+    const values = ca[0].split('=')
+    return decodeURIComponent(values[1])
   }
-
   return null
 }
 
@@ -26,6 +25,6 @@ export const setCookieValue = (cookieName, value, expire = null) => {
     throw new Error('unknown expire type')
   }
 
-  const baseCookie = `${cookieName}=${value} path=/`
+  const baseCookie = `${cookieName}=${encodeURIComponent(value)} path=/`
   document.cookie = date ? `${baseCookie} expires=${date}` : `${baseCookie}`
 }

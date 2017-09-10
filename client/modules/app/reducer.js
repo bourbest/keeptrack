@@ -3,8 +3,11 @@ import { Actions } from './actions'
 
 const initialState = {
   apiConfig: {
-    headers: {}
-  }
+    headers: {
+    }
+  },
+  locale: 'fr',
+  navMenuDisplayed: false
 }
 
 const appReducer = (state = initialState, action = {}) => {
@@ -22,6 +25,16 @@ const appReducer = (state = initialState, action = {}) => {
       newState.apiConfig.headers['Cookie'] = action.cookies
       return newState
 
+    case Actions.SET_LOCALE:
+      newState.locale = action.locale
+      return newState
+    case Actions.SET_CATALOG_ID:
+      newState.catalogId = action.catalogId
+      return newState
+
+    case Actions.TOGGLE_NAV_MENU:
+      const navMenuDisplayed = !state.navMenuDisplayed
+      return {...state, navMenuDisplayed}
     default:
       return state
   }
