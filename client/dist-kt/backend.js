@@ -1063,7 +1063,7 @@ var _prodInvariant = __webpack_require__(2),
     _assign = __webpack_require__(3);
 
 var CallbackQueue = __webpack_require__(79);
-var PooledClass = __webpack_require__(17);
+var PooledClass = __webpack_require__(18);
 var ReactFeatureFlags = __webpack_require__(191);
 var ReactReconciler = __webpack_require__(28);
 var Transaction = __webpack_require__(37);
@@ -1317,7 +1317,7 @@ module.exports = ReactUpdates;
 
 var _assign = __webpack_require__(3);
 
-var PooledClass = __webpack_require__(17);
+var PooledClass = __webpack_require__(18);
 
 var emptyFunction = __webpack_require__(9);
 var warning = __webpack_require__(1);
@@ -1608,6 +1608,50 @@ module.exports = ReactCurrentOwner;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ActionCreators = exports.Actions = undefined;
+
+var _actions = __webpack_require__(71);
+
+var prefix = 'APP';
+
+var actions = ['SET_API_CONFIG', 'SET_CSRF_TOKEN', 'SET_COOKIES', 'SET_LOCALE', 'NOTIFY', 'TOGGLE_NAV_MENU'];
+
+var Actions = exports.Actions = (0, _actions.createActions)(prefix, actions);
+
+var ActionCreators = exports.ActionCreators = {
+  setApiConfig: function setApiConfig(config) {
+    return { type: Actions.SET_API_CONFIG, config: config };
+  },
+  setCsrfToken: function setCsrfToken(token) {
+    return { type: Actions.SET_CSRF_TOKEN, token: token };
+  },
+  setCookies: function setCookies(cookies) {
+    return { type: Actions.SET_COOKIES, cookies: cookies };
+  },
+  setLocale: function setLocale(locale) {
+    return { type: Actions.SET_LOCALE, locale: locale };
+  },
+  notify: function notify(title, message) {
+    var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+    var isError = arguments[3];
+    return { type: Actions.NOTIFY, title: title, message: message, params: params, isError: isError };
+  },
+
+  toggleNavMenu: function toggleNavMenu() {
+    return { type: Actions.TOGGLE_NAV_MENU };
+  }
+};
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -1721,7 +1765,7 @@ var PooledClass = {
 module.exports = PooledClass;
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2067,60 +2111,16 @@ ReactElement.isValidElement = function (object) {
 module.exports = ReactElement;
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports) {
 
 module.exports = require("react-redux");
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports) {
 
 module.exports = require("redux-form");
-
-/***/ }),
-/* 21 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ActionCreators = exports.Actions = undefined;
-
-var _actions = __webpack_require__(71);
-
-var prefix = 'APP';
-
-var actions = ['SET_API_CONFIG', 'SET_CSRF_TOKEN', 'SET_COOKIES', 'SET_LOCALE', 'NOTIFY', 'TOGGLE_NAV_MENU'];
-
-var Actions = exports.Actions = (0, _actions.createActions)(prefix, actions);
-
-var ActionCreators = exports.ActionCreators = {
-  setApiConfig: function setApiConfig(config) {
-    return { type: Actions.SET_API_CONFIG, config: config };
-  },
-  setCsrfToken: function setCsrfToken(token) {
-    return { type: Actions.SET_CSRF_TOKEN, token: token };
-  },
-  setCookies: function setCookies(cookies) {
-    return { type: Actions.SET_COOKIES, cookies: cookies };
-  },
-  setLocale: function setLocale(locale) {
-    return { type: Actions.SET_LOCALE, locale: locale };
-  },
-  notify: function notify(title, message) {
-    var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-    var isError = arguments[3];
-    return { type: Actions.NOTIFY, title: title, message: message, params: params, isError: isError };
-  },
-
-  toggleNavMenu: function toggleNavMenu() {
-    return { type: Actions.TOGGLE_NAV_MENU };
-  }
-};
 
 /***/ }),
 /* 22 */
@@ -3193,7 +3193,7 @@ var _assign = __webpack_require__(3);
 var ReactBaseClasses = __webpack_require__(100);
 var ReactChildren = __webpack_require__(231);
 var ReactDOMFactories = __webpack_require__(232);
-var ReactElement = __webpack_require__(18);
+var ReactElement = __webpack_require__(19);
 var ReactPropTypes = __webpack_require__(234);
 var ReactVersion = __webpack_require__(236);
 
@@ -6822,9 +6822,9 @@ exports.createBaseActionCreators = exports.createActions = exports.standardActio
 
 var _lodash = __webpack_require__(8);
 
-var _reduxForm = __webpack_require__(20);
+var _reduxForm = __webpack_require__(21);
 
-var standardActions = exports.standardActions = ['SET_LIST_FILTER', 'SET_SORT_PARAMS', 'FETCH_ALL', 'SET_FETCHING', 'SET_ENTITIES', 'SET_SERVER_LIST_COUNT', 'TOGGLE_SELECTED_ITEM', 'CLEAR_SELECTED_ITEMS', 'FETCH_EDITED_ENTITY', 'SET_EDITED_ENTITY', 'CLEAR_EDITED_ENTITY', 'CREATE_REMOTE_ENTITY', 'UPDATE_REMOTE_ENTITY', 'DELETE_REMOTE_ENTITIES'];
+var standardActions = exports.standardActions = ['SET_LIST_FILTER', 'SET_SORT_PARAMS', 'FETCH_ALL', 'SET_FETCHING', 'SET_ENTITIES', 'SET_SERVER_LIST_COUNT', 'REMOVE_LOCAL_ENTITIES', 'TOGGLE_SELECTED_ITEM', 'CLEAR_SELECTED_ITEMS', 'FETCH_EDITED_ENTITY', 'SET_EDITED_ENTITY', 'CLEAR_EDITED_ENTITY', 'CREATE_REMOTE_ENTITY', 'UPDATE_REMOTE_ENTITY', 'DELETE_REMOTE_ENTITIES'];
 
 var createActions = exports.createActions = function createActions(prefix, actionNames) {
   var actions = {};
@@ -6859,6 +6859,9 @@ var createBaseActionCreators = exports.createBaseActionCreators = function creat
     },
     setServerListCount: function setServerListCount(count) {
       return { type: actions.SET_SERVER_LIST_COUNT, count: count };
+    },
+    removeLocalEntities: function removeLocalEntities(entityIds) {
+      return { type: actions.REMOVE_LOCAL_ENTITIES, entityIds: entityIds };
     },
     toggleSelectedItem: function toggleSelectedItem(id) {
       return { type: actions.TOGGLE_SELECTED_ITEM, id: id };
@@ -7435,7 +7438,7 @@ var _prodInvariant = __webpack_require__(2);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var PooledClass = __webpack_require__(17);
+var PooledClass = __webpack_require__(18);
 
 var invariant = __webpack_require__(0);
 
@@ -8355,7 +8358,7 @@ module.exports = ReactPropTypesSecret;
 
 var _assign = __webpack_require__(3);
 
-var PooledClass = __webpack_require__(17);
+var PooledClass = __webpack_require__(18);
 var Transaction = __webpack_require__(37);
 var ReactInstrumentation = __webpack_require__(10);
 var ReactServerUpdateQueue = __webpack_require__(204);
@@ -9639,7 +9642,7 @@ module.exports = REACT_ELEMENT_TYPE;
 
 var ReactCurrentOwner = __webpack_require__(16);
 var ReactComponentTreeHook = __webpack_require__(11);
-var ReactElement = __webpack_require__(18);
+var ReactElement = __webpack_require__(19);
 
 var checkReactTypeSpec = __webpack_require__(237);
 
@@ -10583,7 +10586,7 @@ var _server = __webpack_require__(228);
 
 var _reactRouter = __webpack_require__(7);
 
-var _reactRedux = __webpack_require__(19);
+var _reactRedux = __webpack_require__(20);
 
 var _HTMLTemplate = __webpack_require__(138);
 
@@ -10601,7 +10604,7 @@ var _config = __webpack_require__(68);
 
 var _config2 = _interopRequireDefault(_config);
 
-var _actions = __webpack_require__(21);
+var _actions = __webpack_require__(17);
 
 var _actions2 = __webpack_require__(32);
 
@@ -10660,7 +10663,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _lodash = __webpack_require__(8);
 
-var _reactRedux = __webpack_require__(19);
+var _reactRedux = __webpack_require__(20);
 
 var _selectors = __webpack_require__(13);
 
@@ -10767,7 +10770,7 @@ var _react = __webpack_require__(6);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(19);
+var _reactRedux = __webpack_require__(20);
 
 var _translate = __webpack_require__(12);
 
@@ -10872,7 +10875,7 @@ var _reactRouter = __webpack_require__(7);
 
 var _redux = __webpack_require__(31);
 
-var _reactRedux = __webpack_require__(19);
+var _reactRedux = __webpack_require__(20);
 
 var _actions = __webpack_require__(32);
 
@@ -10888,7 +10891,7 @@ var _validate2 = _interopRequireDefault(_validate);
 
 var _FormError = __webpack_require__(44);
 
-var _reduxForm = __webpack_require__(20);
+var _reduxForm = __webpack_require__(21);
 
 var _semanticUiReact = __webpack_require__(43);
 
@@ -11042,9 +11045,9 @@ var _reactRouter = __webpack_require__(7);
 
 var _redux = __webpack_require__(31);
 
-var _reactRedux = __webpack_require__(19);
+var _reactRedux = __webpack_require__(20);
 
-var _reduxForm = __webpack_require__(20);
+var _reduxForm = __webpack_require__(21);
 
 var _FormError = __webpack_require__(44);
 
@@ -11062,7 +11065,7 @@ var _Toolbar2 = _interopRequireDefault(_Toolbar);
 
 var _actions = __webpack_require__(34);
 
-var _actions2 = __webpack_require__(21);
+var _actions2 = __webpack_require__(17);
 
 var _selectors = __webpack_require__(46);
 
@@ -11241,9 +11244,11 @@ var _reactRouter = __webpack_require__(7);
 
 var _redux = __webpack_require__(31);
 
-var _reactRedux = __webpack_require__(19);
+var _reactRedux = __webpack_require__(20);
 
 var _actions = __webpack_require__(34);
+
+var _actions2 = __webpack_require__(17);
 
 var _selectors = __webpack_require__(46);
 
@@ -11284,7 +11289,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
-    actions: (0, _redux.bindActionCreators)(_actions.ActionCreators, dispatch)
+    actions: (0, _redux.bindActionCreators)(_actions.ActionCreators, dispatch),
+    appActions: (0, _redux.bindActionCreators)(_actions2.ActionCreators, dispatch)
   };
 };
 
@@ -11322,7 +11328,7 @@ var ListClientsPage = function (_React$PureComponent) {
 
       var count = this.props.selectedItemIds.length;
       this.setState({ displayConfirmModal: false });
-      actions.deleteEntities(this.props.selectedItemIds, { catalogId: this.props.catalogId }, function () {
+      actions.deleteEntities(this.props.selectedItemIds, function () {
         actions.clearSelectedItems();
         appActions.notify('common.delete', 'common.deleted', { count: count });
       });
@@ -11392,7 +11398,7 @@ var ListClientsPage = function (_React$PureComponent) {
           ),
           _react2.default.createElement(
             _semanticUiReact.Button,
-            { onClick: this.showDeleteConfirm, disabled: selectedItemIds.length === 0 },
+            { secondary: true, onClick: this.showDeleteConfirm, disabled: selectedItemIds.length === 0 },
             this.message('delete', 'common')
           )
         ),
@@ -11641,7 +11647,7 @@ var _react = __webpack_require__(6);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(19);
+var _reactRedux = __webpack_require__(20);
 
 var _selectors = __webpack_require__(33);
 
@@ -11965,7 +11971,7 @@ var _config = __webpack_require__(123);
 
 var _config2 = _interopRequireDefault(_config);
 
-var _actions = __webpack_require__(21);
+var _actions = __webpack_require__(17);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -12041,7 +12047,7 @@ var _i18next = __webpack_require__(66);
 
 var _i18next2 = _interopRequireDefault(_i18next);
 
-var _actions = __webpack_require__(21);
+var _actions = __webpack_require__(17);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -12220,7 +12226,7 @@ var _selectors = __webpack_require__(13);
 
 var _actions = __webpack_require__(32);
 
-var _actions2 = __webpack_require__(21);
+var _actions2 = __webpack_require__(17);
 
 var _marked = /*#__PURE__*/regeneratorRuntime.mark(authSaga),
     _marked2 = /*#__PURE__*/regeneratorRuntime.mark(authenticationSagaWatcher);
@@ -12468,9 +12474,9 @@ exports.handleError = undefined;
 
 var _reactRouter = __webpack_require__(7);
 
-var _reduxForm = __webpack_require__(20);
+var _reduxForm = __webpack_require__(21);
 
-var _actions = __webpack_require__(21);
+var _actions = __webpack_require__(17);
 
 // this function either redirects the user to the Error page or returns the appropriate action
 // to be dispatched to the store
@@ -12543,6 +12549,7 @@ var baseInitialState = exports.baseInitialState = {
 };
 
 var baseActionsHandler = exports.baseActionsHandler = function baseActionsHandler(Actions, state, action) {
+  var byId = void 0;
   switch (action.type) {
     case Actions.SET_LIST_FILTER:
       return _extends({}, state, { listFilterValue: action.filterValue });
@@ -12557,7 +12564,6 @@ var baseActionsHandler = exports.baseActionsHandler = function baseActionsHandle
       var newEntities = (0, _lodash.keyBy)(entityArray, function (f) {
         return f.id;
       });
-      var byId = void 0;
 
       if (action.replace === true) {
         byId = newEntities;
@@ -12566,6 +12572,12 @@ var baseActionsHandler = exports.baseActionsHandler = function baseActionsHandle
       }
 
       return _extends({}, state, { byId: byId });
+
+    case Actions.REMOVE_LOCAL_ENTITIES:
+      var serverListCount = state.serverListCount - action.entityIds.length;
+      byId = (0, _lodash.omit)(state.byId, action.entityIds);
+      return _extends({}, state, { byId: byId, serverListCount: serverListCount });
+
     case Actions.SET_SERVER_LIST_COUNT:
       return _extends({}, state, { serverListCount: action.count });
     case Actions.TOGGLE_SELECTED_ITEM:
@@ -12627,7 +12639,7 @@ var _reduxSaga = __webpack_require__(42);
 
 var _lodash = __webpack_require__(8);
 
-var _reduxForm = __webpack_require__(20);
+var _reduxForm = __webpack_require__(21);
 
 // errorHandler(entityName, error) : must be a global error handler that returns null or an action to perform
 var createBaseSaga = exports.createBaseSaga = function createBaseSaga(entityName, Actions, ActionCreators, getService, ModuleSelectors) {
@@ -12638,7 +12650,7 @@ var createBaseSaga = exports.createBaseSaga = function createBaseSaga(entityName
   };
 
   function baseSaga(action) {
-    var svc, errorAction, optionalId, requestHeaders, entities, newEntity, serverListCount, _newEntity, entity, createdEntities, updatedEntities;
+    var svc, errorAction, optionalId, requestHeaders, entities, newEntity, serverListCount, _newEntity, entity;
 
     return regeneratorRuntime.wrap(function baseSaga$(_context) {
       while (1) {
@@ -12651,7 +12663,7 @@ var createBaseSaga = exports.createBaseSaga = function createBaseSaga(entityName
             svc = _context.sent;
             errorAction = null;
             _context.t0 = action.type;
-            _context.next = _context.t0 === Actions.FETCH_ALL ? 7 : _context.t0 === Actions.CREATE_REMOTE_ENTITY ? 37 : _context.t0 === Actions.DELETE_REMOTE_ENTITIES ? 61 : _context.t0 === Actions.UPDATE_REMOTE_ENTITY ? 81 : _context.t0 === Actions.FETCH_EDITED_ENTITY ? 100 : _context.t0 === Actions.CREATE_REMOTE_ENTITIES ? 118 : _context.t0 === Actions.UPDATE_REMOTE_ENTITIES ? 137 : 156;
+            _context.next = _context.t0 === Actions.FETCH_ALL ? 7 : _context.t0 === Actions.CREATE_REMOTE_ENTITY ? 37 : _context.t0 === Actions.DELETE_REMOTE_ENTITIES ? 61 : _context.t0 === Actions.UPDATE_REMOTE_ENTITY ? 80 : _context.t0 === Actions.FETCH_EDITED_ENTITY ? 99 : 117;
             break;
 
           case 7:
@@ -12718,7 +12730,7 @@ var createBaseSaga = exports.createBaseSaga = function createBaseSaga(entityName
             return (0, _effects.put)(ActionCreators.setFetching(false));
 
           case 36:
-            return _context.abrupt('break', 157);
+            return _context.abrupt('break', 118);
 
           case 37:
             _context.next = 39;
@@ -12767,7 +12779,7 @@ var createBaseSaga = exports.createBaseSaga = function createBaseSaga(entityName
             errorAction = errorHandler(entityName, _context.t2);
 
           case 60:
-            return _context.abrupt('break', 157);
+            return _context.abrupt('break', 118);
 
           case 61:
             _context.next = 63;
@@ -12780,211 +12792,128 @@ var createBaseSaga = exports.createBaseSaga = function createBaseSaga(entityName
 
           case 66:
             _context.next = 68;
-            return (0, _effects.put)(ActionCreators.clearSelectedItems());
+            return (0, _effects.put)(ActionCreators.removeLocalEntities(action.remoteIds));
 
           case 68:
-            _context.next = 70;
-            return (0, _effects.put)(ActionCreators.fetchAll());
-
-          case 70:
             if (!action.callback) {
-              _context.next = 73;
+              _context.next = 71;
               break;
             }
 
-            _context.next = 73;
+            _context.next = 71;
             return (0, _effects.call)(action.callback);
 
-          case 73:
-            _context.next = 75;
+          case 71:
+            _context.next = 73;
             return (0, _effects.put)((0, _reduxForm.stopSubmit)(entityName, {}));
 
-          case 75:
-            _context.next = 80;
+          case 73:
+            _context.next = 79;
             break;
 
-          case 77:
-            _context.prev = 77;
+          case 75:
+            _context.prev = 75;
             _context.t3 = _context['catch'](63);
 
+            console.log(_context.t3);
             errorAction = errorHandler(entityName, _context.t3);
 
-          case 80:
-            return _context.abrupt('break', 157);
+          case 79:
+            return _context.abrupt('break', 118);
 
-          case 81:
-            _context.next = 83;
+          case 80:
+            _context.next = 82;
             return (0, _effects.put)((0, _reduxForm.startSubmit)(entityName));
 
-          case 83:
-            _context.prev = 83;
-            _context.next = 86;
+          case 82:
+            _context.prev = 82;
+            _context.next = 85;
             return (0, _effects.call)(svc.save, action.entity);
 
-          case 86:
+          case 85:
             _newEntity = _context.sent;
-            _context.next = 89;
+            _context.next = 88;
             return (0, _effects.put)(ActionCreators.setEntities(_newEntity));
 
-          case 89:
+          case 88:
             if (!action.callback) {
-              _context.next = 92;
+              _context.next = 91;
               break;
             }
 
-            _context.next = 92;
+            _context.next = 91;
             return (0, _effects.call)(action.callback, _newEntity);
 
-          case 92:
-            _context.next = 94;
+          case 91:
+            _context.next = 93;
             return (0, _effects.put)((0, _reduxForm.stopSubmit)(entityName, {}));
 
-          case 94:
-            _context.next = 99;
+          case 93:
+            _context.next = 98;
             break;
 
-          case 96:
-            _context.prev = 96;
-            _context.t4 = _context['catch'](83);
+          case 95:
+            _context.prev = 95;
+            _context.t4 = _context['catch'](82);
 
             errorAction = errorHandler(entityName, _context.t4);
 
-          case 99:
-            return _context.abrupt('break', 157);
+          case 98:
+            return _context.abrupt('break', 118);
 
-          case 100:
-            _context.next = 102;
+          case 99:
+            _context.next = 101;
             return (0, _effects.put)(ActionCreators.setFetching(true));
 
-          case 102:
-            _context.prev = 102;
-            _context.next = 105;
+          case 101:
+            _context.prev = 101;
+            _context.next = 104;
             return (0, _effects.call)(svc.get, action.id);
 
-          case 105:
+          case 104:
             entity = _context.sent;
-            _context.next = 108;
+            _context.next = 107;
             return (0, _effects.put)(ActionCreators.setEditedEntity(entity));
 
-          case 108:
-            _context.next = 110;
+          case 107:
+            _context.next = 109;
             return (0, _effects.put)((0, _reduxForm.initialize)(entityName, entity));
 
-          case 110:
-            _context.next = 115;
+          case 109:
+            _context.next = 114;
             break;
 
-          case 112:
-            _context.prev = 112;
-            _context.t5 = _context['catch'](102);
+          case 111:
+            _context.prev = 111;
+            _context.t5 = _context['catch'](101);
 
             errorAction = errorHandler(entityName, _context.t5);
 
-          case 115:
-            _context.next = 117;
+          case 114:
+            _context.next = 116;
             return (0, _effects.put)(ActionCreators.setFetching(false));
 
+          case 116:
+            return _context.abrupt('break', 118);
+
           case 117:
-            return _context.abrupt('break', 157);
-
-          case 118:
-            _context.next = 120;
-            return (0, _effects.put)((0, _reduxForm.startSubmit)(entityName));
-
-          case 120:
-            _context.prev = 120;
-            _context.next = 123;
-            return (0, _effects.call)(svc.createEntities, action.entities);
-
-          case 123:
-            createdEntities = _context.sent;
-            _context.next = 126;
-            return (0, _effects.put)(ActionCreators.clearSelectedItems());
-
-          case 126:
-            if (!action.callback) {
-              _context.next = 129;
-              break;
-            }
-
-            _context.next = 129;
-            return (0, _effects.call)(action.callback, createdEntities);
-
-          case 129:
-            _context.next = 131;
-            return (0, _effects.put)((0, _reduxForm.stopSubmit)(entityName, {}));
-
-          case 131:
-            _context.next = 136;
-            break;
-
-          case 133:
-            _context.prev = 133;
-            _context.t6 = _context['catch'](120);
-
-            errorAction = errorHandler(entityName, _context.t6);
-
-          case 136:
-            return _context.abrupt('break', 157);
-
-          case 137:
-            _context.next = 139;
-            return (0, _effects.put)((0, _reduxForm.startSubmit)(entityName));
-
-          case 139:
-            _context.prev = 139;
-            _context.next = 142;
-            return (0, _effects.call)(svc.updateEntities, action.entities);
-
-          case 142:
-            updatedEntities = _context.sent;
-            _context.next = 145;
-            return (0, _effects.put)(ActionCreators.clearSelectedItems());
-
-          case 145:
-            if (!action.callback) {
-              _context.next = 148;
-              break;
-            }
-
-            _context.next = 148;
-            return (0, _effects.call)(action.callback, updatedEntities);
-
-          case 148:
-            _context.next = 150;
-            return (0, _effects.put)((0, _reduxForm.stopSubmit)(entityName, {}));
-
-          case 150:
-            _context.next = 155;
-            break;
-
-          case 152:
-            _context.prev = 152;
-            _context.t7 = _context['catch'](139);
-
-            errorAction = errorHandler(entityName, _context.t7);
-
-          case 155:
-            return _context.abrupt('break', 157);
-
-          case 156:
             throw new Error('Unsupported trigger action in default saga', action);
 
-          case 157:
+          case 118:
             if (!errorAction) {
-              _context.next = 160;
+              _context.next = 121;
               break;
             }
 
-            _context.next = 160;
+            _context.next = 121;
             return (0, _effects.put)(errorAction);
 
-          case 160:
+          case 121:
           case 'end':
             return _context.stop();
         }
       }
-    }, _marked, this, [[9, 31], [39, 57], [63, 77], [83, 96], [102, 112], [120, 133], [139, 152]]);
+    }, _marked, this, [[9, 31], [39, 57], [63, 75], [82, 95], [101, 111]]);
   }
 
   return baseSaga;
@@ -13029,7 +12958,7 @@ var _reselect = __webpack_require__(107);
 
 var _lodash = __webpack_require__(8);
 
-var _reduxForm = __webpack_require__(20);
+var _reduxForm = __webpack_require__(21);
 
 var createBaseSelectors = exports.createBaseSelectors = function createBaseSelectors(storeBranch, entityName) {
   var selectors = {};
@@ -13204,7 +13133,7 @@ var _reducer5 = __webpack_require__(129);
 
 var _reducer6 = _interopRequireDefault(_reducer5);
 
-var _reduxForm = __webpack_require__(20);
+var _reduxForm = __webpack_require__(21);
 
 var _reactReduxToastr = __webpack_require__(67);
 
@@ -17288,7 +17217,7 @@ module.exports = EnterLeaveEventPlugin;
 
 var _assign = __webpack_require__(3);
 
-var PooledClass = __webpack_require__(17);
+var PooledClass = __webpack_require__(18);
 
 var getTextContentAccessor = __webpack_require__(93);
 
@@ -21542,7 +21471,7 @@ var _assign = __webpack_require__(3);
 
 var EventListener = __webpack_require__(73);
 var ExecutionEnvironment = __webpack_require__(5);
-var PooledClass = __webpack_require__(17);
+var PooledClass = __webpack_require__(18);
 var ReactDOMComponentTree = __webpack_require__(4);
 var ReactUpdates = __webpack_require__(14);
 
@@ -22527,7 +22456,7 @@ module.exports = ReactPropTypeLocationNames;
 var _assign = __webpack_require__(3);
 
 var CallbackQueue = __webpack_require__(79);
-var PooledClass = __webpack_require__(17);
+var PooledClass = __webpack_require__(18);
 var ReactBrowserEventEmitter = __webpack_require__(54);
 var ReactInputSelection = __webpack_require__(86);
 var ReactInstrumentation = __webpack_require__(10);
@@ -25185,7 +25114,7 @@ module.exports = PooledClass;
 
 
 var PooledClass = __webpack_require__(230);
-var ReactElement = __webpack_require__(18);
+var ReactElement = __webpack_require__(19);
 
 var emptyFunction = __webpack_require__(9);
 var traverseAllChildren = __webpack_require__(241);
@@ -25380,7 +25309,7 @@ module.exports = ReactChildren;
 
 
 
-var ReactElement = __webpack_require__(18);
+var ReactElement = __webpack_require__(19);
 
 /**
  * Create a factory that creates HTML tag elements.
@@ -25584,7 +25513,7 @@ module.exports = ReactPropTypeLocationNames;
 
 
 
-var _require = __webpack_require__(18),
+var _require = __webpack_require__(19),
     isValidElement = _require.isValidElement;
 
 var factory = __webpack_require__(76);
@@ -25744,7 +25673,7 @@ module.exports = checkReactTypeSpec;
 var _require = __webpack_require__(100),
     Component = _require.Component;
 
-var _require2 = __webpack_require__(18),
+var _require2 = __webpack_require__(19),
     isValidElement = _require2.isValidElement;
 
 var ReactNoopUpdateQueue = __webpack_require__(103);
@@ -25796,7 +25725,7 @@ module.exports = getNextDebugID;
 
 var _prodInvariant = __webpack_require__(22);
 
-var ReactElement = __webpack_require__(18);
+var ReactElement = __webpack_require__(19);
 
 var invariant = __webpack_require__(0);
 

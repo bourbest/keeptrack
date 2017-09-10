@@ -1,4 +1,4 @@
-import { isArray, indexOf, keyBy, without, concat, isFunction } from 'lodash'
+import { isArray, indexOf, keyBy, without, concat, isFunction, omit } from 'lodash'
 
 export const baseInitialState = {
   isFetching: false,
@@ -11,6 +11,7 @@ export const baseInitialState = {
 }
 
 export const baseActionsHandler = (Actions, state, action) => {
+  let byId
   switch (action.type) {
     case Actions.SET_LIST_FILTER:
       return {...state, listFilterValue: action.filterValue}
@@ -23,7 +24,6 @@ export const baseActionsHandler = (Actions, state, action) => {
     case Actions.SET_ENTITIES:
       const entityArray = isArray(action.entities) ? action.entities : [action.entities]
       const newEntities = keyBy(entityArray, (f) => (f.id))
-      let byId
 
       if (action.replace === true) {
         byId = newEntities
@@ -32,6 +32,12 @@ export const baseActionsHandler = (Actions, state, action) => {
       }
 
       return {...state, byId}
+
+    case Actions.REMOVE_LOCAL_ENTITIES:
+      const serverListCount = state.serverListCount - action.entityIds.length
+      byId = omit(state.byId, action.entityIds)
+      return {...state, byId, serverListCount}
+
     case Actions.SET_SERVER_LIST_COUNT:
       return {...state, serverListCount: action.count}
     case Actions.TOGGLE_SELECTED_ITEM:

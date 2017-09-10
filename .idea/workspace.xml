@@ -2,83 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fca5fc71-6722-4cce-b020-c1541d0ad281" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/modules/clients/actions.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/modules/clients/config.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/modules/clients/reducer.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/modules/clients/saga.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/modules/clients/selectors.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/modules/clients/validate.js" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.babelrc" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.editorconfig" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.eslintrc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/README.md" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/BrowserEntry.jsx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/common/entity-utils.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/common/string-utils.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/components/EntityList.jsx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/components/EntityTable.jsx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/components/GenericForm.jsx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/components/controls/Checkbox.jsx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/components/controls/ContentEditable.jsx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/components/controls/DynamicField.jsx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/components/controls/MultilineInput.jsx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/components/controls/MultipleChoiceList.jsx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/components/controls/SingleChoiceList.jsx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/components/controls/TextInput.jsx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/containers/client-file/ClientFileFormFields.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/containers/client-file/EditClientFile.jsx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/containers/client-file/ManageClientFiles.jsx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/containers/form-template/EditFormTemplate.jsx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/containers/form-template/ManageFormTemplates.jsx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/containers/form-template/addable-field-list.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/containers/form-template/components/ChoiceListEditor.jsx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/containers/form-template/components/FieldAttributesEditor.jsx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/containers/form-template/components/FieldSelector.jsx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/containers/form-template/components/FieldTile.jsx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/containers/form-template/components/InlineFieldEditor.jsx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/modules/client-file/actions.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/modules/client-file/config.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/modules/client-file/reducer.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/modules/client-file/saga.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/modules/client-file/selectors.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/modules/form-template/actions.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/modules/form-template/config.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/modules/form-template/reducer.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/modules/form-template/saga.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/modules/form-template/selectors.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/modules/helpers/actions.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/modules/helpers/reducers.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/modules/helpers/sagas.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/modules/helpers/selectors.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/services/api-client.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/services/error-utils.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/services/format.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/services/rest-service.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/test/App.spec.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/index.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/package.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/server/HTMLTemplate.jsx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/server/renderReact.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/server/server.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/webpack.config.js" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/KT.API/Startup.cs" afterPath="$PROJECT_DIR$/api/KT.API/Startup.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/config.js" afterPath="$PROJECT_DIR$/client/config.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/containers/ErrorPage.jsx" afterPath="$PROJECT_DIR$/client/containers/ErrorPage.jsx" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/containers/Layout.jsx" afterPath="$PROJECT_DIR$/client/containers/Layout.jsx" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/containers/LoginPage.jsx" afterPath="$PROJECT_DIR$/client/containers/LoginPage.jsx" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/modules/app/actions.js" afterPath="$PROJECT_DIR$/client/modules/app/actions.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/modules/app/config.js" afterPath="$PROJECT_DIR$/client/modules/app/config.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/modules/app/reducer.js" afterPath="$PROJECT_DIR$/client/modules/app/reducer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/modules/app/selectors.js" afterPath="$PROJECT_DIR$/client/modules/app/selectors.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/modules/authentication/reducer.js" afterPath="$PROJECT_DIR$/client/modules/authentication/reducer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/modules/root-reducer.js" afterPath="$PROJECT_DIR$/client/modules/root-reducer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/modules/root-saga.js" afterPath="$PROJECT_DIR$/client/modules/root-saga.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/routes.jsx" afterPath="$PROJECT_DIR$/client/routes.jsx" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/services/cookie-utils.js" afterPath="$PROJECT_DIR$/client/services/cookie-utils.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/services/index.js" afterPath="$PROJECT_DIR$/client/services/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/store.js" afterPath="$PROJECT_DIR$/client/store.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/test/helpers/setup.js" afterPath="$PROJECT_DIR$/client/test/helpers/setup.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/assets/stylesheets/main.css" afterPath="$PROJECT_DIR$/client/assets/stylesheets/main.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/containers/clients/ListClientsPage.jsx" afterPath="$PROJECT_DIR$/client/containers/clients/ListClientsPage.jsx" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/dist-kt/backend.js" afterPath="$PROJECT_DIR$/client/dist-kt/backend.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/dist-kt/scripts.html" afterPath="$PROJECT_DIR$/client/dist-kt/scripts.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/locales/languages_fr.json" afterPath="$PROJECT_DIR$/client/locales/languages_fr.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/modules/common/actions.js" afterPath="$PROJECT_DIR$/client/modules/common/actions.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/modules/common/reducers.js" afterPath="$PROJECT_DIR$/client/modules/common/reducers.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/modules/common/sagas.js" afterPath="$PROJECT_DIR$/client/modules/common/sagas.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -93,39 +24,47 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="HTMLTemplate.jsx" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/server/HTMLTemplate.jsx">
+      <file leaf-file-name="ListClientsPage.jsx" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/client/containers/clients/ListClientsPage.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+            <state relative-caret-position="697">
+              <caret line="95" column="28" lean-forward="false" selection-start-line="95" selection-start-column="28" selection-end-line="95" selection-end-column="28" />
+              <folding>
+                <element signature="e#0#25#0" expanded="true" />
+                <element signature="e#82#124#0" expanded="true" />
+                <element signature="e#174#253#0" expanded="true" />
+                <element signature="e#460#508#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="languages_fr.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/client/locales/languages_fr.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="441">
+              <caret line="34" column="75" lean-forward="false" selection-start-line="34" selection-start-column="75" selection-end-line="34" selection-end-column="75" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Layout.jsx" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/containers/Layout.jsx">
+      <file leaf-file-name="languages_en.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/client/locales/languages_en.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="21" column="22" lean-forward="false" selection-start-line="21" selection-start-column="22" selection-end-line="21" selection-end-column="22" />
-              <folding>
-                <element signature="e#0#25#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="221">
+              <caret line="19" column="26" lean-forward="false" selection-start-line="19" selection-start-column="26" selection-end-line="19" selection-end-column="26" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ListClientsPage.jsx" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/containers/clients/ListClientsPage.jsx">
+      <file leaf-file-name="actions.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/client/modules/app/actions.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="85" column="29" lean-forward="false" selection-start-line="85" selection-start-column="29" selection-end-line="85" selection-end-column="29" />
-              <folding>
-                <element signature="e#0#25#0" expanded="true" />
-                <element signature="e#82#124#0" expanded="true" />
-                <element signature="e#174#253#0" expanded="true" />
-                <element signature="e#387#435#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -133,21 +72,39 @@
       <file leaf-file-name="main.css" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/client/assets/stylesheets/main.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="312">
-              <caret line="39" column="20" lean-forward="false" selection-start-line="39" selection-start-column="20" selection-end-line="39" selection-end-column="20" />
+            <state relative-caret-position="545">
+              <caret line="56" column="70" lean-forward="false" selection-start-line="56" selection-start-column="70" selection-end-line="56" selection-end-column="70" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NavBar.jsx" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/containers/components/NavBar.jsx">
+      <file leaf-file-name="sagas.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/client/modules/common/sagas.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="57" lean-forward="false" selection-start-line="2" selection-start-column="57" selection-end-line="2" selection-end-column="57" />
-              <folding>
-                <element signature="e#0#25#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="663">
+              <caret line="54" column="54" lean-forward="false" selection-start-line="54" selection-start-column="54" selection-end-line="54" selection-end-column="54" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="actions.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/client/modules/common/actions.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="569">
+              <caret line="43" column="23" lean-forward="false" selection-start-line="43" selection-start-column="4" selection-end-line="43" selection-end-column="23" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="reducers.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/client/modules/common/reducers.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="629">
+              <caret line="37" column="47" lean-forward="false" selection-start-line="37" selection-start-column="47" selection-end-line="37" selection-end-column="47" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -180,26 +137,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TextField.jsx" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/containers/components/forms/TextField.jsx">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="15" column="50" lean-forward="false" selection-start-line="15" selection-start-column="50" selection-end-line="15" selection-end-column="50" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>getFilteredSortedList</find>
-      <find>reset</find>
-      <find>renderT</find>
-      <find>render</find>
-      <find>render tp</find>
-      <find>render t</find>
       <find>render</find>
       <find>renderTo</find>
       <find>renderToo</find>
@@ -221,6 +162,15 @@
       <find>menu</find>
       <find>item</find>
       <find>.ui.secondary.menu</find>
+      <find>t</find>
+      <find>tofo</find>
+      <find>tof</find>
+      <find>tod</find>
+      <find>/todo</find>
+      <find>//todo</find>
+      <find>// todo</find>
+      <find>todo</find>
+      <find>border</find>
     </findStrings>
     <replaceStrings>
       <replace>client</replace>
@@ -240,19 +190,20 @@
         <option value="$PROJECT_DIR$/client/server.webpack.config.js" />
         <option value="$PROJECT_DIR$/client/config/config.dev.js" />
         <option value="$PROJECT_DIR$/client/containers/clients/components/ClientList.jsx" />
-        <option value="$PROJECT_DIR$/client/modules/common/actions.js" />
         <option value="$PROJECT_DIR$/client/modules/app/selectors.js" />
-        <option value="$PROJECT_DIR$/client/modules/common/sagas.js" />
         <option value="$PROJECT_DIR$/client/routes.jsx" />
         <option value="$PROJECT_DIR$/client/locales/languages_en.json" />
-        <option value="$PROJECT_DIR$/client/locales/languages_fr.json" />
         <option value="$PROJECT_DIR$/client/containers/components/forms/TextField.jsx" />
         <option value="$PROJECT_DIR$/client/server/HTMLTemplate.jsx" />
         <option value="$PROJECT_DIR$/client/containers/components/NavBar.jsx" />
         <option value="$PROJECT_DIR$/client/containers/Layout.jsx" />
-        <option value="$PROJECT_DIR$/client/containers/clients/ListClientsPage.jsx" />
         <option value="$PROJECT_DIR$/client/containers/clients/EditClientPage.jsx" />
         <option value="$PROJECT_DIR$/client/containers/components/Toolbar.jsx" />
+        <option value="$PROJECT_DIR$/client/modules/common/actions.js" />
+        <option value="$PROJECT_DIR$/client/modules/common/reducers.js" />
+        <option value="$PROJECT_DIR$/client/modules/common/sagas.js" />
+        <option value="$PROJECT_DIR$/client/locales/languages_fr.json" />
+        <option value="$PROJECT_DIR$/client/containers/clients/ListClientsPage.jsx" />
         <option value="$PROJECT_DIR$/client/assets/stylesheets/main.css" />
       </list>
     </option>
@@ -336,7 +287,51 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="server" />
+              <option name="myItemId" value="modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="keep-track2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="keep-track2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="keep-track2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="keep-track2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -606,12 +601,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1504976137680</updated>
-      <workItem from="1504976139118" duration="21750000" />
+      <workItem from="1504976139118" duration="24900000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="21750000" />
+    <option name="totallyTimeSpent" value="24900000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1050" extended-state="6" />
@@ -792,26 +787,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/modules/common/actions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="741">
-          <caret line="52" column="102" lean-forward="false" selection-start-line="52" selection-start-column="102" selection-end-line="52" selection-end-column="102" />
-          <folding>
-            <element signature="e#0#32#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/modules/common/sagas.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2422">
-          <caret line="144" column="0" lean-forward="false" selection-start-line="144" selection-start-column="0" selection-end-line="144" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#54#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/client/routes.jsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="442">
@@ -819,22 +794,6 @@
           <folding>
             <element signature="e#0#25#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/locales/languages_en.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" column="26" lean-forward="false" selection-start-line="19" selection-start-column="26" selection-end-line="19" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/locales/languages_fr.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="4" lean-forward="true" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -882,6 +841,67 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/client/modules/common/reducers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="629">
+          <caret line="37" column="47" lean-forward="false" selection-start-line="37" selection-start-column="47" selection-end-line="37" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/modules/common/actions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="569">
+          <caret line="43" column="23" lean-forward="false" selection-start-line="43" selection-start-column="4" selection-end-line="43" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/modules/common/sagas.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="663">
+          <caret line="54" column="54" lean-forward="false" selection-start-line="54" selection-start-column="54" selection-end-line="54" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/modules/app/actions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/locales/languages_fr.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="441">
+          <caret line="34" column="75" lean-forward="false" selection-start-line="34" selection-start-column="75" selection-end-line="34" selection-end-column="75" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/locales/languages_en.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="19" column="26" lean-forward="false" selection-start-line="19" selection-start-column="26" selection-end-line="19" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/containers/clients/ListClientsPage.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="697">
+          <caret line="95" column="28" lean-forward="false" selection-start-line="95" selection-start-column="28" selection-end-line="95" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+            <element signature="e#82#124#0" expanded="true" />
+            <element signature="e#174#253#0" expanded="true" />
+            <element signature="e#460#508#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/client/containers/clients/EditClientPage.jsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="518">
@@ -892,19 +912,6 @@
             <element signature="e#237#294#0" expanded="true" />
             <element signature="e#524#603#0" expanded="true" />
             <element signature="e#812#871#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/containers/clients/ListClientsPage.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="85" column="29" lean-forward="false" selection-start-line="85" selection-start-column="29" selection-end-line="85" selection-end-column="29" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-            <element signature="e#82#124#0" expanded="true" />
-            <element signature="e#174#253#0" expanded="true" />
-            <element signature="e#387#435#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -921,8 +928,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/client/assets/stylesheets/main.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="39" column="20" lean-forward="false" selection-start-line="39" selection-start-column="20" selection-end-line="39" selection-end-column="20" />
+        <state relative-caret-position="545">
+          <caret line="56" column="70" lean-forward="false" selection-start-line="56" selection-start-column="70" selection-end-line="56" selection-end-column="70" />
           <folding />
         </state>
       </provider>

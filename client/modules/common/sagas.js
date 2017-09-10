@@ -52,13 +52,13 @@ export const createBaseSaga = (entityName, Actions, ActionCreators, getService, 
         yield put(startSubmit(entityName))
         try {
           yield call(svc.delete, action.remoteIds)
-          yield put(ActionCreators.clearSelectedItems()) // put in callback
-          yield put(ActionCreators.fetchAll())
+          yield put(ActionCreators.removeLocalEntities(action.remoteIds))
           if (action.callback) {
             yield call(action.callback)
           }
           yield put(stopSubmit(entityName, {}))
         } catch (error) {
+          console.log(error)
           errorAction = errorHandler(entityName, error)
         }
         break
@@ -88,36 +88,6 @@ export const createBaseSaga = (entityName, Actions, ActionCreators, getService, 
           errorAction = errorHandler(entityName, error)
         }
         yield put(ActionCreators.setFetching(false))
-        break
-
-      case Actions.CREATE_REMOTE_ENTITIES:
-        yield put(startSubmit(entityName))
-        try {
-          const createdEntities = yield call(svc.createEntities, action.entities)
-
-          yield put(ActionCreators.clearSelectedItems()) // put in callback
-          if (action.callback) {
-            yield call(action.callback, createdEntities)
-          }
-          yield put(stopSubmit(entityName, {}))
-        } catch (error) {
-          errorAction = errorHandler(entityName, error)
-        }
-        break
-
-      case Actions.UPDATE_REMOTE_ENTITIES:
-        yield put(startSubmit(entityName))
-        try {
-          const updatedEntities = yield call(svc.updateEntities, action.entities)
-
-          yield put(ActionCreators.clearSelectedItems()) // put in callback
-          if (action.callback) {
-            yield call(action.callback, updatedEntities)
-          }
-          yield put(stopSubmit(entityName, {}))
-        } catch (error) {
-          errorAction = errorHandler(entityName, error)
-        }
         break
 
       default:

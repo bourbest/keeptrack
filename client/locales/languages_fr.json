@@ -31,8 +31,8 @@
     "confirm-delete_plural":"Les {{count}} éléments sélectionnés seront déplacés dans la corbeille. Poursuivre ?",
     "filterSearch": "Recherche",
     "saved": "Les données ont été enregistrées avec succès",
-    "deleted": "{{count}} enregistrement supprimé",
-    "deleted_plural": "{{count}} enregistrements supprimés",
+    "deleted": "{{count}} enregistrement déplacé dans la corbeille",
+    "deleted_plural": "{{count}} enregistrements déplacés dans la corbeille",
     "back": "Retour",
     "apply": "Appliquer"
   },

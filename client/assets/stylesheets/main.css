@@ -45,11 +45,6 @@ body {
   margin-right: 10px;
 }
 
-.back-button a:hover{
-  color: #a9cd69;
-  text-decoration: none;
-}
-
 .search-input {
   margin: 0 15px 0 0;
 }
@@ -59,6 +54,9 @@ body {
   margin-top: 12px;
 }
 
+.ReactVirtualized__Table__headerColumn, .ReactVirtualized__Table__Grid {
+  outline-style: none;
+}
 .ReactVirtualized__Table__row div.field:last-child {
   margin-bottom: 0;
 }
@@ -98,29 +96,6 @@ table td, table th {
   text-transform: none;
 }
 
-
-
-/* buttons
-button.ui.button {
-  background-color : #333634;
-  color: #fff;
-  text-transform : uppercase;
-}
-button.ui.button:hover, button.ui.button:focus {
-  color: #a9cd69;
-  background-color: rgba(51, 54, 52, 0.9);
-}
-
-button.ui.button.second {
-  background-color: #6c9db6;
-  color: #fff;
-  text-transform : uppercase;
-}
-button.ui.button.second:hover, button.ui.button.second:focus {
-  color: #e0edf3;
-  background-color: #6c9db6;
-}
-*/
 /* Formulaires */
 span.required {
   padding-left: 2px;
@@ -133,84 +108,3 @@ div.error {
   clear:both;
   margin-bottom:10px;
 }
-
-
-/*
-  .toolbarOptions h2:first-child {
-    margin-bottom: 0;
-  }
-
-
-
-/*
-
-nav span{
-  padding:20px;
-  margin:2px;
-  background:#eeeeee;
-}
-
-
-
-body .ui.table thead th {
-  color: #fff;
-  cursor: auto;
-  background: #8ab945;
-}
-
-
-
-
-.form label{
-  clear:both;
-  display:block;
-}
-
-.form .formBlock{
-  margin-left:30px;
-}
-
-//virtualized
-
-
-
-
-.container-fluid {
-  margin: 0;
-}
-
-
-
-.ui.selection.dropdown {
-  margin-bottom: 12px ;
-}
-
-form.ui.form > div {
-  margin-bottom: 16px;
-}
-
-form.ui.form div.field:last-child  {
-  margin-bottom: 18px;
-}
-
-*/
-
-/*
-.back-link{
-  color: #fff;
-  font-family: "verbregular", Arial, Helvetica, sans-serif;
-  font-size: 1rem;
-  background-color: #333634;
-  padding: 4px 18px 5px 10px;
-  margin-left: 22px;
-  vertical-align: middle;
-}
-
-
-
-
-
-  .ui.segment.pushable {
-    border: none;
-  }
-*/

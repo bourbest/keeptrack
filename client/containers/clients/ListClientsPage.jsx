@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 
 // module
 import { ActionCreators as ClientActions } from '../../modules/clients/actions'
+import { ActionCreators as AppActions } from '../../modules/app/actions'
 import ClientSelectors from '../../modules/clients/selectors'
 import { getLocale } from '../../modules/app/selectors'
 
@@ -19,7 +20,8 @@ import {createTranslate} from '../../locales/translate'
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    actions: bindActionCreators(ClientActions, dispatch)
+    actions: bindActionCreators(ClientActions, dispatch),
+    appActions: bindActionCreators(AppActions, dispatch)
   }
 }
 
@@ -45,7 +47,7 @@ class ListClientsPage extends React.PureComponent {
     const {actions, appActions} = this.props
     const count = this.props.selectedItemIds.length
     this.setState({displayConfirmModal: false})
-    actions.deleteEntities(this.props.selectedItemIds, {catalogId: this.props.catalogId}, () => {
+    actions.deleteEntities(this.props.selectedItemIds, () => {
       actions.clearSelectedItems()
       appActions.notify('common.delete', 'common.deleted', {count})
     })
@@ -91,7 +93,7 @@ class ListClientsPage extends React.PureComponent {
           <Button primary onClick={this.create}>
             {this.message('create')}
           </Button>
-          <Button onClick={this.showDeleteConfirm} disabled={selectedItemIds.length === 0}>
+          <Button secondary onClick={this.showDeleteConfirm} disabled={selectedItemIds.length === 0}>
             {this.message('delete', 'common')}
           </Button>
         </Toolbar>

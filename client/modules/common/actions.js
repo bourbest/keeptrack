@@ -9,6 +9,7 @@ export const standardActions = [
 
   'SET_ENTITIES',
   'SET_SERVER_LIST_COUNT',
+  'REMOVE_LOCAL_ENTITIES',
 
   'TOGGLE_SELECTED_ITEM',
   'CLEAR_SELECTED_ITEMS',
@@ -40,6 +41,7 @@ export const createBaseActionCreators = (actions, entityName) => {
 
     setEntities: (entities, replace) => ({ type: actions.SET_ENTITIES, entities, replace }),
     setServerListCount: (count) => ({ type: actions.SET_SERVER_LIST_COUNT, count }),
+    removeLocalEntities: (entityIds) => ({ type: actions.REMOVE_LOCAL_ENTITIES, entityIds }),
     toggleSelectedItem: (id) => ({type: actions.TOGGLE_SELECTED_ITEM, id}),
     clearSelectedItems: () => ({type: actions.CLEAR_SELECTED_ITEMS}),
 
