@@ -12035,6 +12035,15 @@ var StandardListToolbar = function StandardListToolbar(props) {
     { title: props.title },
     _react2.default.createElement(
       'div',
+      { className: 'view-picker' },
+      _react2.default.createElement(
+        'div',
+        { className: 'ui small label teal' },
+        'test'
+      )
+    ),
+    _react2.default.createElement(
+      'div',
       { className: 'ui right icon input search-input' },
       _react2.default.createElement('i', { className: 'search icon' }),
       _react2.default.createElement('input', { type: 'text', placeholder: t('filterSearch', 'common'),

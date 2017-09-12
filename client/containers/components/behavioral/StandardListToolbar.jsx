@@ -10,6 +10,11 @@ const StandardListToolbar = (props) => {
 
   return (
     <Toolbar title={props.title}>
+      <div className="view-picker">
+        <div className="ui small label teal">
+          test
+        </div>
+      </div>
       <div className="ui right icon input search-input">
         <i className="search icon"></i>
         <input type='text' placeholder={t('filterSearch', 'common')}
