@@ -1,4 +1,3 @@
 export default {
-  entityName: 'clients',
-  storeBranch: 'clients'
+  entityName: 'clients'
 }

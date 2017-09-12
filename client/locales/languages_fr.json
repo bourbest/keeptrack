@@ -17,7 +17,9 @@
     "edit-title": "Édition d'un client",
     "lastName": "Nom",
     "firstName": "Prénom",
-    "create": "Nouveau client"
+    "email": "Courriel",
+    "notes": "Notes",
+    "gender": "Sexe"
   },
   "common": {
     "fr":"Français",
@@ -27,6 +29,7 @@
     "delete": "Archiver",
     "yes":"Oui",
     "no":"Non",
+    "create": "Créer",
     "confirm-delete":"L'élément sélectionné sera déplacé dans la corbeille. Poursuivre ?",
     "confirm-delete_plural":"Les {{count}} éléments sélectionnés seront déplacés dans la corbeille. Poursuivre ?",
     "filterSearch": "Recherche",

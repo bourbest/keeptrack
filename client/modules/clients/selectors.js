@@ -1,14 +1,26 @@
 import config from './config'
 import { getLocale } from '../app/selectors'
-import { createBaseSelectors, createFilteredListSelectorWithLocale, getSortParamsForStringsOnlyTable, makeCompareEntities } from '../common/selectors'
+import { createBaseSelectors, createFilteredListSelectorWithLocale, getSortParamsForStringsOnlyTable, makeCompareEntities, buildSortedOptionList } from '../common/selectors'
 import { createSelector } from 'reselect'
-const Selectors = createBaseSelectors(config.storeBranch, config.entityName)
+const Selectors = createBaseSelectors(config.entityName)
 
 const concatInfo = (client, locale) => client.lastName + client.firstName
 
+const genders = [
+  {en: 'Male', fr: 'Homme', id: 'M'},
+  {en: 'Female', fr: 'Femme', id: 'F'}
+]
+
+Selectors.getGenderOptionList = createSelector(
+  [getLocale],
+  (locale) => {
+    return buildSortedOptionList(genders, locale)
+  }
+)
+
 Selectors.getFilteredList = createFilteredListSelectorWithLocale(Selectors, concatInfo, getLocale)
 
-Selectors.buildNewClient = () => {
+Selectors.buildNewEntity = () => {
   let newEntity = {
     'firstName': '',
     'lastName': ''

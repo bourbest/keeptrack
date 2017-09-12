@@ -38,6 +38,7 @@ namespace Common.Data.MongoDB.Test
 
         public DateTime CreatedOn { get; set; }
         public DateTime ModifiedOn { get; set; }
+        public bool IsArchived { get; set; }
 
         public TestType[] testTypes { get; set; }
 

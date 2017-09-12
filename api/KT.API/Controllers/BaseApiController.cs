@@ -128,7 +128,7 @@ namespace KT.API.Controllers
             {
                 using (ICRUDService<TKey, TModel> service = CreateService())
                 {
-                    await service.DeleteEntityAsync(id);
+                    await service.ArchiveEntity(id);
                     return StatusCode(HttpStatusCode.NoContent);
                 }
             }

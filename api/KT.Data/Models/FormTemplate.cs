@@ -37,8 +37,11 @@ namespace KT.Data.Models
         public Guid Id { get; set; }
 
         public string Name { get; set; }
-        public DateTime CreatedOn  { get; set; }
-        public DateTime ModifiedOn { get; set; }
         public List<FormField> Fields { get; set; }
+
+        public bool IsArchived { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public DateTime ModifiedOn { get; set; }
+
     }
 }

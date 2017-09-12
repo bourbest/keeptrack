@@ -1,27 +1,57 @@
 import { createSelector } from 'reselect'
 import { filter, get, values, map, pick } from 'lodash'
-import { isSubmitting, getFormValues, getFormSubmitErrors, getFormSyncErrors } from 'redux-form'
+import { isSubmitting, getFormValues, getFormSubmitErrors, getFormSyncErrors, isPristine, isValid } from 'redux-form'
 
-export const createBaseSelectors = (storeBranch, entityName) => {
+export const createBaseSelectors = (entityName) => {
   const selectors = {}
-  selectors.getListFilter = (state) => state[storeBranch].listFilterValue
-  selectors.getEntities = (state) => state[storeBranch].byId
-  selectors.getServerListCount = (state) => state[storeBranch].serverListCount
-  selectors.getSelectedItemIds = (state) => state[storeBranch].selectedItemIds
-  selectors.getEditedEntity = getFormValues(entityName)
-  selectors.isFetching = (state) => state[storeBranch].isFetching
-  selectors.fetchError = (state) => state[storeBranch].fetchError
-  selectors.getSortParams = (state) => state[storeBranch].sortParams
-  selectors.getSubmitError = getFormSubmitErrors(entityName)
-  selectors.getFormSyncErrors = getFormSyncErrors(entityName)
-  selectors.isSubmitting = isSubmitting(entityName)
 
+  // fetch
+  selectors.isFetching = (state) => state[entityName].isFetching
+  selectors.fetchError = (state) => state[entityName].fetchError
+
+  // actions
+  selectors.getDisplayedModalName = (state) => state[entityName].displayedModalName
+
+  // list selectors
+  selectors.getListLocalFilters = (state) => state[entityName].listLocalFilters
+  selectors.getListServerFilters = (state) => state[entityName].listServerFilters
+  selectors.getEntities = (state) => state[entityName].byId
+
+  selectors.getSelectedItemIds = (state) => state[entityName].selectedItemIds
   selectors.getSelectedEntities = createSelector(
     [selectors.getEntities, selectors.getSelectedItemIds],
     (entitiesById, selectedIds) => {
       return values(pick(entitiesById, selectedIds))
     }
   )
+  selectors.getSortParams = (state) => state[entityName].sortParams
+
+  selectors.isListDeleteEnabled = (state) => selectors.getSelectedItemIds(state).length > 0
+  selectors.getFilteredSortedList = (state) => {
+    throw new Error(`getFilteredSortedList not overriden for ${entityName}`)
+  }
+
+  // edited entity selectors
+  selectors.buildNewEntity = (state) => {
+    throw new Error(`buildNewEntity not overriden for ${entityName}`)
+  }
+  selectors.getEditedEntity = getFormValues(entityName)
+  selectors.getSubmitError = getFormSubmitErrors(entityName)
+  selectors.getSyncErrors = getFormSyncErrors(entityName)
+  selectors.isSubmitting = isSubmitting(entityName)
+  selectors.isNewEntity = (state) => {
+    const entity = selectors.getEditedEntity(state) || {}
+    return !entity.id
+  }
+  selectors.isPristine = isPristine(entityName)
+  selectors.isValid = isValid(entityName)
+
+  selectors.canSaveEditedEntity = (state) => {
+    return !selectors.isPristine(state) &&
+           selectors.isValid(state) &&
+           !selectors.isSubmitting(state)
+  }
+  selectors.canDeleteEditedEntity = (state) => !selectors.isEditedNew(state)
 
   return selectors
 }
@@ -55,9 +85,9 @@ export const filterListWithContains = (list, filterValue, fields) => {
 
 export const createFilteredListSelector = (Selectors, concatFunc) => {
   return createSelector(
-    [Selectors.getEntities, Selectors.getListFilter],
-    (entities, filterValue) => {
-      filterValue = filterValue || ''
+    [Selectors.getEntities, Selectors.getListLocalFilters],
+    (entities, filters) => {
+      let filterValue = filters.contains || ''
       filterValue = filterValue.toUpperCase()
 
       let filteredEntities = []
@@ -74,9 +104,9 @@ export const createFilteredListSelector = (Selectors, concatFunc) => {
 
 export const createFilteredListSelectorWithLocale = (Selectors, concatFunc, getLocale) => {
   const filterSelector = createSelector(
-    [Selectors.getEntities, Selectors.getListFilter, getLocale],
-    (entities, filterValue, locale) => {
-      filterValue = filterValue || ''
+    [Selectors.getEntities, Selectors.getListLocalFilters, getLocale],
+    (entities, filters, locale) => {
+      let filterValue = filters.contains || ''
       filterValue = filterValue.toUpperCase()
 
       let filteredEntities = []

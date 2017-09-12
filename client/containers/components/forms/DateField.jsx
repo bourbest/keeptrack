@@ -1,5 +1,5 @@
 import React from 'react'
-import FormLabel from '../FormLabel'
+import FormLabel from './FormLabel'
 const { object, string, func } = React.PropTypes
 import { FieldError } from './FieldError'
 import moment from 'moment'

@@ -1,5 +1,5 @@
 import React from 'react'
-import FormLabel from '../FormLabel'
+import FormLabel from './FormLabel'
 import * as SemanticUI from 'semantic-ui-react'
 
 const { object, string, func } = React.PropTypes

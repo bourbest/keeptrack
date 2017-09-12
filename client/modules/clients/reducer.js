@@ -9,5 +9,5 @@ const specificReducer = (state, action) => {
 }
 
 export default {
-  [config.storeBranch]: inheritReducer(Actions, initialState, baseActionsHandler, specificReducer)
+  [config.entityName]: inheritReducer(Actions, initialState, baseActionsHandler, specificReducer)
 }

@@ -41,5 +41,5 @@ const appReducer = (state = initialState, action = {}) => {
 }
 
 export default {
-  [config.storeBranch]: appReducer
+  [config.entityName]: appReducer
 }

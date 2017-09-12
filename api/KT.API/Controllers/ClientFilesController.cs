@@ -7,7 +7,8 @@ using Common.Domain;
 using KT.Data;
 using KT.Data.Models;
 using KT.Domain;
-
+using Common.API;
+using Common.Types;
 
 namespace KT.API.Controllers
 {
@@ -30,9 +31,9 @@ namespace KT.API.Controllers
         }
 
         [HttpGet, Route("")]
-        public Task<IHttpActionResult> List()
+        public Task<IHttpActionResult> List([ListQueryFromRequest] QueryParameters query)
         {
-            return base.DoList();
+            return base.DoList(query);
         }
 
         [HttpGet, Route("{id}")]

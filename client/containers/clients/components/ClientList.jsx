@@ -42,10 +42,10 @@ class ClientList extends PureComponent {
   render () {
     const ctrl = this
     const selectedIds = new Set(this.props.selectedItemIds)
-    const {clients} = this.props
+    const {entities} = this.props
 
     const rowGetter = function (index) {
-      return clients[index.index]
+      return entities[index.index]
     }
     const selectionCellRenderer = function (params) {
       const id = params.rowData.id
@@ -62,7 +62,7 @@ class ClientList extends PureComponent {
               headerHeight={50}
               rowHeight={50}
               rowGetter={rowGetter}
-              rowCount={clients.length}
+              rowCount={entities.length}
               overscanRowCount={5}
               rowClassName={this.getRowClassName}
               width={width}
@@ -104,13 +104,12 @@ class ClientList extends PureComponent {
 }
 
 ClientList.propTypes = {
-  clients: React.PropTypes.array.isRequired,
+  entities: React.PropTypes.array.isRequired,
   selectedItemIds: React.PropTypes.array.isRequired,
   onToggleSelected: React.PropTypes.func.isRequired,
   sortParams: React.PropTypes.array.isRequired,
   setSort: React.PropTypes.func.isRequired,
-  locale: React.PropTypes.string,
-  entityName: React.PropTypes.string
+  locale: React.PropTypes.string.isRequired
 }
 
 export default ClientList

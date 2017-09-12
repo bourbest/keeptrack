@@ -90,6 +90,8 @@ namespace KT.Data.Models
             }
         }
 
+        public bool IsArchived { get; set; }
+
         [BsonIgnore]
         [JsonIgnore]
         public string Name { get { return $"{FirstName} {LastName}"; } }

@@ -126,6 +126,32 @@ namespace KT.Domain
                 throw new EntityNotFoundException(typeof(TModel).Name, entity.Id);
         }
 
+        public async virtual Task ArchiveEntity(TKey id)
+        {
+            TModel entity = await _mainRepository.FindByIdAsync(id).ConfigureAwait(false);
+
+            if (entity == null)
+                throw new EntityNotFoundException(typeof(TModel).Name, id);
+
+            entity.ModifiedOn = DateTime.Now.RemoveTicks();
+            entity.IsArchived = true;
+            _mainRepository.Update(entity);
+            await UnitOfWork.SaveAsync().ConfigureAwait(false);
+        }
+
+        public async virtual Task RestoreEntity(TKey id)
+        {
+            TModel entity = await _mainRepository.FindByIdAsync(id).ConfigureAwait(false);
+
+            if (entity == null)
+                throw new EntityNotFoundException(typeof(TModel).Name, id);
+
+            entity.ModifiedOn = DateTime.Now.RemoveTicks();
+            entity.IsArchived = true;
+            _mainRepository.Update(entity);
+            await UnitOfWork.SaveAsync().ConfigureAwait(false);
+        }
+
         protected string CurrentUserId
         {
             get
@@ -133,6 +159,7 @@ namespace KT.Domain
                 return _context.CurrentUser.Id;
             }
         }
+
 
         #endregion
 

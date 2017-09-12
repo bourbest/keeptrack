@@ -2,34 +2,51 @@ import { isArray, indexOf, keyBy, without, concat, isFunction, omit } from 'loda
 
 export const baseInitialState = {
   isFetching: false,
+  isListLoaded: false,
   byId: {},
-  listFilterValue: '',
-  editedEntity: {},
+  listLocalFilters: {
+    contains: ''
+  },
+  listServerFilters: {},
+  displayedModalName: null,
+  currentActionName: null,
   selectedItemIds: [],
-  serverListCount: 0,
   sortParams: []
 }
 
 export const baseActionsHandler = (Actions, state, action) => {
   let byId
   switch (action.type) {
-    case Actions.SET_LIST_FILTER:
-      return {...state, listFilterValue: action.filterValue}
+    case Actions.SET_LIST_LOCAL_FILTERS:
+      return {...state, listLocalFilters: {...action.filters}}
+
+    case Actions.SET_LIST_SERVER_FILTERS:
+      return {...state, listServerFilters: {...action.filters}}
+
     case Actions.SET_SORT_PARAMS:
       return {...state, sortParams: action.sortParams}
 
     case Actions.SET_FETCHING:
-      return {...state, isFetching: action.isFetching}
+      const currentActionName = action.isFetching ? 'fetch' : null
+      return {...state, isFetching: action.isFetching, currentActionName}
+
+    case Actions.SET_LIST_LOADED:
+      return {...state, isListLoaded: action.isLoaded}
+
+    case Actions.SHOW_MODAL:
+      return {...state, displayedModalName: action.modalName}
+
+    case Actions.HIDE_MODAL:
+      return {...state, displayedModalName: null}
+
+    case Actions.SET_CURRENT_ACTION:
+      return {...state, currentActionName: action.actionName}
 
     case Actions.SET_ENTITIES:
       const entityArray = isArray(action.entities) ? action.entities : [action.entities]
       const newEntities = keyBy(entityArray, (f) => (f.id))
 
-      if (action.replace === true) {
-        byId = newEntities
-      } else {
-        byId = {...state.byId, ...newEntities}
-      }
+      byId = {...state.byId, ...newEntities}
 
       return {...state, byId}
 
@@ -38,8 +55,6 @@ export const baseActionsHandler = (Actions, state, action) => {
       byId = omit(state.byId, action.entityIds)
       return {...state, byId, serverListCount}
 
-    case Actions.SET_SERVER_LIST_COUNT:
-      return {...state, serverListCount: action.count}
     case Actions.TOGGLE_SELECTED_ITEM:
       let selectedItemIds
       const idx = indexOf(state.selectedItemIds, action.id)
@@ -53,12 +68,6 @@ export const baseActionsHandler = (Actions, state, action) => {
 
     case Actions.CLEAR_SELECTED_ITEMS:
       return {...state, selectedItemIds: []}
-
-    case Actions.SET_EDITED_ENTITY:
-      return {...state, editedEntity: {...action.entity}}
-
-    case Actions.CLEAR_EDITED_ENTITY:
-      return {...state, editedEntity: {}}
 
     default:
       return state

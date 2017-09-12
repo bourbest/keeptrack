@@ -18,6 +18,10 @@ export const createTranslate = (defaultPrefix, instance) => {
   }
 }
 
+export const translate = (key, locale) => {
+  return i18next.t(key, {lng: locale})
+}
+
 export const translateError = (error, locale) => {
   let errMsg = ''
   if (isObject(error)) {

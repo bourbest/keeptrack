@@ -1,4 +1,4 @@
-import { isArray } from 'lodash'
+import { isArray, map, isObject } from 'lodash'
 
 export const transformFromApi = (data, transformFunc) => {
   let ret = data
@@ -22,6 +22,11 @@ export const transformFromApi = (data, transformFunc) => {
   }
 }
 
+const buildRouteWithFilters = (baseRoute, filterMap) => {
+  const filterParams = map(filterMap, (value, key) => `${key}=${encodeURIComponent(value)}`)
+  const filterUrl = filterParams.join('&')
+  return filterParams.length === 0 ? baseRoute : `${baseRoute}?${filterUrl}`
+}
 // fromApiTransformer: fonction qui modifie l'instance reçue de l'api pour ajuster sa structure pour le reducer
 // toApiTransformer : fonction qui transforme la donnée prise du state pour le serveur. Doit retourner un NOUVEL objet
 
@@ -36,15 +41,30 @@ export default class RestService {
     this.save = this.save.bind(this)
     this.delete = this.delete.bind(this)
     this.patch = this.patch.bind(this)
+    this.list = this.list.bind(this)
 
     this.updateEntities = this.updateEntities.bind(this)
     this.createEntities = this.createEntities.bind(this)
   }
 
-  get (id, requestHearders, params) {
+  get (id) {
     const transform = this.fromApiTransformer
     return new Promise((resolve, reject) => {
-      this.apiClient.get(this.route, id, requestHearders, params)
+      this.apiClient.get(this.route, id)
+        .then((data) => {
+          const transformedData = transform ? transformFromApi(data, transform) : data
+          resolve(transformedData)
+        })
+        .catch(reject)
+    })
+  }
+
+  list (filterMap) {
+    const transform = this.fromApiTransformer
+    const route = isObject(filterMap) ? buildRouteWithFilters(this.route, filterMap) : this.route
+
+    return new Promise((resolve, reject) => {
+      this.apiClient.get(route)
         .then((data) => {
           const transformedData = transform ? transformFromApi(data, transform) : data
           resolve(transformedData)

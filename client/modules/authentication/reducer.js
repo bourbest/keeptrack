@@ -68,5 +68,5 @@ const authenticationReducer = (state = initialState, action = {}) => {
 }
 
 export default {
-  [config.storeBranch]: authenticationReducer
+  [config.entityName]: authenticationReducer
 }

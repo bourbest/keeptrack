@@ -48,6 +48,9 @@ namespace Common.Domain
 
         public virtual async Task<List<TModel>> ListEntitiesAsync(QueryParameters query)
         {
+            if (query.KeyValueFilters.Keys.Contains("isarchived") == false)
+                query.KeyValueFilters.Add("isarchived", "false");
+
             List<TModel> models = await _mainRepository.FindByFiltersAsync(query).ConfigureAwait(false);
             models.ForEach(m => RemoveRestrictedData(m));
             return models;
@@ -112,6 +115,32 @@ namespace Common.Domain
 
             if (count == 0)
               throw new EntityNotFoundException(typeof(TModel).Name, entity.Id);
+        }
+
+        public async virtual Task ArchiveEntity(TKey id)
+        {
+            TModel entity = await _mainRepository.FindByIdAsync(id).ConfigureAwait(false);
+
+            if (entity == null)
+                throw new EntityNotFoundException(typeof(TModel).Name, id);
+
+            entity.ModifiedOn = DateTime.Now.RemoveTicks();
+            entity.IsArchived = true;
+            _mainRepository.Update(entity);
+            await UnitOfWork.SaveAsync().ConfigureAwait(false);
+        }
+
+        public async virtual Task RestoreEntity(TKey id)
+        {
+            TModel entity = await _mainRepository.FindByIdAsync(id).ConfigureAwait(false);
+
+            if (entity == null)
+                throw new EntityNotFoundException(typeof(TModel).Name, id);
+
+            entity.ModifiedOn = DateTime.Now.RemoveTicks();
+            entity.IsArchived = true;
+            _mainRepository.Update(entity);
+            await UnitOfWork.SaveAsync().ConfigureAwait(false);
         }
 
         #endregion

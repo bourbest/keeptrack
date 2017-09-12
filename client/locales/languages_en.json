@@ -17,7 +17,9 @@
     "edit-title": "Edit client",
     "lastName": "Last name",
     "firstName": "First name",
-    "create": "New client"
+    "email": "Email",
+    "notes": "Notes",
+    "gender": "Gender"
   },
   "common": {
     "fr":"French",
@@ -27,6 +29,7 @@
     "delete": "Archive",
     "yes":"Yes",
     "no":"No",
+    "create": "Create new",
     "confirm-delete":"The selected item will be moved to the trash bin. Continue ?",
     "confirm-delete_plural":"The {{count}} selected items will be moved to the trash bin. Continue ?",
     "filterSearch": "Search",

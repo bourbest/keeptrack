@@ -11,17 +11,14 @@ export const createBaseSaga = (entityName, Actions, ActionCreators, getService, 
     switch (action.type) {
       case Actions.FETCH_ALL:
         yield put(ActionCreators.setFetching(true))
-        try {
-          const optionalId = action.id || null
-          const requestHeaders = {}
-          requestHeaders.fetchReferences = action.fetchReferences || false
 
-          const entities = yield call(svc.get, optionalId)
+        try {
+          const filters = action.filters || null
+
+          const entities = yield call(svc.list, filters)
           if (isArray(entities)) {
             yield put(ActionCreators.setEntities(entities, action.replace))
-          } else if (entities.content) {
-            yield put(ActionCreators.setEntities(entities.content, action.replace))
-            yield put(ActionCreators.setServerListCount(entities.totalElements))
+            yield put(ActionCreators.setListLoaded(true))
           } else {
             throw new Error('Invalid entities data format')
           }
@@ -36,8 +33,6 @@ export const createBaseSaga = (entityName, Actions, ActionCreators, getService, 
         try {
           const newEntity = yield call(svc.save, action.entity)
           yield put(ActionCreators.setEntities(newEntity))
-          let serverListCount = yield select(ModuleSelectors.getServerListCount)
-          yield put(ActionCreators.setServerListCount(serverListCount + 1))
 
           if (action.callback) {
             yield call(action.callback, newEntity)

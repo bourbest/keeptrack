@@ -20,6 +20,7 @@ namespace KT.Data.Models
         public string Notes { get; set; }
         public string Gender { get; set; }
 
+        public bool IsArchived { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime ModifiedOn { get; set; }
     }

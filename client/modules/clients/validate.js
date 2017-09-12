@@ -1,8 +1,10 @@
-import { required, validateEntity } from '../common/validate'
+import { required, isEmail, validateEntity } from '../common/validate'
 
 export const ClientValidator = {
   'firstName': [required],
-  'lastName': [required]
+  'lastName': [required],
+  'gender': [required],
+  'email': [isEmail]
 }
 
 export default (entity, props) => {
