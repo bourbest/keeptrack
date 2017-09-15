@@ -7,3 +7,5 @@ export const getService = (state, serviceName) => {
 }
 
 export const getLocale = (state) => state.app.locale
+
+export const getDisplayedModalName = (state) => state.app.displayedModalName

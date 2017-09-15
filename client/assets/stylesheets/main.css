@@ -48,10 +48,6 @@ body {
 .search-input {
   margin: 0 15px 0 0;
 }
-.view-picker {
-  height: 5px;
-  padding-top: 8px;
-}
 
 /* override de React virtualized table ****************************************************/
 .ReactVirtualized__Table__headerRow.headerRow {

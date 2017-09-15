@@ -4,13 +4,11 @@ import { initialize, change } from 'redux-form'
 export const standardActions = [
   'SET_LIST_LOCAL_FILTERS',
   'SET_LIST_SERVER_FILTERS',
+  'SET_FILTER_VALUE',
   'SET_SORT_PARAMS',
   'FETCH_ALL',
   'SET_FETCHING',
   'SET_LIST_LOADED',
-
-  'SHOW_MODAL',
-  'HIDE_MODAL',
 
   'SET_ENTITIES',
   'REMOVE_LOCAL_ENTITIES',
@@ -22,7 +20,8 @@ export const standardActions = [
 
   'CREATE_REMOTE_ENTITY',
   'UPDATE_REMOTE_ENTITY',
-  'DELETE_REMOTE_ENTITIES'
+  'DELETE_REMOTE_ENTITIES',
+  'RESTORE_REMOTE_ENTITY'
 ]
 
 export const createActions = (prefix, actionNames) => {
@@ -36,13 +35,12 @@ export const createBaseActionCreators = (actions, entityName) => {
     // list stuff
     setListLocalFilters: (filters) => ({ type: actions.SET_LIST_LOCAL_FILTERS, filters }),
     setListServerFilters: (filters) => ({ type: actions.SET_LIST_SERVER_FILTERS, filters }),
+    setFilterValue: (filterName, value, isServer = false) => ({ type: actions.SET_FILTER_VALUE, filterName, value, isServer }),
+
     setSortParams: (sortParams) => ({ type: actions.SET_SORT_PARAMS, sortParams }),
-    fetchAll: (filters = null, forceRefresh = false) => ({ type: actions.FETCH_ALL, filters, forceRefresh }),
+    fetchAll: (filters = null, replace = false) => ({ type: actions.FETCH_ALL, filters, replace }),
     setFetching: (isFetching) => ({ type: actions.SET_FETCHING, isFetching }),
     setListLoaded: (isLoaded) => ({ type: actions.SET_LIST_LOADED, isLoaded }),
-
-    showModal: (modalName) => ({ type: actions.SHOW_MODAL, modalName }),
-    hideModal: () => ({ type: actions.HIDE_MODAL }),
 
     setEntities: (entities, replace) => ({ type: actions.SET_ENTITIES, entities, replace }),
     removeLocalEntities: (entityIds) => ({ type: actions.REMOVE_LOCAL_ENTITIES, entityIds }),
@@ -57,6 +55,7 @@ export const createBaseActionCreators = (actions, entityName) => {
 
     createEntity: (entity, callback = null) => ({ type: actions.CREATE_REMOTE_ENTITY, entity, callback }),
     updateEntity: (entity, callback = null) => ({ type: actions.UPDATE_REMOTE_ENTITY, entity, callback }),
-    deleteEntities: (remoteIds, callback = null) => ({ type: actions.DELETE_REMOTE_ENTITIES, remoteIds, callback })
+    deleteEntities: (remoteIds, callback = null) => ({ type: actions.DELETE_REMOTE_ENTITIES, remoteIds, callback }),
+    restoreEntity: (entity, callback = null) => ({ type: actions.UPDATE_REMOTE_ENTITY, entity, callback })
   }
 }

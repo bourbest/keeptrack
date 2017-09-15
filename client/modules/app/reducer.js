@@ -6,8 +6,8 @@ const initialState = {
     headers: {
     }
   },
-  locale: 'fr',
-  navMenuDisplayed: false
+  displayedModalName: null,
+  locale: 'fr'
 }
 
 const appReducer = (state = initialState, action = {}) => {
@@ -21,6 +21,12 @@ const appReducer = (state = initialState, action = {}) => {
       newState.apiConfig.headers['X-CSRF-Token'] = action.token
       return newState
 
+    case Actions.SHOW_MODAL:
+      return {...state, displayedModalName: action.modalName}
+
+    case Actions.HIDE_MODAL:
+      return {...state, displayedModalName: null}
+
     case Actions.SET_COOKIES:
       newState.apiConfig.headers['Cookie'] = action.cookies
       return newState
@@ -32,9 +38,6 @@ const appReducer = (state = initialState, action = {}) => {
       newState.catalogId = action.catalogId
       return newState
 
-    case Actions.TOGGLE_NAV_MENU:
-      const navMenuDisplayed = !state.navMenuDisplayed
-      return {...state, navMenuDisplayed}
     default:
       return state
   }

@@ -9,9 +9,6 @@ export const createBaseSelectors = (entityName) => {
   selectors.isFetching = (state) => state[entityName].isFetching
   selectors.fetchError = (state) => state[entityName].fetchError
 
-  // actions
-  selectors.getDisplayedModalName = (state) => state[entityName].displayedModalName
-
   // list selectors
   selectors.getListLocalFilters = (state) => state[entityName].listLocalFilters
   selectors.getListServerFilters = (state) => state[entityName].listServerFilters
@@ -26,7 +23,10 @@ export const createBaseSelectors = (entityName) => {
   )
   selectors.getSortParams = (state) => state[entityName].sortParams
 
+  selectors.isListDisplayingArchived = (state) => state[entityName].listServerFilters.isArchived === true
   selectors.isListDeleteEnabled = (state) => selectors.getSelectedItemIds(state).length > 0
+  selectors.isListRestoreEnabled = (state) => selectors.getSelectedItemIds(state).length > 0
+  selectors.isListCreateEnabled = (state) => true
   selectors.getFilteredSortedList = (state) => {
     throw new Error(`getFilteredSortedList not overriden for ${entityName}`)
   }

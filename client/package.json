@@ -4,7 +4,7 @@
   "description": "TODO",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha  --require test/helpers/setup.js --recursive ./**/test/*.js",
+    "test": "./node_modules/.bin/mocha  --require test/helpers/setup.js --recursive ./modules/**/test/*.js",
     "kt-watch": "webpack --watch --env.server=dev --env.app=kt",
     "release-kt": "webpack --env.server=prod --env.app=kt",
     "release-kt-server": "webpack --env.server=prod --env.app=kt --config ./server.webpack.config",

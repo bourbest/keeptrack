@@ -7,8 +7,10 @@ export const baseInitialState = {
   listLocalFilters: {
     contains: ''
   },
-  listServerFilters: {},
-  displayedModalName: null,
+  listServerFilters: {
+    contains: '',
+    isArchived: false
+  },
   currentActionName: null,
   selectedItemIds: [],
   sortParams: []
@@ -23,6 +25,11 @@ export const baseActionsHandler = (Actions, state, action) => {
     case Actions.SET_LIST_SERVER_FILTERS:
       return {...state, listServerFilters: {...action.filters}}
 
+    case Actions.SET_FILTER_VALUE:
+      const propName = action.isServer ? 'listServerFilters' : 'listLocalFilters'
+      const newFilters = {...state[propName], [action.filterName]: action.value}
+      return {...state, [propName]: newFilters}
+
     case Actions.SET_SORT_PARAMS:
       return {...state, sortParams: action.sortParams}
 
@@ -33,12 +40,6 @@ export const baseActionsHandler = (Actions, state, action) => {
     case Actions.SET_LIST_LOADED:
       return {...state, isListLoaded: action.isLoaded}
 
-    case Actions.SHOW_MODAL:
-      return {...state, displayedModalName: action.modalName}
-
-    case Actions.HIDE_MODAL:
-      return {...state, displayedModalName: null}
-
     case Actions.SET_CURRENT_ACTION:
       return {...state, currentActionName: action.actionName}
 
@@ -46,7 +47,11 @@ export const baseActionsHandler = (Actions, state, action) => {
       const entityArray = isArray(action.entities) ? action.entities : [action.entities]
       const newEntities = keyBy(entityArray, (f) => (f.id))
 
-      byId = {...state.byId, ...newEntities}
+      if (action.replace) {
+        byId = newEntities
+      } else {
+        byId = {...state.byId, ...newEntities}
+      }
 
       return {...state, byId}
 

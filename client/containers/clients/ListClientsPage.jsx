@@ -1,5 +1,4 @@
 import React from 'react'
-import { browserHistory } from 'react-router'
 
 // redux
 import { bindActionCreators } from 'redux'
@@ -13,10 +12,13 @@ import { getLocale } from '../../modules/app/selectors'
 
 // components
 import {createTranslate} from '../../locales/translate'
-import { Confirm } from 'semantic-ui-react'
+
 import { FormError } from '../components/forms/FormError'
-import StandardToolbar from '../components/behavioral/StandardListToolbar'
+import makeStandardToolbar from '../components/behavioral/StandardListToolbar'
 import ClientList from './components/ClientList'
+
+const labelNamespace = 'clients'
+const StandardToolbar = makeStandardToolbar(ClientActions, ClientSelectors, labelNamespace, 'clients')
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -25,37 +27,11 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const baseUrl = '/clients/'
-const labelNamespace = 'clients'
-
 class ListClientsPage extends React.PureComponent {
   constructor (props) {
     super(props)
-    this.handleFilterEvent = this.handleFilterEvent.bind(this)
-    this.create = this.create.bind(this)
-    this.showDeleteConfirm = this.showDeleteConfirm.bind(this)
-    this.handleDeleteConfirm = this.handleDeleteConfirm.bind(this)
-    this.handleDeleteCancel = this.handleDeleteCancel.bind(this)
     this.setSort = this.setSort.bind(this)
     this.message = createTranslate(labelNamespace, this)
-  }
-
-  showDeleteConfirm () {
-    this.props.actions.showModal('delete')
-  }
-
-  handleDeleteConfirm () {
-    const {actions, appActions} = this.props
-    const count = this.props.selectedItemIds.length
-    actions.hideModal()
-    actions.deleteEntities(this.props.selectedItemIds, () => {
-      actions.clearSelectedItems()
-      appActions.notify('common.delete', 'common.deleted', {count})
-    })
-  }
-
-  handleDeleteCancel () {
-    this.props.actions.hideModal()
   }
 
   componentWillMount () {
@@ -67,14 +43,6 @@ class ListClientsPage extends React.PureComponent {
     this.props.actions.fetchAll()
   }
 
-  handleFilterEvent (event) {
-    this.props.actions.setListLocalFilters({contains: event.target.value})
-  }
-
-  create () {
-    browserHistory.push(`${baseUrl}create`)
-  }
-
   setSort ({sortBy, sortDirection}) {
     this.props.actions.setSortParams([{field: sortBy, direction: sortDirection}])
   }
@@ -83,26 +51,10 @@ class ListClientsPage extends React.PureComponent {
     const {formError, locale} = this.props
     return (
       <div>
-        <Confirm
-          content={this.message('confirm-delete', 'common')}
-          cancelButton={this.message('no', 'common')}
-          confirmButton={this.message('yes', 'common')}
-          open={this.props.displayedModalName === 'delete'}
-          onCancel={this.handleDeleteCancel}
-          onConfirm={this.handleDeleteConfirm}
-        />
         <div className="main-content">
           <FormError error={formError} locale={locale} />
 
-          <StandardToolbar locale={locale}
-            onDeleteClicked={this.showDeleteConfirm}
-            onCreateClicked={this.create}
-            onContainsFilterChanged={this.handleFilterEvent}
-            labelNamespace={labelNamespace}
-            listContainsFilter={this.props.listFilters.contains}
-            isDeleteEnabled={this.props.isDeleteEnabled}
-            title={this.message('list-title')}
-          />
+          <StandardToolbar />
           <ClientList
             entities={this.props.entities}
             onToggleSelected={this.props.actions.toggleSelectedItem}
@@ -125,7 +77,6 @@ const mapStateToProps = (state) => {
     selectedItemIds: ClientSelectors.getSelectedItemIds(state),
     locale: getLocale(state),
 
-    displayedModalName: ClientSelectors.getDisplayedModalName(state),
     formError: ClientSelectors.getSubmitError(state),
     isDeleteEnabled: ClientSelectors.isListDeleteEnabled(state)
   }

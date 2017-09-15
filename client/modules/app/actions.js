@@ -8,7 +8,8 @@ const actions = [
   'SET_COOKIES',
   'SET_LOCALE',
   'NOTIFY',
-  'TOGGLE_NAV_MENU'
+  'SHOW_MODAL',
+  'HIDE_MODAL'
 ]
 
 export const Actions = createActions(prefix, actions)
@@ -20,6 +21,7 @@ export const ActionCreators = {
   setLocale: (locale) => ({type: Actions.SET_LOCALE, locale}),
   notify: (title, message, params = {}, isError) => ({type: Actions.NOTIFY, title, message, params, isError}),
 
-  toggleNavMenu: () => ({type: Actions.TOGGLE_NAV_MENU})
+  showModal: (modalName) => ({ type: actions.SHOW_MODAL, modalName }),
+  hideModal: () => ({ type: actions.HIDE_MODAL })
 }
 

@@ -1,4 +1,4 @@
-import { isArray, map, isObject } from 'lodash'
+import { isArray, map, isObject, isString, omit } from 'lodash'
 
 export const transformFromApi = (data, transformFunc) => {
   let ret = data
@@ -22,8 +22,14 @@ export const transformFromApi = (data, transformFunc) => {
   }
 }
 
+const isEmptyFilter = (value) => {
+  return value === null ||
+    (isString(value) && value.length === 0)
+}
+
 const buildRouteWithFilters = (baseRoute, filterMap) => {
-  const filterParams = map(filterMap, (value, key) => `${key}=${encodeURIComponent(value)}`)
+  const nonEmptyFilters = omit(filterMap, isEmptyFilter)
+  const filterParams = map(nonEmptyFilters, (value, key) => `${key}=${encodeURIComponent(value.toString())}`)
   const filterUrl = filterParams.join('&')
   return filterParams.length === 0 ? baseRoute : `${baseRoute}?${filterUrl}`
 }
