@@ -3,7 +3,7 @@
 .sass-cache
 .publish
 public
-dist
+dist-kt
 Desktop.ini
 **/generated/_icons.sass
 .docs
