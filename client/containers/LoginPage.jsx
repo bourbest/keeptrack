@@ -1,31 +1,38 @@
-import { ActionCreators as AuthActions } from '../modules/authentication/actions'
+import React from 'react'
+import { browserHistory } from 'react-router'
+
+// redux
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+
+// modules
+import { ActionCreators as AuthActions } from '../modules/authentication/actions'
 import { getLoginError } from '../modules/authentication/selectors'
-import React from 'react'
+import { getLocale } from '../modules/app/selectors'
+import {createTranslate} from '../locales/translate'
+import validate from '../modules/authentication/validate'
 
-import GenericForm from '../components/GenericForm'
+// components
+import { FormError } from './components/forms/FormError'
+import { Field, reduxForm } from 'redux-form'
+import { Button, Form } from 'semantic-ui-react'
+import TextField from './components/forms/TextField'
 
-const fields = [
-  {
-    name: 'username',
-    type: 'text',
-    isRequired: true,
-    label: 'Code usager'
-  },
-  {
-    name: 'password',
-    type: 'password',
-    isRequired: true,
-    label: 'Mot de passe'
-  }
-]
-
-const { object, string } = React.PropTypes
+import AppConfig from '../config'
+import AuthConfig from '../modules/authentication/config'
 
 const mapStateToProps = (state) => {
+  let initialValues = {}
+  if (AppConfig.debugMode) {
+    initialValues = {
+      username: 'bourbest',
+      password: 'test'
+    }
+  }
   return {
-    loginError: getLoginError(state)
+    loginError: getLoginError(state),
+    locale: getLocale(state),
+    initialValues
   }
 }
 
@@ -35,62 +42,61 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-class LoginPage extends React.Component {
+class LoginPage extends React.PureComponent {
   constructor (props) {
     super(props)
 
-    this.state = {
-      username: '',
-      password: ''
-    }
-
-    this.onValueChanged = this.onValueChanged.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.onLoggedIn = this.onLoggedIn.bind(this)
+    this.message = createTranslate('login', this)
   }
-  onValueChanged (attr, value) {
-    const newState = { }
-    newState[attr] = value
-    this.setState(newState)
+
+  onLoggedIn (user) {
+    let targetLocation = this.props.location.query.ret
+    if (!targetLocation || targetLocation === '/') {
+      targetLocation = AuthConfig.defaultAuthenticatedPage(user.defaultCatalogId)
+    }
+    browserHistory.push(targetLocation)
   }
-  handleSubmit (event) {
-    event.preventDefault()
-    this.props.actions.loginUser(this.state.username, this.state.password, this.props.location.query.ret)
+
+  handleSubmit (values) {
+    this.props.actions.loginUser(values.username, values.password, this.onLoggedIn)
   }
 
   render () {
-    return (
-      <div className="container">
-        <form onSubmit={this.handleSubmit} className='col-4' >
-          <GenericForm fields={fields} values={this.state} onValueChanged={this.onValueChanged} />
-          <button onClick={this.handleSubmit}>Authentifier</button>
-        </form>
-        <span>{this.props.loginError}</span>
-      </div>
-    )
-  }
-  /*
-  render () {
+    const style = {width: '560px', margin: '29px auto 0', background: '#e9e9e9', padding: '55px'}
+    const {loginError, locale} = this.props
+    const {handleSubmit, valid, submitting} = this.props
     return (
       <div>
-        <div>
-          <form onSubmit={this.handleSubmit} >
-            <label>Code utilisateur:</label><input type="text" name="username" onChange={this.handleInputEvent} value={this.state.username} />
-            <label>Mot de passe</label><input type="password" name="password" onChange={this.handleInputEvent} value={this.state.password} />
-            <button onClick={this.handleSubmit}>Authentifier</button>
-          </form>
-          <span>{this.props.loginError}</span>
-        </div>
+        <FormError error={loginError} locale={locale} />
+        <Form style={style} onSubmit={handleSubmit(this.handleSubmit)}>
+
+          <Field name="username" label={this.message('username')} component={TextField} locale={locale} />
+          <Field name="password" label={this.message('password')} component={TextField} locale={locale} type="password" />
+
+          <Button type="submit" disabled={submitting || !valid}>
+            {this.message('authenticate')}
+          </Button>
+        </Form>
       </div>
     )
   }
-  */
 }
 
 LoginPage.propTypes = {
-  actions: object.isRequired,
-  params: object,
-  location: object.isRequired,
-  loginError: string
+  actions: React.PropTypes.object.isRequired,
+  params: React.PropTypes.object,
+  location: React.PropTypes.object.isRequired,
+  loginError: React.PropTypes.string,
+  locale: React.PropTypes.string
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage)
+const FormPage = reduxForm({
+  form: 'login',
+  validate,
+  enableReinitialize: true
+})(LoginPage)
+
+const PageConnected = connect(mapStateToProps, mapDispatchToProps)(FormPage)
+export default PageConnected

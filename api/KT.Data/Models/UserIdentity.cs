@@ -90,6 +90,8 @@ namespace KT.Data.Models
             }
         }
 
+        public bool IsArchived { get; set; }
+
         [BsonIgnore]
         [JsonIgnore]
         public string Name { get { return $"{FirstName} {LastName}"; } }
@@ -125,6 +127,11 @@ namespace KT.Data.Models
         [BsonIgnore]
         [JsonIgnore]
         public IEnumerable<Claim> Claims { get { return _claims; } }
+
+        public DateTime CreatedOn { get; set; }
+
+        public DateTime ModifiedOn { get; set; }
+        
 
         private void LoadPrincipal(IPrincipal principal)
         {

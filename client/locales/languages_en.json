@@ -1,0 +1,66 @@
+{
+  "app": {
+    "name": "Keep Track - Maison l'Éclaircie"
+  },
+  "navigation": {
+    "clients" : "Clients",
+    "forms": "Forms"
+  },
+  "login": {
+    "username": "Username",
+    "password": "Password",
+    "authenticate": "Login"
+  },
+  "clients":{
+    "list-title": "List of clients",
+    "create-title": "Create client",
+    "edit-title": "Edit client",
+    "lastName": "Last name",
+    "firstName": "First name",
+    "email": "Email",
+    "notes": "Notes",
+    "gender": "Gender"
+  },
+  "common": {
+    "fr":"French",
+    "en":"English",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Archive",
+    "restore": "Restore",
+    "yes":"Yes",
+    "no":"No",
+    "create": "Create new",
+    "confirm-delete":"The selected item will be moved to the Archived elements view. Continue ?",
+    "confirm-delete_plural":"The {{count}} selected items will be moved to the Archived elements view. Continue ?",
+    "filterSearch": "Search",
+    "saved": "Data were successfully saved",
+    "deleted": "{{count}} record moved to the Archived elements view",
+    "deleted_plural": "{{count}} records moved to the Archived elements view",
+    "restored": "{{count}} record restored into the Active elements view",
+    "restored_plural": "{{count}} records restored into the Active elements view",
+    "home": "Home",
+    "back": "Back",
+    "apply": "Apply",
+    "selectViewHeader": "Items to be displayed",
+    "archivedElements": "Archived",
+    "activeElements": "Active"
+  },
+  "error-page" : {
+    "title" : "Oops!",
+    "message": "An error has occurred (code : {{code}})"
+  },
+  "commonErrors" : {
+    "communicationError" : "Communication error",
+    "noResponse": "The server did not respond to one of the requests made",
+    "unexpected": "Error while trying to send data to server: {{message}}",
+    "required": "Required",
+    "invalidNumber" : "Invalid number",
+    "invalidEmail" : "Invalid email",
+    "invalidDate" : "Invalid date",
+    "invalidInteger" : "Invalid integer",
+    "invalidRange" : "The value must be between {{minValue}} and {{maxValue}}",
+    "invalidMaxValue" : "The value must be less than {{maxValue}}",
+    "invalidMinValue" : "The value must be greater than {{minValue}}"
+  }
+}

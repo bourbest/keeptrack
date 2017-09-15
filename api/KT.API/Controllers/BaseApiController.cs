@@ -128,8 +128,8 @@ namespace KT.API.Controllers
             {
                 using (ICRUDService<TKey, TModel> service = CreateService())
                 {
-                    await service.DeleteEntityAsync(id);
-                    return StatusCode(HttpStatusCode.NoContent, "");
+                    await service.ArchiveEntity(id);
+                    return StatusCode(HttpStatusCode.NoContent);
                 }
             }
             catch (EntityNotFoundException)

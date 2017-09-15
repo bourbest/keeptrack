@@ -51,6 +51,17 @@ namespace KT.Data
             }
         }
 
+        private FormTemplateRepository _formTemplates;
+        public FormTemplateRepository FormTemplates
+        {
+            get
+            {
+                if (_formTemplates == null)
+                    _formTemplates = new FormTemplateRepository(_context);
+                return _formTemplates;
+            }
+        }
+
         private IKTUnitOfWork _fromReplicaSet;
         public IKTUnitOfWork FromReplicaSet
         {

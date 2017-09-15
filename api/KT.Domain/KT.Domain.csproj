@@ -125,6 +125,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FormTemplateService.cs" />
     <Compile Include="Common\BaseOwnedEntityService.cs" />
     <Compile Include="Common\IKTDomainContext.cs" />
     <Compile Include="ClientFileService.cs" />

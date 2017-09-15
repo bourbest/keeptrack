@@ -1,3 +1,3 @@
 export default {
-  storeBranch: 'auth'
+  entityName: 'auth'
 }

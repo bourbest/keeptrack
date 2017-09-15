@@ -1,0 +1,4 @@
+/*fixing conflit of semantic ui and react-select style*/
+.Select .Select-control .Select-input input {
+  border:none;
+}

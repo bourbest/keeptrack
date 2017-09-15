@@ -26,5 +26,9 @@ namespace Common.Domain
         Task DeleteManyAsync(IEnumerable<TKey> ids);
 
         Task UpdateEntityAsync(TModel entity);
+
+        Task ArchiveEntity(TKey entity);
+
+        Task RestoreEntity(TKey entity);
     }
 }

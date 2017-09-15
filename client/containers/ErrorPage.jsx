@@ -1,18 +1,42 @@
 import React from 'react'
-const { string } = React.PropTypes
+import { get } from 'lodash'
+import { connect } from 'react-redux'
+const {string, object} = React.PropTypes
+import { getLocale } from '../modules/app/selectors'
+import { browserHistory, Link } from 'react-router'
+import {createTranslate} from '../locales/translate'
 
-const ErrorPage = React.createClass({
-  propTypes: {
-    error: string
-  },
+const mapStateToProps = (state) => {
+  return {
+    locale: getLocale(state)
+  }
+}
+
+class ErrorPage extends React.PureComponent {
+  constructor (props) {
+    super(props)
+    this.message = createTranslate('error-page', this)
+  }
+  handleGoBack (event) {
+    event.preventDefault()
+    browserHistory.goBack()
+  }
   render () {
+    const code = this.props.code || get(this.props.params, 'code') || '404'
     return (
       <div className='error-page'>
-        <h2>Oops!</h2>
-        <p><strong>Error :</strong> {this.props.error || 404}</p>
+        <h2>{this.message('title')}</h2>
+        <p><strong>{this.message('message', {code: code})}</strong></p>
+        <Link to="/" className="ui button">{this.message('home', 'common')}</Link>
+        <button className="ui button" onClick={this.handleGoBack}>{this.message('back', 'common')}</button>
       </div>
     )
   }
-})
 
-export default ErrorPage
+}
+ErrorPage.propTypes = {
+  code: string,
+  params: object
+}
+
+export default connect(mapStateToProps, null)(ErrorPage)

@@ -3,8 +3,11 @@ import { Actions } from './actions'
 
 const initialState = {
   apiConfig: {
-    headers: {}
-  }
+    headers: {
+    }
+  },
+  displayedModalName: null,
+  locale: 'fr'
 }
 
 const appReducer = (state = initialState, action = {}) => {
@@ -18,8 +21,21 @@ const appReducer = (state = initialState, action = {}) => {
       newState.apiConfig.headers['X-CSRF-Token'] = action.token
       return newState
 
+    case Actions.SHOW_MODAL:
+      return {...state, displayedModalName: action.modalName}
+
+    case Actions.HIDE_MODAL:
+      return {...state, displayedModalName: null}
+
     case Actions.SET_COOKIES:
       newState.apiConfig.headers['Cookie'] = action.cookies
+      return newState
+
+    case Actions.SET_LOCALE:
+      newState.locale = action.locale
+      return newState
+    case Actions.SET_CATALOG_ID:
+      newState.catalogId = action.catalogId
       return newState
 
     default:
@@ -28,5 +44,5 @@ const appReducer = (state = initialState, action = {}) => {
 }
 
 export default {
-  [config.storeBranch]: appReducer
+  [config.entityName]: appReducer
 }

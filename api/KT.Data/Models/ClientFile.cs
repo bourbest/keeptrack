@@ -16,6 +16,12 @@ namespace KT.Data.Models
 
         public string FirstName { get; set; }
         public string LastName  { get; set; }
+        public string Email { get; set; }
+        public string Notes { get; set; }
+        public string Gender { get; set; }
 
+        public bool IsArchived { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public DateTime ModifiedOn { get; set; }
     }
 }

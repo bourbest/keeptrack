@@ -48,6 +48,9 @@ namespace Common.Domain
 
         public virtual async Task<List<TModel>> ListEntitiesAsync(QueryParameters query)
         {
+            if (query.KeyValueFilters.Keys.Contains("isarchived") == false)
+                query.KeyValueFilters.Add("isarchived", "false");
+
             List<TModel> models = await _mainRepository.FindByFiltersAsync(query).ConfigureAwait(false);
             models.ForEach(m => RemoveRestrictedData(m));
             return models;
@@ -71,6 +74,8 @@ namespace Common.Domain
             if (errors != null)
                 throw new EntityIsInvalidException(typeof(TModel).Name, newEntity.Id, errors);
 
+            newEntity.CreatedOn = DateTime.Now.RemoveTicks();
+            newEntity.ModifiedOn = DateTime.Now.RemoveTicks();
             _mainRepository.Insert(newEntity);
             return UnitOfWork.SaveAsync(); 
         }
@@ -104,12 +109,38 @@ namespace Common.Domain
             IEnumerable<string> errors = ValidateEntity(entity, false);
             if (errors != null)
                 throw new EntityIsInvalidException(typeof(TModel).Name, entity.Id, errors);
-
+            entity.ModifiedOn = DateTime.Now.RemoveTicks();
             _mainRepository.Update(entity);
             long count = await UnitOfWork.SaveAsync().ConfigureAwait(false);
 
             if (count == 0)
               throw new EntityNotFoundException(typeof(TModel).Name, entity.Id);
+        }
+
+        public async virtual Task ArchiveEntity(TKey id)
+        {
+            TModel entity = await _mainRepository.FindByIdAsync(id).ConfigureAwait(false);
+
+            if (entity == null)
+                throw new EntityNotFoundException(typeof(TModel).Name, id);
+
+            entity.ModifiedOn = DateTime.Now.RemoveTicks();
+            entity.IsArchived = true;
+            _mainRepository.Update(entity);
+            await UnitOfWork.SaveAsync().ConfigureAwait(false);
+        }
+
+        public async virtual Task RestoreEntity(TKey id)
+        {
+            TModel entity = await _mainRepository.FindByIdAsync(id).ConfigureAwait(false);
+
+            if (entity == null)
+                throw new EntityNotFoundException(typeof(TModel).Name, id);
+
+            entity.ModifiedOn = DateTime.Now.RemoveTicks();
+            entity.IsArchived = true;
+            _mainRepository.Update(entity);
+            await UnitOfWork.SaveAsync().ConfigureAwait(false);
         }
 
         #endregion

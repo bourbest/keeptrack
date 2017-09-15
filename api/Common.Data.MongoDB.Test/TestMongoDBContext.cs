@@ -46,6 +46,9 @@ namespace Common.Data.MongoDB.Test
 
             public string Nom { get; set; }
             public Guid id { get; set; }
+            public DateTime CreatedOn { get; set; }
+            public DateTime ModifiedOn { get; set; }
+            public bool IsArchived { get; set; }
         }
 #endregion
 

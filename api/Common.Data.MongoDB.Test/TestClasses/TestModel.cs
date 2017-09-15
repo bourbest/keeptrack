@@ -36,6 +36,10 @@ namespace Common.Data.MongoDB.Test
         public double? doubleValue { get; set; }
         public DateTime? dateTimeValue { get; set; }
 
+        public DateTime CreatedOn { get; set; }
+        public DateTime ModifiedOn { get; set; }
+        public bool IsArchived { get; set; }
+
         public TestType[] testTypes { get; set; }
 
         public object GetId() { return id; }

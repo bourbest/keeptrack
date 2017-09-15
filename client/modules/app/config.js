@@ -1,3 +1,4 @@
+
 export default {
-  storeBranch: 'app'
+  entityName: 'app'
 }

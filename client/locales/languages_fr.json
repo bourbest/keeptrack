@@ -1,0 +1,65 @@
+{
+  "app": {
+    "name": "Keep Track - Maison l'Éclaircie"
+  },
+  "navigation": {
+    "clients" : "Clients",
+    "forms": "Formulaires"
+  },
+  "login": {
+    "username": "Code utilisateur",
+    "password": "Mot de passe",
+    "authenticate": "Authentifier"
+  },
+  "clients":{
+    "list-title": "Liste des clients",
+    "create-title": "Création d'un nouveau client",
+    "edit-title": "Édition d'un client",
+    "lastName": "Nom",
+    "firstName": "Prénom",
+    "email": "Courriel",
+    "notes": "Notes",
+    "gender": "Sexe"
+  },
+  "common": {
+    "fr":"Français",
+    "en":"Anglais",
+    "save": "Sauvegarder",
+    "cancel": "Annuler",
+    "delete": "Archiver",
+    "restore": "Récupérer",
+    "yes":"Oui",
+    "no":"Non",
+    "create": "Créer",
+    "confirm-delete":"L'élément sélectionné sera déplacé dans la vue Éléments archivés. Poursuivre ?",
+    "confirm-delete_plural":"Les {{count}} éléments sélectionnés seront déplacés dans la vue Éléments archivés. Poursuivre ?",
+    "filterSearch": "Recherche",
+    "saved": "Les données ont été enregistrées avec succès",
+    "deleted": "{{count}} enregistrement déplacé dans les éléments archivés",
+    "deleted_plural": "{{count}} enregistrements déplacés dans les éléments archivés",
+    "restored": "{{count}} enregistrement récupéré et déplacé dans les éléments actifs",
+    "restored_plural": "{{count}} enregistrements récupérés et déplacés dans les éléments actifs",
+    "back": "Retour",
+    "apply": "Appliquer",
+    "selectViewHeader": "Éléments à afficher",
+    "archivedElements": "Archivés",
+    "activeElements": "Actifs"
+  },
+  "error-page" : {
+    "title" : "Oops!",
+    "message": "Un erreur est survenue (code : {{code}})"
+  },
+  "commonErrors" : {
+    "communicationError" : "Erreur de communication",
+    "noResponse": "Le serveur n'a pas répondu à une requête qui lui a été transmise",
+    "unexpected": "Erreur rencontrée lors de l'envoi d'un message au serveur {{message}}",
+    "required": "Requis",
+    "invalidNumber" : "Nombre invalide",
+    "invalidEmail" : "Courriel invalide",
+    "invalidDate" : "Date invalide",
+    "invalidInteger" : "Nombre entier invalide",
+    "invalidRange" : "La valeur doit être comprise entre {{minValue}} et {{maxValue}}",
+    "invalidMaxValue" : "La valeur doit être inférieure à {{maxValue}}",
+    "invalidMinValue" : "La valeur doit être supérieure à {{minValue}}"
+  }
+}
