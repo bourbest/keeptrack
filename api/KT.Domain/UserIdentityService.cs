@@ -37,7 +37,7 @@ namespace KT.Domain
 
             identity.LastName = newEntity.LastName;
             identity.FirstName= newEntity.FirstName;
-            identity.Permissions = newEntity.Permissions;
+            identity.Roles = newEntity.Roles;
             await base.UpdateEntityAsync(identity).ConfigureAwait(false);
         }
 
