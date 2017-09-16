@@ -119,7 +119,7 @@ namespace Common.Domain
               throw new EntityNotFoundException(typeof(TModel).Name, entity.Id);
         }
 
-        public async virtual Task ArchiveEntity(TKey id)
+        public async virtual Task ArchiveEntityAsync(TKey id)
         {
             TModel entity = await _mainRepository.FindByIdAsync(id).ConfigureAwait(false);
 
@@ -129,6 +129,17 @@ namespace Common.Domain
             entity.ModifiedOn = _ctx.TaskBeginTime;
             entity.IsArchived = true;
             _mainRepository.Update(entity);
+            await UnitOfWork.SaveAsync().ConfigureAwait(false);
+        }
+
+        public async virtual Task ArchiveManyAsync(IEnumerable<TKey> ids)
+        {
+            List<TModel> entities = await _mainRepository.FindByIdsAsync(ids).ConfigureAwait(false);
+            entities.ForEach((e) =>
+            {
+                e.IsArchived = true;
+                _mainRepository.Update(e);
+            });
             await UnitOfWork.SaveAsync().ConfigureAwait(false);
         }
 

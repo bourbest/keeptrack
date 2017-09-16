@@ -9,6 +9,9 @@ export const createService = (serviceName, apiConfig) => {
     case 'auth':
       return new AuthService(apiClient)
 
+    case 'accounts':
+      return new RestService('accounts', apiClient)
+
     case 'clients':
       return new RestService('client-files', apiClient)
 

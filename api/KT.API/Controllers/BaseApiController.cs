@@ -128,7 +128,7 @@ namespace KT.API.Controllers
             {
                 using (ICRUDService<TKey, TModel> service = CreateService())
                 {
-                    await service.ArchiveEntity(id);
+                    await service.ArchiveEntityAsync(id);
                     return StatusCode(HttpStatusCode.NoContent);
                 }
             }
@@ -147,7 +147,7 @@ namespace KT.API.Controllers
                 {
                     using (ICRUDService<TKey, TModel> service = CreateService())
                     {
-                        await service.DeleteManyAsync(ids);
+                        await service.ArchiveManyAsync(ids);
                         return StatusCode(HttpStatusCode.NoContent);
                     }
                 }

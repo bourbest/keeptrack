@@ -53,10 +53,10 @@ export const isWithinRange = (minValue, maxValue) => {
   }
 }
 
-const validateField = (value, validations) => {
+const validateField = (value, validations, entity) => {
   let err = null
   for (let i = 0; !err && i < validations.length; i++) {
-    err = validations[i](value)
+    err = validations[i](value, entity)
   }
 
   return err
@@ -77,7 +77,7 @@ export const validateEntity = (entity, validator) => {
   const errors = {}
   forOwn(validator, (validations, fieldName) => {
     if (isArray(validations)) {
-      const err = validateField(get(entity, fieldName), validations)
+      const err = validateField(get(entity, fieldName), validations, entity)
       if (err) {
         set(errors, fieldName, err)
       }

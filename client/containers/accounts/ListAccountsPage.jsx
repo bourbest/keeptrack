@@ -6,8 +6,8 @@ import { connect } from 'react-redux'
 
 // module
 import { ActionCreators as AppActions } from '../../modules/app/actions'
-import { ActionCreators as ClientActions } from '../../modules/clients/actions'
-import ClientSelectors from '../../modules/clients/selectors'
+import { ActionCreators as AccountActions } from '../../modules/accounts/actions'
+import AccountSelectors from '../../modules/accounts/selectors'
 import { getLocale } from '../../modules/app/selectors'
 
 // components
@@ -15,19 +15,19 @@ import {createTranslate} from '../../locales/translate'
 
 import { FormError } from '../components/forms/FormError'
 import makeStandardToolbar from '../components/behavioral/StandardListToolbar'
-import ClientList from './components/ClientList'
+import AccountList from './components/AccountList'
 
-const labelNamespace = 'clients'
-const StandardToolbar = makeStandardToolbar(ClientActions, ClientSelectors, labelNamespace, 'clients')
+const labelNamespace = 'accounts'
+const StandardToolbar = makeStandardToolbar(AccountActions, AccountSelectors, labelNamespace, 'accounts')
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    actions: bindActionCreators(ClientActions, dispatch),
+    actions: bindActionCreators(AccountActions, dispatch),
     appActions: bindActionCreators(AppActions, dispatch)
   }
 }
 
-class ListClientsPage extends React.PureComponent {
+class ListAccountsPage extends React.PureComponent {
   constructor (props) {
     super(props)
     this.setSort = this.setSort.bind(this)
@@ -55,7 +55,7 @@ class ListClientsPage extends React.PureComponent {
           <FormError error={formError} locale={locale} />
 
           <StandardToolbar />
-          <ClientList
+          <AccountList
             entities={this.props.entities}
             onToggleSelected={this.props.actions.toggleSelectedItem}
             setSort={this.setSort}
@@ -71,19 +71,19 @@ class ListClientsPage extends React.PureComponent {
 
 const mapStateToProps = (state) => {
   return {
-    entities: ClientSelectors.getFilteredSortedList(state),
-    listFilters: ClientSelectors.getListLocalFilters(state),
-    listServerFilters: ClientSelectors.getListServerFilters(state),
-    sortParams: ClientSelectors.getSortParams(state),
-    selectedItemIds: ClientSelectors.getSelectedItemIds(state),
+    entities: AccountSelectors.getFilteredSortedList(state),
+    listFilters: AccountSelectors.getListLocalFilters(state),
+    listServerFilters: AccountSelectors.getListServerFilters(state),
+    sortParams: AccountSelectors.getSortParams(state),
+    selectedItemIds: AccountSelectors.getSelectedItemIds(state),
     locale: getLocale(state),
 
-    formError: ClientSelectors.getSubmitError(state),
-    isDeleteEnabled: ClientSelectors.isListDeleteEnabled(state)
+    formError: AccountSelectors.getSubmitError(state),
+    isDeleteEnabled: AccountSelectors.isListDeleteEnabled(state)
   }
 }
 
-ListClientsPage.propTypes = {
+ListAccountsPage.propTypes = {
   entities: React.PropTypes.array.isRequired,
   listFilters: React.PropTypes.object.isRequired,
   listServerFilters: React.PropTypes.object.isRequired,
@@ -92,6 +92,6 @@ ListClientsPage.propTypes = {
   locale: React.PropTypes.string.isRequired
 }
 
-const ConnectedListClientsPage = connect(mapStateToProps, mapDispatchToProps)(ListClientsPage)
+const ConnectedListAccountsPage = connect(mapStateToProps, mapDispatchToProps)(ListAccountsPage)
 
-export default ConnectedListClientsPage
+export default ConnectedListAccountsPage

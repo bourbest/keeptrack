@@ -1,15 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 using KT.Data.Models;
 using KT.Data.Repositories;
 using Common.Domain;
-using System.Security.Claims;
 
-using Common.Types;
-using Common.Data.MongoDB.MongoOperations;
 
 namespace KT.Domain
 {
@@ -37,6 +31,7 @@ namespace KT.Domain
 
             identity.LastName = newEntity.LastName;
             identity.FirstName= newEntity.FirstName;
+            identity.Email = newEntity.Email;
             identity.Roles = newEntity.Roles;
             await base.UpdateEntityAsync(identity).ConfigureAwait(false);
         }

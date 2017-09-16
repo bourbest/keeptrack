@@ -125,6 +125,7 @@ namespace KT.Data.MongoDB.Test
             identity.FirstName = "Joe";
             identity.LastName = "Bin";
             identity.PasswordHash = "sfsdfsdf";
+            identity.Email = "good@email.com";
             identity.Roles = new List<string>() { "test" };
 
             await svc.AddEntityAsync(identity);
@@ -142,6 +143,7 @@ namespace KT.Data.MongoDB.Test
             // can modify
             update.LastName = "new lastname";
             update.FirstName = "new firstname";
+            update.Email = "new email";
             update.Roles = new List<string>() { "new permissions" };
 
             // service will set modified date
@@ -153,6 +155,7 @@ namespace KT.Data.MongoDB.Test
             // modified
             Assert.AreEqual(update.FirstName, updated.FirstName);
             Assert.AreEqual(update.LastName, updated.LastName);
+            Assert.AreEqual(update.Email, updated.Email);
             Assert.AreEqual(update.Roles.First(), updated.Roles.First());
             // Assert.AreEqual(ctx.TaskBeginTime, updated.ModifiedOn);
 
