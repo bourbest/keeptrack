@@ -12,7 +12,7 @@ namespace KT.Domain
     {
 
         public FormTemplateService(IKTDomainContext ctx) : 
-            base(ctx.Uow, ctx.Uow.FormTemplates)
+            base(ctx.Uow, ctx.Uow.FormTemplates, ctx)
         {
         }
 

@@ -110,6 +110,11 @@ namespace Common.Data.MongoDB
                     count += operation.GetAffectedCount();
                 }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw; ;
+            }
             finally
             {
                 _operations.Clear();

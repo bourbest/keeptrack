@@ -19,15 +19,17 @@ namespace Common.Domain
         #region constructor
 
         protected TRepository _mainRepository;
+        private readonly IServiceContext _ctx;
 
         private ServiceBase()
         {
         }
 
-        public ServiceBase(IUnitOfWork uow, TRepository mainRepository)
+        public ServiceBase(IUnitOfWork uow, TRepository mainRepository, IServiceContext ctx)
         {
             UnitOfWork = uow;
             _mainRepository = mainRepository;
+            _ctx = ctx;
         }
 
         #endregion
@@ -74,8 +76,8 @@ namespace Common.Domain
             if (errors != null)
                 throw new EntityIsInvalidException(typeof(TModel).Name, newEntity.Id, errors);
 
-            newEntity.CreatedOn = DateTime.Now.RemoveTicks();
-            newEntity.ModifiedOn = DateTime.Now.RemoveTicks();
+            newEntity.CreatedOn = _ctx.TaskBeginTime;
+            newEntity.ModifiedOn = _ctx.TaskBeginTime;
             _mainRepository.Insert(newEntity);
             return UnitOfWork.SaveAsync(); 
         }
@@ -109,7 +111,7 @@ namespace Common.Domain
             IEnumerable<string> errors = ValidateEntity(entity, false);
             if (errors != null)
                 throw new EntityIsInvalidException(typeof(TModel).Name, entity.Id, errors);
-            entity.ModifiedOn = DateTime.Now.RemoveTicks();
+            entity.ModifiedOn = _ctx.TaskBeginTime;
             _mainRepository.Update(entity);
             long count = await UnitOfWork.SaveAsync().ConfigureAwait(false);
 
@@ -124,7 +126,7 @@ namespace Common.Domain
             if (entity == null)
                 throw new EntityNotFoundException(typeof(TModel).Name, id);
 
-            entity.ModifiedOn = DateTime.Now.RemoveTicks();
+            entity.ModifiedOn = _ctx.TaskBeginTime;
             entity.IsArchived = true;
             _mainRepository.Update(entity);
             await UnitOfWork.SaveAsync().ConfigureAwait(false);
@@ -137,7 +139,7 @@ namespace Common.Domain
             if (entity == null)
                 throw new EntityNotFoundException(typeof(TModel).Name, id);
 
-            entity.ModifiedOn = DateTime.Now.RemoveTicks();
+            entity.ModifiedOn = _ctx.TaskBeginTime;
             entity.IsArchived = true;
             _mainRepository.Update(entity);
             await UnitOfWork.SaveAsync().ConfigureAwait(false);
