@@ -4,7 +4,8 @@
   },
   "navigation": {
     "clients" : "Clients",
-    "forms": "Formulaires"
+    "forms": "Formulaires",
+    "accounts" : "Comptes utilisateurs"
   },
   "login": {
     "username": "Code utilisateur",
@@ -20,6 +21,21 @@
     "email": "Courriel",
     "notes": "Notes",
     "gender": "Sexe"
+  },
+  "accounts":{
+    "list-title": "Liste des comptes utilisateurs",
+    "create-title": "Création d'un nouveau compte utilisateur",
+    "edit-title": "Édition d'un compte utilisateur",
+    "lastName": "Nom",
+    "firstName": "Prénom",
+    "userName": "Code utilisateur",
+    "email": "Courriel",
+    "password": "Mot de passe",
+    "confirmPassword": "Confirmez le mot de passe",
+    "roles": "Rôles dans le système",
+    "errors": {
+      "passwordNotMatching": "Le mot de passe ne correspond pas"
+    }
   },
   "common": {
     "fr":"Français",

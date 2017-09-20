@@ -14,7 +14,7 @@ namespace KT.Data.Models
     {
         public const string FirstName = "KT:FirstName";
         public const string LastName = "KT:LastName";
-        public const string Permissions = "KT:Permissions";
+        public const string Roles = "KT:Roles";
     }
 
     public class UserIdentity : IUser<string>, IModel<string>
@@ -62,6 +62,17 @@ namespace KT.Data.Models
             }
         }
 
+        private string _email = string.Empty;
+        public string Email
+        {
+            get { return _email; }
+            set
+            {
+                _email = value.ToLower();
+                SetClaim(ClaimTypes.Email, _email);
+            }
+        }
+
         // KT specific data
         [JsonIgnore]
         public string PasswordHash { get; set; }
@@ -96,30 +107,30 @@ namespace KT.Data.Models
         [JsonIgnore]
         public string Name { get { return $"{FirstName} {LastName}"; } }
 
-        private HashSet<string> _permissions = new HashSet<string>();
-        public IEnumerable<string> Permissions
+        private HashSet<string> _roles = new HashSet<string>();
+        public IEnumerable<string> Roles
         {
-            get { return _permissions; }
+            get { return _roles; }
             set
             {
                 if (value != null)
-                    _permissions = new HashSet<string>(value);
+                    _roles = new HashSet<string>(value);
                 else
-                    _permissions = new HashSet<string>();
+                    _roles = new HashSet<string>();
 
-                string strPerm = string.Join(",", _permissions.AsEnumerable());
-                SetClaim(KTClaimTypes.Permissions, strPerm);
+                string strPerm = string.Join(",", _roles.AsEnumerable());
+                SetClaim(KTClaimTypes.Roles, strPerm);
             }
         }
 
         public bool HasPermission(string permissionName)
         {
-            return _permissions.Contains(permissionName);
+            return _roles.Contains(permissionName);
         }
 
         public bool HasAnyPermission(IEnumerable<string> permissions)
         {
-            return permissions.Any(p => _permissions.Contains(p));
+            return permissions.Any(p => _roles.Contains(p));
         }
 
         private List<Claim> _claims = new List<Claim>();
@@ -156,9 +167,9 @@ namespace KT.Data.Models
                         case ClaimTypes.NameIdentifier: this.Id = claim.Value; break;
                         case ClaimTypes.Name: this.UserName = claim.Value; break;
 
-                        case KTClaimTypes.Permissions:
+                        case KTClaimTypes.Roles:
                             string[] permissions = claim.Value.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                            _permissions = new HashSet<string>(permissions);
+                            _roles = new HashSet<string>(permissions);
                             break;
 
                         default:

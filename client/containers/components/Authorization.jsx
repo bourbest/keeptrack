@@ -14,7 +14,7 @@ const canAccessModule = (user, requiredRoles) => {
     requiredRoles = [requiredRoles]
   }
 
-  const match = intersection(requiredRoles, user.permissions)
+  const match = intersection(requiredRoles, user.roles)
   return match.length > 0
 }
 

@@ -11,9 +11,9 @@ const initialState = {
   loginError: null
 }
 
-function convertPermissions (strPermissions = '') {
+function convertRoles (strRoles = '') {
   const ret = []
-  const keys = strPermissions.split(',')
+  const keys = strRoles.split(',')
   forEach(keys, (key) => {
     key = trim(key)
     if (key !== '') {
@@ -42,7 +42,7 @@ function deserializeTicket (ticket) {
   userModel.userName = serverModel.unique_name
   // userModel.expires = moment('1970-01-01 0:00 +0000').add(serverModel.exp, 'seconds')
 
-  userModel.permissions = convertPermissions(userModel.permissions)
+  userModel.roles = convertRoles(userModel.roles)
 
   return userModel
 }

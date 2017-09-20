@@ -30,7 +30,7 @@ namespace KT.Data.MongoDB.Test
 
             foreach (UserIdentity user in users)
             {
-                Assert.IsNotNull(user.Permissions);
+                Assert.IsNotNull(user.Roles);
                 Assert.IsNotNull(user.Claims);
             }
         }
@@ -56,12 +56,12 @@ namespace KT.Data.MongoDB.Test
                 UserName ="Test",
                 FirstName = "Stephane",
                 LastName = "Bourbeau",
-                Permissions = new string[] {"perm1", "perm2"}
+                Roles = new string[] {"perm1", "perm2"}
             };
 
             Assert.IsTrue(user1.Claims.Any(c => c.Type == KTClaimTypes.FirstName && c.Value == user1.FirstName));
             Assert.IsTrue(user1.Claims.Any(c => c.Type == KTClaimTypes.LastName && c.Value == user1.LastName));
-            Assert.IsTrue(user1.Claims.Any(c => c.Type == KTClaimTypes.Permissions && c.Value == string.Join(",", user1.Permissions)));
+            Assert.IsTrue(user1.Claims.Any(c => c.Type == KTClaimTypes.Roles && c.Value == string.Join(",", user1.Roles)));
 
             Assert.IsTrue(user1.Claims.Any(c => c.Type == ClaimTypes.NameIdentifier && c.Value == user1.Id));
             Assert.IsTrue(user1.Claims.Any(c => c.Type == ClaimTypes.Name && c.Value == user1.UserName));
@@ -75,7 +75,7 @@ namespace KT.Data.MongoDB.Test
             ci.AddClaim(new Claim(ClaimTypes.Name, "test"));
             ci.AddClaim(new Claim(KTClaimTypes.FirstName, "stephane"));
             ci.AddClaim(new Claim(KTClaimTypes.LastName, "bourbeau"));
-            ci.AddClaim(new Claim(KTClaimTypes.Permissions, "perm1,perm2"));
+            ci.AddClaim(new Claim(KTClaimTypes.Roles, "perm1,perm2"));
 
             UserIdentity user = new UserIdentity(ci);
             Assert.AreEqual("1", user.Id);
@@ -83,9 +83,9 @@ namespace KT.Data.MongoDB.Test
             Assert.AreEqual("stephane", user.FirstName);
             Assert.AreEqual("bourbeau", user.LastName);
 
-            Assert.AreEqual(2, user.Permissions.Count());
-            Assert.IsTrue(user.Permissions.Contains("perm1"));
-            Assert.IsTrue(user.Permissions.Contains("perm2"));
+            Assert.AreEqual(2, user.Roles.Count());
+            Assert.IsTrue(user.Roles.Contains("perm1"));
+            Assert.IsTrue(user.Roles.Contains("perm2"));
         }
 
         [TestMethod]
@@ -101,7 +101,7 @@ namespace KT.Data.MongoDB.Test
         public void HasPermission_returns_true_when_user_has_permission()
         {
             string[] permissions = { "perm1" };
-            UserIdentity user = new UserIdentity() { Permissions = permissions };
+            UserIdentity user = new UserIdentity() { Roles = permissions };
 
             Assert.AreEqual(true, user.HasPermission("perm1"));
         }
@@ -110,7 +110,7 @@ namespace KT.Data.MongoDB.Test
         public void HasPermission_returns_false_when_user_doesnt_have_permission()
         {
             string[] permissions = { "perm1" };
-            UserIdentity user = new UserIdentity() { Permissions = permissions };
+            UserIdentity user = new UserIdentity() { Roles = permissions };
 
             Assert.AreEqual(false, user.HasPermission("perm2"));
         }
@@ -119,7 +119,7 @@ namespace KT.Data.MongoDB.Test
         public void HasAnyPermission_returns_true_when_user_has_at_least_one_of_the_permissions()
         {
             string[] permissions = { "perm1", "perm2" };
-            UserIdentity user = new UserIdentity() { Permissions = permissions };
+            UserIdentity user = new UserIdentity() { Roles = permissions };
 
             Assert.AreEqual(true, user.HasAnyPermission(new string[] { "perm20", "perm2" }));
         }
@@ -128,7 +128,7 @@ namespace KT.Data.MongoDB.Test
         public void HasAnyPermission_returns_false_when_user_has_none_of_the_permissions()
         {
             string[] permissions = { "perm1", "perm2" };
-            UserIdentity user = new UserIdentity() { Permissions = permissions };
+            UserIdentity user = new UserIdentity() { Roles = permissions };
 
             Assert.AreEqual(false, user.HasAnyPermission(new string[] { "perm20", "perm22" }));
         }

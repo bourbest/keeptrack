@@ -32,7 +32,6 @@ export const createBaseSaga = (entityName, Actions, ActionCreators, getService, 
         yield put(startSubmit(entityName))
         try {
           const newEntity = yield call(svc.save, action.entity)
-          yield put(ActionCreators.setEntities(newEntity))
 
           if (action.callback) {
             yield call(action.callback, newEntity)

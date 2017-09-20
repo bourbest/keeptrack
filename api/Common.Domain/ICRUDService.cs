@@ -27,7 +27,9 @@ namespace Common.Domain
 
         Task UpdateEntityAsync(TModel entity);
 
-        Task ArchiveEntity(TKey entity);
+        Task ArchiveEntityAsync(TKey entity);
+
+        Task ArchiveManyAsync(IEnumerable<TKey> ids);
 
         Task RestoreEntity(TKey entity);
     }

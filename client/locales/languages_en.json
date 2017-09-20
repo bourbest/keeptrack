@@ -4,7 +4,8 @@
   },
   "navigation": {
     "clients" : "Clients",
-    "forms": "Forms"
+    "forms": "Forms",
+    "accounts" : "User accounts"
   },
   "login": {
     "username": "Username",
@@ -20,6 +21,21 @@
     "email": "Email",
     "notes": "Notes",
     "gender": "Gender"
+  },
+  "accounts":{
+    "list-title": "List of user accounts",
+    "create-title": "Create user account",
+    "edit-title": "Edit user account",
+    "lastName": "Last name",
+    "firstName": "First name",
+    "userName": "Username",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "roles": "System roles",
+    "errors": {
+      "passwordNotMatching": "Doesn't match password"
+    }
   },
   "common": {
     "fr":"French",

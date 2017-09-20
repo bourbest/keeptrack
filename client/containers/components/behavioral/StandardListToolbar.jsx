@@ -115,7 +115,7 @@ const makeStandardListToolbar = (entityActions, entitySelectors, labelNamespace,
           {children}
           {!noAdd &&
             <Button type="button" primary onClick={handleCreate} disabled={!isCreateEnabled}>
-              {this.message('create')}
+              {this.message('create', 'common')}
             </Button>
           }
           {!noDelete && !isDisplayingArchived &&

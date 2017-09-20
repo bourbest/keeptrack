@@ -8,6 +8,9 @@ import ErrorPage from './containers/ErrorPage'
 import ListClientsPage from './containers/clients/ListClientsPage'
 import EditClientPage from './containers/clients/EditClientPage'
 
+import ListAccountsPage from './containers/accounts/ListAccountsPage'
+import EditAccountsPage from './containers/accounts/EditAccountPage'
+
 import Layout from './containers/Layout'
 
 // checkRoles example
@@ -20,6 +23,8 @@ export default (
     <Route path='/' component={Layout}>
       <Route path='clients' component={SimpleUser(ListClientsPage)} />
       <Route path='clients/:id' component={SimpleUser(EditClientPage)} />
+      <Route path='accounts' component={SimpleUser(ListAccountsPage)} />
+      <Route path='accounts/:id' component={SimpleUser(EditAccountsPage)} />
     </Route>,
     <Route path='/*' component={ErrorPage} code={'404'} />
   ]

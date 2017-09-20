@@ -75,7 +75,7 @@ namespace KT.Data.MongoDB.Test
                 PasswordHash = "abc",
                 FirstName = "Steph",
                 LastName = "Bour",
-                Permissions = new string[] { "perm1"},
+                Roles = new string[] { "perm1"},
                 SecurityStamp = "asdas"
             };
 

@@ -126,7 +126,7 @@ namespace KT.Domain
                 throw new EntityNotFoundException(typeof(TModel).Name, entity.Id);
         }
 
-        public async virtual Task ArchiveEntity(TKey id)
+        public async virtual Task ArchiveEntityAsync(TKey id)
         {
             TModel entity = await _mainRepository.FindByIdAsync(id).ConfigureAwait(false);
 
@@ -136,6 +136,17 @@ namespace KT.Domain
             entity.ModifiedOn = DateTime.Now.RemoveTicks();
             entity.IsArchived = true;
             _mainRepository.Update(entity);
+            await UnitOfWork.SaveAsync().ConfigureAwait(false);
+        }
+
+        public async Task ArchiveManyAsync(IEnumerable<TKey> ids)
+        {
+            List<TModel> entities = await _mainRepository.FindByIdsForOwnerAsync(ids, _context.CurrentUser.Id).ConfigureAwait(false);
+            entities.ForEach((e) =>
+            {
+                e.IsArchived = true;
+                _mainRepository.Update(e);
+            });
             await UnitOfWork.SaveAsync().ConfigureAwait(false);
         }
 

@@ -12,7 +12,7 @@ namespace KT.Domain
     {
 
         public ClientFileService(IKTDomainContext ctx) : 
-            base(ctx.Uow, ctx.Uow.ClientFiles)
+            base(ctx.Uow, ctx.Uow.ClientFiles, ctx)
         {
         }
 

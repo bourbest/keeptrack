@@ -21,7 +21,7 @@ export const ActionCreators = {
   setLocale: (locale) => ({type: Actions.SET_LOCALE, locale}),
   notify: (title, message, params = {}, isError) => ({type: Actions.NOTIFY, title, message, params, isError}),
 
-  showModal: (modalName) => ({ type: actions.SHOW_MODAL, modalName }),
-  hideModal: () => ({ type: actions.HIDE_MODAL })
+  showModal: (modalName) => ({ type: Actions.SHOW_MODAL, modalName }),
+  hideModal: () => ({ type: Actions.HIDE_MODAL })
 }
 
