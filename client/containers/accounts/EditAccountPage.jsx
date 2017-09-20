@@ -62,10 +62,9 @@ class EditAccountPage extends React.PureComponent {
   }
 
   render () {
-    const {canSave, error, locale, isNew} = this.props
+    const {canSave, error, locale, isNew, roleOptions} = this.props
     const titleLabelKey = isNew ? 'create-title' : 'edit-title'
     const style = {width: '1000px'}
-    const roleList = []
 
     return (
       <div>
@@ -79,7 +78,7 @@ class EditAccountPage extends React.PureComponent {
         <FormError error={error} locale={locale} />
 
         <div style={style}>
-          <ClientForm locale={locale} isNew={isNew} roleList={roleList} />
+          <ClientForm locale={locale} isNew={isNew} roleOptionList={roleOptions} />
         </div>
       </div>
     )
@@ -89,6 +88,7 @@ class EditAccountPage extends React.PureComponent {
 const mapStateToProps = (state) => {
   const props = {
     entity: AccountSelectors.getEditedEntity(state),
+    roleOptions: AccountSelectors.getRolesOptionList(state),
     isNew: AccountSelectors.isNewEntity(state),
     canSave: AccountSelectors.canSaveEditedEntity(state),
     error: AccountSelectors.getSubmitError(state),
@@ -99,6 +99,7 @@ const mapStateToProps = (state) => {
 
 EditAccountPage.propTypes = {
   entity: React.PropTypes.object,
+  roleOptions: React.PropTypes.array.isRequired,
   isNew: React.PropTypes.bool.isRequired,
   canSave: React.PropTypes.bool.isRequired,
   error: React.PropTypes.string,

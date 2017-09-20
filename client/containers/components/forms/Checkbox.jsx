@@ -1,8 +1,7 @@
 import React from 'react'
-import FormLabel from './FormLabel'
 import * as SemanticUI from 'semantic-ui-react'
 
-const { object, string, func } = React.PropTypes
+const { object, string } = React.PropTypes
 const SemanticField = SemanticUI.Form.Field
 
 export default class Checkbox extends React.PureComponent {
@@ -17,25 +16,23 @@ export default class Checkbox extends React.PureComponent {
   }
 
   render () {
-    const { label, input, required, isFieldRequired } = this.props
-    const isRequired = required || (isFieldRequired && isFieldRequired(input.name))
+    const { label, input } = this.props
     let checkedValue = input.value === true
     return (
       <SemanticField >
-        <FormLabel required={isRequired}>{label}</FormLabel>
         <SemanticUI.Checkbox
           checked={checkedValue}
           onChange={this.handleChange}
+          label={label}
           name={input.name} />
       </SemanticField>
     )
   }
-
 }
+
 Checkbox.propTypes = {
   input: object.isRequired,
   label: string,
   locale: string,
-  meta: object,
-  isFieldRequired: func
+  meta: object
 }

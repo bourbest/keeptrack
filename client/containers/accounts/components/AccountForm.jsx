@@ -2,8 +2,9 @@ import React from 'react'
 
 // Components
 import { reduxForm, Field } from 'redux-form'
-import {TextField} from '../../components/forms'
+import {TextField, CheckboxField} from '../../components/forms'
 import { Form } from 'semantic-ui-react'
+const SemanticField = Form.Field
 import {createTranslate} from '../../../locales/translate'
 
 // module stuff
@@ -18,7 +19,7 @@ class AccountForm extends React.PureComponent {
   }
 
   render () {
-    const {locale, isNew, roleList} = this.props
+    const {locale, isNew, roleOptionList} = this.props
     return (
       <Form>
         <Field name="userName" label={this.message('userName')} required component={TextField} locale={locale} />
@@ -27,6 +28,15 @@ class AccountForm extends React.PureComponent {
         <Field name="email" label={this.message('email')} required component={TextField} locale={locale} />
         <Field name="password" label={this.message('password')} required={isNew} component={TextField} locale={locale} type="password" />
         <Field name="confirmPassword" label={this.message('confirmPassword')} required={isNew} component={TextField} locale={locale} type="password" />
+        <SemanticField>
+          <label>{this.message('roles')}</label>
+          {
+            roleOptionList.map((roleOption) => {
+              const name = `roles.${roleOption.value}`
+              return (<Field key={roleOption.value} name={name} label={roleOption.label} component={CheckboxField} locale={locale} />)
+            })
+          }
+        </SemanticField>
       </Form>
     )
   }
@@ -34,7 +44,7 @@ class AccountForm extends React.PureComponent {
 
 AccountForm.propTypes = {
   locale: React.PropTypes.string.isRequired,
-  roleList: React.PropTypes.array.isRequired,
+  roleOptionList: React.PropTypes.array.isRequired,
   isNew: React.PropTypes.bool.isRequired
 }
 

@@ -3,27 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="fca5fc71-6722-4cce-b020-c1541d0ad281" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/Common.Domain/ICRUDService.cs" afterPath="$PROJECT_DIR$/api/Common.Domain/ICRUDService.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/Common.Domain/ServiceBase.cs" afterPath="$PROJECT_DIR$/api/Common.Domain/ServiceBase.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/KT.API/Controllers/BaseApiController.cs" afterPath="$PROJECT_DIR$/api/KT.API/Controllers/BaseApiController.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/KT.API/KT.API.csproj" afterPath="$PROJECT_DIR$/api/KT.API/KT.API.csproj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/KT.Domain.Tests/UserIdentityServiceTests.cs" afterPath="$PROJECT_DIR$/api/KT.Domain.Tests/UserIdentityServiceTests.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/KT.Domain.Tests/app.config" afterPath="$PROJECT_DIR$/api/KT.Domain.Tests/app.config" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/KT.Domain/Common/BaseOwnedEntityService.cs" afterPath="$PROJECT_DIR$/api/KT.Domain/Common/BaseOwnedEntityService.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/KT.Domain/UserIdentityService.cs" afterPath="$PROJECT_DIR$/api/KT.Domain/UserIdentityService.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/containers/clients/ListClientsPage.jsx" afterPath="$PROJECT_DIR$/client/containers/clients/ListClientsPage.jsx" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/containers/components/NavBar.jsx" afterPath="$PROJECT_DIR$/client/containers/components/NavBar.jsx" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/containers/components/behavioral/StandardListToolbar.jsx" afterPath="$PROJECT_DIR$/client/containers/components/behavioral/StandardListToolbar.jsx" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/locales/languages_en.json" afterPath="$PROJECT_DIR$/client/locales/languages_en.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/locales/languages_fr.json" afterPath="$PROJECT_DIR$/client/locales/languages_fr.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/containers/accounts/EditAccountPage.jsx" afterPath="$PROJECT_DIR$/client/containers/accounts/EditAccountPage.jsx" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/containers/accounts/components/AccountForm.jsx" afterPath="$PROJECT_DIR$/client/containers/accounts/components/AccountForm.jsx" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/containers/components/forms/Checkbox.jsx" afterPath="$PROJECT_DIR$/client/containers/components/forms/Checkbox.jsx" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/modules/accounts/selectors.js" afterPath="$PROJECT_DIR$/client/modules/accounts/selectors.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/modules/accounts/validate.js" afterPath="$PROJECT_DIR$/client/modules/accounts/validate.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/modules/app/actions.js" afterPath="$PROJECT_DIR$/client/modules/app/actions.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/modules/common/sagas.js" afterPath="$PROJECT_DIR$/client/modules/common/sagas.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/modules/common/validate.js" afterPath="$PROJECT_DIR$/client/modules/common/validate.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/modules/root-reducer.js" afterPath="$PROJECT_DIR$/client/modules/root-reducer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/modules/root-saga.js" afterPath="$PROJECT_DIR$/client/modules/root-saga.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/routes.jsx" afterPath="$PROJECT_DIR$/client/routes.jsx" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/package.json" afterPath="$PROJECT_DIR$/client/package.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/services/index.js" afterPath="$PROJECT_DIR$/client/services/index.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -42,63 +26,68 @@
       <file leaf-file-name="AccountForm.jsx" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/client/containers/accounts/components/AccountForm.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="476">
-              <caret line="28" column="147" lean-forward="false" selection-start-line="28" selection-start-column="147" selection-end-line="28" selection-end-column="147" />
+            <state relative-caret-position="646">
+              <caret line="38" column="24" lean-forward="false" selection-start-line="38" selection-start-column="24" selection-end-line="38" selection-end-column="24" />
               <folding>
                 <element signature="e#41#86#0" expanded="true" />
-                <element signature="e#253#306#0" expanded="true" />
+                <element signature="e#301#354#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ListAccountsPage.jsx" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/containers/accounts/ListAccountsPage.jsx">
+      <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/client/services/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="617">
-              <caret line="88" column="2" lean-forward="true" selection-start-line="88" selection-start-column="2" selection-end-line="88" selection-end-column="55" />
+            <state relative-caret-position="68">
+              <caret line="4" column="50" lean-forward="false" selection-start-line="4" selection-start-column="50" selection-end-line="4" selection-end-column="50" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="selectors.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/client/modules/accounts/selectors.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="748">
+              <caret line="44" column="1" lean-forward="true" selection-start-line="44" selection-start-column="1" selection-end-line="44" selection-end-column="1" />
               <folding>
-                <element signature="e#128#200#0" expanded="true" />
+                <element signature="e#0#29#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="actions.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/modules/common/actions.js">
+      <file leaf-file-name="EditAccountPage.jsx" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/client/containers/accounts/EditAccountPage.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="702">
-              <caret line="57" column="91" lean-forward="false" selection-start-line="57" selection-start-column="91" selection-end-line="57" selection-end-column="91" />
+            <state relative-caret-position="367">
+              <caret line="79" column="27" lean-forward="true" selection-start-line="79" selection-start-column="27" selection-end-line="79" selection-end-column="27" />
+              <folding>
+                <element signature="e#0#25#0" expanded="true" />
+                <element signature="e#81#123#0" expanded="true" />
+                <element signature="e#191#248#0" expanded="true" />
+                <element signature="e#331#403#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ClientForm.jsx" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/client/containers/clients/components/ClientForm.jsx">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="actions.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/modules/app/actions.js">
+      <file leaf-file-name="selectors.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/client/modules/common/selectors.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="24" column="35" lean-forward="false" selection-start-line="24" selection-start-column="35" selection-end-line="24" selection-end-column="35" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sagas.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/modules/common/sagas.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="527">
-              <caret line="34" column="0" lean-forward="true" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="StandardListToolbar.jsx" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/containers/components/behavioral/StandardListToolbar.jsx">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="311">
-              <caret line="61" column="28" lean-forward="false" selection-start-line="61" selection-start-column="14" selection-end-line="61" selection-end-column="28" />
+            <state relative-caret-position="260">
+              <caret line="58" column="34" lean-forward="false" selection-start-line="58" selection-start-column="13" selection-end-line="58" selection-end-column="34" />
               <folding />
             </state>
           </provider>
@@ -114,32 +103,38 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ListClientsPage.jsx" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/client/containers/clients/ListClientsPage.jsx">
+      <file leaf-file-name="Checkbox.jsx" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/client/containers/components/forms/Checkbox.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="527">
-              <caret line="75" column="38" lean-forward="false" selection-start-line="75" selection-start-column="38" selection-end-line="75" selection-end-column="38" />
-              <folding />
+            <state relative-caret-position="68">
+              <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="43" />
+              <folding>
+                <element signature="e#0#25#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="languages_en.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/locales/languages_en.json">
+      <file leaf-file-name="account-service.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/client/services/account-service.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="4" lean-forward="true" selection-start-line="8" selection-start-column="4" selection-end-line="8" selection-end-column="4" />
-              <folding />
+            <state relative-caret-position="510">
+              <caret line="30" column="0" lean-forward="true" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#45#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="validate.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/modules/accounts/validate.js">
+      <file leaf-file-name="account-service-tests.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/client/services/test/account-service-tests.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="7" lean-forward="false" selection-start-line="10" selection-start-column="7" selection-end-line="10" selection-end-column="7" />
-              <folding />
+            <state relative-caret-position="1020">
+              <caret line="60" column="0" lean-forward="true" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#29#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -200,8 +195,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/client/modules/authentication/config.js" />
-        <option value="$PROJECT_DIR$/client/modules/app/config.js" />
         <option value="$PROJECT_DIR$/client/locales/translate.js" />
         <option value="$PROJECT_DIR$/client/containers/clients/EditClientPage2.jsx" />
         <option value="$PROJECT_DIR$/client/containers/components/pages/StandardListPage.jsx" />
@@ -210,7 +203,6 @@
         <option value="$PROJECT_DIR$/client/containers/components/pages/StandardEditPage.jsx" />
         <option value="$PROJECT_DIR$/client/containers/components/forms/TextField.jsx" />
         <option value="$PROJECT_DIR$/client/containers/components/forms/DateField.jsx" />
-        <option value="$PROJECT_DIR$/client/containers/components/forms/Checkbox.jsx" />
         <option value="$PROJECT_DIR$/client/containers/components/forms/index.jsx" />
         <option value="$PROJECT_DIR$/client/containers/components/forms/RadioButtons.jsx" />
         <option value="$PROJECT_DIR$/client/containers/components/forms/FormLabel.js" />
@@ -222,7 +214,6 @@
         <option value="$PROJECT_DIR$/client/assets/stylesheets/main.css" />
         <option value="$PROJECT_DIR$/client/containers/components/controls/SearchBox.jsx" />
         <option value="$PROJECT_DIR$/client/services/base/rest-service.js" />
-        <option value="$PROJECT_DIR$/client/package.json" />
         <option value="$PROJECT_DIR$/client/modules/common/reducers.js" />
         <option value="$PROJECT_DIR$/client/modules/common/selectors.js" />
         <option value="$PROJECT_DIR$/client/modules/accounts/config.js" />
@@ -232,18 +223,14 @@
         <option value="$PROJECT_DIR$/client/modules/clients/selectors.js" />
         <option value="$PROJECT_DIR$/client/modules/clients/reducer.js" />
         <option value="$PROJECT_DIR$/client/containers/components/NavBar.jsx" />
-        <option value="$PROJECT_DIR$/client/services/index.js" />
         <option value="$PROJECT_DIR$/client/modules/root-saga.js" />
         <option value="$PROJECT_DIR$/client/modules/root-reducer.js" />
-        <option value="$PROJECT_DIR$/client/modules/accounts/selectors.js" />
         <option value="$PROJECT_DIR$/client/containers/components/controls/EntityList.jsx" />
         <option value="$PROJECT_DIR$/client/containers/components/behavioral/StandardListToolbar.jsx" />
         <option value="$PROJECT_DIR$/client/containers/accounts/components/AccountList.jsx" />
         <option value="$PROJECT_DIR$/client/modules/common/validate.js" />
         <option value="$PROJECT_DIR$/client/routes.jsx" />
-        <option value="$PROJECT_DIR$/client/containers/accounts/EditAccountPage.jsx" />
         <option value="$PROJECT_DIR$/client/modules/accounts/validate.js" />
-        <option value="$PROJECT_DIR$/client/containers/accounts/components/AccountForm.jsx" />
         <option value="$PROJECT_DIR$/client/modules/common/actions.js" />
         <option value="$PROJECT_DIR$/client/modules/app/actions.js" />
         <option value="$PROJECT_DIR$/client/modules/common/sagas.js" />
@@ -251,6 +238,14 @@
         <option value="$PROJECT_DIR$/client/locales/languages_en.json" />
         <option value="$PROJECT_DIR$/client/containers/accounts/ListAccountsPage.jsx" />
         <option value="$PROJECT_DIR$/client/containers/clients/ListClientsPage.jsx" />
+        <option value="$PROJECT_DIR$/client/package.json" />
+        <option value="$PROJECT_DIR$/client/services/test/account-service-tests.js" />
+        <option value="$PROJECT_DIR$/client/services/account-service.js" />
+        <option value="$PROJECT_DIR$/client/modules/accounts/selectors.js" />
+        <option value="$PROJECT_DIR$/client/containers/accounts/EditAccountPage.jsx" />
+        <option value="$PROJECT_DIR$/client/containers/components/forms/Checkbox.jsx" />
+        <option value="$PROJECT_DIR$/client/containers/accounts/components/AccountForm.jsx" />
+        <option value="$PROJECT_DIR$/client/services/index.js" />
       </list>
     </option>
   </component>
@@ -397,28 +392,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="keep-track2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="keep-track2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="modules" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="accounts" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -503,55 +476,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="controls" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="keep-track2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="keep-track2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="containers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="components" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="behavioral" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="keep-track2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="keep-track2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="containers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="clients" />
+              <option name="myItemId" value="forms" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -618,9 +543,12 @@
     <property name="JavaScriptPreferStrict" value="false" />
     <property name="JavaScriptWeakerCompletionTypeGuess" value="true" />
     <property name="standardjs.codestyle.accepted" value="true" />
+    <property name="nodejs.mocha.mocha_node_package_dir" value="C:\Users\x174526\AppData\Roaming\npm\node_modules\mocha" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\projets\keep-track2\client\services\test" />
+      <recent name="C:\projets\keep-track2\client\services" />
       <recent name="C:\projets\keep-track2\client\containers\components\forms" />
       <recent name="C:\projets\keep-track2\client\containers\clients" />
       <recent name="C:\projets\keep-track2\client\containers\components\pages" />
@@ -638,7 +566,10 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Node.js.account-service-tests.js">
+    <configuration default="false" name="account-service-tests.js" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" path-to-node="project" path-to-js-file="account-service-tests.js" working-dir="$PROJECT_DIR$/client/services/test">
+      <method />
+    </configuration>
     <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
       <method />
     </configuration>
@@ -705,6 +636,14 @@
       <recursive>false</recursive>
       <method />
     </configuration>
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="Node.js.account-service-tests.js" />
+    </list>
+    <recent_temporary>
+      <list size="1">
+        <item index="0" class="java.lang.String" itemvalue="Node.js.account-service-tests.js" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
@@ -721,12 +660,13 @@
       <workItem from="1505173906875" duration="11320000" />
       <workItem from="1505257420674" duration="12202000" />
       <workItem from="1505514319813" duration="1462000" />
-      <workItem from="1505521678749" duration="7434000" />
+      <workItem from="1505521678749" duration="7498000" />
+      <workItem from="1505864538771" duration="3899000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="73968000" />
+    <option name="totallyTimeSpent" value="77931000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="1" width="1918" height="1030" extended-state="0" />
@@ -735,12 +675,12 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2505263" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39933628" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -763,44 +703,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/client/containers/clients/EditClientPage.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="868">
-          <caret line="101" column="53" lean-forward="false" selection-start-line="101" selection-start-column="53" selection-end-line="101" selection-end-column="53" />
-          <folding>
-            <element signature="e#331#403#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/containers/clients/components/ClientForm.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="25" column="113" lean-forward="false" selection-start-line="25" selection-start-column="113" selection-end-line="25" selection-end-column="113" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/config/config.dev.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="39" lean-forward="false" selection-start-line="1" selection-start-column="16" selection-end-line="1" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/modules/clients/actions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/services/base/api-client.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1411">
-          <caret line="84" column="35" lean-forward="false" selection-start-line="84" selection-start-column="29" selection-end-line="84" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/client/services/authentication-service.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -852,37 +754,10 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/client/modules/common/test/selectors-tests.js" />
-    <entry file="file://$PROJECT_DIR$/client/modules/common/test/validate-tests.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="11" column="51" lean-forward="false" selection-start-line="11" selection-start-column="51" selection-end-line="11" selection-end-column="51" />
-          <folding>
-            <element signature="e#0#29#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="748">
-          <caret line="44" column="22" lean-forward="false" selection-start-line="44" selection-start-column="22" selection-end-line="44" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/client/modules/common/reducers.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
           <caret line="9" column="2" lean-forward="false" selection-start-line="9" selection-start-column="2" selection-end-line="9" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/modules/common/selectors.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="27" column="32" lean-forward="false" selection-start-line="27" selection-start-column="12" selection-end-line="27" selection-end-column="32" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -939,7 +814,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
           <caret line="4" column="66" lean-forward="false" selection-start-line="4" selection-start-column="66" selection-end-line="4" selection-end-column="66" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -981,14 +855,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/services/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="12" column="38" lean-forward="false" selection-start-line="12" selection-start-column="38" selection-end-line="12" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/client/modules/root-saga.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
@@ -1017,14 +883,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/containers/components/controls/EntityList.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="612">
-          <caret line="75" column="13" lean-forward="false" selection-start-line="75" selection-start-column="13" selection-end-line="75" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/client/containers/components/controls/EntityList.jsx" />
     <entry file="file://$PROJECT_DIR$/client/containers/clients/components/ClientList.jsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="260">
@@ -1037,7 +896,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="782">
           <caret line="57" column="56" lean-forward="true" selection-start-line="57" selection-start-column="56" selection-end-line="57" selection-end-column="56" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1045,7 +903,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
           <caret line="6" column="12" lean-forward="false" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="12" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1067,33 +924,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/modules/accounts/selectors.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="121" lean-forward="false" selection-start-line="2" selection-start-column="121" selection-end-line="2" selection-end-column="121" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/client/routes.jsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="527">
           <caret line="31" column="0" lean-forward="false" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
           <folding>
             <element signature="e#0#25#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/containers/accounts/EditAccountPage.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="401">
-          <caret line="81" column="50" lean-forward="false" selection-start-line="81" selection-start-column="50" selection-end-line="81" selection-end-column="50" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-            <element signature="e#81#123#0" expanded="true" />
-            <element signature="e#191#248#0" expanded="true" />
-            <element signature="e#331#403#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1106,20 +942,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/containers/accounts/components/AccountForm.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="28" column="147" lean-forward="false" selection-start-line="28" selection-start-column="147" selection-end-line="28" selection-end-column="147" />
-          <folding>
-            <element signature="e#41#86#0" expanded="true" />
-            <element signature="e#253#306#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/client/modules/common/actions.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="702">
+        <state relative-caret-position="952">
           <caret line="57" column="91" lean-forward="false" selection-start-line="57" selection-start-column="91" selection-end-line="57" selection-end-column="91" />
           <folding />
         </state>
@@ -1127,7 +952,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/client/containers/components/behavioral/StandardListToolbar.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="311">
+        <state relative-caret-position="935">
           <caret line="61" column="28" lean-forward="false" selection-start-line="61" selection-start-column="14" selection-end-line="61" selection-end-column="28" />
           <folding />
         </state>
@@ -1144,7 +969,116 @@
     <entry file="file://$PROJECT_DIR$/client/modules/common/sagas.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="527">
-          <caret line="34" column="0" lean-forward="true" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+          <caret line="34" column="0" lean-forward="false" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/locales/languages_en.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="4" lean-forward="false" selection-start-line="8" selection-start-column="4" selection-end-line="8" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/containers/accounts/ListAccountsPage.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1411">
+          <caret line="88" column="2" lean-forward="false" selection-start-line="88" selection-start-column="2" selection-end-line="88" selection-end-column="55" />
+          <folding>
+            <element signature="e#128#200#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/containers/clients/ListClientsPage.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="75" column="38" lean-forward="false" selection-start-line="75" selection-start-column="38" selection-end-line="75" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="765">
+          <caret line="45" column="27" lean-forward="true" selection-start-line="45" selection-start-column="27" selection-end-line="45" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/modules/common/test/validate-tests.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="11" column="51" lean-forward="false" selection-start-line="11" selection-start-column="51" selection-end-line="11" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/services/test/account-service-tests.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1020">
+          <caret line="60" column="0" lean-forward="true" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/services/account-service.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="30" column="0" lean-forward="true" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#45#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/modules/common/selectors.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="58" column="34" lean-forward="false" selection-start-line="58" selection-start-column="13" selection-end-line="58" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/modules/accounts/selectors.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="748">
+          <caret line="44" column="1" lean-forward="true" selection-start-line="44" selection-start-column="1" selection-end-line="44" selection-end-column="1" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/containers/components/forms/FormLabel.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="63" lean-forward="false" selection-start-line="4" selection-start-column="36" selection-end-line="4" selection-end-column="63" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/containers/accounts/EditAccountPage.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="367">
+          <caret line="79" column="27" lean-forward="true" selection-start-line="79" selection-start-column="27" selection-end-line="79" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+            <element signature="e#81#123#0" expanded="true" />
+            <element signature="e#191#248#0" expanded="true" />
+            <element signature="e#331#403#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/containers/clients/components/ClientForm.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1157,28 +1091,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/locales/languages_en.json">
+    <entry file="file://$PROJECT_DIR$/client/containers/components/forms/Checkbox.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="4" lean-forward="true" selection-start-line="8" selection-start-column="4" selection-end-line="8" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/containers/accounts/ListAccountsPage.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="617">
-          <caret line="88" column="2" lean-forward="true" selection-start-line="88" selection-start-column="2" selection-end-line="88" selection-end-column="55" />
+        <state relative-caret-position="68">
+          <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="43" />
           <folding>
-            <element signature="e#128#200#0" expanded="true" />
+            <element signature="e#0#25#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/containers/clients/ListClientsPage.jsx">
+    <entry file="file://$PROJECT_DIR$/client/containers/accounts/components/AccountForm.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="75" column="38" lean-forward="false" selection-start-line="75" selection-start-column="38" selection-end-line="75" selection-end-column="38" />
+        <state relative-caret-position="646">
+          <caret line="38" column="24" lean-forward="false" selection-start-line="38" selection-start-column="24" selection-end-line="38" selection-end-column="24" />
+          <folding>
+            <element signature="e#41#86#0" expanded="true" />
+            <element signature="e#301#354#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/services/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="50" lean-forward="false" selection-start-line="4" selection-start-column="50" selection-end-line="4" selection-end-column="50" />
           <folding />
         </state>
       </provider>
