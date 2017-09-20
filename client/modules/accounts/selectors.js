@@ -4,7 +4,7 @@ import { createBaseSelectors, createFilteredListSelectorWithLocale, getSortParam
 import { createSelector } from 'reselect'
 const Selectors = createBaseSelectors(config.entityName)
 
-const concatInfo = (client, locale) => client.lastName + client.firstName
+const concatInfo = (account, locale) => account.lastName + account.firstName
 
 Selectors.getFilteredList = createFilteredListSelectorWithLocale(Selectors, concatInfo, getLocale)
 

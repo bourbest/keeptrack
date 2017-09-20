@@ -17,7 +17,7 @@ export const createService = (serviceName, apiConfig) => {
     case 'clients':
       return new RestService('client-files', apiClient)
 
-    case 'form-template':
+    case 'form-templates':
       return new RestService('form-templates', apiClient)
 
     default:

@@ -4,7 +4,7 @@
   },
   "navigation": {
     "clients" : "Clients",
-    "forms": "Formulaires",
+    "formTemplates": "Formulaires",
     "accounts" : "Comptes utilisateurs"
   },
   "login": {
@@ -36,6 +36,12 @@
     "errors": {
       "passwordNotMatching": "Le mot de passe ne correspond pas"
     }
+  },
+  "formTemplates": {
+    "list-title": "Liste des formulaires",
+    "create-title": "Création d'un nouveau formulaire",
+    "edit-title": "Édition d'un formulaire",
+    "name": "Nom du formulaire"
   },
   "common": {
     "fr":"Français",

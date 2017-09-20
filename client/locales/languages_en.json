@@ -4,8 +4,8 @@
   },
   "navigation": {
     "clients" : "Clients",
-    "forms": "Forms",
-    "accounts" : "User accounts"
+    "formTemplates": "Form templates",
+    "accounts" : "User accounts",
   },
   "login": {
     "username": "Username",
@@ -36,6 +36,12 @@
     "errors": {
       "passwordNotMatching": "Doesn't match password"
     }
+  },
+  "formTemplates": {
+    "list-title": "List of form templates",
+    "create-title": "Create a form template",
+    "edit-title": "Edit a form template",
+    "name": "Form name"
   },
   "common": {
     "fr":"French",
