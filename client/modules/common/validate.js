@@ -23,9 +23,38 @@ export const isDate = (value) => {
   return isValid ? null : 'commonErrors.invalidDate'
 }
 
+export const isDateAfterOrEqualsToField = (propertyName, fieldLabelKey) => {
+  return (dateValue, entity) => {
+    let isValid = true
+    const otherDate = get(entity, propertyName) || ''
+    dateValue = dateValue || ''
+    if (dateValue.length === 10 && otherDate.length === 10) {
+      const dateValueM = moment(dateValue, 'YYYY-MM-DD', true)
+      const otherDateM = moment(otherDate, 'YYYY-MM-DD', true)
+      if (dateValueM.isValid() && otherDateM.isValid()) {
+        isValid = dateValueM.isSameOrAfter(otherDateM)
+      }
+    }
+
+    return isValid ? null : {
+      error: 'commonErrors.invalidDateAfter',
+      params: {otherFieldName: '$t(' + fieldLabelKey + ')'}
+    }
+  }
+}
+
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
 export const isEmail = (value) => {
   return (value && !emailRegex.test(value)) ? 'commonErrors.invalidEmail' : null
+}
+
+export const hasMinRows = (min) => {
+  return (value) => {
+    if (!value || value.length === 0) {
+      return {error: 'commonErrors.notEnoughRows', params: {minRows: min}}
+    }
+    return null
+  }
 }
 
 const isInValidValue = value => isNil(value)
@@ -49,6 +78,7 @@ export const isWithinRange = (minValue, maxValue) => {
     throw new Error('minValue cannot be greater than maxValue')
   }
   return (value) => {
+    if (value === undefined || value === '' || value === null) return null
     return (value >= minValue && value <= maxValue) ? null : {error: 'commonErrors.invalidRange', params: {minValue, maxValue}}
   }
 }

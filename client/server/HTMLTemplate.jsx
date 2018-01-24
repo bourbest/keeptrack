@@ -15,11 +15,14 @@ const HTMLDocument = (props) => (
       <link rel="stylesheet" type="text/css" href="/public/stylesheets/react-select.min.css" />
       <link rel="stylesheet" type="text/css" href="/public/stylesheets/lib-fix.css" />
       <link rel="stylesheet" type="text/css" href="/public/stylesheets/main.css" />
+      <link rel="stylesheet" type="text/css" href="/public/stylesheets/dragula.min.css" />
+      <link rel="stylesheet" type="text/css" href="/public/stylesheets/quill.snow.css" />
       <title>Keep Track - Maison l'Éclaircie</title>
     </head>
     <body>
       <div id="mount" dangerouslySetInnerHTML={{__html: props.html}} />
 
+      <script src="/public/javascript/dragula.js" async />
       <script dangerouslySetInnerHTML={{__html: `window.__INITIAL_STATE__ = ${JSON.stringify(props.state)};`}} />
       <div dangerouslySetInnerHTML={{__html: props.scripts}} />
     </body>

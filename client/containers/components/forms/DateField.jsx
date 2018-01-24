@@ -3,7 +3,7 @@ import FormLabel from './FormLabel'
 const { object, string, func } = React.PropTypes
 import { FieldError } from './FieldError'
 import moment from 'moment'
-import * as SemanticUI from 'semantic-ui-react'
+import { Form as SemanticForm } from 'semantic-ui-react'
 import DatePicker from 'react-datepicker'
 
 export default class DateField extends React.PureComponent {
@@ -38,7 +38,7 @@ export default class DateField extends React.PureComponent {
     const isRequired = required || (isFieldRequired && isFieldRequired(name))
     const date = moment(value, moment.ISO_8601, true)
     return (
-      <SemanticUI.Form.Field>
+      <SemanticForm.Field>
         <FormLabel required={isRequired}>{label}</FormLabel>
         {hasMsg && <FieldError locale={locale} error={error} isWarning={warning} />}
         <DatePicker
@@ -49,7 +49,7 @@ export default class DateField extends React.PureComponent {
           onChange={this.onDateChange}
           locale={locale}
         />
-      </SemanticUI.Form.Field>
+      </SemanticForm.Field>
     )
   }
 }

@@ -16,7 +16,7 @@ const Toolbar = (props) => {
 }
 
 Toolbar.propTypes = {
-  title: React.PropTypes.string.isRequired,
+  title: React.PropTypes.any.isRequired,
   backTo: React.PropTypes.string,
   children: React.PropTypes.any
 }

@@ -23,7 +23,7 @@ class ClientForm extends React.PureComponent {
       <Form>
         <Field name="lastName" label={this.message('lastName')} required component={TextField} locale={locale} />
         <Field name="firstName" label={this.message('firstName')} required component={TextField} locale={locale} />
-        <RadioButtonsField name="gender" label={this.message('gender')} locale={locale} options={genderOptionList} required />
+        <Field name="gender" label={this.message('gender')} component={RadioButtonsField} required locale={locale} options={genderOptionList} />
         <Field name="email" label={this.message('email')} component={TextField} locale={locale} />
         <Field name="notes" label={this.message('notes')} component={TextAreaField} locale={locale} />
       </Form>
