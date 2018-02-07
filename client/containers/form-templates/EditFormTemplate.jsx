@@ -42,7 +42,7 @@ class EditFormPage extends React.PureComponent {
     super(props)
 
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.message = createTranslate('edit-form', this)
+    this.message = createTranslate('formTemplates', this)
     this.handleFieldSelected = this.handleFieldSelected.bind(this)
     this.handleAddChoice = this.handleAddChoice.bind(this)
     this.handleAddField = this.handleAddField.bind(this)

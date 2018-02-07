@@ -62,13 +62,11 @@ Selectors.getNextNodeId = createSelector(
   }
 )
 
-Selectors.buildNewEntity = (catalogId) => {
+Selectors.buildNewEntity = () => {
   let newEntity = {
-    catalogId: catalogId,
-    isSystem: false,
-    name: '',
-    nodesById: {},
-    nodesByParentId: {0: []}
+    name: 'Nouveau formulaire',
+    nodesById: {1: {controlType: 'grid', parentId: 0, order: 0}},
+    nodesByParentId: {0: [1]}
   }
   return newEntity
 }
@@ -82,9 +80,6 @@ Selectors.buildNewField = (controlType, id) => {
   newField.id = id
   newField.controlType = controlType
 
-  if (newField.name !== undefined) {
-    newField.name = 'champ_' + id
-  }
   return newField
 }
 
