@@ -84,7 +84,7 @@ module.exports = (env, params) => {
 
   const webpackConfig = {
     context: sourcePath,
-    devtool: isDev || isQA ? 'source-map' : void 0,
+    devtool: isDev || isQA ? 'eval' : void 0,
     entry: {
       main: ['babel-polyfill', path.join(sourcePath, './index.js')],
       vendor: ['lodash', 'moment', 'react', 'react-dom']

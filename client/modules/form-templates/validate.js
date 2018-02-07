@@ -11,11 +11,11 @@ const choicesAreUniq = (choices) => {
   const values = map(choices, 'value').map(trim)
   let error = null
   if (uniq(en).length !== en.length) {
-    error = {_error: 'edit-form.duplicateEnglishLabel'}
+    error = {_error: 'formTemplates.duplicateEnglishLabel'}
   } else if (uniq(fr).length !== fr.length) {
-    error = {_error: 'edit-form.duplicateFrenchLabel'}
+    error = {_error: 'formTemplates.duplicateFrenchLabel'}
   } else if (uniq(values).length !== values.length) {
-    error = {_error: 'edit-form.duplicateValue'}
+    error = {_error: 'formTemplates.duplicateValue'}
   }
   return error
 }

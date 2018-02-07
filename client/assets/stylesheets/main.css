@@ -109,50 +109,6 @@ div.error {
   margin-bottom:10px;
 }
 
-/* =========================================== field tile ============================================ */
-.field-tile-overlay {
-  z-index: 100;
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  cursor: pointer; cursor: hand;
-}
-
-.field-tile-container {
-  border-width: 1px !important;
-  border-color: black;
-  border-style:  solid;
-  padding: 5px 10px 5px 10px;
-  position: relative;
-}
-
-.field-tile-container:hover {
-  background: #F8F8FF;
-  color: black;
-}
-
-.insertable-field-tile {
-  width: 100px;
-  height: 100px;
-}
-
-.insertable-field-tile input, 
-.insertable-field-tile textarea,
-.insertable-field-tile label * 
-{
-  font-size: 6pt;
-  text-align: left;
-}
-
-.insertable-field-tile label {
-  text-align: center;
-  font-weight: normal;
-  width: 100%;
-  font-size: smaller;
-}
-
 /* =========================================== controls ============================================ */
 /* EditableContent */
 .placeholder {
@@ -171,13 +127,18 @@ div.error {
   transition: opacity 300ms ease-out;
 }
 
+/* =============== Edit form template ====================================== */
+
 .field-selector {
   background-color: white;
 }
 
+.editedForm {
+  margin-top: 10px;
+  padding-top: 100px;
+}
 .controlTile {
   height: 100px;
-  max-width: 100px;
   border-color: #6c9db6;
   border-width: thin;
   border-style: solid;
@@ -187,26 +148,6 @@ div.error {
 
 .controlTile .thumbnail {
   height: 75px;
-}
-
-.edit-template-panel {
-  height: calc(100% - 220px);
-  overflow-y: hidden;
-  overflow-x: hidden;
-}
-
-.edit-template-panel .panel {
-  height: 100%;
-  overflow-y: scroll;
-}
-
-#newControls {
-  padding-right: 20px;
-  position: absolute;
-  left: 15px;
-}
-#newControls .column {
-  padding: 0 0 0 0 !important;
 }
 
 .drag-container.accept-drop {
@@ -227,9 +168,6 @@ div.error {
   cursor: -webkit-grab;
 }
 
-.draggable:hover {
-  background-color: lightgrey;
-}
 
 .gridOptions {
   width: 100%;
@@ -269,4 +207,50 @@ div.error {
   border-color: red;
   border-width: thin;
   border-style: dashed;
+}
+
+.ui.grid .computer.left {
+  width: 200px;
+  padding-right: 0px;
+}
+
+.ui.grid .computer.right {
+  width: 400px;
+}
+.ui.grid .computer.center {
+  width: calc(100% - 600px);
+}
+
+.formPanel {
+  height: 550px;
+  overflow-x: hidden;
+}
+.computer.left .drag-container .draggable:nth-child(odd) .controlTile {
+  border-right: none;
+}
+.computer.left .drag-container .draggable .controlTile {
+  border-top: none;
+}
+.computer.left .drag-container .draggable:first-child .controlTile,
+.computer.left .drag-container .draggable:nth-child(2) .controlTile
+{
+  border-top: 1px solid #6c9db6;
+}
+.controlTile:hover, .controlTile:focus {
+  background-color: lightgrey;
+}
+.ui.grid .column.left .row .column.draggable {
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+  padding-top: 0;
+}
+.ui.grid .column.left .row.drag-container {
+  margin: 6px 16px;
+}
+.overflow-hidden {
+  overflow: hidden;
+}
+.overflow-y {
+  overflow-y: scroll;
 }

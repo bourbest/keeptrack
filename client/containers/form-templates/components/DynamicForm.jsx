@@ -14,7 +14,6 @@ import DateField from '../../components/forms/DateField'
 import FormHeader from '../../components/forms/FormHeader'
 import FormParagraph from '../../components/forms/FormParagraph'
 import RatingField from '../../components/forms/RatingField'
-import SelectFile from '../../components/forms/SelectFileField'
 
 const CONTROL_MAP = {
   'input': TextInput,
@@ -27,8 +26,7 @@ const CONTROL_MAP = {
   'title': FormHeader,
   'paragraph': FormParagraph,
   'rating': RatingField,
-  'grid': Grid,
-  'file': SelectFile
+  'grid': Grid
 }
 
 const Row = Grid.Row
@@ -123,10 +121,6 @@ class DynamicForm extends React.PureComponent {
         })
       }
 
-      if (field.controlType === 'file') {
-        options.onFileSelected = (e) => {}
-        options.onFileSelectError = (e) => {}
-      }
       return (
         <Field
           key={controlId}
@@ -148,9 +142,18 @@ class DynamicForm extends React.PureComponent {
 
     return (
       <Form>
-        <div className="container" id="0" onClick={this.handleControlClicked}>
-          {this.props.rootControlIds.map(this.renderControl)}
-        </div>
+        <Grid columns={1}>
+          <Row>
+            <Col>
+              <div className="container" id="0" onClick={this.handleControlClicked}>
+                {this.props.rootControlIds.map(this.renderControl)}
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <a href="#" onClick={this.props.onAddZone}>Ajouter une zone</a>
+          </Row>
+        </Grid>
       </Form>
     )
   }
@@ -163,7 +166,8 @@ DynamicForm.propTypes = {
   selectedControlId: React.PropTypes.number,
   locale: React.PropTypes.string.isRequired,
   onFieldSelected: React.PropTypes.func.isRequired,
-  onFieldDeleted: React.PropTypes.func.isRequired
+  onFieldDeleted: React.PropTypes.func.isRequired,
+  onAddZone: React.PropTypes.func.isRequired
 }
 
 const DynamicFormConnected = reduxForm({

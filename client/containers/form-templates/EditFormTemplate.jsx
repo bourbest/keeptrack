@@ -28,7 +28,6 @@ import FieldSelector from './components/FieldSelector'
 import FieldAttributesEditor from './components/FieldAttributesEditor'
 import DynamicForm from './components/DynamicForm'
 const Row = Grid.Row
-const Col = Grid.Column
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -165,10 +164,10 @@ class EditFormPage extends React.PureComponent {
         <Container fluid>
           <Grid>
             <Row>
-              <Col computer="3">
+              <div className="computer column left formPanel">
                 <FieldSelector />
-              </Col>
-              <Col computer="8">
+              </div>
+              <div className="computer column center formPanel overflow-y">
                 <DynamicForm
                   rootControlIds={rootControlIds}
                   controlsById={controlsById}
@@ -178,10 +177,10 @@ class EditFormPage extends React.PureComponent {
                   locale={locale}
                   onFieldSelected={this.handleFieldSelected}
                   onFieldDeleted={this.props.actions.deleteField}
+                  onAddZone={this.handleAddZone}
                 />
-                <a href="#" onClick={this.handleAddZone}>{this.message('addZone')}</a>
-              </Col>
-              <Col computer="5">
+              </div>
+              <div className="computer column right formPanel overflow-y">
                 <FieldAttributesEditor
                   locale={locale}
                   editedField={editedField}
@@ -189,7 +188,7 @@ class EditFormPage extends React.PureComponent {
                   onChoiceDeleted={this.props.actions.deleteChoice}
                   onAddChoice={this.handleAddChoice}
                 />
-              </Col>
+              </div>
             </Row>
           </Grid>
         </Container>

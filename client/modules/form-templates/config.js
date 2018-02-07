@@ -168,11 +168,5 @@ export const FORM_CONTROLS = [
     labels: {fr: 'Échelle', en: 'Rating'},
     image: '/public/images/controls/rating.png',
     order: 9
-  },
-  {
-    controlType: 'file',
-    labels: {fr: 'Fichier', en: 'File'},
-    image: '/public/images/controls/file.png',
-    order: 11
   }
 ]
