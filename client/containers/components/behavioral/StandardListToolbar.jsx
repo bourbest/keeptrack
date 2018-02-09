@@ -12,7 +12,7 @@ import {getLocale, getDisplayedModalName} from '../../../modules/app/selectors'
 // components
 import { Button, Confirm, Dropdown } from 'semantic-ui-react'
 import {createTranslate} from '../../../locales/translate'
-import Toolbar from '../Toolbar'
+import Toolbar from '../Toolbar/Toolbar'
 import SearchBox from '../controls/SearchBox'
 
 const DELETE_MODAL_NAME = 'standardListToolbar.delete'
@@ -98,46 +98,48 @@ const makeStandardListToolbar = (entityActions, entitySelectors, labelNamespace,
       const selectedView = isDisplayingArchived ? archivedLabel : activeLabel
 
       return (
-        <Toolbar title={this.message('list-title')}>
-
-          <Dropdown item text={selectedView} style={{'marginRight': '90px'}} >
-            <Dropdown.Menu>
-              <Dropdown.Header>{this.message('selectViewHeader', 'common')}</Dropdown.Header>
-              <Dropdown.Item value="archived" onClick={this.handleViewChanged}>{archivedLabel}</Dropdown.Item>
-              <Dropdown.Item value="active" onClick={this.handleViewChanged}>{activeLabel}</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-          {!noSearch &&
-            <SearchBox placeholder={this.message('filterSearch', 'common')}
-              value={searchFilter}
-              onChange={this.handleSearchChanged} />
-          }
-          {children}
-          {!noAdd &&
-            <Button type="button" primary onClick={handleCreate} disabled={!isCreateEnabled}>
-              {this.message('create', 'common')}
-            </Button>
-          }
-          {!noDelete && !isDisplayingArchived &&
-            <Button type="button" secondary onClick={this.handleDeleteClicked} disabled={!isDeleteEnabled}>
-              {this.message('delete', 'common')}
-            </Button>
-          }
-          {!noDelete && !isDisplayingArchived &&
-            <Confirm
-              content={this.message('confirm-delete', 'common')}
-              cancelButton={this.message('no', 'common')}
-              confirmButton={this.message('yes', 'common')}
-              open={isDeleteModalDisplayed}
-              onCancel={this.props.appActions.hideModal}
-              onConfirm={this.handleDeleteConfirmed}
-              />
-          }
-          {!noDelete && isDisplayingArchived &&
-            <Button type="button" secondary onClick={this.handleRestoreClicked} disabled={!isRestoreEnabled}>
-              {this.message('restore', 'common')}
-            </Button>
-          }
+        <Toolbar>
+          <div className="item section-title">{this.message('list-title')}</div>
+          <div className="ui secondary right menu">
+            <Dropdown item text={selectedView} style={{'marginRight': '90px'}} >
+              <Dropdown.Menu>
+                <Dropdown.Header>{this.message('selectViewHeader', 'common')}</Dropdown.Header>
+                <Dropdown.Item value="archived" onClick={this.handleViewChanged}>{archivedLabel}</Dropdown.Item>
+                <Dropdown.Item value="active" onClick={this.handleViewChanged}>{activeLabel}</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+            {!noSearch &&
+              <SearchBox placeholder={this.message('filterSearch', 'common')}
+                value={searchFilter}
+                onChange={this.handleSearchChanged} />
+            }
+            {children}
+            {!noAdd &&
+              <Button type="button" primary onClick={handleCreate} disabled={!isCreateEnabled}>
+                {this.message('create', 'common')}
+              </Button>
+            }
+            {!noDelete && !isDisplayingArchived &&
+              <Button type="button" secondary onClick={this.handleDeleteClicked} disabled={!isDeleteEnabled}>
+                {this.message('delete', 'common')}
+              </Button>
+            }
+            {!noDelete && !isDisplayingArchived &&
+              <Confirm
+                content={this.message('confirm-delete', 'common')}
+                cancelButton={this.message('no', 'common')}
+                confirmButton={this.message('yes', 'common')}
+                open={isDeleteModalDisplayed}
+                onCancel={this.props.appActions.hideModal}
+                onConfirm={this.handleDeleteConfirmed}
+                />
+            }
+            {!noDelete && isDisplayingArchived &&
+              <Button type="button" secondary onClick={this.handleRestoreClicked} disabled={!isRestoreEnabled}>
+                {this.message('restore', 'common')}
+              </Button>
+            }
+          </div>
         </Toolbar>
       )
     }

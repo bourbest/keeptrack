@@ -37,6 +37,7 @@ class ListAccountsPage extends React.PureComponent {
   componentWillMount () {
     this.props.actions.clearSelectedItems()
     this.props.actions.setEditedEntity(null)
+    this.props.actions.setEditedFormFields([])
   }
 
   componentDidMount () {

@@ -1,5 +1,5 @@
 import { forEach } from 'lodash'
-import { initialize, change } from 'redux-form'
+import { initialize, change, reset } from 'redux-form'
 
 export const standardActions = [
   'SET_LIST_LOCAL_FILTERS',
@@ -51,6 +51,7 @@ export const createBaseActionCreators = (actions, entityName) => {
     fetchEditedEntity: (id) => ({ type: actions.FETCH_EDITED_ENTITY, id }),
     setEditedEntity: (entity) => initialize(entityName, entity),
     setEditedEntityFieldValue: (field, value) => change(entityName, field, value),
+    resetEditedEntity: () => reset(entityName),
     clearEditedEntity: () => initialize(entityName, null),
 
     createEntity: (entity, callback = null) => ({ type: actions.CREATE_REMOTE_ENTITY, entity, callback }),

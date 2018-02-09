@@ -1,14 +1,20 @@
 import React from 'react'
-import Toolbar from '../Toolbar'
 import { Button } from 'semantic-ui-react'
+import Toolbar from '../Toolbar/Toolbar'
+import BackButton from '../Toolbar/BackButton'
 import { translate } from '../../../locales/translate'
 
 const StandardEditToolbar = (props) => {
+  const {title, backTo} = props
   return (
-    <Toolbar title={props.title} backTo={props.backTo}>
-      <Button primary onClick={props.onSaveClicked} disabled={!props.canSave}>
-        {translate('common.save', props.locale)}
-      </Button>
+    <Toolbar>
+      {backTo && <BackButton backTo={backTo} />}
+      <div className="item section-title">{title}</div>
+      <div className="ui secondary right menu">
+        <Button primary onClick={props.onSaveClicked} disabled={!props.canSave}>
+          {translate('common.save', props.locale)}
+        </Button>
+      </div>
     </Toolbar>
   )
 }

@@ -91,7 +91,7 @@ class ContentEditable extends React.Component {
     return (
       <span>
         <input name={this.props.name} type="text" value={this.state.currentValue} className={this.props.className} style={style}
-          onChange={this.onInputChanged} onKeyDown={this.onKeyDown} onBlur={this.onBlur}
+          onChange={this.onInputChanged} onKeyDown={this.onKeyDown} onBlur={this.onBlur} autoComplete="off"
           ref='input' />
 
         {!this.state.isEditing &&

@@ -22,7 +22,7 @@ Selectors.getFilteredSortedList = createSelector(
   }
 )
 
-Selectors.getOrderedRootControlIds = (state) => state[config.entityName].editedFormNodesByParentId[0]
+Selectors.getOrderedRootControlIds = (state) => state[config.entityName].editedFormNodesByParentId[0] || []
 Selectors.getControlIdsByParentId = (state) => state[config.entityName].editedFormNodesByParentId
 Selectors.getControls = (state) => state[config.entityName].editedFormNodesById
 Selectors.getEditedField = getFormValues(config.fieldEditorFormName)
@@ -40,6 +40,22 @@ const getEditedFieldChoices = (state) => {
   const field = Selectors.getEditedField(state)
   if (field) return field.choices
   return null
+}
+
+Selectors.buildFormReadyForSave = (formEntity, nodesById, nodesByParentId) => {
+  const formData = {...formEntity}
+  const nodes = []
+  for (let parentId in nodesByParentId) {
+    const childrenIds = nodesByParentId[parentId]
+    for (let i = 0; i < childrenIds.length; i++) {
+      const childNode = {...nodesById[childrenIds[i]]}
+      childNode.order = i
+      childNode.parentId = parseInt(parentId)
+      nodes.push(childNode)
+    }
+  }
+  formData.fields = nodes
+  return formData
 }
 
 Selectors.getNextChoiceId = createSelector(
@@ -65,8 +81,10 @@ Selectors.getNextNodeId = createSelector(
 Selectors.buildNewEntity = () => {
   let newEntity = {
     name: 'Nouveau formulaire',
-    nodesById: {1: {controlType: 'grid', parentId: 0, order: 0}},
-    nodesByParentId: {0: [1]}
+    isArchived: false,
+    fields: [
+      {id: 1, controlType: 'grid', columnCount: 1, order: 0, parentId: 0}
+    ]
   }
   return newEntity
 }

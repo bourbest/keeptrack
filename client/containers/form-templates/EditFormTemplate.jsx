@@ -1,6 +1,6 @@
 import React from 'react'
 import { browserHistory } from 'react-router'
-
+import {get} from 'lodash'
 // redux
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -9,7 +9,9 @@ import { reduxForm } from 'redux-form'
 // form controls
 import { Button, Grid, Container } from 'semantic-ui-react'
 import { FormError } from '../components/forms/FormError'
-import Toolbar from '../components/Toolbar'
+import Toolbar from '../components/Toolbar/Toolbar'
+import BackButton from '../components/Toolbar/BackButton'
+import ContentEditable from '../components/controls/ContentEditable'
 
 // actions and selectors
 import { ActionCreators as FormsActions } from '../../modules/form-templates/actions'
@@ -36,7 +38,7 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-class EditFormPage extends React.PureComponent {
+class EditFormTemplate extends React.PureComponent {
   constructor (props) {
     super(props)
 
@@ -47,16 +49,18 @@ class EditFormPage extends React.PureComponent {
     this.handleAddField = this.handleAddField.bind(this)
     this.handleControlMoved = this.handleControlMoved.bind(this)
     this.handleAddZone = this.handleAddZone.bind(this)
+    this.handleFormNameChanged = this.handleFormNameChanged.bind(this)
   }
 
   componentWillMount () {
     const id = this.props.params.id || null
 
     if (id !== 'create') {
-      this.props.actions.fetchEditedEntity(parseInt(id), {catalogId: this.props.catalogId})
+      this.props.actions.fetchEditedEntity(id)
     } else {
-      const newEntity = FormsSelectors.buildNewEntity(this.props.catalogId)
+      const newEntity = FormsSelectors.buildNewEntity()
       this.props.actions.setEditedEntity(newEntity)
+      this.props.actions.setEditedFormFields(newEntity.fields)
     }
   }
 
@@ -87,11 +91,14 @@ class EditFormPage extends React.PureComponent {
   }
 
   handleSubmit () {
+    const {formEntity, controlsById, controlIdsByParentId} = this.props
+    const form = FormsSelectors.buildFormReadyForSave(formEntity, controlsById, controlIdsByParentId)
+
     const isNew = this.props.isNew
     const method = isNew ? this.props.actions.createEntity : this.props.actions.updateEntity
     const notify = this.props.appActions.notify
 
-    method(this.props.attribute, {catalogId: this.props.catalogId}, (entity) => {
+    method(form, (entity) => {
       if (isNew) {
         browserHistory.replace('/form-templates/' + entity.id)
       }
@@ -139,6 +146,10 @@ class EditFormPage extends React.PureComponent {
     this.props.actions.addChoice(choice)
   }
 
+  handleFormNameChanged (event) {
+    this.props.actions.setEditedEntityFieldValue('name', event.target.value)
+  }
+
   render () {
     const {error, locale, rootControlIds, controlIdsByParentId, controlsById, controlsErrorsById, editedField} = this.props
     const {canSaveEditedEntity, submitting} = this.props
@@ -155,9 +166,19 @@ class EditFormPage extends React.PureComponent {
     return (
       <div>
         <Toolbar title={this.message(titleLabelKey)} backTo="/form-templates">
-          <Button loading={submitting} id="saveButton" onClick={this.handleSubmit} disabled={!canSaveEditedEntity}>
-            {this.message('save', 'common')}
-          </Button>
+          <BackButton backTo='/form-templates' />
+          <div className="item section-title">
+            <ContentEditable
+              onEditEnded={this.handleFormNameChanged}
+              value={get(this.props.formEntity, 'name', '')}
+              name='name'
+            />
+          </div>
+          <div className="ui secondary right menu">
+            <Button loading={submitting} id="saveButton" onClick={this.handleSubmit} disabled={!canSaveEditedEntity}>
+              {this.message('save', 'common')}
+            </Button>
+          </div>
         </Toolbar>
         <FormError error={error} locale={locale} />
 
@@ -199,6 +220,7 @@ class EditFormPage extends React.PureComponent {
 
 const mapStateToProps = (state) => {
   return {
+    formEntity: FormsSelectors.getEditedEntity(state),
     rootControlIds: FormsSelectors.getOrderedRootControlIds(state),
     controlIdsByParentId: FormsSelectors.getControlIdsByParentId(state),
     controlsById: FormsSelectors.getControls(state),
@@ -212,7 +234,8 @@ const mapStateToProps = (state) => {
   }
 }
 
-EditFormPage.propTypes = {
+EditFormTemplate.propTypes = {
+  formEntity: React.PropTypes.object,
   rootControlIds: React.PropTypes.array.isRequired,
   controlIdsByParentId: React.PropTypes.object.isRequired,
   controlsById: React.PropTypes.object.isRequired,
@@ -235,7 +258,7 @@ EditFormPage.propTypes = {
 const PageForm = reduxForm({
   form: entityName,
   validate: validateForm
-})(EditFormPage)
+})(EditFormTemplate)
 
 const PageConnected = connect(mapStateToProps, mapDispatchToProps)(PageForm)
 export default PageConnected

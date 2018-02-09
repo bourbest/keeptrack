@@ -22,11 +22,8 @@ const specificFormSaga = function * baseSaga (action) {
     case Actions.FETCH_EDITED_FORM:
       yield put(ActionCreators.setFetching(true))
       try {
-        const svc = yield select(getService, config.entityName, action.urlParams)
+        const svc = yield select(getService, config.entityName)
         const entity = yield call(svc.get, action.id)
-        if (action.callback) {
-          yield call(action.callback, entity)
-        }
         const formData = omit(entity, 'fields')
         yield put(ActionCreators.setEditedEntity(formData))
         yield put(ActionCreators.setEditedFormFields(entity.fields))

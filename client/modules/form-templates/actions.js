@@ -19,7 +19,7 @@ const SpecificActions = createActions(prefix, [
 const BaseActionCreators = createBaseActionCreators(BaseActions, config.entityName)
 
 const SpecificActionCreators = {
-  fetchEditedEntity: (id, urlParams, callback) => ({type: SpecificActions.FETCH_EDITED_FORM, id, urlParams, callback}), // override default
+  fetchEditedEntity: (id) => ({type: SpecificActions.FETCH_EDITED_FORM, id}), // override default
   setEditedFormFields: (fields) => ({type: SpecificActions.SET_EDITED_FORM_FIELDS, fields}),
 
   // field editor actions

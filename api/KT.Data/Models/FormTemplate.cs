@@ -8,21 +8,42 @@ namespace KT.Data.Models
     public class FormFieldChoice
     {
         public object Value { get; set; }
-        public string Label { get; set; }
-        public int Order { get; set; }
+        public Dictionary<string, string> Labels { get; set; }
     }
 
     public class FormField
     {
-        public string Name { get; set; }
-        public string Type { get; set; }
-        public bool IsRequired { get; set; }
-        public string Label { get; set; }
-        public string ClassName { get; set; }
-        public bool AllowMultipleChoices { get; set; }
-        public List<FormFieldChoice> Choices { get; set; }
+        public int Id { get; set; }
+        public string ControlType { get; set; }
+        public int ParentId { get; set; }
         public int Order { get; set; }
-        public int Height { get; set; }
+
+        [BsonIgnoreIfNull]
+        public Dictionary<string, string> Labels { get; set; }
+
+        [BsonIgnoreIfNull]
+        public int? ColumnCount { get; set; }
+
+        [BsonIgnoreIfNull]
+        public bool? IsRequired { get; set; }
+
+        [BsonIgnoreIfNull]
+        public List<FormFieldChoice> Choices { get; set; }
+
+        [BsonIgnoreIfNull]
+        public int? MaxLength { get; set; }
+
+        [BsonIgnoreIfNull]
+        public bool? UseCurrentDateAsDefaultValue { get; set; }
+
+        [BsonIgnoreIfNull]
+        public string MinValue { get; set; }
+
+        [BsonIgnoreIfNull]
+        public string MaxValue { get; set; }
+
+        [BsonIgnoreIfNull]
+        public int? HeaderLevel { get; set; }
     }
 
     public class FormTemplate : IModel<Guid>
