@@ -13,9 +13,9 @@ namespace KT.Data.Models
 
     public class FormField
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string ControlType { get; set; }
-        public int ParentId { get; set; }
+        public string ParentId { get; set; }
         public int Order { get; set; }
 
         [BsonIgnoreIfNull]

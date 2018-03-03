@@ -109,9 +109,9 @@ class EditFormTemplate extends React.PureComponent {
   }
 
   handleControlMoved (el, target, source, sibling) {
-    const sourceParentId = source.id === 'newControls' ? null : parseInt(source.getAttribute('data-control-id'))
-    const targetParentId = parseInt(target.getAttribute('data-control-id'))
-    const beforeSiblingId = sibling ? parseInt(sibling.getAttribute('data-control-id')) : null
+    const sourceParentId = source.id === 'newControls' ? null : source.getAttribute('data-control-id')
+    const targetParentId = target.getAttribute('data-control-id')
+    const beforeSiblingId = sibling ? sibling.getAttribute('data-control-id') : null
 
     // la lib bouge les tag et React pète parce qu'il essaie d'enlever les Node qui ont été bougées
     // cancel(true) revert les modifications apportées dans le DOM. On update le state juste après
@@ -119,7 +119,7 @@ class EditFormTemplate extends React.PureComponent {
     this.dragula.cancel(true)
 
     if (sourceParentId !== null) {
-      const fieldId = parseInt(el.getAttribute('data-control-id'))
+      const fieldId = el.getAttribute('data-control-id')
       this.props.actions.moveField(fieldId, sourceParentId, targetParentId, beforeSiblingId)
     } else {
       const type = el.id
@@ -129,7 +129,7 @@ class EditFormTemplate extends React.PureComponent {
 
   handleAddZone (event) {
     event.preventDefault()
-    this.handleAddField('grid', 0, null) // add a grid at the end of root container
+    this.handleAddField('grid', 'c0', null) // add a grid at the end of root container
   }
 
   handleFieldSelected (fieldId) {
@@ -242,7 +242,7 @@ EditFormTemplate.propTypes = {
   controlsById: PropTypes.object.isRequired,
   controlsErrorsById: PropTypes.object.isRequired,
   editedField: PropTypes.object,
-  nextFieldId: PropTypes.number.isRequired,
+  nextFieldId: PropTypes.string.isRequired,
   nextChoiceId: PropTypes.number.isRequired,
   locale: PropTypes.string.isRequired,
   isNew: PropTypes.bool.isRequired,

@@ -7,7 +7,7 @@ import { validateNode, validateNodes } from './validate'
 const initialState = {...baseInitialState,
   // edited entity
   editedFormNodesById: {},
-  editedFormNodesByParentId: {0: []}, // 1: [2,3,4]
+  editedFormNodesByParentId: {'c0': []},
   editedFormNodesErrors: {}
 }
 
@@ -81,7 +81,7 @@ const specificReducer = (state, action) => {
         editedFormNodesErrors = validateNodes(action.fields)
       } else {
         editedFormNodesById = {}
-        editedFormNodesByParentId = {0: []}
+        editedFormNodesByParentId = {'c0': []}
         editedFormNodesErrors = {}
       }
 
