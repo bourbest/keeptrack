@@ -1,5 +1,4 @@
-import { call, put, select } from 'redux-saga/effects'
-import { takeEvery } from 'redux-saga'
+import { call, put, select, takeEvery } from 'redux-saga/effects'
 import { isArray } from 'lodash'
 import { startSubmit, stopSubmit, initialize } from 'redux-form'
 
@@ -98,15 +97,11 @@ export const createBaseSaga = (entityName, Actions, ActionCreators, getService, 
 }
 
 export const createBaseSagaWatcher = (Actions, saga) => {
-  function * sagaWatcher () {
-    yield * takeEvery([
-      Actions.FETCH_ALL,
-      Actions.CREATE_REMOTE_ENTITY,
-      Actions.UPDATE_REMOTE_ENTITY,
-      Actions.FETCH_EDITED_ENTITY,
-      Actions.DELETE_REMOTE_ENTITIES
-    ], saga)
-  }
-
-  return sagaWatcher
+  return takeEvery([
+    Actions.FETCH_ALL,
+    Actions.CREATE_REMOTE_ENTITY,
+    Actions.UPDATE_REMOTE_ENTITY,
+    Actions.FETCH_EDITED_ENTITY,
+    Actions.DELETE_REMOTE_ENTITIES
+  ], saga)
 }

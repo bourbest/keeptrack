@@ -1,6 +1,5 @@
 import config from './config'
-import {call, put, select} from 'redux-saga/effects'
-import {takeEvery} from 'redux-saga'
+import {call, put, select, takeEvery} from 'redux-saga/effects'
 import {omit} from 'lodash'
 
 import { Actions, ActionCreators } from './actions'
@@ -12,8 +11,6 @@ import { handleError } from '../commonHandlers'
 
 // Saga
 const baseSaga = createBaseSaga(config.entityName, Actions, ActionCreators, getService, Selectors, handleError)
-
-export default createBaseSagaWatcher(Actions, baseSaga)
 
 const specificFormSaga = function * baseSaga (action) {
   let errorAction = null
@@ -51,10 +48,11 @@ const specificFormSaga = function * baseSaga (action) {
   }
 }
 
-export function * specificFormSagaWatcher () {
-  yield * takeEvery([
+export default [
+  takeEvery([
     Actions.FETCH_EDITED_FORM,
     Actions.ADD_FIELD,
     Actions.DELETE_FIELD
-  ], specificFormSaga)
-}
+  ], specificFormSaga),
+  createBaseSagaWatcher(Actions, baseSaga)
+]

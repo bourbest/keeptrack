@@ -1,5 +1,4 @@
-import { takeEvery } from 'redux-saga'
-import { select } from 'redux-saga/effects'
+import { select, takeEvery } from 'redux-saga/effects'
 import {toastr} from 'react-redux-toastr'
 import { getLocale } from './selectors'
 import i18next from 'i18next'
@@ -26,8 +25,4 @@ function * appSaga (action) {
   }
 }
 
-export default function * appSagaWatcher () {
-  yield * takeEvery([
-    Actions.NOTIFY
-  ], appSaga)
-}
+export default takeEvery([Actions.NOTIFY], appSaga)
