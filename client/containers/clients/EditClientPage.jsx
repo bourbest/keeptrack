@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { browserHistory } from 'react-router'
 // redux
 import { bindActionCreators } from 'redux'
@@ -98,13 +99,13 @@ const mapStateToProps = (state) => {
 }
 
 EditClientPage.propTypes = {
-  entity: React.PropTypes.object,
-  genderOptionList: React.PropTypes.array.isRequired,
-  isNew: React.PropTypes.bool.isRequired,
-  canSave: React.PropTypes.bool.isRequired,
-  error: React.PropTypes.string,
-  locale: React.PropTypes.string.isRequired,
-  params: React.PropTypes.object.isRequired
+  entity: PropTypes.object,
+  genderOptionList: PropTypes.array.isRequired,
+  isNew: PropTypes.bool.isRequired,
+  canSave: PropTypes.bool.isRequired,
+  error: PropTypes.string,
+  locale: PropTypes.string.isRequired,
+  params: PropTypes.object.isRequired
 }
 
 const ConnectedEditClientPage = connect(mapStateToProps, mapDispatchToProps)(EditClientPage)

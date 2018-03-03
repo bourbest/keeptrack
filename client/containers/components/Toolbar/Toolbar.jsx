@@ -1,5 +1,5 @@
 import React from 'react'
-
+import PropTypes from 'prop-types'
 const Toolbar = (props) => {
   const {children} = props
   return (
@@ -10,7 +10,7 @@ const Toolbar = (props) => {
 }
 
 Toolbar.propTypes = {
-  children: React.PropTypes.any
+  children: PropTypes.any
 }
 
 export default Toolbar

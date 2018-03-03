@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { browserHistory } from 'react-router'
 import {get} from 'lodash'
 // redux
@@ -235,24 +236,24 @@ const mapStateToProps = (state) => {
 }
 
 EditFormTemplate.propTypes = {
-  formEntity: React.PropTypes.object,
-  rootControlIds: React.PropTypes.array.isRequired,
-  controlIdsByParentId: React.PropTypes.object.isRequired,
-  controlsById: React.PropTypes.object.isRequired,
-  controlsErrorsById: React.PropTypes.object.isRequired,
-  editedField: React.PropTypes.object,
-  nextFieldId: React.PropTypes.number.isRequired,
-  nextChoiceId: React.PropTypes.number.isRequired,
-  locale: React.PropTypes.string.isRequired,
-  isNew: React.PropTypes.bool.isRequired,
-  canSaveEditedEntity: React.PropTypes.bool.isRequired,
+  formEntity: PropTypes.object,
+  rootControlIds: PropTypes.array.isRequired,
+  controlIdsByParentId: PropTypes.object.isRequired,
+  controlsById: PropTypes.object.isRequired,
+  controlsErrorsById: PropTypes.object.isRequired,
+  editedField: PropTypes.object,
+  nextFieldId: PropTypes.number.isRequired,
+  nextChoiceId: PropTypes.number.isRequired,
+  locale: PropTypes.string.isRequired,
+  isNew: PropTypes.bool.isRequired,
+  canSaveEditedEntity: PropTypes.bool.isRequired,
 
-  actions: React.PropTypes.object.isRequired,
-  params: React.PropTypes.object,
+  actions: PropTypes.object.isRequired,
+  params: PropTypes.object,
 
-  submitting: React.PropTypes.bool,
-  error: React.PropTypes.string,
-  valid: React.PropTypes.bool
+  submitting: PropTypes.bool,
+  error: PropTypes.string,
+  valid: PropTypes.bool
 }
 
 const PageForm = reduxForm({

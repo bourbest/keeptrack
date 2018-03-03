@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 import { createTranslate } from '../../locales/translate'
 class NavBar extends React.PureComponent {
@@ -39,8 +40,8 @@ class NavBar extends React.PureComponent {
 }
 
 NavBar.propTypes = {
-  location: React.PropTypes.string,
-  locale: React.PropTypes.string.isRequired
+  location: PropTypes.string,
+  locale: PropTypes.string.isRequired
 }
 
 export default NavBar

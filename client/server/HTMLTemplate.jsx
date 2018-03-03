@@ -1,5 +1,5 @@
 import React from 'react'
-
+import PropTypes from 'prop-types'
 export const doctype = '<!doctype html>'
 
 const HTMLDocument = (props) => (
@@ -30,9 +30,9 @@ const HTMLDocument = (props) => (
 )
 
 HTMLDocument.propTypes = {
-  html: React.PropTypes.string,
-  state: React.PropTypes.object,
-  scripts: React.PropTypes.string
+  html: PropTypes.string,
+  state: PropTypes.object,
+  scripts: PropTypes.string
 }
 
 export default HTMLDocument

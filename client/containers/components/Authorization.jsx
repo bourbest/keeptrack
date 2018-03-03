@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {getUser} from '../../modules/authentication/selectors'
 import {isArray, intersection} from 'lodash'
@@ -31,7 +32,7 @@ export default (requiredRole) => {
     }
 
     WithAuthorization.propTypes = {
-      user: React.PropTypes.object
+      user: PropTypes.object
     }
     return connect(mapStateToProps)(WithAuthorization)
   }

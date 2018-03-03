@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { FieldError } from './FieldError'
 import FormLabel from './FormLabel'
 import {isArray} from 'lodash'
@@ -57,13 +58,13 @@ class CheckboxList extends React.PureComponent {
 }
 
 CheckboxList.propTypes = {
-  options: React.PropTypes.array.isRequired,
-  value: React.PropTypes.array,
-  label: React.PropTypes.string.isRequired,
-  locale: React.PropTypes.string.isRequired,
-  id: React.PropTypes.string.isRequired,
-  isRequired: React.PropTypes.bool,
-  meta: React.PropTypes.object
+  options: PropTypes.array.isRequired,
+  value: PropTypes.array,
+  label: PropTypes.string.isRequired,
+  locale: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  isRequired: PropTypes.bool,
+  meta: PropTypes.object
 }
 
 export default CheckboxList

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Button } from 'semantic-ui-react'
 import Toolbar from '../Toolbar/Toolbar'
 import BackButton from '../Toolbar/BackButton'
@@ -20,11 +21,11 @@ const StandardEditToolbar = (props) => {
 }
 
 StandardEditToolbar.propTypes = {
-  title: React.PropTypes.string.isRequired,
-  backTo: React.PropTypes.string.isRequired,
-  locale: React.PropTypes.string.isRequired,
-  canSave: React.PropTypes.bool.isRequired,
-  onSaveClicked: React.PropTypes.func.isRequired
+  title: PropTypes.string.isRequired,
+  backTo: PropTypes.string.isRequired,
+  locale: PropTypes.string.isRequired,
+  canSave: PropTypes.bool.isRequired,
+  onSaveClicked: PropTypes.func.isRequired
 }
 
 export default StandardEditToolbar

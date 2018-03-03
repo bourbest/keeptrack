@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {pick} from 'lodash'
 import config, {CONTROL_CONFIG_BY_TYPE, DOM_FIELD_OPTIONS} from '../../../modules/form-templates/config'
 import {Form, Grid, Icon, Label} from 'semantic-ui-react'
@@ -39,7 +40,7 @@ const DeleteHandle = (props) => (
 )
 
 DeleteHandle.propTypes = {
-  controlId: React.PropTypes.number.isRequired
+  controlId: PropTypes.number.isRequired
 }
 
 class DynamicForm extends React.PureComponent {
@@ -159,15 +160,15 @@ class DynamicForm extends React.PureComponent {
   }
 }
 DynamicForm.propTypes = {
-  rootControlIds: React.PropTypes.array.isRequired,
-  controlIdsByParentId: React.PropTypes.object.isRequired,
-  controlsById: React.PropTypes.object.isRequired,
-  controlsErrorsById: React.PropTypes.object.isRequired,
-  selectedControlId: React.PropTypes.number,
-  locale: React.PropTypes.string.isRequired,
-  onFieldSelected: React.PropTypes.func.isRequired,
-  onFieldDeleted: React.PropTypes.func.isRequired,
-  onAddZone: React.PropTypes.func.isRequired
+  rootControlIds: PropTypes.array.isRequired,
+  controlIdsByParentId: PropTypes.object.isRequired,
+  controlsById: PropTypes.object.isRequired,
+  controlsErrorsById: PropTypes.object.isRequired,
+  selectedControlId: PropTypes.number,
+  locale: PropTypes.string.isRequired,
+  onFieldSelected: PropTypes.func.isRequired,
+  onFieldDeleted: PropTypes.func.isRequired,
+  onAddZone: PropTypes.func.isRequired
 }
 
 const DynamicFormConnected = reduxForm({

@@ -1,5 +1,5 @@
 import React from 'react'
-
+import PropTypes from 'prop-types'
 // redux
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -84,12 +84,12 @@ const mapStateToProps = (state) => {
 }
 
 ListClientsPage.propTypes = {
-  entities: React.PropTypes.array.isRequired,
-  listFilters: React.PropTypes.object.isRequired,
-  listServerFilters: React.PropTypes.object.isRequired,
-  sortParams: React.PropTypes.array.isRequired,
-  selectedItemIds: React.PropTypes.array.isRequired,
-  locale: React.PropTypes.string.isRequired
+  entities: PropTypes.array.isRequired,
+  listFilters: PropTypes.object.isRequired,
+  listServerFilters: PropTypes.object.isRequired,
+  sortParams: PropTypes.array.isRequired,
+  selectedItemIds: PropTypes.array.isRequired,
+  locale: PropTypes.string.isRequired
 }
 
 const ConnectedListClientsPage = connect(mapStateToProps, mapDispatchToProps)(ListClientsPage)

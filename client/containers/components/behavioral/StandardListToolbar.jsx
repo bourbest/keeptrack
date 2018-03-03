@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { browserHistory } from 'react-router'
 
 // redux
@@ -146,32 +147,32 @@ const makeStandardListToolbar = (entityActions, entitySelectors, labelNamespace,
   }
 
   StandardListToolbar.propTypes = {
-    localSearchFilters: React.PropTypes.object.isRequired,
-    serverSearchFilters: React.PropTypes.object.isRequired,
-    selectedItemIds: React.PropTypes.array.isRequired,
-    locale: React.PropTypes.string.isRequired,
+    localSearchFilters: PropTypes.object.isRequired,
+    serverSearchFilters: PropTypes.object.isRequired,
+    selectedItemIds: PropTypes.array.isRequired,
+    locale: PropTypes.string.isRequired,
 
-    isCreateEnabled: React.PropTypes.bool.isRequired,
-    isDeleteEnabled: React.PropTypes.bool.isRequired,
-    isRestoreEnabled: React.PropTypes.bool.isRequired,
-    isDeleteModalDisplayed: React.PropTypes.bool.isRequired,
-    isDisplayingArchived: React.PropTypes.bool.isRequired,
+    isCreateEnabled: PropTypes.bool.isRequired,
+    isDeleteEnabled: PropTypes.bool.isRequired,
+    isRestoreEnabled: PropTypes.bool.isRequired,
+    isDeleteModalDisplayed: PropTypes.bool.isRequired,
+    isDisplayingArchived: PropTypes.bool.isRequired,
 
     // override behavior
-    overrideSearchChanged: React.PropTypes.func,
-    overrideDeleteClicked: React.PropTypes.func,
-    overrideCreateClicked: React.PropTypes.func,
+    overrideSearchChanged: PropTypes.func,
+    overrideDeleteClicked: PropTypes.func,
+    overrideCreateClicked: PropTypes.func,
 
     // toolbar options
-    noSearch: React.PropTypes.bool.isRequired,
-    noDelete: React.PropTypes.bool.isRequired,
-    noAdd: React.PropTypes.bool.isRequired,
-    useServerFilters: React.PropTypes.bool.isRequired,
+    noSearch: PropTypes.bool.isRequired,
+    noDelete: PropTypes.bool.isRequired,
+    noAdd: PropTypes.bool.isRequired,
+    useServerFilters: PropTypes.bool.isRequired,
 
-    children: React.PropTypes.any,
+    children: PropTypes.any,
 
-    actions: React.PropTypes.object.isRequired,
-    appActions: React.PropTypes.object.isRequired
+    actions: PropTypes.object.isRequired,
+    appActions: PropTypes.object.isRequired
   }
 
   StandardListToolbar.defaultProps = {

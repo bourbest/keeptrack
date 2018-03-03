@@ -1,7 +1,8 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { get } from 'lodash'
 import { connect } from 'react-redux'
-const {string, object} = React.PropTypes
+const {string, object} = PropTypes
 import { getLocale } from '../modules/app/selectors'
 import { browserHistory, Link } from 'react-router'
 import {createTranslate} from '../locales/translate'

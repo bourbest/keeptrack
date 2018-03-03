@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Label, Icon } from 'semantic-ui-react'
 
 const RemovableTag = (props) => {
@@ -12,8 +13,8 @@ const RemovableTag = (props) => {
 }
 
 RemovableTag.propTypes = {
-  label: React.PropTypes.string.isRequired,
-  onRemoveClicked: React.PropTypes.func.isRequired
+  label: PropTypes.string.isRequired,
+  onRemoveClicked: PropTypes.func.isRequired
 }
 
 export default RemovableTag

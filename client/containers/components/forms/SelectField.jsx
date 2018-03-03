@@ -1,5 +1,5 @@
 import React from 'react'
-const { object, string, arrayOf, oneOfType, array, bool, func } = React.PropTypes
+import { object, string, arrayOf, oneOfType, array, bool, func } from 'prop-types'
 import { Form } from 'semantic-ui-react'
 import { FieldError } from './FieldError'
 import FormLabel from './FormLabel'

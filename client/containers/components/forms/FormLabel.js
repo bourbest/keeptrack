@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const FormLabel = (props) => {
   const requiredIndicator = props.required ? <span className="required">*</span> : null
@@ -7,9 +8,9 @@ const FormLabel = (props) => {
 }
 
 FormLabel.propTypes = {
-  children: React.PropTypes.any,
-  required: React.PropTypes.bool,
-  for: React.PropTypes.string
+  children: PropTypes.any,
+  required: PropTypes.bool,
+  for: PropTypes.string
 }
 
 export default FormLabel

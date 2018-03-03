@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {translateError} from '../../../locales/translate'
 
 export const FieldError = (props) => {
@@ -10,10 +11,10 @@ export const FieldError = (props) => {
 }
 
 FieldError.propTypes = {
-  error: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.object
+  error: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object
   ]),
-  isWarning: React.PropTypes.bool,
-  locale: React.PropTypes.string
+  isWarning: PropTypes.bool,
+  locale: PropTypes.string
 }

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Button } from 'semantic-ui-react'
 import { Field } from 'redux-form'
 import {FieldError} from '../../components/forms/FieldError'
@@ -69,10 +70,10 @@ class ChoiceListEditor extends React.PureComponent {
 }
 
 ChoiceListEditor.propTypes = {
-  choices: React.PropTypes.array.isRequired,
-  locale: React.PropTypes.string.isRequired,
-  onChoiceDeleted: React.PropTypes.func.isRequired,
-  onAddChoice: React.PropTypes.func.isRequired
+  choices: PropTypes.array.isRequired,
+  locale: PropTypes.string.isRequired,
+  onChoiceDeleted: PropTypes.func.isRequired,
+  onAddChoice: PropTypes.func.isRequired
 }
 
 export default ChoiceListEditor

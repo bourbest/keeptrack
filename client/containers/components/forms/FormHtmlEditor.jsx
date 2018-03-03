@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import {Form} from 'semantic-ui-react'
 import { FieldError } from './FieldError'
 import FormLabel from './FormLabel'
@@ -51,12 +52,12 @@ class FormHtmlEditor extends Component {
 }
 
 FormHtmlEditor.propTypes = {
-  input: React.PropTypes.object.isRequired,
-  value: React.PropTypes.string,
-  label: React.PropTypes.string.isRequired,
-  locale: React.PropTypes.string.isRequired,
-  meta: React.PropTypes.object,
-  isRequired: React.PropTypes.bool
+  input: PropTypes.object.isRequired,
+  value: PropTypes.string,
+  label: PropTypes.string.isRequired,
+  locale: PropTypes.string.isRequired,
+  meta: PropTypes.object,
+  isRequired: PropTypes.bool
 }
 
 export default FormHtmlEditor

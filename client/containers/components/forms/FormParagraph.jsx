@@ -1,5 +1,5 @@
 import React from 'react'
-
+import PropTypes from 'prop-types'
 const FormParagraph = (props) => {
   return (
     <div className="ql-editor" dangerouslySetInnerHTML={{__html: props.label}} />
@@ -7,7 +7,7 @@ const FormParagraph = (props) => {
 }
 
 FormParagraph.propTypes = {
-  label: React.PropTypes.string.isRequired
+  label: PropTypes.string.isRequired
 }
 
 export default FormParagraph

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import config, {CONTROL_CONFIG_BY_TYPE} from '../../../modules/form-templates/config'
 import {validateNode} from '../../../modules/form-templates/validate'
 // components
@@ -126,14 +127,14 @@ const FormFieldEditor = reduxForm({
 })(FieldAttributesEditor)
 
 FieldAttributesEditor.propTypes = {
-  editedField: React.PropTypes.object,
-  locale: React.PropTypes.string.isRequired,
-  onPropertiesChanged: React.PropTypes.func.isRequired,
-  onChoiceDeleted: React.PropTypes.func.isRequired,
-  onAddChoice: React.PropTypes.func.isRequired,
-  pristine: React.PropTypes.bool,
-  error: React.PropTypes.string,
-  valid: React.PropTypes.bool
+  editedField: PropTypes.object,
+  locale: PropTypes.string.isRequired,
+  onPropertiesChanged: PropTypes.func.isRequired,
+  onChoiceDeleted: PropTypes.func.isRequired,
+  onAddChoice: PropTypes.func.isRequired,
+  pristine: PropTypes.bool,
+  error: PropTypes.string,
+  valid: PropTypes.bool
 }
 
 export default FormFieldEditor

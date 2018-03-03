@@ -1,7 +1,8 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {Form, Checkbox as SemanticCheckbox} from 'semantic-ui-react'
 
-const { object, string } = React.PropTypes
+const { object, string } = PropTypes
 const SemanticField = Form.Field
 
 export default class Checkbox extends React.PureComponent {

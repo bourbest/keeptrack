@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 import {createTranslate} from '../../../locales/translate'
 import { get } from 'lodash'
@@ -117,12 +118,12 @@ class AccountList extends PureComponent {
 }
 
 AccountList.propTypes = {
-  entities: React.PropTypes.array.isRequired,
-  selectedItemIds: React.PropTypes.array.isRequired,
-  onToggleSelected: React.PropTypes.func.isRequired,
-  sortParams: React.PropTypes.array.isRequired,
-  setSort: React.PropTypes.func.isRequired,
-  locale: React.PropTypes.string.isRequired
+  entities: PropTypes.array.isRequired,
+  selectedItemIds: PropTypes.array.isRequired,
+  onToggleSelected: PropTypes.func.isRequired,
+  sortParams: PropTypes.array.isRequired,
+  setSort: PropTypes.func.isRequired,
+  locale: PropTypes.string.isRequired
 }
 
 export default AccountList

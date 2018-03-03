@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 // Components
 import { reduxForm, Field } from 'redux-form'
@@ -43,9 +44,9 @@ class AccountForm extends React.PureComponent {
 }
 
 AccountForm.propTypes = {
-  locale: React.PropTypes.string.isRequired,
-  roleOptionList: React.PropTypes.array.isRequired,
-  isNew: React.PropTypes.bool.isRequired
+  locale: PropTypes.string.isRequired,
+  roleOptionList: PropTypes.array.isRequired,
+  isNew: PropTypes.bool.isRequired
 }
 
 const ConnectedAccountForm = reduxForm({

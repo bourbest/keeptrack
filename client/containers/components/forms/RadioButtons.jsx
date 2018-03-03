@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { FieldError } from './FieldError'
 import FormLabel from './FormLabel'
 
@@ -27,12 +28,12 @@ const RadioButtons = (props) => {
 }
 
 RadioButtons.propTypes = {
-  options: React.PropTypes.array.isRequired,
-  input: React.PropTypes.object.isRequired,
-  label: React.PropTypes.string.isRequired,
-  locale: React.PropTypes.string.isRequired,
-  required: React.PropTypes.bool,
-  meta: React.PropTypes.object
+  options: PropTypes.array.isRequired,
+  input: PropTypes.object.isRequired,
+  label: PropTypes.string.isRequired,
+  locale: PropTypes.string.isRequired,
+  required: PropTypes.bool,
+  meta: PropTypes.object
 }
 
 RadioButtons.defaultProps = {

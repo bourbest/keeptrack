@@ -1,7 +1,8 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import DynamicField from './DynamicField'
 
-const { object, func, array } = React.PropTypes
+const { object, func, array } = PropTypes
 
 const GenericForm = (props) => (
   <div>

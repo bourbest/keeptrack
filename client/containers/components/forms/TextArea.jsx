@@ -1,8 +1,9 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Form } from 'semantic-ui-react'
 import { FieldError } from './FieldError'
 import FormLabel from './FormLabel'
-const { object, string, func } = React.PropTypes
+const { object, string, func } = PropTypes
 const SemanticField = Form.Field
 
 export default class TextArea extends React.PureComponent {

@@ -1,5 +1,6 @@
 import React from 'react'
-const { func, string, bool } = React.PropTypes
+import PropTypes from 'prop-types'
+const { func, string, bool } = PropTypes
 
 class ContentEditable extends React.Component {
   constructor (props) {
