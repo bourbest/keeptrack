@@ -1,5 +1,4 @@
 import React from 'react'
-import fs from 'fs'
 
 import { renderToString, renderToStaticMarkup } from 'react-dom/server'
 import { RouterContext } from 'react-router'
@@ -10,6 +9,7 @@ import rootSaga from '../modules/root-saga'
 import configureStore from '../store'
 
 import AppConfig from '../config'
+
 import { ActionCreators as AppActions } from '../modules/app/actions'
 import { ActionCreators as AuthActions } from '../modules/authentication/actions'
 
@@ -17,6 +17,7 @@ import { I18nextProvider } from 'react-i18next'
 import { getUser } from '../modules/authentication/selectors'
 import createI18n from '../i18n-server'
 import AuthConfig from '../modules/authentication/config'
+
 function renderApplication (props) {
   return doctype + renderToStaticMarkup(<HTMLDocument {...props} />)
 }
@@ -27,10 +28,9 @@ const apiConfig = {
 
 let i18nMap = createI18n()
 
-export default function (request, res, props) {
+export default function (request, res, props, context) {
   console.log('url', request.url)
   const lng = AppConfig.defaultLocale
-
   const store = configureStore()
   const authCookie = request.cookies[AppConfig.cookieNames.auth] || ''
   const csrfToken = request.cookies[AppConfig.cookieNames.csrfToken] || ''
@@ -47,7 +47,9 @@ export default function (request, res, props) {
   }
   const cookies = `${AppConfig.cookieNames.auth}=${authCookie}; ${AppConfig.cookieNames.csrfToken}=${csrfToken};`
 
+  // prepare state
   store.dispatch(AppActions.setApiConfig(apiConfig))
+  store.dispatch(AppActions.setLocale(lng))
   store.dispatch(AppActions.setCookies(cookies))
   store.dispatch(AppActions.setCsrfToken(csrfToken))
 
@@ -63,7 +65,6 @@ export default function (request, res, props) {
     }
   }
 
-  let scripts = fs.readFileSync('./dist-kt/scripts.html', 'utf8')
   const rootComponent = (
     <I18nextProvider i18n={i18nMap[lng]}>
       <Provider store={store}>
@@ -80,7 +81,12 @@ export default function (request, res, props) {
       state.app.apiConfig.headers = {  // remove the cookies from the state before rendering so they do not appear on the client
         'X-CSRF-Token': csrfToken
       }
-      const htmlApp = renderApplication({state, html, scripts})
+      const htmlApp = renderApplication({
+        state,
+        html,
+        scripts: context.scripts,
+        runtime: context.runtime
+      })
 
       res.send(htmlApp)
     } catch (err) {

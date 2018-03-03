@@ -1,6 +1,6 @@
 import CheckboxFieldComp from './Checkbox'
 import DateFieldComp from './DateField'
-import FormErrorComp from './FormError'
+import {FormError as FormErrorComp} from './FormError'
 import RadioButtonsFieldComp from './RadioButtons'
 import SearchableSelectFieldComp from './SearchableSelectField'
 import SelectFieldComp from './SelectField'
