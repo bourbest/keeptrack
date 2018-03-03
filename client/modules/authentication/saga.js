@@ -1,8 +1,5 @@
 import { browserHistory } from 'react-router'
-
-import { call, put, select } from 'redux-saga/effects'
-import { takeLatest } from 'redux-saga'
-
+import { call, put, select, takeLatest } from 'redux-saga/effects'
 import { getService } from '../app/selectors'
 
 import {
@@ -52,9 +49,7 @@ function * authSaga (action) {
   }
 }
 
-export default function * authenticationSagaWatcher () {
-  yield * takeLatest([
-    Actions.LOG_IN,
-    Actions.LOG_OUT
-  ], authSaga)
-}
+export default takeLatest([
+  Actions.LOG_IN,
+  Actions.LOG_OUT
+], authSaga)
