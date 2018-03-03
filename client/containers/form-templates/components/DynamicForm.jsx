@@ -56,9 +56,8 @@ class DynamicForm extends React.PureComponent {
     let el = event.target
     while (el !== null) {
       if (el.getAttribute) {
-        const attr = el.getAttribute('data-control-id')
-        if (attr) {
-          const id = parseInt(attr)
+        const id = el.getAttribute('data-control-id')
+        if (id) {
           if (el.classList.contains('deleteHandle')) {
             this.props.onFieldDeleted(id)
           } else {
@@ -164,7 +163,7 @@ DynamicForm.propTypes = {
   controlIdsByParentId: PropTypes.object.isRequired,
   controlsById: PropTypes.object.isRequired,
   controlsErrorsById: PropTypes.object.isRequired,
-  selectedControlId: PropTypes.number,
+  selectedControlId: PropTypes.string,
   locale: PropTypes.string.isRequired,
   onFieldSelected: PropTypes.func.isRequired,
   onFieldDeleted: PropTypes.func.isRequired,
