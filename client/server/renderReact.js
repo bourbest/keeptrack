@@ -29,6 +29,7 @@ const apiConfig = {
 let i18nMap = createI18n()
 
 export default function (request, res, props, context) {
+  // console.log should be avoided for high traffic server as it is a blocking call
   console.log('url', request.url)
   const lng = AppConfig.defaultLocale
   const store = configureStore()
@@ -74,6 +75,10 @@ export default function (request, res, props, context) {
   )
   const run = store.runSaga(rootSaga).done
 
+  // Trigger sagas for component to run
+  // https://github.com/yelouafi/redux-saga/issues/255#issuecomment-210275959
+  renderToString(rootComponent)
+
   run.then(() => {
     const state = {...store.getState()}
     try {
@@ -94,10 +99,6 @@ export default function (request, res, props, context) {
       res.send(err.stack)
     }
   })
-
-  // Trigger sagas for component to run
-  // https://github.com/yelouafi/redux-saga/issues/255#issuecomment-210275959
-  renderToString(rootComponent)
 
   // Dispatch a close event so sagas stop listening after they're resolved
   store.close()

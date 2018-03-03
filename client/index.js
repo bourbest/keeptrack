@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from 'react-dom'
+import { hydrate } from 'react-dom'
 import { match, Router, browserHistory as history } from 'react-router'
 import { Provider } from 'react-redux'
 import { I18nextProvider } from 'react-i18next'
@@ -21,7 +21,7 @@ if (lng != null) {
     error = null
     i18n.loadNamespaces(['languages'], function () {
       i18n.on('initialized', function () {
-        render(
+        hydrate(
           <I18nextProvider i18n={i18n}>
             <Provider store={store}>
               <Router {...props} />
