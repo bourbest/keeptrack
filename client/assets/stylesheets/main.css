@@ -108,3 +108,149 @@ div.error {
   clear:both;
   margin-bottom:10px;
 }
+
+/* =========================================== controls ============================================ */
+/* EditableContent */
+.placeholder {
+  font-style: italic;
+  color: lightgrey;
+}
+
+/* =========================================== Transition group ============================================ */
+/* Delatable */
+.deletable-leave {
+  opacity: 1;
+}
+
+.deletable-leave.deletable-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-out;
+}
+
+/* =============== Edit form template ====================================== */
+
+.field-selector {
+  background-color: white;
+}
+
+.editedForm {
+  margin-top: 10px;
+  padding-top: 100px;
+}
+.controlTile {
+  height: 100px;
+  border-color: #6c9db6;
+  border-width: thin;
+  border-style: solid;
+  text-align: center;
+  font-size: 0.71428571rem;
+}
+
+.controlTile .thumbnail {
+  height: 75px;
+}
+
+.drag-container.accept-drop {
+  border-style: dashed;
+  border-color: #6c9db6;
+  border-width: thin;
+  padding: 5px 5px 5px 5px;
+  min-height: 20px;
+  width: 100%
+}
+
+.draggable {
+  padding-bottom: 8px;
+  padding-top: 8px;
+}
+
+.draggable, .draggable * {
+  cursor: -webkit-grab;
+}
+
+
+.gridOptions {
+  width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.selectedForEdit {
+  border-color: blue;
+  border-width: thin;
+  border-style: solid;
+}
+
+.deleteHandle {
+  visibility: hidden;
+}
+
+.deleteHandle:hover {
+  color: black !important;
+}
+
+.deleteHandle * {
+  cursor: pointer !important;
+}
+
+.draggable:hover > .deleteHandle, .form-zone:hover .grid-option  {
+  visibility: visible !important;
+}
+
+.grid-options {
+  position: absolute;
+  right: -14px;
+  color: lightgrey
+}
+
+.draggable.with-error {
+  border-color: red;
+  border-width: thin;
+  border-style: dashed;
+}
+
+.ui.grid .computer.left {
+  width: 200px;
+  padding-right: 0px;
+}
+
+.ui.grid .computer.right {
+  width: 400px;
+}
+.ui.grid .computer.center {
+  width: calc(100% - 600px);
+}
+
+.formPanel {
+  height: 550px;
+  overflow-x: hidden;
+}
+.computer.left .drag-container .draggable:nth-child(odd) .controlTile {
+  border-right: none;
+}
+.computer.left .drag-container .draggable .controlTile {
+  border-top: none;
+}
+.computer.left .drag-container .draggable:first-child .controlTile,
+.computer.left .drag-container .draggable:nth-child(2) .controlTile
+{
+  border-top: 1px solid #6c9db6;
+}
+.controlTile:hover, .controlTile:focus {
+  background-color: lightgrey;
+}
+.ui.grid .column.left .row .column.draggable {
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+  padding-top: 0;
+}
+.ui.grid .column.left .row.drag-container {
+  margin: 6px 16px;
+}
+.overflow-hidden {
+  overflow: hidden;
+}
+.overflow-y {
+  overflow-y: scroll;
+}

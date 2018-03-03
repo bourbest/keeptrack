@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { createTranslate } from '../locales/translate'
 
@@ -42,14 +43,14 @@ function mapStateToProps (state) {
 }
 
 Layout.propTypes = {
-  children: React.PropTypes.object,
-  params: React.PropTypes.object,
-  user: React.PropTypes.object,
-  locale: React.PropTypes.string
+  children: PropTypes.object,
+  params: PropTypes.object,
+  user: PropTypes.object,
+  locale: PropTypes.string
 }
 
 Layout.contextTypes = {
-  router: React.PropTypes.object.isRequired
+  router: PropTypes.object.isRequired
 }
 
 const LayoutConnected = connect(mapStateToProps)(Layout)

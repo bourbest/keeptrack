@@ -1,8 +1,9 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Select from 'react-select'
 import { FieldError } from './FieldError'
 import FormLabel from './FormLabel'
-const { object, string, array, func } = React.PropTypes
+const { object, string, array, func, any } = PropTypes
 
 class SearchableSelectField extends React.PureComponent {
   constructor (props) {
@@ -39,8 +40,8 @@ class SearchableSelectField extends React.PureComponent {
 }
 
 SearchableSelectField.propTypes = {
-  input: React.PropTypes.object.isRequired,
-  resetValue: React.PropTypes.any,
+  input: object.isRequired,
+  resetValue: any,
   label: string,
   placeholder: string,
   meta: object,

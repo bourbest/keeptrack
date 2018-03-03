@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 // Components
 import { reduxForm, Field } from 'redux-form'
@@ -23,7 +24,7 @@ class ClientForm extends React.PureComponent {
       <Form>
         <Field name="lastName" label={this.message('lastName')} required component={TextField} locale={locale} />
         <Field name="firstName" label={this.message('firstName')} required component={TextField} locale={locale} />
-        <RadioButtonsField name="gender" label={this.message('gender')} locale={locale} options={genderOptionList} required />
+        <Field name="gender" label={this.message('gender')} component={RadioButtonsField} required locale={locale} options={genderOptionList} />
         <Field name="email" label={this.message('email')} component={TextField} locale={locale} />
         <Field name="notes" label={this.message('notes')} component={TextAreaField} locale={locale} />
       </Form>
@@ -32,8 +33,8 @@ class ClientForm extends React.PureComponent {
 }
 
 ClientForm.propTypes = {
-  locale: React.PropTypes.string.isRequired,
-  genderOptionList: React.PropTypes.array.isRequired
+  locale: PropTypes.string.isRequired,
+  genderOptionList: PropTypes.array.isRequired
 }
 
 const ConnectedClientForm = reduxForm({

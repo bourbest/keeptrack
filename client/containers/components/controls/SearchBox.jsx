@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 class SearchBox extends React.Component {
   constructor (props) {
@@ -30,9 +31,9 @@ class SearchBox extends React.Component {
 }
 
 SearchBox.propTypes = {
-  value: React.PropTypes.string.isRequired,
-  onChange: React.PropTypes.func.isRequired,
-  placeholder: React.PropTypes.string.isRequired
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  placeholder: PropTypes.string.isRequired
 }
 
 SearchBox.defaultProps = {

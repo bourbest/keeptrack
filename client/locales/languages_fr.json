@@ -4,7 +4,7 @@
   },
   "navigation": {
     "clients" : "Clients",
-    "forms": "Formulaires",
+    "formTemplates": "Formulaires",
     "accounts" : "Comptes utilisateurs"
   },
   "login": {
@@ -36,6 +36,42 @@
     "errors": {
       "passwordNotMatching": "Le mot de passe ne correspond pas"
     }
+  },
+  "formTemplates": {
+    "list-title": "Formulaires",
+    "create-title": "Création d'un formulaire",
+    "edit-title": "Édition d'un formulaire",
+    "name": "Nom",
+    "addZone": "Ajouter une section",
+    "duplicateEnglishLabel": "Deux choix possèdent le même libellé anglais",
+    "duplicateFrenchLabel": "Deux choix possèdent le même libellé français",
+    "duplicateValue": "Deux choix possèdent la même valeur"
+  },
+  "form-field-editor": {
+    "labelFr": "Libellé (fr)",
+    "labelEn": "Libellé (en)",
+    "name": "Nom colonne exportation",
+    "isRequired": "Est requis",
+    "inputType": "Type de texte",
+    "maxLength": "Longueur maximale",
+    "export-value": "Valeur",
+    "addChoice": "Ajouter une option",
+    "columnCount": "Nombre de colonnes",
+    "useCurrentDateAsDefaultValue": "Date du jour par défaut",
+    "minValue": "Valeur miminum",
+    "maxValue": "Valeur maximum",
+    "level": "Niveau",
+    "maxFileSize": "Taille maximale de fichier (en Ko)",
+    "addExtension": "Ajouter un type de fichier",
+    "choices": "Choix"
+  },
+  "addressControl": {
+    "civicNumber": "No civique",
+    "streetName": "Rue",
+    "city": "Ville",
+    "province": "Province",
+    "country": "Pays",
+    "postalCode": "Code postal"
   },
   "common": {
     "fr":"Français",

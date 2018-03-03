@@ -78,6 +78,7 @@ export const createBaseSaga = (entityName, Actions, ActionCreators, getService, 
           const entity = yield call(svc.get, action.id)
           yield put(ActionCreators.setEditedEntity(entity))
           yield put(initialize(entityName, entity))
+          yield put(ActionCreators.resetEditedEntity())
         } catch (error) {
           errorAction = errorHandler(entityName, error)
         }

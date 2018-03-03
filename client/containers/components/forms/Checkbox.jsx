@@ -1,8 +1,9 @@
 import React from 'react'
-import * as SemanticUI from 'semantic-ui-react'
+import PropTypes from 'prop-types'
+import {Form, Checkbox as SemanticCheckbox} from 'semantic-ui-react'
 
-const { object, string } = React.PropTypes
-const SemanticField = SemanticUI.Form.Field
+const { object, string } = PropTypes
+const SemanticField = Form.Field
 
 export default class Checkbox extends React.PureComponent {
 
@@ -20,7 +21,7 @@ export default class Checkbox extends React.PureComponent {
     let checkedValue = input.value === true
     return (
       <SemanticField >
-        <SemanticUI.Checkbox
+        <SemanticCheckbox
           checked={checkedValue}
           onChange={this.handleChange}
           label={label}

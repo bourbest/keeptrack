@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { browserHistory } from 'react-router'
 
 // redux
@@ -12,7 +13,7 @@ import {getLocale, getDisplayedModalName} from '../../../modules/app/selectors'
 // components
 import { Button, Confirm, Dropdown } from 'semantic-ui-react'
 import {createTranslate} from '../../../locales/translate'
-import Toolbar from '../Toolbar'
+import Toolbar from '../Toolbar/Toolbar'
 import SearchBox from '../controls/SearchBox'
 
 const DELETE_MODAL_NAME = 'standardListToolbar.delete'
@@ -98,78 +99,80 @@ const makeStandardListToolbar = (entityActions, entitySelectors, labelNamespace,
       const selectedView = isDisplayingArchived ? archivedLabel : activeLabel
 
       return (
-        <Toolbar title={this.message('list-title')}>
-
-          <Dropdown item text={selectedView} style={{'marginRight': '90px'}} >
-            <Dropdown.Menu>
-              <Dropdown.Header>{this.message('selectViewHeader', 'common')}</Dropdown.Header>
-              <Dropdown.Item value="archived" onClick={this.handleViewChanged}>{archivedLabel}</Dropdown.Item>
-              <Dropdown.Item value="active" onClick={this.handleViewChanged}>{activeLabel}</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-          {!noSearch &&
-            <SearchBox placeholder={this.message('filterSearch', 'common')}
-              value={searchFilter}
-              onChange={this.handleSearchChanged} />
-          }
-          {children}
-          {!noAdd &&
-            <Button type="button" primary onClick={handleCreate} disabled={!isCreateEnabled}>
-              {this.message('create', 'common')}
-            </Button>
-          }
-          {!noDelete && !isDisplayingArchived &&
-            <Button type="button" secondary onClick={this.handleDeleteClicked} disabled={!isDeleteEnabled}>
-              {this.message('delete', 'common')}
-            </Button>
-          }
-          {!noDelete && !isDisplayingArchived &&
-            <Confirm
-              content={this.message('confirm-delete', 'common')}
-              cancelButton={this.message('no', 'common')}
-              confirmButton={this.message('yes', 'common')}
-              open={isDeleteModalDisplayed}
-              onCancel={this.props.appActions.hideModal}
-              onConfirm={this.handleDeleteConfirmed}
-              />
-          }
-          {!noDelete && isDisplayingArchived &&
-            <Button type="button" secondary onClick={this.handleRestoreClicked} disabled={!isRestoreEnabled}>
-              {this.message('restore', 'common')}
-            </Button>
-          }
+        <Toolbar>
+          <div className="item section-title">{this.message('list-title')}</div>
+          <div className="ui secondary right menu">
+            <Dropdown item text={selectedView} style={{'marginRight': '90px'}} >
+              <Dropdown.Menu>
+                <Dropdown.Header>{this.message('selectViewHeader', 'common')}</Dropdown.Header>
+                <Dropdown.Item value="archived" onClick={this.handleViewChanged}>{archivedLabel}</Dropdown.Item>
+                <Dropdown.Item value="active" onClick={this.handleViewChanged}>{activeLabel}</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+            {!noSearch &&
+              <SearchBox placeholder={this.message('filterSearch', 'common')}
+                value={searchFilter}
+                onChange={this.handleSearchChanged} />
+            }
+            {children}
+            {!noAdd &&
+              <Button type="button" primary onClick={handleCreate} disabled={!isCreateEnabled}>
+                {this.message('create', 'common')}
+              </Button>
+            }
+            {!noDelete && !isDisplayingArchived &&
+              <Button type="button" secondary onClick={this.handleDeleteClicked} disabled={!isDeleteEnabled}>
+                {this.message('delete', 'common')}
+              </Button>
+            }
+            {!noDelete && !isDisplayingArchived &&
+              <Confirm
+                content={this.message('confirm-delete', 'common')}
+                cancelButton={this.message('no', 'common')}
+                confirmButton={this.message('yes', 'common')}
+                open={isDeleteModalDisplayed}
+                onCancel={this.props.appActions.hideModal}
+                onConfirm={this.handleDeleteConfirmed}
+                />
+            }
+            {!noDelete && isDisplayingArchived &&
+              <Button type="button" secondary onClick={this.handleRestoreClicked} disabled={!isRestoreEnabled}>
+                {this.message('restore', 'common')}
+              </Button>
+            }
+          </div>
         </Toolbar>
       )
     }
   }
 
   StandardListToolbar.propTypes = {
-    localSearchFilters: React.PropTypes.object.isRequired,
-    serverSearchFilters: React.PropTypes.object.isRequired,
-    selectedItemIds: React.PropTypes.array.isRequired,
-    locale: React.PropTypes.string.isRequired,
+    localSearchFilters: PropTypes.object.isRequired,
+    serverSearchFilters: PropTypes.object.isRequired,
+    selectedItemIds: PropTypes.array.isRequired,
+    locale: PropTypes.string.isRequired,
 
-    isCreateEnabled: React.PropTypes.bool.isRequired,
-    isDeleteEnabled: React.PropTypes.bool.isRequired,
-    isRestoreEnabled: React.PropTypes.bool.isRequired,
-    isDeleteModalDisplayed: React.PropTypes.bool.isRequired,
-    isDisplayingArchived: React.PropTypes.bool.isRequired,
+    isCreateEnabled: PropTypes.bool.isRequired,
+    isDeleteEnabled: PropTypes.bool.isRequired,
+    isRestoreEnabled: PropTypes.bool.isRequired,
+    isDeleteModalDisplayed: PropTypes.bool.isRequired,
+    isDisplayingArchived: PropTypes.bool.isRequired,
 
     // override behavior
-    overrideSearchChanged: React.PropTypes.func,
-    overrideDeleteClicked: React.PropTypes.func,
-    overrideCreateClicked: React.PropTypes.func,
+    overrideSearchChanged: PropTypes.func,
+    overrideDeleteClicked: PropTypes.func,
+    overrideCreateClicked: PropTypes.func,
 
     // toolbar options
-    noSearch: React.PropTypes.bool.isRequired,
-    noDelete: React.PropTypes.bool.isRequired,
-    noAdd: React.PropTypes.bool.isRequired,
-    useServerFilters: React.PropTypes.bool.isRequired,
+    noSearch: PropTypes.bool.isRequired,
+    noDelete: PropTypes.bool.isRequired,
+    noAdd: PropTypes.bool.isRequired,
+    useServerFilters: PropTypes.bool.isRequired,
 
-    children: React.PropTypes.any,
+    children: PropTypes.any,
 
-    actions: React.PropTypes.object.isRequired,
-    appActions: React.PropTypes.object.isRequired
+    actions: PropTypes.object.isRequired,
+    appActions: PropTypes.object.isRequired
   }
 
   StandardListToolbar.defaultProps = {

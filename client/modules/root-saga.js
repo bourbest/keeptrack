@@ -3,12 +3,15 @@ import appSaga from './app/saga'
 import clientSaga from './clients/saga'
 import accountSaga from './accounts/saga'
 import authenticationSaga from './authentication/saga'
+import formTemplateSaga, {specificFormSagaWatcher} from './form-templates/saga'
 
 export default function * rootSaga () {
   yield [
     fork(appSaga),
     fork(clientSaga),
     fork(accountSaga),
-    fork(authenticationSaga)
+    fork(formTemplateSaga),
+    fork(authenticationSaga),
+    fork(specificFormSagaWatcher)
   ]
 }

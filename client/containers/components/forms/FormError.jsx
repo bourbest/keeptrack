@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {translateError} from '../../../locales/translate'
 
 export const FormError = (props) => {
@@ -11,9 +12,9 @@ export const FormError = (props) => {
 }
 
 FormError.propTypes = {
-  error: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.object
+  error: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object
   ]),
-  locale: React.PropTypes.string.isRequired
+  locale: PropTypes.string.isRequired
 }

@@ -4,8 +4,8 @@
   },
   "navigation": {
     "clients" : "Clients",
-    "forms": "Forms",
-    "accounts" : "User accounts"
+    "formTemplates": "Form templates",
+    "accounts" : "User accounts",
   },
   "login": {
     "username": "Username",
@@ -36,6 +36,42 @@
     "errors": {
       "passwordNotMatching": "Doesn't match password"
     }
+  },
+  "formTemplates": {
+    "title": "Forms",
+    "create": "New form",
+    "copy": "Copy form",
+    "name": "Name",
+    "addZone": "Add a zone",
+    "duplicateEnglishLabel": "Two choices share the same english label",
+    "duplicateFrenchLabel": "Two choices share the same french label",
+    "duplicateValue": "Two choices share the same value"
+  },
+  "form-field-editor": {
+    "labelFr": "Label (fr)",
+    "labelEn": "Label (en)",
+    "name": "Export column name",
+    "isRequired": "Is required",
+    "inputType": "Type of text input",
+    "maxLength": "Max length",
+    "export-value": "Value",
+    "addChoice": "Add option",
+    "columnCount": "Column count",
+    "useCurrentDateAsDefaultValue": "Use current day as default value",
+    "minValue": "Min value",
+    "maxValue": "Max value",
+    "level": "Level",
+    "maxFileSize": "Max file size accepted (in Ko)",
+    "addExtension": "Add a file type",
+    "choices": "Choices"
+  },
+   "addressControl": {
+    "civicNumber": "Civic number",
+    "streetName": "Street",
+    "city": "City",
+    "province": "Province",
+    "country": "Country",
+    "postalCode": "Postal code"
   },
   "common": {
     "fr":"French",

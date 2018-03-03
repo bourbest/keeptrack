@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { browserHistory } from 'react-router'
 
 // redux
@@ -85,11 +86,11 @@ class LoginPage extends React.PureComponent {
 }
 
 LoginPage.propTypes = {
-  actions: React.PropTypes.object.isRequired,
-  params: React.PropTypes.object,
-  location: React.PropTypes.object.isRequired,
-  loginError: React.PropTypes.string,
-  locale: React.PropTypes.string
+  actions: PropTypes.object.isRequired,
+  params: PropTypes.object,
+  location: PropTypes.object.isRequired,
+  loginError: PropTypes.string,
+  locale: PropTypes.string
 }
 
 const FormPage = reduxForm({
