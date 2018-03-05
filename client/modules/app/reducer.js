@@ -1,13 +1,15 @@
 import config from './config'
+import {groupBy} from 'lodash'
 import { Actions } from './actions'
-
+import {buildSortedOptionList} from '../common/selectors'
 const initialState = {
   apiConfig: {
     headers: {
     }
   },
   displayedModalName: null,
-  locale: 'fr'
+  locale: 'fr',
+  listOptionsByListId: {}
 }
 
 const appReducer = (state = initialState, action = {}) => {
@@ -36,6 +38,14 @@ const appReducer = (state = initialState, action = {}) => {
       return newState
     case Actions.SET_CATALOG_ID:
       newState.catalogId = action.catalogId
+      return newState
+
+    case Actions.SET_LISTS_OPTIONS:
+      const optionsByListId = groupBy(action.options, 'listId')
+      for (let listId in optionsByListId) {
+        optionsByListId[listId] = buildSortedOptionList(optionsByListId[listId], 'name')
+      }
+      newState.listOptionsByListId = optionsByListId
       return newState
 
     default:

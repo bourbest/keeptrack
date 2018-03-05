@@ -1,10 +1,11 @@
-import { select, takeEvery } from 'redux-saga/effects'
+import { call, put, select, takeEvery, takeLatest } from 'redux-saga/effects'
 import {toastr} from 'react-redux-toastr'
-import { getLocale } from './selectors'
+import { getLocale, getService } from './selectors'
 import i18next from 'i18next'
 
 import {
-  Actions
+  Actions,
+  ActionCreators
 } from './actions'
 
 function * appSaga (action) {
@@ -20,9 +21,18 @@ function * appSaga (action) {
       }
       break
 
+    case Actions.LOAD_LISTS:
+      const svc = yield select(getService, 'list-options')
+      const options = yield call(svc.list)
+      yield put(ActionCreators.setListsOptions(options))
+      break
+
     default:
       throw new Error('Unsupported trigger action in app saga', action)
   }
 }
 
-export default takeEvery([Actions.NOTIFY], appSaga)
+export default [
+  takeEvery(Actions.NOTIFY, appSaga),
+  takeLatest(Actions.LOAD_LISTS, appSaga)
+]

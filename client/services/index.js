@@ -21,6 +21,9 @@ export const createService = (serviceName, apiConfig) => {
     case 'form-templates':
       return new RestService('form-templates', apiClient)
 
+    case 'list-options':
+      return new RestService('list-options', apiClient)
+
     default:
       throw new Error('Invalid service name', serviceName)
   }

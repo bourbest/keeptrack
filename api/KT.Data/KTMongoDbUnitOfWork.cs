@@ -74,6 +74,17 @@ namespace KT.Data
             }
         }
 
+        private ListOptionRepository _listOptions;
+        public ListOptionRepository ListOptions
+        {
+            get
+            {
+                if (_listOptions == null)
+                    _listOptions = new ListOptionRepository(_context);
+                return _listOptions;
+            }
+        }
+
         private IKTUnitOfWork _fromReplicaSet;
         public IKTUnitOfWork FromReplicaSet
         {

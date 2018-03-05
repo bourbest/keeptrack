@@ -12,7 +12,7 @@ import { ActionCreators as ClientActions } from '../../modules/clients/actions'
 import { ActionCreators as FormActions } from '../../modules/form-templates/actions'
 import ClientSelectors from '../../modules/clients/selectors'
 import FormSelectors from '../../modules/form-templates/selectors'
-import { getLocale } from '../../modules/app/selectors'
+import { getLocale, getListOptions } from '../../modules/app/selectors'
 
 // sections tabs components
 import { FormError } from '../components/forms/FormError'
@@ -99,7 +99,11 @@ class EditClientPage extends React.PureComponent {
         <div style={style}>
           <Grid columns={2}>
             <Grid.Column>
-              <ClientForm locale={locale} genderOptionList={genderOptionList} />
+              <ClientForm
+                locale={locale}
+                genderOptionList={genderOptionList}
+                originOptionList={this.props.originOptionList}
+              />
             </Grid.Column>
             <Grid.Column>
               <h3>{this.message('documents')}</h3>
@@ -133,6 +137,7 @@ const mapStateToProps = (state) => {
   const props = {
     entity: ClientSelectors.getEditedEntity(state),
     genderOptionList: ClientSelectors.getGenderOptionList(state),
+    originOptionList: getListOptions(state, 'Origine'),
 
     formsById: FormSelectors.getEntities(state),
     formOptionList: FormSelectors.getOptionList(state),
@@ -150,6 +155,7 @@ const mapStateToProps = (state) => {
 EditClientPage.propTypes = {
   entity: PropTypes.object,
   genderOptionList: PropTypes.array.isRequired,
+  originOptionList: PropTypes.array.isRequired,
 
   formOptionList: PropTypes.array.isRequired,
   formsById: PropTypes.object.isRequired,

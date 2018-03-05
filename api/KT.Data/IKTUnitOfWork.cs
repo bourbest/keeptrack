@@ -9,6 +9,7 @@ namespace KT.Data
         ClientFileRepository ClientFiles { get; }
         ClientDocumentRepository ClientDocuments { get; }
         FormTemplateRepository FormTemplates { get; }
+        ListOptionRepository ListOptions { get; }
 
         IKTUnitOfWork FromReplicaSet { get; }
         IKTUnitOfWork UnsafeFastWrites { get; }

@@ -53,7 +53,6 @@ export default function (request, res, props, context) {
   store.dispatch(AppActions.setLocale(lng))
   store.dispatch(AppActions.setCookies(cookies))
   store.dispatch(AppActions.setCsrfToken(csrfToken))
-
   store.dispatch(AuthActions.setTicket(authCookie))
 
   // Si on est au slash et authentifié, on redirige vers la page par défault authentifié
@@ -74,6 +73,7 @@ export default function (request, res, props, context) {
     </I18nextProvider>
   )
   const run = store.runSaga(rootSaga).done
+  store.dispatch(AppActions.loadLists())
 
   // Trigger sagas for component to run
   // https://github.com/yelouafi/redux-saga/issues/255#issuecomment-210275959

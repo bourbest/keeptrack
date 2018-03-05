@@ -8,7 +8,7 @@ import formTemplateSaga from './form-templates/saga'
 
 export default function * rootSaga () {
   yield all([
-    appSaga,
+    ...appSaga,
     ...clientSaga,
     clientDocumentSaga,
     accountSaga,

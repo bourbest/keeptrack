@@ -9,7 +9,10 @@ const actions = [
   'SET_LOCALE',
   'NOTIFY',
   'SHOW_MODAL',
-  'HIDE_MODAL'
+  'HIDE_MODAL',
+
+  'LOAD_LISTS',
+  'SET_LISTS_OPTIONS'
 ]
 
 export const Actions = createActions(prefix, actions)
@@ -22,6 +25,8 @@ export const ActionCreators = {
   notify: (title, message, params = {}, isError) => ({type: Actions.NOTIFY, title, message, params, isError}),
 
   showModal: (modalName) => ({ type: Actions.SHOW_MODAL, modalName }),
-  hideModal: () => ({ type: Actions.HIDE_MODAL })
-}
+  hideModal: () => ({ type: Actions.HIDE_MODAL }),
 
+  loadLists: () => ({ type: Actions.LOAD_LISTS }),
+  setListsOptions: (options) => ({ type: Actions.SET_LISTS_OPTIONS, options })
+}
