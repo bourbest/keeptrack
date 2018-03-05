@@ -3,7 +3,14 @@ import {max, map, pick, size} from 'lodash'
 import { getFormValues } from 'redux-form'
 import { createSelector } from 'reselect'
 import { getLocale } from '../app/selectors'
-import { createBaseSelectors, createFilteredListSelectorWithLocale, getSortParamsForStringsOnlyTable, makeCompareEntities } from '../common/selectors'
+import {
+  EMPTY_ARRAY,
+  createBaseSelectors,
+  createFilteredListSelectorWithLocale,
+  getSortParamsForStringsOnlyTable,
+  makeCompareEntities,
+  buildSortedOptionList, EMPTY_OBJECT
+} from '../common/selectors'
 
 const Selectors = createBaseSelectors(config.entityName)
 
@@ -22,8 +29,15 @@ Selectors.getFilteredSortedList = createSelector(
   }
 )
 
-Selectors.getOrderedRootControlIds = (state) => state[config.entityName].editedFormNodesByParentId['c0'] || []
-Selectors.getControlIdsByParentId = (state) => state[config.entityName].editedFormNodesByParentId
+Selectors.getOptionList = createSelector(
+  [Selectors.getEntities],
+  (entities) => {
+    return buildSortedOptionList(entities, 'name')
+  }
+)
+
+Selectors.getOrderedRootControlIds = (state) => state[config.entityName].editedFormNodesByParentId['c0'] || EMPTY_ARRAY
+Selectors.getControlIdsByParentId = (state) => state[config.entityName].editedFormNodesByParentId || EMPTY_OBJECT
 Selectors.getControls = (state) => state[config.entityName].editedFormNodesById
 Selectors.getEditedField = getFormValues(config.fieldEditorFormName)
 Selectors.getNodeErrors = (state) => state[config.entityName].editedFormNodesErrors

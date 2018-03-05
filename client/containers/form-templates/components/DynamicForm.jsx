@@ -1,34 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {pick} from 'lodash'
-import config, {CONTROL_CONFIG_BY_TYPE, DOM_FIELD_OPTIONS} from '../../../modules/form-templates/config'
+import config, {CONTROL_CONFIG_BY_TYPE} from '../../../modules/form-templates/config'
+import {outputField} from '../../components/forms/DynamicField'
 import {Form, Grid, Icon, Label} from 'semantic-ui-react'
-import { Field, reduxForm } from 'redux-form'
-
-import TextInput from '../../components/forms/TextField'
-import Checkbox from '../../components/forms/Checkbox'
-import TextArea from '../../components/forms/TextArea'
-import RadioButtons from '../../components/forms/RadioButtons'
-import CheckboxList from '../../components/forms/CheckboxList'
-import SelectField from '../../components/forms/SearchableSelectField'
-import DateField from '../../components/forms/DateField'
-import FormHeader from '../../components/forms/FormHeader'
-import FormParagraph from '../../components/forms/FormParagraph'
-import RatingField from '../../components/forms/RatingField'
-
-const CONTROL_MAP = {
-  'input': TextInput,
-  'textarea': TextArea,
-  'checkbox': Checkbox,
-  'radio-list': RadioButtons,
-  'checkbox-list': CheckboxList,
-  'combobox': SelectField,
-  'date': DateField,
-  'title': FormHeader,
-  'paragraph': FormParagraph,
-  'rating': RatingField,
-  'grid': Grid
-}
+import {reduxForm} from 'redux-form'
 
 const Row = Grid.Row
 const Col = Grid.Column
@@ -73,7 +48,6 @@ class DynamicForm extends React.PureComponent {
   renderControl (controlId) {
     const {controlsById, locale, controlIdsByParentId, controlsErrorsById} = this.props
     const field = controlsById[controlId]
-    const Control = CONTROL_MAP[field.controlType]
     const controlConfig = CONTROL_CONFIG_BY_TYPE[field.controlType]
 
     if (controlConfig.isLayout) {
@@ -104,36 +78,13 @@ class DynamicForm extends React.PureComponent {
           </Row>
         </Grid>
       )
-    } else if (controlConfig.isInput) {
-      const options = pick(field, DOM_FIELD_OPTIONS)
-
-      if (field.placeholders) {
-        options.placeholder = field.placeholders[locale]
-      }
-
-      if (field.choices) {
-        options.options = field.choices.map(c => {
-          return {
-            value: c.value,
-            label: c.labels[locale],
-            id: c.id
-          }
-        })
-      }
-
-      return (
-        <Field
-          key={controlId}
-          id={`c${controlId}`}
-          name={`c${controlId}`}
-          label={field.labels[locale]}
-          {...options}
-          locale={locale}
-          component={Control}
-        />
-      )
     } else {
-      return <Control {...pick(field, DOM_FIELD_OPTIONS)} label={field.labels[locale]} />
+      let handlers = {}
+      if (field.controlType === 'file') {
+        handlers.onFileSelected = (e) => {}
+        handlers.onFileSelectError = (e) => {}
+      }
+      return outputField(field, locale, handlers)
     }
   }
 

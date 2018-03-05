@@ -20,7 +20,11 @@
     "firstName": "Prénom",
     "email": "Courriel",
     "notes": "Notes",
-    "gender": "Sexe"
+    "gender": "Sexe",
+    "documents": "Documents",
+    "date": "Date de création",
+    "formName": "Formulaire",
+    "selectForm": "Sélectionner un formulaire"
   },
   "accounts":{
     "list-title": "Liste des comptes utilisateurs",

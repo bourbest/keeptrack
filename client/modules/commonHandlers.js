@@ -5,6 +5,7 @@ import { ActionCreators as appActions } from './app/actions'
 // this function either redirects the user to the Error page or returns the appropriate action
 // to be dispatched to the store
 export const handleError = (entityName, error) => {
+  console.log(`error with ${entityName}`, error)
   try {
     if (error.response) {
       const {status, data} = error.response
@@ -32,13 +33,13 @@ export const handleError = (entityName, error) => {
       return null
       // request was made but the server did not respond
     } else if (error.request) {
-      return appActions.notify('commonErrors.communucationError', 'commonErrors.noResponse', {}, true)
+      return appActions.notify('commonErrors.communicationError', 'commonErrors.noResponse', {}, true)
       // an error occured before the message could be sent to the server
     } else {
       // Something happened in setting up the request that triggered an Error
-      return appActions.notify('commonErrors.communucationError', 'commonErrors.unexpected', error, true)
+      return appActions.notify('commonErrors.communicationError', 'commonErrors.unexpected', error, true)
     }
   } catch (e) {
-    return appActions.notify('commonErrors.communucationError', e.message, {}, true)
+    return appActions.notify('commonErrors.communicationError', e.message, {}, true)
   }
 }

@@ -2,7 +2,7 @@ import RestService from './base/rest-service'
 import {isArray, pickBy, identity, keys} from 'lodash'
 const url = 'accounts'
 
-export const clientFromApi = (fromApi) => {
+export const accountFromApi = (fromApi) => {
   const res = {...fromApi}
   const roles = {}
 
@@ -16,7 +16,7 @@ export const clientFromApi = (fromApi) => {
   return res
 }
 
-export const clientToApi = (toApi) => {
+export const accountToApi = (toApi) => {
   const res = {...toApi}
   res.roles = keys(pickBy(toApi.roles, identity))
   return res
@@ -24,7 +24,7 @@ export const clientToApi = (toApi) => {
 
 export default class AccountService extends RestService {
   constructor (apiClient) {
-    super(url, apiClient, clientFromApi, clientToApi)
+    super(url, apiClient, accountFromApi, accountToApi)
   }
 }
 

@@ -212,6 +212,7 @@
     <Compile Include="App_Start\CustomDirectRouteProvider.cs" />
     <Compile Include="App_Start\NinjectConfig.cs" />
     <Compile Include="Controllers\AccountsController.cs" />
+    <Compile Include="Controllers\ClientDocumentController.cs" />
     <Compile Include="Controllers\FormTemplateController.cs" />
     <Compile Include="Controllers\ClientFilesController.cs" />
     <Compile Include="Controllers\BaseApiController.cs" />

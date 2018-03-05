@@ -42,6 +42,16 @@ namespace KT.API.Controllers
             return base.DoGet(id);
         }
 
+        [HttpGet, Route("{id}/documents")]
+        public async Task<IHttpActionResult> GetDocuments(Guid id)
+        {
+            using (ClientDocumentService svc = new ClientDocumentService(_ctx))
+            {
+                var documents = await svc.GetClientDocuments(id);
+                return Ok(documents);
+            }
+        }
+
         // POST api/{entity}
         [HttpPost, Route]
         public Task<IHttpActionResult> Post([FromBody] ClientFile newEntity)
