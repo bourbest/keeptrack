@@ -39,6 +39,18 @@ namespace KT.Data
             }
         }
 
+        private ClientDocumentRepository _clientDocuments;
+        public ClientDocumentRepository ClientDocuments
+        {
+            get
+            {
+                if (_clientDocuments == null)
+                    _clientDocuments = new ClientDocumentRepository(_context);
+
+                return _clientDocuments;
+            }
+        }
+
         private UserIdentityRepository _userIdentities;
         public UserIdentityRepository UserIdentities
         {

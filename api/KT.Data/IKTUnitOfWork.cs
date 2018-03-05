@@ -7,8 +7,8 @@ namespace KT.Data
         UserIdentityRepository UserIdentities { get; }
 
         ClientFileRepository ClientFiles { get; }
+        ClientDocumentRepository ClientDocuments { get; }
         FormTemplateRepository FormTemplates { get; }
-
 
         IKTUnitOfWork FromReplicaSet { get; }
         IKTUnitOfWork UnsafeFastWrites { get; }

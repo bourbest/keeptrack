@@ -1,6 +1,10 @@
 import config from './config'
+import {orderBy} from 'lodash'
 import { getLocale } from '../app/selectors'
-import { createBaseSelectors, createFilteredListSelectorWithLocale, getSortParamsForStringsOnlyTable, makeCompareEntities, buildSortedOptionList } from '../common/selectors'
+import {
+  createBaseSelectors, createFilteredListSelectorWithLocale, getSortParamsForStringsOnlyTable,
+  makeCompareEntities, buildSortedOptionList, EMPTY_ARRAY
+} from '../common/selectors'
 import { createSelector } from 'reselect'
 const Selectors = createBaseSelectors(config.entityName)
 
@@ -36,6 +40,17 @@ Selectors.getSortParams = createSelector(
 Selectors.getFilteredSortedList = createSelector(
   [Selectors.getFilteredList, Selectors.getSortParams], (clients, sortParams) => {
     return clients.sort(makeCompareEntities(sortParams))
+  }
+)
+
+Selectors.getSelectedFormId = (state) => state[config.entityName].selectedFormId
+
+Selectors.getClientDocumentsOrderByDate = createSelector(
+  [Selectors.getEditedEntity],
+  (client) => {
+    if (!client) return EMPTY_ARRAY
+    const ret = orderBy(client.documents, ['createdOn'], ['desc'])
+    return ret
   }
 )
 export default Selectors

@@ -12,7 +12,8 @@ import ListAccountsPage from './containers/accounts/ListAccountsPage'
 import EditAccountsPage from './containers/accounts/EditAccountPage'
 
 import ListFormTemplatesPage from './containers/form-templates/ListFormTemplatesPage'
-import EditFormTempplatePage from './containers/form-templates/EditFormTemplate'
+import EditFormTemplatePage from './containers/form-templates/EditFormTemplate'
+import EditClientDocumentPage from './containers/clients/EditClientDocumentPage'
 import Layout from './containers/Layout'
 
 // checkRoles example
@@ -25,11 +26,12 @@ export default (
     <Route path='/' component={Layout}>
       <Route path='clients' component={SimpleUser(ListClientsPage)} />
       <Route path='clients/:id' component={SimpleUser(EditClientPage)} />
+      <Route path='clients/:clientId/documents/create/:formId' component={EditClientDocumentPage} />
+      <Route path='clients/:clientId/documents/:documentId' component={EditClientDocumentPage} />
       <Route path='accounts' component={SimpleUser(ListAccountsPage)} />
       <Route path='accounts/:id' component={SimpleUser(EditAccountsPage)} />
       <Route path='form-templates' component={ListFormTemplatesPage} />
-      <Route path='form-templates/:id' component={EditFormTempplatePage} />
-
+      <Route path='form-templates/:id' component={EditFormTemplatePage} />
     </Route>,
     <Route path='/*' component={ErrorPage} code={'404'} />
   ]
