@@ -2,7 +2,7 @@ import { createSelector } from 'reselect'
 import { filter, get, values, map, pick } from 'lodash'
 import { isSubmitting, getFormValues, getFormSubmitErrors, getFormSyncErrors, isPristine, isValid } from 'redux-form'
 
-// these allow to use the same refenrece each time there a selector cannot produce result so we can save a couple render
+// these allow to use the same reference each time there a selector cannot produce result so we can save a couple render
 export const EMPTY_OBJECT = {}
 export const EMPTY_ARRAY = []
 export const createBaseSelectors = (entityName) => {

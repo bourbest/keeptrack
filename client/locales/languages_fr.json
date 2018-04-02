@@ -3,7 +3,7 @@
     "name": "Keep Track - Maison l'Éclaircie"
   },
   "navigation": {
-    "clients" : "Clients",
+    "clients" : "Participants",
     "formTemplates": "Formulaires",
     "accounts" : "Comptes utilisateurs"
   },
@@ -13,18 +13,30 @@
     "authenticate": "Authentifier"
   },
   "clients":{
-    "list-title": "Liste des clients",
-    "create-title": "Création d'un nouveau client",
-    "edit-title": "Édition d'un client",
+    "list-title": "Liste des participants",
+    "create-title": "Création d'un nouveau participant",
+    "edit-title": "Édition d'un participant",
+    "title": {
+      "F": "Mme",
+      "M": "M."
+    },
+    "age": "{{age}} ans ({{birthDate}})",
     "lastName": "Nom",
     "firstName": "Prénom",
+    "birthDate": "Date de naissance",
+    "origin": "Zone d'origine",
+    "address": "Adresse",
+    "acceptPublipostage": "Accepte le publipostage",
     "email": "Courriel",
     "notes": "Notes",
     "gender": "Sexe",
     "documents": "Documents",
     "date": "Date de création",
     "formName": "Formulaire",
-    "selectForm": "Sélectionner un formulaire"
+    "selectForm": "Sélectionner un formulaire",
+    "mainPhoneNumber": "Téléphone principal",
+    "alternatePhoneNumber": "Téléphone secondaire",
+    "canLeaveMessage": "Peut laisser un message"
   },
   "accounts":{
     "list-title": "Liste des comptes utilisateurs",
@@ -73,9 +85,8 @@
     "civicNumber": "No civique",
     "streetName": "Rue",
     "city": "Ville",
-    "province": "Province",
-    "country": "Pays",
-    "postalCode": "Code postal"
+    "postalCode": "Code postal",
+    "app": "App."
   },
   "common": {
     "fr":"Français",
@@ -109,13 +120,14 @@
     "communicationError" : "Erreur de communication",
     "noResponse": "Le serveur n'a pas répondu à une requête qui lui a été transmise",
     "unexpected": "Erreur rencontrée lors de l'envoi d'un message au serveur {{message}}",
-    "required": "Requis",
-    "invalidNumber" : "Nombre invalide",
-    "invalidEmail" : "Courriel invalide",
     "invalidDate" : "Date invalide",
-    "invalidInteger" : "Nombre entier invalide",
-    "invalidRange" : "La valeur doit être comprise entre {{minValue}} et {{maxValue}}",
-    "invalidMaxValue" : "La valeur doit être inférieure à {{maxValue}}",
-    "invalidMinValue" : "La valeur doit être supérieure à {{minValue}}"
+    "invalidPhone": "Numéro de téléphone invalide"
+  },
+  "sapin": {
+    "required": "Requis",
+    "invalidNumber": "Nombre invalide",
+    "invalidInteger": "Nombre entier invalide",
+    "valueNotInRange": "La valeur doit être comprise entre {{minValue}} et {{maxValue}}",
+    "invalidEmail": "Courriel invalide"
   }
 }

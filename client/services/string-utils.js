@@ -107,3 +107,10 @@ export const removeDiacritics = (str) => {
     return diacriticsMap[a] || a
   })
 }
+
+export const formatDate = (date) => {
+  if (date) {
+    return date.substring(0, 10)
+  }
+  return ''
+}

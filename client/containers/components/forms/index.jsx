@@ -15,3 +15,6 @@ export const SearchableSelectField = SearchableSelectFieldComp
 export const SelectField = SelectFieldComp
 export const TextAreaField = TextAreaFieldComp
 export const TextField = TextFieldComp
+
+export {default as PhoneFields} from './PhoneFields'
+export {default as AddressField} from './AddressField'

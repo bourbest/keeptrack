@@ -12,13 +12,13 @@ const RadioButtons = (props) => {
       <FormLabel required={required}>{label}</FormLabel>
       {touched && hasMsg && <FieldError locale={locale} error={error} isWarning={warning} />}
       {options.map((option) => {
-        const key = option.id || option.value
+        const key = option.value
         return (
           <div className="field" key={key}>
-            <div className="ui radio checkbox">
+            <label>
               <input value={option.value} name={input.name} type="radio" checked={input.value === option.value} onChange={input.onChange} />
-              <label>{option.label}</label>
-            </div>
+              {option.label}
+            </label>
           </div>
         )
       })

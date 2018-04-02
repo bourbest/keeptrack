@@ -6,10 +6,10 @@ import { FieldError } from './FieldError'
 import FormLabel from './FormLabel'
 const SemanticField = Form.Field
 
-const TextField = ({ input, label, type, locale, disabled, required, isFieldRequired, meta: { touched, error, warning } }) => {
+const TextField = ({ input, label, type, placeholder, locale, disabled, required, isFieldRequired, meta: { touched, error, warning } }) => {
   const hasMsg = error || warning
   const isRequired = required || (isFieldRequired && isFieldRequired(input.name))
-  const textFieldProps = {...input, disabled}
+  const textFieldProps = {...input, disabled, placeholder}
   return (
     <SemanticField>
       <FormLabel required={isRequired}>{label}</FormLabel>
@@ -27,6 +27,7 @@ TextField.propTypes = {
   type: string.isRequired,
   disabled: bool,
   required: bool,
+  placeholder: string,
   isFieldRequired: func
 }
 

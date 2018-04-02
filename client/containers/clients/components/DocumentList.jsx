@@ -36,7 +36,7 @@ const DocumentList = (props) => {
         rowClassName={getRowClassName}
         rowCount={documents.length}
         overscanRowCount={5}
-        width={600}
+        width={800}
         height={500}
       >
         <Column

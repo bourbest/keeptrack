@@ -10,6 +10,7 @@ namespace KT.Data.Models
     {
         public string CivicNumber { get; set; }
         public string Street { get; set; }
+        public string App { get; set; }
         public string City { get; set; }
         public string PostalCode { get; set; }
     }

@@ -8,7 +8,7 @@ namespace KT.Data.Models
 {
     public class PhoneNumber
     {
-        public string Type { get; set; }
         public string Value { get; set; }
+        public bool CanLeaveMessage { get; set; }
     }
 }

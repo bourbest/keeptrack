@@ -1,11 +1,11 @@
-import { required, validateEntity } from '../common/validate'
+import { required, validate } from 'sapin'
 
 export const LoginValidator = {
-  'username': [required],
-  'password': [required]
+  'username': required,
+  'password': required
 }
 
 export default (loginForm) => {
-  const errors = validateEntity(loginForm, LoginValidator)
+  const errors = validate(loginForm, LoginValidator)
   return errors
 }

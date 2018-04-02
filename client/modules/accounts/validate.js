@@ -1,10 +1,10 @@
-import { required, validateEntity } from '../common/validate'
+import { required, validate } from 'sapin'
 
 export const FormTemplateValidator = {
-  'name': [required]
+  'name': required
 }
 
 export default (entity, props) => {
-  const errors = validateEntity(entity, FormTemplateValidator)
+  const errors = validate(entity, FormTemplateValidator)
   return errors
 }
