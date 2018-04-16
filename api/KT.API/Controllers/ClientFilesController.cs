@@ -52,6 +52,16 @@ namespace KT.API.Controllers
             }
         }
 
+        [HttpGet, Route("{id}/evolution-notes")]
+        public async Task<IHttpActionResult> GetEvolutionNotes(Guid id)
+        {
+            using (EvolutionNoteService svc = new EvolutionNoteService(_ctx))
+            {
+                var documents = await svc.GetByClientId(id);
+                return Ok(documents);
+            }
+        }
+
         // POST api/{entity}
         [HttpPost, Route]
         public Task<IHttpActionResult> Post([FromBody] ClientFile newEntity)

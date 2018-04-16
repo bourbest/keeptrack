@@ -47,7 +47,7 @@ class EditClientPage extends React.PureComponent {
   componentWillMount () {
     const id = this.props.params.id || null
     this.props.formActions.fetchAll()
-    if (id !== 'create') {
+    if (id !== null) {
       this.props.actions.clearEditedEntity()
       this.props.actions.fetchEditedEntity(id)
     } else {

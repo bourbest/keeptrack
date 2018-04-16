@@ -9,6 +9,8 @@ import ListClientsPage from './containers/clients/ListClientsPage'
 import EditClientPage from './containers/clients/EditClientPage'
 import ViewClientPage from './containers/clients/ViewClientPage'
 
+import CreateNotePage from './containers/evolution-note/CreateEvolutionNotePage'
+
 import ListAccountsPage from './containers/accounts/ListAccountsPage'
 import EditAccountsPage from './containers/accounts/EditAccountPage'
 
@@ -26,10 +28,12 @@ export default (
     <Route path='/error/:code' component={ErrorPage} />,
     <Route path='/' component={Layout}>
       <Route path='clients' component={SimpleUser(ListClientsPage)} />
+      <Route path='clients/create' component={SimpleUser(EditClientPage)} />
       <Route path='clients/:id' component={SimpleUser(ViewClientPage)} />
       <Route path='clients/:id/edit' component={SimpleUser(EditClientPage)} />
       <Route path='clients/:clientId/documents/create/:formId' component={EditClientDocumentPage} />
       <Route path='clients/:clientId/documents/:documentId' component={EditClientDocumentPage} />
+      <Route path='new-evolution-note' component={CreateNotePage} />
       <Route path='accounts' component={SimpleUser(ListAccountsPage)} />
       <Route path='accounts/:id' component={SimpleUser(EditAccountsPage)} />
       <Route path='form-templates' component={ListFormTemplatesPage} />

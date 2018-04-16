@@ -84,6 +84,7 @@
     <Compile Include="Models\PhoneNumber.cs" />
     <Compile Include="Models\UserIdentity.cs" />
     <Compile Include="Models\ClientFile.cs" />
+    <Compile Include="Repositories\EvolutionNoteRepository.cs" />
     <Compile Include="Repositories\ClientDocumentRepository.cs" />
     <Compile Include="Repositories\ListOptionRepository.cs" />
     <Compile Include="Repositories\FormTemplateRepository.cs" />

@@ -22,7 +22,7 @@ export const ActionCreators = {
   setCsrfToken: (token) => ({type: Actions.SET_CSRF_TOKEN, token}),
   setCookies: (cookies) => ({type: Actions.SET_COOKIES, cookies}),
   setLocale: (locale) => ({type: Actions.SET_LOCALE, locale}),
-  notify: (title, message, params = {}, isError) => ({type: Actions.NOTIFY, title, message, params, isError}),
+  notify: (title, message, params = {}, isError = false) => ({type: Actions.NOTIFY, title, message, params, isError}),
 
   showModal: (modalName) => ({ type: Actions.SHOW_MODAL, modalName }),
   hideModal: () => ({ type: Actions.HIDE_MODAL }),

@@ -7,12 +7,12 @@ import { connect } from 'react-redux'
 // module
 import { ActionCreators as AppActions } from '../../modules/app/actions'
 import { ActionCreators as ClientActions } from '../../modules/clients/actions'
+import { ActionCreators as NoteActions } from '../../modules/evolution-notes/actions'
 import ClientSelectors from '../../modules/clients/selectors'
 import { getLocale } from '../../modules/app/selectors'
 
 // components
 import {createTranslate} from '../../locales/translate'
-
 import { FormError } from '../components/forms/FormError'
 import makeStandardToolbar from '../components/behavioral/StandardListToolbar'
 import ClientList from './components/ClientList'
@@ -23,7 +23,8 @@ const StandardToolbar = makeStandardToolbar(ClientActions, ClientSelectors, labe
 const mapDispatchToProps = (dispatch) => {
   return {
     actions: bindActionCreators(ClientActions, dispatch),
-    appActions: bindActionCreators(AppActions, dispatch)
+    appActions: bindActionCreators(AppActions, dispatch),
+    noteActions: bindActionCreators(NoteActions, dispatch)
   }
 }
 
@@ -35,6 +36,7 @@ class ListClientsPage extends React.PureComponent {
   }
 
   componentWillMount () {
+    this.props.appActions.hideModal()
     this.props.actions.clearSelectedItems()
     this.props.actions.setEditedEntity(null)
   }
@@ -76,10 +78,11 @@ const mapStateToProps = (state) => {
     listServerFilters: ClientSelectors.getListServerFilters(state),
     sortParams: ClientSelectors.getSortParams(state),
     selectedItemIds: ClientSelectors.getSelectedItemIds(state),
+    selectedItems: ClientSelectors.getSelectedEntities(state),
+    isDeleteEnabled: ClientSelectors.isListDeleteEnabled(state),
     locale: getLocale(state),
 
-    formError: ClientSelectors.getSubmitError(state),
-    isDeleteEnabled: ClientSelectors.isListDeleteEnabled(state)
+    formError: ClientSelectors.getSubmitError(state)
   }
 }
 
@@ -89,7 +92,11 @@ ListClientsPage.propTypes = {
   listServerFilters: PropTypes.object.isRequired,
   sortParams: PropTypes.array.isRequired,
   selectedItemIds: PropTypes.array.isRequired,
-  locale: PropTypes.string.isRequired
+  selectedItems: PropTypes.array.isRequired,
+  isDeleteEnabled: PropTypes.bool.isRequired,
+  locale: PropTypes.string.isRequired,
+
+  formError: PropTypes.any
 }
 
 const ConnectedListClientsPage = connect(mapStateToProps, mapDispatchToProps)(ListClientsPage)

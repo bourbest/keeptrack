@@ -79,7 +79,7 @@ export default class RestService {
     })
   }
 
-  save (entity, id, requestHearders) {
+  save (entity, id, requestHeaders) {
     id = id || entity.id
 
     const transformedData = this.toApiTransformer ? this.toApiTransformer(entity) : entity
@@ -87,9 +87,9 @@ export default class RestService {
     return new Promise((resolve, reject) => {
       let promise
       if (id) {
-        promise = this.apiClient.put(this.route, transformedData, id, requestHearders)
+        promise = this.apiClient.put(this.route, transformedData, id, requestHeaders)
       } else {
-        promise = this.apiClient.post(this.route, transformedData, requestHearders)
+        promise = this.apiClient.post(this.route, transformedData, requestHeaders)
       }
 
       promise.then((data) => {

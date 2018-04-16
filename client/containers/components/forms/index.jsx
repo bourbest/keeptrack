@@ -18,3 +18,4 @@ export const TextField = TextFieldComp
 
 export {default as PhoneFields} from './PhoneFields'
 export {default as AddressField} from './AddressField'
+export {default as FormLabel} from './FormLabel'

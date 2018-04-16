@@ -21,6 +21,7 @@ import {createTranslate} from '../../locales/translate'
 import {Button, Grid} from 'semantic-ui-react'
 
 import ClientView from './components/ClientView'
+import EvolutionNoteTile from './components/EvolutionNoteTile'
 import DocumentList from './components/DocumentList'
 import Select from 'react-select'
 
@@ -47,6 +48,7 @@ class ViewClientPage extends React.PureComponent {
   componentWillMount () {
     const id = this.props.params.id || null
     this.props.formActions.fetchAll()
+    this.props.appActions.hideModal()
     this.props.actions.clearEditedEntity()
     this.props.actions.fetchEditedEntity(id)
   }
@@ -66,12 +68,12 @@ class ViewClientPage extends React.PureComponent {
     if (!client) return null
     const {selectedFormId} = this.props
     const style = {width: '1000px'}
-
+    const clientName = `${client.firstName} ${client.lastName}`
     return (
       <div>
         <Toolbar>
           {<BackButton backTo={baseUrl} />}
-          <div className="item section-title">{client.firstName} {client.lastName}</div>
+          <div className="item section-title">{clientName}</div>
         </Toolbar>
 
         <div style={style}>
@@ -81,6 +83,11 @@ class ViewClientPage extends React.PureComponent {
             originOptionList={originOptionList}
           />
           <Button type="button" as={Link} to={`/clients/${client.id}/edit`}>Modifier</Button>
+
+          <h3>{this.message('evolutionNotes')}</h3>
+          {this.props.evolutionNotes.map(note => (
+            <EvolutionNoteTile evolutionNote={note} />
+          ))}
 
           <h3>{this.message('documents')}</h3>
           <Grid columns={2}>
@@ -96,7 +103,7 @@ class ViewClientPage extends React.PureComponent {
             </Grid.Column>
             <Grid.Column>
               <Button primary type="button" disabled={selectedFormId === null} onClick={this.handleAddForm}>
-              +
+                {this.message('create', 'common')}
               </Button>
             </Grid.Column>
           </Grid>
@@ -123,6 +130,7 @@ const mapStateToProps = (state) => {
     formOptionList: FormSelectors.getOptionList(state),
     selectedFormId: ClientSelectors.getSelectedFormId(state),
     documents: ClientSelectors.getClientDocumentsOrderByDate(state),
+    evolutionNotes: ClientSelectors.getClientNotesOrderByDate(state),
 
     locale: getLocale(state)
   }

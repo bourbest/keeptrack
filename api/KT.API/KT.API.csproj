@@ -211,6 +211,7 @@
   <ItemGroup>
     <Compile Include="App_Start\CustomDirectRouteProvider.cs" />
     <Compile Include="App_Start\NinjectConfig.cs" />
+    <Compile Include="Controllers\EvolutionNoteController.cs" />
     <Compile Include="Controllers\ListOptionsController.cs" />
     <Compile Include="Controllers\AccountsController.cs" />
     <Compile Include="Controllers\ClientDocumentController.cs" />

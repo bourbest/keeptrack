@@ -5,7 +5,8 @@
   "navigation": {
     "clients" : "Participants",
     "formTemplates": "Formulaires",
-    "accounts" : "Comptes utilisateurs"
+    "accounts" : "Comptes utilisateurs",
+    "createEvolutionNote": "Nouvelle note évolutive"
   },
   "login": {
     "username": "Code utilisateur",
@@ -37,6 +38,10 @@
     "mainPhoneNumber": "Téléphone principal",
     "alternatePhoneNumber": "Téléphone secondaire",
     "canLeaveMessage": "Peut laisser un message"
+  },
+  "evolutionNote": {
+    "client": "Participant",
+    "duration": "Durée (minutes)"
   },
   "accounts":{
     "list-title": "Liste des comptes utilisateurs",
@@ -95,6 +100,7 @@
     "cancel": "Annuler",
     "delete": "Archiver",
     "restore": "Récupérer",
+    "reset": "Réinitialiser",
     "yes":"Oui",
     "no":"Non",
     "create": "Créer",

@@ -68,7 +68,7 @@ namespace Common.Data.MongoDB
     #region abstract and overridables
 
         // doit être overriden pour ajouter le filtre qui gère le contains (si supporté)
-        protected virtual JsonFilterDefinition<TModel> GetContainsFilter(IEnumerable<string> keywords)
+        protected virtual FilterDefinition<TModel> GetContainsFilter(IEnumerable<string> keywords)
         {
             throw new NotImplementedException("You must override GetContainsFilter in your Repository if you want that feature");
         }

@@ -24,6 +24,9 @@ export const createService = (serviceName, apiConfig) => {
     case 'list-options':
       return new RestService('list-options', apiClient)
 
+    case 'evolution-notes':
+      return new RestService('evolution-notes', apiClient)
+
     default:
       throw new Error('Invalid service name', serviceName)
   }

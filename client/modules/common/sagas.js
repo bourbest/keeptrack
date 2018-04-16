@@ -37,6 +37,7 @@ export const createBaseSaga = (entityName, Actions, ActionCreators, getService, 
           }
           yield put(stopSubmit(entityName, {}))
         } catch (error) {
+          console.log('saga', error)
           errorAction = errorHandler(entityName, error)
         }
         break
