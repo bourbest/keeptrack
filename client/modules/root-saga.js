@@ -5,11 +5,13 @@ import clientDocumentSaga from './client-documents/saga'
 import accountSaga from './accounts/saga'
 import authenticationSaga from './authentication/saga'
 import formTemplateSaga from './form-templates/saga'
+import evolutionNoteSaga from './evolution-notes/saga'
 
 export default function * rootSaga () {
   yield all([
     ...appSaga,
     ...clientSaga,
+    evolutionNoteSaga,
     clientDocumentSaga,
     accountSaga,
     ...formTemplateSaga,

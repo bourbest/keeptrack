@@ -15,6 +15,7 @@ namespace Common.API
 {
     public class QueryParametersBuilder
     {
+        private const string LIMIT = "limit";
         private const string SORT_BY = "sortby";
         private const string REVERSE_ORDER = "reverseorder";
         private const string CONTAINS_FILTER = "contains";
@@ -30,28 +31,12 @@ namespace Common.API
                                             .ToDictionary(p => p.Key.ToLower(), p=> p.Value);
 
             ret = ExtractContainsKeywords(ret.KeyValueFilters, ret);
-
-            ret = InitializeRangeOptions(request, ret);
+            ret = ExtractLimitOption(ret.KeyValueFilters, ret);
             ret = ExtractSortOptions(ret.KeyValueFilters, ret);
 
             ret = ExtractIgnoredFilters(ret);
 
             return ret;
-        }
-
-        private static QueryParameters InitializeRangeOptions(HttpRequestMessage request, QueryParameters query)
-        {
-            RangeHeaderValue rangeHeader = request.Headers.Range;
-            RangeItemHeaderValue rangeValue = rangeHeader != null ? rangeHeader.Ranges.FirstOrDefault() : null;
-
-            if (rangeValue != null)
-            {
-                query.RangeStart = (int)rangeValue.From;
-
-                if (rangeValue.From != null && rangeValue.To != null)
-                    query.RangeTake = (int)(rangeValue.To.Value - rangeValue.From.Value + 1);
-            }
-            return query;
         }
 
         private static QueryParameters ExtractSortOptions(Dictionary<string, string> urlParams, QueryParameters query) 
@@ -72,6 +57,17 @@ namespace Common.API
             }
 
             urlParams.Remove(REVERSE_ORDER);
+            return query;
+        }
+
+        private static QueryParameters ExtractLimitOption(Dictionary<string, string> urlParams, QueryParameters query)
+        {
+            if (urlParams.ContainsKey(LIMIT))
+            {
+                query.Limit = Int32.Parse(urlParams[LIMIT]);
+                urlParams.Remove(LIMIT);
+            }
+
             return query;
         }
 

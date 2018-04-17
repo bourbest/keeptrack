@@ -7,6 +7,7 @@ import {find} from 'lodash'
 import {Grid} from 'semantic-ui-react'
 import {createTranslate} from '../../../locales/translate'
 import AddressTile from '../../components/AddressTile'
+import ClientFullName from './ClientFullName'
 import {formatDate} from '../../../services/string-utils'
 
 class ClientView extends React.PureComponent {
@@ -51,13 +52,13 @@ class ClientView extends React.PureComponent {
   }
 
   render () {
-    const {client, originOptionList} = this.props
+    const {client, originOptionList, locale} = this.props
     const origin = find(originOptionList, {value: client.originId})
     return (
       <Grid>
         <Grid.Row columns={2}>
           <Grid.Column>
-            {this.message(`title.${client.gender}`)} {client.firstName} {client.lastName}<br />
+            <ClientFullName client={client} locale={locale} /><br />
             {this.renderAge(client.birthDate)}
             {client.email && client.email.length > 0 &&
               <span>
@@ -72,12 +73,11 @@ class ClientView extends React.PureComponent {
             <AddressTile address={client.address} />
           </Grid.Column>
           <Grid.Column>
-            <h5>Notes</h5>
             {client.notes && client.notes.length > 0 &&
-              <p>{client.notes}</p>
-            }
-            {(!client.notes || client.notes.length === 0) &&
-              <p>Aucune note au dossier</p>
+              <div>
+                <h5>Notes</h5>
+                <p>{client.notes}</p>
+              </div>
             }
           </Grid.Column>
         </Grid.Row>

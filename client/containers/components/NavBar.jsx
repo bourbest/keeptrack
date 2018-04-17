@@ -12,7 +12,8 @@ class NavBar extends React.PureComponent {
     const menuItems = [
       { name: 'clients', link: '/clients', labelKey: 'clients' },
       { name: 'formTemplates', link: '/form-templates', labelKey: 'formTemplates' },
-      { name: 'accounts', link: '/accounts', labelKey: 'accounts' }
+      { name: 'accounts', link: '/accounts', labelKey: 'accounts' },
+      { name: 'createEvolutionNote', link: '/new-evolution-note', labelKey: 'createEvolutionNote' }
     ]
     let currentLocation = this.props.location
     if (currentLocation.indexOf('/') !== 0) {

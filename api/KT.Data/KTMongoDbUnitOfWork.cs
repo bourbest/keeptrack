@@ -74,6 +74,17 @@ namespace KT.Data
             }
         }
 
+        private EvolutionNoteRepository _evolutionNotes;
+        public EvolutionNoteRepository EvolutionNotes
+        {
+            get
+            {
+                if (_evolutionNotes == null)
+                    _evolutionNotes = new EvolutionNoteRepository(_context);
+                return _evolutionNotes;
+            }
+        }
+
         private ListOptionRepository _listOptions;
         public ListOptionRepository ListOptions
         {

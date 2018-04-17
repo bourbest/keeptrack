@@ -18,11 +18,13 @@ function * clientSaga (action) {
       try {
         const promises = [
           clientSvc.get(action.clientId),
-          clientSvc.getDocumentsByClientId(action.clientId)
+          clientSvc.getDocumentsByClientId(action.clientId),
+          clientSvc.getEvolutionNotesByClientId(action.clientId)
         ]
         const results = yield call([Promise, Promise.all], promises)
         const client = results[0]
         client.documents = results[1]
+        client.evolutionNotes = results[2]
         yield put(ActionCreators.setEditedEntity(client))
       } catch (error) {
         errorAction = handleError(config.entityName, error)

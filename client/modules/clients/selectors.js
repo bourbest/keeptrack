@@ -1,5 +1,5 @@
 import config from './config'
-import {orderBy} from 'lodash'
+import {orderBy, map} from 'lodash'
 import { getLocale } from '../app/selectors'
 import {
   createBaseSelectors, createFilteredListSelectorWithLocale, getSortParamsForStringsOnlyTable,
@@ -53,4 +53,28 @@ Selectors.getClientDocumentsOrderByDate = createSelector(
     return ret
   }
 )
+
+Selectors.getClientNotesOrderByDate = createSelector(
+  [Selectors.getEditedEntity],
+  (client) => {
+    if (!client || !client.evolutionNotes) return EMPTY_ARRAY
+    const ret = orderBy(client.evolutionNotes, ['createdOn'], ['desc'])
+    return ret
+  }
+)
+
+Selectors.getClientOptions = createSelector(
+  [Selectors.getEntities],
+  (clientsById) => {
+    return map(clientsById, (client) => {
+      return {
+        label: `${client.firstName} ${client.lastName}`,
+        value: client
+      }
+    })
+  }
+)
+
+Selectors.isCreateNoteEnabled = (state) => Selectors.getSelectedItemIds(state).length === 1
+
 export default Selectors

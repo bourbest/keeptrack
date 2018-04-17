@@ -2,6 +2,8 @@ using System;
 using MongoDB.Bson.Serialization.Attributes;
 using Common.Data;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using Common.Types;
 
 namespace KT.Data.Models
 {
@@ -32,12 +34,21 @@ namespace KT.Data.Models
         public Address Address { get; set; }
         public string OriginId { get; set; }
 
-        // TODO notes évolutives
-        // savoir le nom de la personne, son titre la date heure / rédaction
-        // temps que ca a duré (obligatoire), va sortir dans le rapport
-
         public bool IsArchived { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime ModifiedOn { get; set; }
+
+        [JsonIgnore]
+        public string FullName
+        {
+            get
+            {
+                string firstName = this.FirstName.RemoveDiacritics().ToLower();
+                string lastName = this.LastName.RemoveDiacritics().ToLower();
+                return firstName + " " + lastName;
+            }
+            private set { }
+        }
+
     }
 }

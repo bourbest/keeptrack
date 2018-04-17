@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Select from 'react-select'
 import { FieldError } from './FieldError'
 import FormLabel from './FormLabel'
-const { object, string, array, func, any } = PropTypes
+const { object, string, array, bool, any } = PropTypes
 
 class SearchableSelectField extends React.PureComponent {
   constructor (props) {
@@ -15,21 +15,20 @@ class SearchableSelectField extends React.PureComponent {
     this.props.input.onChange(newValue)
   }
   render () {
-    const { input, label, locale, disabled, required, isFieldRequired, meta: { touched, error, warning } } = this.props
+    const { input, label, locale, disabled, required, meta: { touched, error, warning } } = this.props
     const hasMsg = error || warning
-    const isRequired = required || (isFieldRequired && isFieldRequired(input.name))
 
     return (
       <div>
-        <FormLabel required={isRequired}>{label}</FormLabel>
+        <FormLabel required={required}>{label}</FormLabel>
         {touched && hasMsg && <FieldError locale={locale} error={error} isWarning={warning} />}
         <div>
           <Select
             options={this.props.options}
             resetValue={this.props.resetValue}
             onChange={this.handleOnChange}
-            value={this.props.input.value}
-            name={this.props.name}
+            value={input.value}
+            name={input.name}
             disabled={disabled}
             placeholder={this.props.placeholder}
           />
@@ -47,7 +46,7 @@ SearchableSelectField.propTypes = {
   meta: object,
   options: array.isRequired,
   locale: string.isRequired,
-  isFieldRequired: func
+  required: bool
 }
 
 export default SearchableSelectField
