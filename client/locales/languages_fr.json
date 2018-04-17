@@ -37,7 +37,9 @@
     "selectForm": "Sélectionner un formulaire",
     "mainPhoneNumber": "Téléphone principal",
     "alternatePhoneNumber": "Téléphone secondaire",
-    "canLeaveMessage": "Peut laisser un message"
+    "canLeaveMessage": "Peut laisser un message",
+    "evolutionNotes": "Notes évolutives",
+    "noEvolutionNotes": "Aucune note évolutive au dossier"
   },
   "evolutionNote": {
     "client": "Participant",

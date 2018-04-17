@@ -12,23 +12,21 @@ class AddressField extends React.PureComponent {
 
   render () {
     const { required, locale } = this.props
-    return (
-      <div>
-        <div className="fields">
-          <div className="three wide field">
-            <Field name="civicNumber" label={this.message('civicNumber')} required={required} component={TextField} locale={locale} />
-          </div>
-          <div className="ten wide field">
-            <Field name="streetName" label={this.message('streetName')} required={required} component={TextField} locale={locale} />
-          </div>
-          <div className="three wide field">
-            <Field name="app" label={this.message('app')} component={TextField} locale={locale} />
-          </div>
+    return [
+      <div className="fields" key="street">
+        <div className="three wide field">
+          <Field name="civicNumber" label={this.message('civicNumber')} required={required} component={TextField} locale={locale} />
         </div>
-        <Field name="city" label={this.message('city')} required={required} component={TextField} locale={locale} />
-        <Field name="postalCode" label={this.message('postalCode')} required={required} component={TextField} locale={locale} />
-      </div>
-    )
+        <div className="ten wide field">
+          <Field name="streetName" label={this.message('streetName')} required={required} component={TextField} locale={locale} />
+        </div>
+        <div className="three wide field">
+          <Field name="app" label={this.message('app')} component={TextField} locale={locale} />
+        </div>
+      </div>,
+      <Field name="city" label={this.message('city')} required={required} component={TextField} locale={locale} key="city" />,
+      <Field name="postalCode" label={this.message('postalCode')} required={required} component={TextField} locale={locale} key="postal" />
+    ]
   }
 }
 

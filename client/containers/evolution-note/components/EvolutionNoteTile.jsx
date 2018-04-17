@@ -7,9 +7,8 @@ const EvolutionNoteView = (props) => {
 
   return (
     <div>
-      <span>{formatDate(createdOn)}<span className="right">{authorName} ({authorRole})</span></span>
-      <br />
       <div dangerouslySetInnerHTML={{__html: note}} />
+      <div className="foot-note">{formatDate(createdOn)} - {authorName} ({authorRole})</div>
     </div>
   )
 }

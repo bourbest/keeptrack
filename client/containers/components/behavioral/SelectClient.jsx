@@ -69,7 +69,7 @@ class ClientOptions extends React.PureComponent {
             {hasEmail && (
               <span>
                 <i className="envelope icon"></i>
-                client.email
+                {client.email}
               </span>
             )}
           </div>

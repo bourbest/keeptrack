@@ -73,12 +73,11 @@ class ClientView extends React.PureComponent {
             <AddressTile address={client.address} />
           </Grid.Column>
           <Grid.Column>
-            <h5>Notes</h5>
             {client.notes && client.notes.length > 0 &&
-              <p>{client.notes}</p>
-            }
-            {(!client.notes || client.notes.length === 0) &&
-              <p>Aucune note au dossier</p>
+              <div>
+                <h5>Notes</h5>
+                <p>{client.notes}</p>
+              </div>
             }
           </Grid.Column>
         </Grid.Row>

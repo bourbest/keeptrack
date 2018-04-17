@@ -22,7 +22,7 @@ class ClientForm extends React.PureComponent {
     const {locale, genderOptionList, originOptionList} = this.props
     return (
       <Form>
-        <h2>identification</h2>
+        <h2>Identification</h2>
         <Field name="lastName" label={this.message('lastName')} required component={TextField} locale={locale} />
         <Field name="firstName" label={this.message('firstName')} required component={TextField} locale={locale} />
         <Field name="gender" label={this.message('gender')} component={RadioButtonsField} required locale={locale} options={genderOptionList} />

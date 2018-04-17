@@ -21,7 +21,7 @@ import {createTranslate} from '../../locales/translate'
 import {Button, Grid} from 'semantic-ui-react'
 
 import ClientView from './components/ClientView'
-import EvolutionNoteTile from './components/EvolutionNoteTile'
+import EvolutionNoteTile from '../evolution-note/components/EvolutionNoteTile'
 import DocumentList from './components/DocumentList'
 import Select from 'react-select'
 
@@ -77,17 +77,23 @@ class ViewClientPage extends React.PureComponent {
         </Toolbar>
 
         <div style={style}>
-          <ClientView
-            locale={locale}
-            client={client}
-            originOptionList={originOptionList}
-          />
-          <Button type="button" as={Link} to={`/clients/${client.id}/edit`}>Modifier</Button>
+          <div className="ui section">
+            <ClientView
+              locale={locale}
+              client={client}
+              originOptionList={originOptionList}
+            />
+            <Button type="button" as={Link} to={`/clients/${client.id}/edit`}>Modifier</Button>
+          </div>
 
           <h3>{this.message('evolutionNotes')}</h3>
-          {this.props.evolutionNotes.map(note => (
-            <EvolutionNoteTile evolutionNote={note} />
-          ))}
+          {this.props.evolutionNotes.map(note => [
+            <EvolutionNoteTile evolutionNote={note} key={note.id} />,
+            <div className="ui divider" key={`div-${note.id}`} />
+          ])}
+          {this.props.evolutionNotes.length === 0 &&
+            <span>{this.message('noEvolutionNotes')}</span>
+          }
 
           <h3>{this.message('documents')}</h3>
           <Grid columns={2}>

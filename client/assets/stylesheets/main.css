@@ -3,6 +3,9 @@ body {
   font-family: 'Lato';
 }
 
+.page-content {
+  padding-bottom: 50px;
+}
 /* barre de navigation, override de semantic-ui ***********************************************/
 .topbar {
   width: 100%;
@@ -239,6 +242,7 @@ div.error {
 .controlTile:hover, .controlTile:focus {
   background-color: lightgrey;
 }
+
 .ui.grid .column.left .row .column.draggable {
   padding-left: 0;
   padding-right: 0;
@@ -248,6 +252,13 @@ div.error {
 .ui.grid .column.left .row.drag-container {
   margin: 6px 16px;
 }
+
+.foot-note {
+  padding-top: 1em;
+  color: gray;
+  font-size: x-small;
+}
+
 .overflow-hidden {
   overflow: hidden;
 }
@@ -258,3 +269,4 @@ div.error {
 .flex {
   display: flex;
 }
+
