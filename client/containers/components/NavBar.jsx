@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router'
+import { FORM_MANAGER, ACCOUNT_MANAGER, INTERACT_WITH_CLIENT } from '../../modules/app/roles'
 import { createTranslate } from '../../locales/translate'
 class NavBar extends React.PureComponent {
   constructor (props) {
@@ -9,10 +10,11 @@ class NavBar extends React.PureComponent {
   }
 
   render () {
+    const user = this.props.user
     const menuItems = [
-      { name: 'clients', link: '/clients', labelKey: 'clients' },
-      { name: 'formTemplates', link: '/form-templates', labelKey: 'formTemplates' },
-      { name: 'accounts', link: '/accounts', labelKey: 'accounts' },
+      { name: 'clients', link: '/clients', labelKey: 'clients', role: INTERACT_WITH_CLIENT },
+      { name: 'formTemplates', link: '/form-templates', labelKey: 'formTemplates', role: FORM_MANAGER },
+      { name: 'accounts', link: '/accounts', labelKey: 'accounts', role: ACCOUNT_MANAGER },
       { name: 'createEvolutionNote', link: '/new-evolution-note', labelKey: 'createEvolutionNote' }
     ]
     let currentLocation = this.props.location
@@ -24,14 +26,17 @@ class NavBar extends React.PureComponent {
         <div className="ui menu container">
           {menuItems.map(
             (menuItem) => {
-              const isActive = currentLocation.indexOf(menuItem.link) !== -1
-              const className = isActive ? 'active item' : 'item'
-              return (<Link
-                key={menuItem.name}
-                to={menuItem.link}
-                className={className}>
-                {this.message(menuItem.labelKey)}
-              </Link>)
+              if (!menuItem.role || user.roles.indexOf(menuItem.role) > -1) {
+                const isActive = currentLocation.indexOf(menuItem.link) !== -1
+                const className = isActive ? 'active item' : 'item'
+                return (<Link
+                  key={menuItem.name}
+                  to={menuItem.link}
+                  className={className}>
+                  {this.message(menuItem.labelKey)}
+                </Link>)
+              }
+              return null
             }
           )}
         </div>
@@ -42,7 +47,8 @@ class NavBar extends React.PureComponent {
 
 NavBar.propTypes = {
   location: PropTypes.string,
-  locale: PropTypes.string.isRequired
+  locale: PropTypes.string.isRequired,
+  user: PropTypes.object.isRequired
 }
 
 export default NavBar

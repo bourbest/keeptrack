@@ -31,6 +31,7 @@ namespace KT.API.Controllers
         }
 
         [HttpGet, Route("")]
+        [ClaimsAuthorize(Permission = AppRoles.USER_MANAGER)]
         public Task<IHttpActionResult> List([ListQueryFromRequest] QueryParameters query)
         {
             return base.DoList(query);
@@ -44,6 +45,7 @@ namespace KT.API.Controllers
 
         // POST api/{entity}
         [HttpPost, Route]
+        [ClaimsAuthorize(Permission = AppRoles.USER_MANAGER)]
         public Task<IHttpActionResult> Post([FromBody] UserIdentity newEntity)
         {
             return DoPost(newEntity);
@@ -51,6 +53,7 @@ namespace KT.API.Controllers
 
         // PUT api/{entity}
         [HttpPut, Route("{id}")]
+        [ClaimsAuthorize(Permission = AppRoles.USER_MANAGER)]
         public Task<IHttpActionResult> Put(string id, UserIdentity entity)
         {
             return DoPut(id, entity);
@@ -58,6 +61,7 @@ namespace KT.API.Controllers
 
         // DELETE api/{entity}/{id}
         [HttpDelete, Route("{id}")]
+        [ClaimsAuthorize(Permission = AppRoles.USER_MANAGER)]
         public Task<IHttpActionResult> Delete(string id)
         {
             return DoDelete(id);
@@ -65,6 +69,7 @@ namespace KT.API.Controllers
 
         [HttpDelete]
         [Route("")]
+
         public Task<IHttpActionResult> Delete([FromBody] string[] ids)
         {
             return DoDelete(ids);

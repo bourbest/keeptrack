@@ -2,6 +2,7 @@ using MongoDB.Driver;
 using KT.Tools.MongoDBSetup;
 using Common.Types.Log;
 using KT.Data.Models;
+using KT.Domain;
 using System.Collections.Generic;
 using Common.Data.MongoDB;
 using System.Threading.Tasks;
@@ -52,10 +53,10 @@ namespace KT.Tools.MongoDBSetup
                 new ListOption() { Id = "ADJ.ADM", ListId = "OrganismRole", Name = "Adjointe administrative" },
                 new ListOption() { Id = "DIREC", ListId = "OrganismRole", Name = "Directrice" },
 
-                new ListOption() { Id = "CLIENT", ListId = "AppRole", Name = "Créer et modifier un dossier de participant" },
-                new ListOption() { Id = "FORMS", ListId = "AppRole", Name = "Gérer les formulaires" },
-                new ListOption() { Id = "STATS", ListId = "AppRole", Name = "Consulter et produire les statistiques" },
-                new ListOption() { Id = "USERS", ListId = "AppRole", Name = "Administrer les comptes utilisateurs" }
+                new ListOption() { Id = AppRoles.CAN_INTERACT_WITH_CLIENTS, ListId = "AppRole", Name = "Créer et modifier un dossier de participant" },
+                new ListOption() { Id = AppRoles.FORMS_MANAGER, ListId = "AppRole", Name = "Gérer les formulaires" },
+                new ListOption() { Id = AppRoles.STATS_PRODUCER, ListId = "AppRole", Name = "Consulter et produire les statistiques" },
+                new ListOption() { Id = AppRoles.USER_MANAGER, ListId = "AppRole", Name = "Administrer les comptes utilisateurs" }
             };
 
             IMongoCollection<ListOption> collection = db.GetCollection<ListOption>(typeof(ListOption).Name)
