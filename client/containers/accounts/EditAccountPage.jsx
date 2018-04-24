@@ -13,11 +13,11 @@ import {createTranslate} from '../../locales/translate'
 import { ActionCreators as AppActions } from '../../modules/app/actions'
 import { ActionCreators as AccountActions } from '../../modules/accounts/actions'
 import AccountSelectors from '../../modules/accounts/selectors'
-import { getLocale } from '../../modules/app/selectors'
+import {getAppRoleOptions, getOrganismRoleOptions, getLocale} from '../../modules/app/selectors'
 
 import StandardEditToolbar from '../components/behavioral/StandardEditToolbar'
 
-import ClientForm from './components/AccountForm'
+import AccountForm from './components/AccountForm'
 
 const labelNamespace = 'accounts'
 const baseUrl = '/accounts/'
@@ -79,7 +79,12 @@ class EditAccountPage extends React.PureComponent {
         <FormError error={error} locale={locale} />
 
         <div style={style}>
-          <ClientForm locale={locale} isNew={isNew} roleOptionList={roleOptions} />
+          <AccountForm
+            locale={locale}
+            isNew={isNew}
+            roleOptionList={roleOptions}
+            organismRoleOptionList={this.props.organismRoleOptions}
+          />
         </div>
       </div>
     )
@@ -89,7 +94,8 @@ class EditAccountPage extends React.PureComponent {
 const mapStateToProps = (state) => {
   const props = {
     entity: AccountSelectors.getEditedEntity(state),
-    roleOptions: AccountSelectors.getRolesOptionList(state),
+    roleOptions: getAppRoleOptions(state),
+    organismRoleOptions: getOrganismRoleOptions(state),
     isNew: AccountSelectors.isNewEntity(state),
     canSave: AccountSelectors.canSaveEditedEntity(state),
     error: AccountSelectors.getSubmitError(state),
@@ -103,7 +109,7 @@ EditAccountPage.propTypes = {
   roleOptions: PropTypes.array.isRequired,
   isNew: PropTypes.bool.isRequired,
   canSave: PropTypes.bool.isRequired,
-  error: PropTypes.string,
+  error: PropTypes.object,
   locale: PropTypes.string.isRequired,
   params: PropTypes.object.isRequired
 }

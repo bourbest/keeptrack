@@ -24,7 +24,7 @@ namespace KT.Domain
 
             newEntity.OwnerId = new Guid(_context.CurrentUser.Id);
             newEntity.AuthorName = _context.CurrentUser.Name;
-            newEntity.AuthorRole = "TODO";
+            newEntity.AuthorRole = _context.CurrentUser.OrganismRole;
             await base.AddEntityAsync(newEntity);
         }
 

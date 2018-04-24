@@ -3,28 +3,43 @@ import PropTypes from 'prop-types'
 import { FieldError } from './FieldError'
 import FormLabel from './FormLabel'
 
-const RadioButtons = (props) => {
-  const { locale, label, required, options, meta: { touched, error, warning }, input } = props
-  const hasMsg = error || warning
+class RadioButtons extends React.PureComponent {
+  constructor (props) {
+    super(props)
+    this.handleChange = this.handleChange.bind(this)
+  }
 
-  return (
-    <div className="grouped fields">
-      <FormLabel required={required}>{label}</FormLabel>
-      {touched && hasMsg && <FieldError locale={locale} error={error} isWarning={warning} />}
-      {options.map((option) => {
-        const key = option.value
-        return (
-          <div className="field" key={key}>
-            <label>
-              <input value={option.value} name={input.name} type="radio" checked={input.value === option.value} onChange={input.onChange} />
-              {option.label}
-            </label>
-          </div>
-        )
-      })
-      }
-    </div>
-  )
+  handleChange (event) {
+    const input = this.props.input
+    const value = event.target.previousSibling.value
+
+    input.onChange(value)
+  }
+
+  render () {
+    const {locale, label, required, options, meta: {touched, error, warning}, input} = this.props
+    const hasMsg = error || warning
+
+    return (
+      <div className="grouped fields">
+        <FormLabel required={required}>{label}</FormLabel>
+        {touched && hasMsg && <FieldError locale={locale} error={error} isWarning={warning} />}
+        {options.map((option) => {
+          const key = option.value
+          const checked = option.value === input.value ? 'checked' : ''
+          return (
+            <div className="field" key={key}>
+              <div className={`ui radio checkbox ${checked}`}>
+                <input type="radio" value={option.value} name={input.name} checked={input.value === option.value} readOnly className="hidden" tabIndex="0" />
+                <label onClick={this.handleChange}>{option.label}</label>
+              </div>
+            </div>
+          )
+        })
+        }
+      </div>
+    )
+  }
 }
 
 RadioButtons.propTypes = {

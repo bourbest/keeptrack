@@ -3,9 +3,8 @@ import PropTypes from 'prop-types'
 
 // Components
 import { reduxForm, Field } from 'redux-form'
-import {TextField, CheckboxField} from '../../components/forms'
+import {TextField, CheckboxList, SearchableSelectField} from '../../components/forms'
 import { Form } from 'semantic-ui-react'
-const SemanticField = Form.Field
 import {createTranslate} from '../../../locales/translate'
 
 // module stuff
@@ -20,24 +19,17 @@ class AccountForm extends React.PureComponent {
   }
 
   render () {
-    const {locale, isNew, roleOptionList} = this.props
+    const {locale, isNew, roleOptionList, organismRoleOptionList} = this.props
     return (
       <Form>
         <Field name="userName" label={this.message('userName')} required component={TextField} locale={locale} />
         <Field name="lastName" label={this.message('lastName')} required component={TextField} locale={locale} />
         <Field name="firstName" label={this.message('firstName')} required component={TextField} locale={locale} />
+        <Field name="organismRole" label={this.message('organismRole')} required component={SearchableSelectField} locale={locale} options={organismRoleOptionList} />
         <Field name="email" label={this.message('email')} required component={TextField} locale={locale} />
         <Field name="password" label={this.message('password')} required={isNew} component={TextField} locale={locale} type="password" />
         <Field name="confirmPassword" label={this.message('confirmPassword')} required={isNew} component={TextField} locale={locale} type="password" />
-        <SemanticField>
-          <label>{this.message('roles')}</label>
-          {
-            roleOptionList.map((roleOption) => {
-              const name = `roles.${roleOption.value}`
-              return (<Field key={roleOption.value} name={name} label={roleOption.label} component={CheckboxField} locale={locale} />)
-            })
-          }
-        </SemanticField>
+        <Field name="roles" label={this.message('roles')} component={CheckboxList} locale={locale} options={roleOptionList} />
       </Form>
     )
   }
@@ -46,6 +38,7 @@ class AccountForm extends React.PureComponent {
 AccountForm.propTypes = {
   locale: PropTypes.string.isRequired,
   roleOptionList: PropTypes.array.isRequired,
+  organismRoleOptionList: PropTypes.array.isRequired,
   isNew: PropTypes.bool.isRequired
 }
 

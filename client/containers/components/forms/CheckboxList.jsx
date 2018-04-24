@@ -13,7 +13,7 @@ class CheckboxList extends React.PureComponent {
   handleChange (event) {
     const input = this.props.input
     const newArray = isArray(input.value) ? [...input.value] : []
-    const value = event.target.value
+    const value = event.target.previousSibling.value
 
     const idx = newArray.indexOf(value)
     if (idx > -1) {
@@ -36,17 +36,12 @@ class CheckboxList extends React.PureComponent {
         <FormLabel required={isRequired}>{label}</FormLabel>
         {touched && hasMsg && <FieldError locale={locale} error={error} isWarning={warning} />}
         {options.map((option) => {
-          const key = option.id || option.value
+          const checked = checkedValues.has(option.value) ? 'checked' : ''
           return (
-            <div className="field" key={key}>
-              <div className="ui checkbox">
-                <input
-                  value={option.value}
-                  type="checkbox"
-                  checked={checkedValues.has(option.value)}
-                  onChange={this.handleChange}
-                />
-                <label>{option.label}</label>
+            <div className="inline field" key={option.value}>
+              <div className={`ui checkbox ${checked}`}>
+                <input type="checkbox" tabIndex="0" className="hidden" checked={checkedValues.has(option.value)} value={option.value} />
+                <label onClick={this.handleChange}>{option.label}</label>
               </div>
             </div>
           )
@@ -62,7 +57,6 @@ CheckboxList.propTypes = {
   value: PropTypes.array,
   label: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
   isRequired: PropTypes.bool,
   meta: PropTypes.object
 }

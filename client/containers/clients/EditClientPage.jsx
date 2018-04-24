@@ -10,7 +10,7 @@ import { connect } from 'react-redux'
 import { ActionCreators as AppActions } from '../../modules/app/actions'
 import { ActionCreators as ClientActions } from '../../modules/clients/actions'
 import ClientSelectors from '../../modules/clients/selectors'
-import { getLocale, getListOptions } from '../../modules/app/selectors'
+import { getLocale, getOriginOptions } from '../../modules/app/selectors'
 
 // sections tabs components
 import { FormError } from '../components/forms/FormError'
@@ -90,7 +90,7 @@ const mapStateToProps = (state) => {
   const props = {
     entity: ClientSelectors.getEditedEntity(state),
     genderOptionList: ClientSelectors.getGenderOptionList(state),
-    originOptionList: getListOptions(state, 'Origine'),
+    originOptionList: getOriginOptions(state),
 
     isNew: ClientSelectors.isNewEntity(state),
     canSave: ClientSelectors.canSaveEditedEntity(state),

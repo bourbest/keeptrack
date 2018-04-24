@@ -14,6 +14,7 @@ namespace KT.API.Controllers
 {
     [Authorize]
     [RoutePrefix("client-documents")]
+    [ClaimsAuthorize(Permission = AppRoles.CAN_INTERACT_WITH_CLIENTS)]
     public class ClientDocumentController : BaseApiController<Guid, ClientDocument>
     {
         public ClientDocumentController(IKTUnitOfWork uow) : base(uow) { }

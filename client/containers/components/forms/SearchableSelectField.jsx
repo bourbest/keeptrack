@@ -19,7 +19,7 @@ class SearchableSelectField extends React.PureComponent {
     const hasMsg = error || warning
 
     return (
-      <div>
+      <div className="field">
         <FormLabel required={required}>{label}</FormLabel>
         {touched && hasMsg && <FieldError locale={locale} error={error} isWarning={warning} />}
         <div>

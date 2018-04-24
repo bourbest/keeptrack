@@ -43,6 +43,7 @@ namespace KT.API.Controllers
 
         // POST api/{entity}
         [HttpPost, Route]
+        [ClaimsAuthorize(Permission = AppRoles.FORMS_MANAGER)]
         public Task<IHttpActionResult> Post([FromBody] FormTemplate newEntity)
         {
             return DoPost(newEntity);
@@ -50,6 +51,7 @@ namespace KT.API.Controllers
 
         // PUT api/{entity}
         [HttpPut, Route("{id}")]
+        [ClaimsAuthorize(Permission = AppRoles.FORMS_MANAGER)]
         public Task<IHttpActionResult> Put(Guid id, FormTemplate entity)
         {
             return DoPut(id, entity);
@@ -57,6 +59,7 @@ namespace KT.API.Controllers
 
         // DELETE api/{entity}/{id}
         [HttpDelete, Route("{id}")]
+        [ClaimsAuthorize(Permission = AppRoles.FORMS_MANAGER)]
         public Task<IHttpActionResult> Delete(Guid id)
         {
             return DoDelete(id);
@@ -64,6 +67,7 @@ namespace KT.API.Controllers
 
         [HttpDelete]
         [Route("")]
+        [ClaimsAuthorize(Permission = AppRoles.FORMS_MANAGER)]
         public Task<IHttpActionResult> Delete([FromBody] Guid[] ids)
         {
             return DoDelete(ids);

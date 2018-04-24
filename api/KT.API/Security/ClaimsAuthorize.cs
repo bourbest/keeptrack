@@ -12,7 +12,7 @@ namespace KT.API
 {
     public class ClaimsAuthorize : AuthorizeAttribute
     {
-        public string[] Permissions { get; set; }
+        public string Permission { get; set; }
 
         protected override bool IsAuthorized(HttpActionContext actionContext)
         {
@@ -25,7 +25,7 @@ namespace KT.API
             claimsIdentity = httpContext.User.Identity as ClaimsIdentity;
             UserIdentity identity = new UserIdentity(claimsIdentity);
             
-            if (!identity.HasAnyPermission(Permissions))
+            if (!identity.HasPermission(Permission))
                 return false;
 
             return base.IsAuthorized(actionContext);

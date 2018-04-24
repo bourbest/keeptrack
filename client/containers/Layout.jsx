@@ -19,7 +19,7 @@ class Layout extends React.PureComponent {
   render () {
     return (
       <div className="page-content">
-        <NavBar location={this.context.router.location.pathname} locale={this.props.locale} />
+        <NavBar location={this.context.router.location.pathname} locale={this.props.locale} user={this.props.user} />
         <div className="ui container">
           {this.props.children}
         </div>

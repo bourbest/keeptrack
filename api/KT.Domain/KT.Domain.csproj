@@ -125,6 +125,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppRoles.cs" />
     <Compile Include="EvolutionNoteService.cs" />
     <Compile Include="ClientDocumentService.cs" />
     <Compile Include="FormTemplateService.cs" />

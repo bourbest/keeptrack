@@ -43,4 +43,5 @@ Selectors.getRolesOptionList = createSelector(
     return buildSortedOptionList(roles, prop)
   }
 )
+
 export default Selectors
