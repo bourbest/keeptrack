@@ -15,6 +15,7 @@ namespace KT.Data.Models
         public const string FirstName = "KT:FirstName";
         public const string LastName = "KT:LastName";
         public const string Roles = "KT:Roles";
+        public const string OrganismRole = "KT:OrganismRole";
     }
 
     public class UserIdentity : IUser<string>, IModel<string>
@@ -123,6 +124,17 @@ namespace KT.Data.Models
             }
         }
 
+        private string _organismRole;
+        public string OrganismRole
+        {
+            get { return _organismRole; }
+            set
+            {
+                _organismRole = (value != null ? value : string.Empty); ;
+                SetClaim(KTClaimTypes.OrganismRole, _organismRole);
+            }
+        }
+
         public bool HasPermission(string permissionName)
         {
             return _roles.Contains(permissionName);
@@ -164,9 +176,9 @@ namespace KT.Data.Models
                     {
                         case KTClaimTypes.FirstName: this.FirstName = claim.Value; break;
                         case KTClaimTypes.LastName: this.LastName = claim.Value; break;
+                        case KTClaimTypes.OrganismRole: this.OrganismRole = claim.Value; break;
                         case ClaimTypes.NameIdentifier: this.Id = claim.Value; break;
                         case ClaimTypes.Name: this.UserName = claim.Value; break;
-
                         case KTClaimTypes.Roles:
                             string[] permissions = claim.Value.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                             _roles = new HashSet<string>(permissions);

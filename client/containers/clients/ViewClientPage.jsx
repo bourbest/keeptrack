@@ -12,7 +12,7 @@ import { ActionCreators as ClientActions } from '../../modules/clients/actions'
 import { ActionCreators as FormActions } from '../../modules/form-templates/actions'
 import ClientSelectors from '../../modules/clients/selectors'
 import FormSelectors from '../../modules/form-templates/selectors'
-import { getLocale, getListOptions } from '../../modules/app/selectors'
+import {getLocale, getOrganismRoleOptions, getOriginOptions} from '../../modules/app/selectors'
 
 // sections tabs components
 import Toolbar from '../components/Toolbar/Toolbar'
@@ -64,7 +64,7 @@ class ViewClientPage extends React.PureComponent {
   }
 
   render () {
-    const {locale, client, originOptionList} = this.props
+    const {locale, client, originOptionList, organismRoleList} = this.props
     if (!client) return null
     const {selectedFormId} = this.props
     const style = {width: '1000px'}
@@ -88,7 +88,7 @@ class ViewClientPage extends React.PureComponent {
 
           <h3>{this.message('evolutionNotes')}</h3>
           {this.props.evolutionNotes.map(note => [
-            <EvolutionNoteTile evolutionNote={note} key={note.id} />,
+            <EvolutionNoteTile evolutionNote={note} organismRoles={organismRoleList} key={note.id} />,
             <div className="ui divider" key={`div-${note.id}`} />
           ])}
           {this.props.evolutionNotes.length === 0 &&
@@ -130,7 +130,8 @@ class ViewClientPage extends React.PureComponent {
 const mapStateToProps = (state) => {
   const props = {
     client: ClientSelectors.getEditedEntity(state),
-    originOptionList: getListOptions(state, 'Origine'),
+    originOptionList: getOriginOptions(state),
+    organismRoleList: getOrganismRoleOptions(state),
 
     formsById: FormSelectors.getEntities(state),
     formOptionList: FormSelectors.getOptionList(state),
@@ -146,6 +147,7 @@ const mapStateToProps = (state) => {
 ViewClientPage.propTypes = {
   client: PropTypes.object,
   originOptionList: PropTypes.array.isRequired,
+  organismRoleList: PropTypes.array.isRequired,
 
   formOptionList: PropTypes.array.isRequired,
   formsById: PropTypes.object.isRequired,

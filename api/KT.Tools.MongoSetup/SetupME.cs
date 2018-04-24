@@ -5,6 +5,7 @@ using KT.Data.Models;
 using System.Collections.Generic;
 using Common.Data.MongoDB;
 using System.Threading.Tasks;
+using System;
 
 namespace KT.Tools.MongoDBSetup
 {
@@ -36,6 +37,32 @@ namespace KT.Tools.MongoDBSetup
             CreateCollectionClientDocument(db);
             CreateCollectionEvolutionNote(db);
             CreateCollectionUser(db);
+            CreateListOptions(db);
+        }
+
+        private void CreateListOptions(IMongoDatabase db)
+        {
+            ListOption[] options = new ListOption[]
+            {
+                new ListOption() { Id = "1", ListId = "Origine", Name = "03 - Québec" },
+                new ListOption() { Id = "2", ListId = "Origine", Name = "06 - Lévis" },
+
+                new ListOption() { Id = "INTER", ListId = "OrganismRole", Name = "Intervenante" },
+                new ListOption() { Id = "BENEV", ListId = "OrganismRole", Name = "Bénévole" },
+                new ListOption() { Id = "ADJ.ADM", ListId = "OrganismRole", Name = "Adjointe administrative" },
+                new ListOption() { Id = "DIREC", ListId = "OrganismRole", Name = "Directrice" },
+
+                new ListOption() { Id = "CLIENT", ListId = "AppRole", Name = "Créer et modifier un dossier de participant" },
+                new ListOption() { Id = "FORMS", ListId = "AppRole", Name = "Gérer les formulaires" },
+                new ListOption() { Id = "STATS", ListId = "AppRole", Name = "Consulter et produire les statistiques" },
+                new ListOption() { Id = "USERS", ListId = "AppRole", Name = "Administrer les comptes utilisateurs" }
+            };
+
+            IMongoCollection<ListOption> collection = db.GetCollection<ListOption>(typeof(ListOption).Name)
+                                                               .WithWriteConcern(WriteConcern.WMajority);
+            var updateOption = new UpdateOptions() { IsUpsert = true };
+            foreach (ListOption option in options)
+                collection.ReplaceOne(p => p.Id == option.Id, option, updateOption);
         }
 
         private void CreateCollectionClientFiles(IMongoDatabase db)

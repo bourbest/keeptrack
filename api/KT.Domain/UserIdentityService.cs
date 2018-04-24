@@ -33,6 +33,7 @@ namespace KT.Domain
             identity.FirstName= newEntity.FirstName;
             identity.Email = newEntity.Email;
             identity.Roles = newEntity.Roles;
+            identity.OrganismRole = newEntity.OrganismRole;
             await base.UpdateEntityAsync(identity).ConfigureAwait(false);
         }
 
