@@ -1,5 +1,6 @@
 import i18n from 'i18next'
 import XHR from 'i18next-xhr-backend'
+import {DEFAULT_LOCALE} from './config/const'
 
 let instance = null
 export default function create (currentLanguage) {
@@ -18,7 +19,7 @@ export default function create (currentLanguage) {
       .use(lngDetector)
       // .use(Cache)
       .init({
-        fallbackLng: 'fr',
+        fallbackLng: DEFAULT_LOCALE,
 
         // have a common namespace used around the full app
         ns: ['languages'],

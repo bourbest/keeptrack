@@ -56,6 +56,7 @@
     "password": "Mot de passe",
     "confirmPassword": "Confirmez le mot de passe",
     "roles": "Rôles dans le système",
+    "organismRole": "Rôle dans l'organisme",
     "errors": {
       "passwordNotMatching": "Le mot de passe ne correspond pas"
     }
@@ -128,7 +129,6 @@
     "communicationError" : "Erreur de communication",
     "noResponse": "Le serveur n'a pas répondu à une requête qui lui a été transmise",
     "unexpected": "Erreur rencontrée lors de l'envoi d'un message au serveur {{message}}",
-    "invalidDate" : "Date invalide",
     "invalidPhone": "Numéro de téléphone invalide"
   },
   "sapin": {
@@ -136,6 +136,7 @@
     "invalidNumber": "Nombre invalide",
     "invalidInteger": "Nombre entier invalide",
     "valueNotInRange": "La valeur doit être comprise entre {{minValue}} et {{maxValue}}",
-    "invalidEmail": "Courriel invalide"
+    "invalidEmail": "Courriel invalide",
+    "invalidDate" : "Date invalide"
   }
 }

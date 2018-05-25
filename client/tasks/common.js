@@ -114,12 +114,14 @@ const getConfig = (params) => {
     devTools = 'cheap-module-eval-source-map'
   }
 
-  const configFilename = path.join(__dirname, `../config/config.${ENV}.js`)
-  const appConfig = require(configFilename)
-
   const sourcePath = path.join(__dirname, '../')
 
   const aliases = {}
+  /*
+    'lodash-es': path.resolve(sourcePath, 'node_modules/lodash'),
+    'lodash': path.resolve(sourcePath, 'node_modules/lodash')
+  }
+  */
 
   return {
     app,
@@ -127,7 +129,6 @@ const getConfig = (params) => {
     isProd,
     useAnalyse: params.useAnalyse,
     sourcePath,
-    appConfig,
     devTools,
     aliases
   }

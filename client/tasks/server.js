@@ -7,6 +7,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const buildCache = {}
 
 const getNodeServerPlugins = ({sourcePath, outputPath, isProd, appConfig}) => {
+  const configFile = isProd ? 'config.prod.json' : 'config.dev.json'
   const plugins = [
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': isProd ? '"production"' : '"development"',
@@ -22,6 +23,10 @@ const getNodeServerPlugins = ({sourcePath, outputPath, isProd, appConfig}) => {
     new CopyWebpackPlugin([{
       from: path.join(sourcePath, './locales'),
       to: path.join(outputPath, './public/locales')
+    }]),
+    new CopyWebpackPlugin([{
+      from: path.join(sourcePath, `./config/${configFile}`),
+      to: path.join(outputPath, './config.json')
     }])
   ]
 

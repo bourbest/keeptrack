@@ -26,8 +26,28 @@ Selectors.getFilteredList = createFilteredListSelectorWithLocale(Selectors, conc
 
 Selectors.buildNewEntity = () => {
   let newEntity = {
-    'firstName': '',
-    'lastName': ''
+    firstName: '',
+    lastName: '',
+    isArchived: false,
+    gender: '',
+    email: '',
+    birthDate: '',
+    originId: '',
+    mainPhoneNumber: {
+      value: '',
+      canLeaveMessage: false
+    },
+    alternatePhoneNumber: {
+      value: '',
+      canLeaveMessage: false
+    },
+    address: {
+      civicNumber: '',
+      streetName: '',
+      app: '',
+      city: '',
+      postalCode: ''
+    }
   }
   return newEntity
 }

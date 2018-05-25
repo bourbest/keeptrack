@@ -96,8 +96,14 @@ namespace Common.Data.MongoDB
 
         protected virtual FilterDefinition<TModel> GetFilter(string filterName, string filterValue)
         {
+            filterName = filterName.ToLower();
+            if (filterName == "modifiedsince")
+            {
+                return _builder.Gte(p => p.ModifiedOn, Convert.ToDateTime(filterValue));
+            }
+
             ModelProperty propInfo = null;
-            _properties.TryGetValue(filterName.ToLower(), out propInfo);
+            _properties.TryGetValue(filterName, out propInfo);
 
             if (propInfo == null)
             {
@@ -150,8 +156,14 @@ namespace Common.Data.MongoDB
 
             var query = ApplyDefaultSort(_collection.Find(filters));
 
-            if (queryParameters.HasLimit)
+            if (queryParameters.Limit.HasValue)
+            {
                 query = ApplyLimit(query, queryParameters.Limit.Value);
+                if (queryParameters.Page.HasValue)
+                {
+                    query.sk
+                }
+            }
 
             if (!string.IsNullOrEmpty(queryParameters.SortExpression))
                 query = ApplyOrderBy(query, queryParameters.SortExpression, queryParameters.SortReverse);

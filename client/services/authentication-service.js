@@ -1,4 +1,4 @@
-const url = 'session'
+const url = 'authenticate'
 
 export default class AuthService {
   constructor (apiClient) {
@@ -14,7 +14,7 @@ export default class AuthService {
   }
 
   login (username, password) {
-    const payload = `username=${username}&password=${password}&grant_type=password`
+    const payload = {username, password}
     return this.apiClient.post(url, payload)
   }
 

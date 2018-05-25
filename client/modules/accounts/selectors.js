@@ -12,8 +12,9 @@ Selectors.buildNewEntity = () => {
   let newEntity = {
     firstName: '',
     lastName: '',
-    userName: '',
+    username: '',
     email: '',
+    organismRole: '',
     roles: []
   }
   return newEntity

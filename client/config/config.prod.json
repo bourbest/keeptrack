@@ -1,0 +1,9 @@
+{
+  "port": 80,
+  "apiEndpoint": "http://localhost/kt-api",
+  "secret": "aosd7nc934th247gcerfhncsa7nfhcoqwnt5cn2",
+  "db": {
+    "server": "mongodb://localhost:27017",
+    "dbName": "keeptrack"
+  }
+}

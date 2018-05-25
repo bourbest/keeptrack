@@ -1,14 +1,6 @@
-import { get } from 'lodash'
-
+import { get, identity } from 'lodash'
+import {isEmptyValue, PropertyDefinition, ValueTypes, isOfTypeString} from 'sapin'
 import moment from 'moment'
-
-export const isDate = ({value}) => {
-  let isValid = true
-  if (value && value.length > 0) {
-    isValid = value.length === 25 && moment(value, moment.ISO_8601, true).isValid()
-  }
-  return isValid ? null : 'commonErrors.invalidDate'
-}
 
 export const isDateAfterOrEqualsToField = (propertyName, fieldLabelKey) => {
   return ({dateValue, siblings}) => {
@@ -40,7 +32,22 @@ export const hasMinRows = (min) => {
 }
 
 const PHONE_REGEX = /^\d{3}-\d{3}-\d{4}\s*((#\s*|poste\s)?\d+)?$/
-export const isPhone = ({value, config}) => {
-  if (config.isEmptyValue(value)) return null
+export const isPhone = ({value}) => {
+  if (isEmptyValue(value)) return null
   return !PHONE_REGEX.test(value) ? 'commonErrors.invalidPhone' : null
+}
+
+// valueType, getter, validators = [], typeValidator = null, transform = null, collectionValidator = null
+let transformObjectId = identity
+if (process.env.target === 'server') {
+  const ObjectId = require('mongodb').ObjectId
+
+  transformObjectId = (value) => {
+    if (value) return ObjectId(value)
+    return null
+  }
+}
+
+export const objectId = (validators) => {
+  return new PropertyDefinition(ValueTypes.value, identity, validators, isOfTypeString, transformObjectId)
 }

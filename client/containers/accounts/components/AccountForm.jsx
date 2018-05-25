@@ -22,7 +22,7 @@ class AccountForm extends React.PureComponent {
     const {locale, isNew, roleOptionList, organismRoleOptionList} = this.props
     return (
       <Form>
-        <Field name="userName" label={this.message('userName')} required component={TextField} locale={locale} />
+        <Field name="username" label={this.message('userName')} required component={TextField} locale={locale} />
         <Field name="lastName" label={this.message('lastName')} required component={TextField} locale={locale} />
         <Field name="firstName" label={this.message('firstName')} required component={TextField} locale={locale} />
         <Field name="organismRole" label={this.message('organismRole')} required component={SearchableSelectField} locale={locale} options={organismRoleOptionList} />

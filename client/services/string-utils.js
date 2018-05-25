@@ -1,5 +1,4 @@
 import {isString} from 'lodash'
-
 export const stripNonDigits = (str) => {
   const result = str && isString(str) ? str.replace(/\D/g, '') : str
   return result
@@ -114,3 +113,6 @@ export const formatDate = (date) => {
   }
   return ''
 }
+
+const stringCmp = new Intl.Collator(undefined, {sensitivity: 'base'})
+export const compareStrings = stringCmp.compare

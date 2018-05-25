@@ -43,7 +43,7 @@ const appReducer = (state = initialState, action = {}) => {
     case Actions.SET_LISTS_OPTIONS:
       const optionsByListId = groupBy(action.options, 'listId')
       for (let listId in optionsByListId) {
-        optionsByListId[listId] = buildSortedOptionList(optionsByListId[listId], 'name')
+        optionsByListId[listId] = buildSortedOptionList(optionsByListId[listId], 'name', 'value')
       }
       newState.listOptionsByListId = optionsByListId
       return newState

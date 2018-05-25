@@ -7,9 +7,9 @@ import routes from './routes'
 import rootSaga from './modules/root-saga'
 import configureStore from './store'
 import createI18n from './i18n'
-import AppConfig from './config'
+import {DEFAULT_LOCALE} from './config/const'
 
-const lng = AppConfig.defaultLocale
+const lng = DEFAULT_LOCALE
 
 if (lng != null) {
   const store = configureStore(window.__INITIAL_STATE__)

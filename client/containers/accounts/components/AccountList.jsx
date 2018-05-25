@@ -82,7 +82,7 @@ class AccountList extends PureComponent {
               />
               <Column
                 label={this.message('userName')}
-                dataKey='userName'
+                dataKey='username'
                 className='rowColumn'
                 width={100}
                 cellRenderer={this.renderNameColumn}

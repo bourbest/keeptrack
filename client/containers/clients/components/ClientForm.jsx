@@ -10,7 +10,7 @@ import {createTranslate} from '../../../locales/translate'
 // module stuff
 import config from '../../../modules/clients/config'
 
-import validateClient from '../../../modules/clients/validate'
+import validateClient from '../../../modules/clients/schema'
 
 class ClientForm extends React.PureComponent {
   constructor (props) {
@@ -23,16 +23,16 @@ class ClientForm extends React.PureComponent {
     return (
       <Form>
         <h2>Identification</h2>
-        <Field name="lastName" label={this.message('lastName')} required component={TextField} locale={locale} />
         <Field name="firstName" label={this.message('firstName')} required component={TextField} locale={locale} />
+        <Field name="lastName" label={this.message('lastName')} required component={TextField} locale={locale} />
         <Field name="gender" label={this.message('gender')} component={RadioButtonsField} required locale={locale} options={genderOptionList} />
         <Field name="birthDate" label={this.message('birthDate')} component={DateField} locale={locale} />
+        <Field name="originId" label={this.message('origin')} component={RadioButtonsField} required locale={locale} options={originOptionList} />
 
         <h2>Coordonnées</h2>
         <FormSection name="address">
           <AddressField locale={locale} />
         </FormSection>
-        <Field name="originId" label={this.message('origin')} component={RadioButtonsField} required locale={locale} options={originOptionList} />
         <FormSection name="mainPhoneNumber">
           <PhoneFields locale={locale} label="mainPhoneNumber" message={this.message} />
         </FormSection>

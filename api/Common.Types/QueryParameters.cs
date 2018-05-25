@@ -16,10 +16,8 @@ namespace Common.Types
         public IEnumerable<string> ContainsKeywords { get; set; }
         public bool SortReverse { get; set; }
         public string SortExpression { get; set; }
-        public bool HasRange { get { return RangeStart.HasValue; } }
-        public int? RangeStart { get; set; }
-        public int? RangeTake { get; set; }
-        public bool HasLimit { get { return Limit.HasValue; } }
+        public bool HasPage { get { return Page.HasValue || Limit.HasValue; } }
+        public int? Page { get; set; }
         public int? Limit { get; set; }
     }
 }

@@ -1,11 +1,11 @@
-import { required, validate } from 'sapin'
+import { Schema, string, required, validate } from 'sapin'
 
-export const LoginValidator = {
-  'username': required,
-  'password': required
-}
+export const loginSchema = new Schema({
+  'username': string(required),
+  'password': string(required)
+})
 
 export default (loginForm) => {
-  const errors = validate(loginForm, LoginValidator)
+  const errors = validate(loginForm, loginSchema)
   return errors
 }

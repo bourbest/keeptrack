@@ -19,15 +19,14 @@ import { Field, reduxForm } from 'redux-form'
 import { Button, Form } from 'semantic-ui-react'
 import TextField from './components/forms/TextField'
 
-import AppConfig from '../config'
 import AuthConfig from '../modules/authentication/config'
 
 const mapStateToProps = (state) => {
   let initialValues = {}
-  if (AppConfig.debugMode) {
+  if (process.env.NODE_ENV !== 'production') {
     initialValues = {
-      username: 'bourbest',
-      password: 'test'
+      username: 'admin',
+      password: 'admin'
     }
   }
   return {
@@ -89,7 +88,7 @@ LoginPage.propTypes = {
   actions: PropTypes.object.isRequired,
   params: PropTypes.object,
   location: PropTypes.object.isRequired,
-  loginError: PropTypes.string,
+  loginError: PropTypes.object,
   locale: PropTypes.string
 }
 
