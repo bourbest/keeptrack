@@ -1,7 +1,8 @@
-import {ClientRepository, ClientDocumentRespository, EvolutionNoteRepository} from '../repository'
-import {makeFindAllHandler, makeFindById, makeHandlePost, makeHandlePut} from './StandardController'
+import {ClientRepository, EvolutionNoteRepository} from '../repository'
+import {makeFindAllHandler, makeFindById, makeHandleDelete, makeHandlePost, makeHandlePut} from './StandardController'
 import {entityFromBody, parsePagination, parseFilters} from '../middlewares'
 import {clientSchema} from '../../modules/clients/schema'
+
 import {string, boolean, Schema} from 'sapin'
 
 const filtersSchema = new Schema({
@@ -20,7 +21,7 @@ function getDocumentsByClientId (Repository) {
   }
 }
 
-const ACCEPTED_SORT_PARAMS = ['firstName', 'lastName', 'email']
+const ACCEPTED_SORT_PARAMS = ['fullName']
 
 export default (router) => {
   router.use('/client-files', entityFromBody(clientSchema))
@@ -31,12 +32,12 @@ export default (router) => {
       makeFindAllHandler(ClientRepository)
     ])
     .post(makeHandlePost(ClientRepository))
+    .delete(makeHandleDelete(ClientRepository))
 
   router.route('/client-files/:id')
     .get(makeFindById(ClientRepository))
     .put(makeHandlePut(ClientRepository))
-  router.route('/client-files/:id/documents')
-    .get(getDocumentsByClientId(ClientDocumentRespository))
+
   router.route('/client-files/:id/evolution-notes')
     .get(getDocumentsByClientId(EvolutionNoteRepository))
 }

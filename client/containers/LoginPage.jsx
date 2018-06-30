@@ -16,7 +16,7 @@ import validate from '../modules/authentication/validate'
 // components
 import { FormError } from './components/forms/FormError'
 import { Field, reduxForm } from 'redux-form'
-import { Button, Form } from 'semantic-ui-react'
+import { Button, Form } from './components/controls/SemanticControls'
 import TextField from './components/forms/TextField'
 
 import AuthConfig from '../modules/authentication/config'

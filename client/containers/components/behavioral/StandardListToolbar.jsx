@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { browserHistory } from 'react-router'
+import {buildUrl} from '../../../services/url-utils'
+import {omit} from 'lodash'
 
 // redux
 import { bindActionCreators } from 'redux'
@@ -8,15 +10,14 @@ import { connect } from 'react-redux'
 
 // modules
 import { ActionCreators as AppActions } from '../../../modules/app/actions'
-import {getLocale, getDisplayedModalName} from '../../../modules/app/selectors'
+import {getLocale} from '../../../modules/app/selectors'
 
 // components
-import { Button, Confirm, Dropdown } from 'semantic-ui-react'
+import { Button, Dropdown, ConfirmButton } from '../controls/SemanticControls'
 import {createTranslate} from '../../../locales/translate'
 import Toolbar from '../Toolbar/Toolbar'
 import SearchBox from '../controls/SearchBox'
 
-const DELETE_MODAL_NAME = 'standardListToolbar.delete'
 const makeStandardListToolbar = (entityActions, entitySelectors, labelNamespace, entityUrl) => {
   const mapDispatchToProps = (dispatch) => {
     return {
@@ -29,17 +30,24 @@ const makeStandardListToolbar = (entityActions, entitySelectors, labelNamespace,
     constructor (props) {
       super(props)
       this.handleCreate = this.handleCreate.bind(this)
-      this.handleDeleteClicked = this.handleDeleteClicked.bind(this)
       this.handleRestoreClicked = this.handleRestoreClicked.bind(this)
       this.handleDeleteConfirmed = this.handleDeleteConfirmed.bind(this)
       this.handleSearchChanged = this.handleSearchChanged.bind(this)
       this.handleViewChanged = this.handleViewChanged.bind(this)
 
       this.message = createTranslate(labelNamespace, this)
+      this.filterOptions = [
+        {value: 'active', text: this.message('activeElements', 'common')},
+        {value: 'archived', text: this.message('archivedElements', 'common')}
+      ]
     }
 
     handleCreate () {
-      const createUrl = `/${entityUrl}/create`
+      const createParams = {
+        backTo: buildUrl(entityUrl, this.props.urlParams)
+      }
+
+      const createUrl = buildUrl(`${entityUrl}/create`, createParams)
       browserHistory.push(createUrl)
     }
 
@@ -52,10 +60,6 @@ const makeStandardListToolbar = (entityActions, entitySelectors, labelNamespace,
       })
     }
 
-    handleDeleteClicked () {
-      this.props.appActions.showModal(DELETE_MODAL_NAME)
-    }
-
     handleDeleteConfirmed () {
       const {actions, appActions, selectedItemIds} = this.props
       const count = selectedItemIds.length
@@ -66,49 +70,40 @@ const makeStandardListToolbar = (entityActions, entitySelectors, labelNamespace,
       })
     }
 
-    componentWillUnmount () {
-      if (this.props.isDeleteModalDisplayed) {
-        this.props.appActions.hideModal()
-      }
-    }
-
     handleSearchChanged (newValue) {
-      if (this.props.overrideSearchChanged) {
-        this.props.overrideSearchChanged(newValue)
-      } else {
-        this.props.actions.setFilterValue('contains', newValue, this.props.useServerFilters)
+      const urlParams = omit(this.props.urlParams, 'contains')
+      if (newValue.length > 0) {
+        urlParams.contains = newValue
       }
+      const url = buildUrl(entityUrl, urlParams)
+      browserHistory.replace(url)
     }
 
-    handleViewChanged (event, params) {
-      const isArchived = params.value === 'archived'
-      this.props.actions.setFilterValue('isArchived', isArchived, true)
-
-      const filters = {...this.props.serverSearchFilters, isArchived}
-      this.props.actions.fetchAll(filters, true)
+    handleViewChanged (event) {
+      const urlParams = omit(this.props.urlParams, 'isArchived')
+      if (event.target.value === 'archived') {
+        urlParams.isArchived = 'true'
+      }
+      const url = buildUrl(entityUrl, urlParams)
+      browserHistory.replace(url)
     }
 
     render () {
-      const {noAdd, noDelete, noSearch, children, isDeleteModalDisplayed, isDisplayingArchived} = this.props
+      const {noAdd, noDelete, noSearch, children, isDisplayingArchived, locale} = this.props
       const {isCreateEnabled, isDeleteEnabled, isRestoreEnabled} = this.props
       const handleCreate = this.props.overrideCreateClicked || this.handleCreate
-      const searchFilter = this.props.useServerFilters ? this.props.serverSearchFilters.contains : this.props.localSearchFilters.contains
-
-      const archivedLabel = this.message('archivedElements', 'common')
-      const activeLabel = this.message('activeElements', 'common')
-      const selectedView = isDisplayingArchived ? archivedLabel : activeLabel
+      const searchFilter = this.props.urlParams.contains || ''
 
       return (
         <Toolbar>
           <div className="item section-title">{this.message('list-title')}</div>
           <div className="ui secondary right menu">
-            <Dropdown item text={selectedView} style={{'marginRight': '90px'}} >
-              <Dropdown.Menu>
-                <Dropdown.Header>{this.message('selectViewHeader', 'common')}</Dropdown.Header>
-                <Dropdown.Item value="archived" onClick={this.handleViewChanged}>{archivedLabel}</Dropdown.Item>
-                <Dropdown.Item value="active" onClick={this.handleViewChanged}>{activeLabel}</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+            <Dropdown
+              options={this.filterOptions}
+              value={isDisplayingArchived ? 'archived' : 'active'}
+              onChange={this.handleViewChanged}
+              style={{'marginRight': '90px'}}
+            />
             {!noSearch &&
               <SearchBox placeholder={this.message('filterSearch', 'common')}
                 value={searchFilter}
@@ -121,19 +116,9 @@ const makeStandardListToolbar = (entityActions, entitySelectors, labelNamespace,
               </Button>
             }
             {!noDelete && !isDisplayingArchived &&
-              <Button type="button" secondary onClick={this.handleDeleteClicked} disabled={!isDeleteEnabled}>
+              <ConfirmButton locale={locale} onClick={this.handleDeleteConfirmed} disabled={!isDeleteEnabled}>
                 {this.message('delete', 'common')}
-              </Button>
-            }
-            {!noDelete && !isDisplayingArchived &&
-              <Confirm
-                content={this.message('confirm-delete', 'common')}
-                cancelButton={this.message('no', 'common')}
-                confirmButton={this.message('yes', 'common')}
-                open={isDeleteModalDisplayed}
-                onCancel={this.props.appActions.hideModal}
-                onConfirm={this.handleDeleteConfirmed}
-                />
+              </ConfirmButton>
             }
             {!noDelete && isDisplayingArchived &&
               <Button type="button" secondary onClick={this.handleRestoreClicked} disabled={!isRestoreEnabled}>
@@ -147,15 +132,16 @@ const makeStandardListToolbar = (entityActions, entitySelectors, labelNamespace,
   }
 
   StandardListToolbar.propTypes = {
-    localSearchFilters: PropTypes.object.isRequired,
-    serverSearchFilters: PropTypes.object.isRequired,
+    location: PropTypes.object, // from container
+
+    // properties from selector
+    urlParams: PropTypes.object.isRequired,
     selectedItemIds: PropTypes.array.isRequired,
     locale: PropTypes.string.isRequired,
 
     isCreateEnabled: PropTypes.bool.isRequired,
     isDeleteEnabled: PropTypes.bool.isRequired,
     isRestoreEnabled: PropTypes.bool.isRequired,
-    isDeleteModalDisplayed: PropTypes.bool.isRequired,
     isDisplayingArchived: PropTypes.bool.isRequired,
 
     // override behavior
@@ -182,17 +168,15 @@ const makeStandardListToolbar = (entityActions, entitySelectors, labelNamespace,
     useServerFilters: false
   }
 
-  const mapStateToProps = (state) => {
+  const mapStateToProps = (state, props) => {
     return {
-      localSearchFilters: entitySelectors.getListLocalFilters(state),
-      serverSearchFilters: entitySelectors.getListServerFilters(state),
+      urlParams: entitySelectors.getUrlParams(state, props),
       selectedItemIds: entitySelectors.getSelectedItemIds(state),
       locale: getLocale(state),
-      isDisplayingArchived: entitySelectors.isListDisplayingArchived(state),
+      isDisplayingArchived: entitySelectors.isListDisplayingArchived(state, props),
       isDeleteEnabled: entitySelectors.isListDeleteEnabled(state),
       isRestoreEnabled: entitySelectors.isListRestoreEnabled(state),
-      isCreateEnabled: entitySelectors.isListCreateEnabled(state),
-      isDeleteModalDisplayed: getDisplayedModalName(state) === DELETE_MODAL_NAME
+      isCreateEnabled: entitySelectors.isListCreateEnabled(state)
     }
   }
 

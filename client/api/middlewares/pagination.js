@@ -1,18 +1,19 @@
-import {omit, pick, isEmpty} from 'lodash'
+import {omit, pick, isEmpty, keyBy, keys} from 'lodash'
 import {string, number, isInteger, oneOf, Schema, validate, transform} from 'sapin'
 
 const basePaginationSchema = {
   page: number(isInteger),
   limit: number(isInteger),
-  sortDirection: string(oneOf(['asc', 'desc']))
+  sortdirection: string(oneOf(['asc', 'desc']))
 }
 
-const PAGINATION_PARAMS = ['page', 'limit', 'sortBy', 'sortDirection']
+const PAGINATION_PARAMS = ['page', 'limit', 'sortby', 'sortdirection']
 
 export function parsePagination (acceptedSortBy, maxLimit = 1000, defaultLimit) {
+  const sortParamById = keyBy(acceptedSortBy, sortKey => sortKey.toLowerCase())
   const paginationSchema = new Schema({
     ...basePaginationSchema,
-    sortBy: string(oneOf(acceptedSortBy))
+    sortby: string(oneOf(keys(sortParamById)))
   })
 
   return (req, res, next) => {
@@ -34,8 +35,12 @@ export function parsePagination (acceptedSortBy, maxLimit = 1000, defaultLimit) 
         pagination.limit = maxLimit
       }
 
-      if (pagination.sortBy && !pagination.sortDirection) {
-        pagination.sortDirection = 'asc'
+      if (pagination.sortby) {
+        pagination.sortby = sortParamById[pagination.sortby]
+      }
+
+      if (pagination.sortby && !pagination.sortdirection) {
+        pagination.sortdirection = 'asc'
       }
 
       if (!isEmpty(pagination)) {

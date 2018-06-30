@@ -11,9 +11,9 @@ export const convertPaginationToMongoOptions = (pagination) => {
       }
     }
 
-    if (pagination.sortBy) {
-      const direction = pagination.sortDirection === 'desc' ? -1 : 1
-      ret.sort = {[pagination.sortBy]: direction}
+    if (pagination.sortby) {
+      const direction = pagination.sortdirection === 'desc' ? -1 : 1
+      ret.sort = {[pagination.sortby]: direction}
     }
     return ret
   }
@@ -73,14 +73,24 @@ export const prepareForDatabase = (entity) => {
   return ret
 }
 
-export function findAll (filters = {}, pagination = null) {
+export function findAll (filters, pagination = null) {
+  filters = filters || {}
   const options = convertPaginationToMongoOptions(pagination)
   const mongoFilters = this.convertFilters(filters)
 
   return this.collection.find(mongoFilters, options)
-    .collation({locale: 'fr', strength: 3})
+    .collation({locale: 'fr', strength: 2})
     .toArray()
     .then(this.convertFromDatabase)
+}
+
+export function count (filters) {
+  filters = filters || {}
+  const mongoFilters = this.convertFilters(filters)
+
+  return this.collection.find(mongoFilters)
+    .collation({locale: 'fr', strength: 2})
+    .count()
 }
 
 export function findById (id) {
@@ -138,6 +148,7 @@ export const createBaseRepository = (collectionName) => {
   BaseRepository.prototype.convertFilters = identity
   BaseRepository.prototype.convertFromDatabase = convertFromDatabase
   BaseRepository.prototype.prepareForDatabase = prepareForDatabase
+  BaseRepository.prototype.count = count
 
   return BaseRepository
 }

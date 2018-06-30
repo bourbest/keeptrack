@@ -1,29 +1,27 @@
 import React from 'react'
 import { map } from 'lodash'
-import {Image, Grid} from 'semantic-ui-react'
+import {Grid, Column} from '../../components/controls/SemanticControls'
 import {FORM_CONTROLS} from '../../../modules/form-templates/config'
-const Row = Grid.Row
-const Col = Grid.Column
 
 const FieldSelector = (props) => (
   <div className="panel">
     <Grid className="field-selector" columns={2}>
-      <Row className="drag-container" id="newControls">
+      <div className="drag-container" id="newControls">
       {
         map(FORM_CONTROLS, (field) => {
           return (
-            <Col className="draggable" key={field.controlType} id={field.controlType}>
+            <Column className="draggable" key={field.controlType} id={field.controlType}>
               <div className="controlTile">
                 <div className="thumbnail">
-                  <Image centered verticalAlign="middle" size="tiny" src={field.image} />
+                  <img centered verticalAlign="middle" size="tiny" width="100" src={field.image} />
                 </div>
                 <label>{field.labels.fr}</label>
               </div>
-            </Col>
+            </Column>
           )
         })
       }
-      </Row>
+      </div>
     </Grid>
   </div>
 )

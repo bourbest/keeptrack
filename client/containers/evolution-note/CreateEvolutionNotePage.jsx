@@ -9,14 +9,14 @@ import {ActionCreators as NoteActions} from '../../modules/evolution-notes/actio
 import NoteSelectors from '../../modules/evolution-notes/selectors'
 import {getLocale} from '../../modules/app/selectors'
 import config from '../../modules/evolution-notes/config'
-import validateNote from '../../modules/evolution-notes/validate'
+import validateNote from '../../modules/evolution-notes/schema'
 
 // sections tabs components
 import {createTranslate} from '../../locales/translate'
 import FormHtmlEditor from '../components/forms/FormHtmlEditor'
 import {TextField, FormLabel} from '../components/forms'
 import SelectClientField from '../components/forms/SelectClientField'
-import {Form, Button} from 'semantic-ui-react'
+import {Form, Button} from '../components/controls/SemanticControls'
 import {Field, reduxForm} from 'redux-form'
 import ClientFullName from '../clients/components/ClientFullName'
 import AddressTile from '../components/AddressTile'

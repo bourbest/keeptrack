@@ -4,7 +4,7 @@ import moment from 'moment'
 import {find} from 'lodash'
 
 // Components
-import {Grid} from 'semantic-ui-react'
+import {Grid} from '../../components/controls/SemanticControls'
 import {createTranslate} from '../../../locales/translate'
 import AddressTile from '../../components/AddressTile'
 import ClientFullName from './ClientFullName'
@@ -42,7 +42,7 @@ class ClientView extends React.PureComponent {
       }
       return (
         <span>
-          <i className="phone icon"></i>
+          <i className="phone icon" />
           {text}
           <br />
         </span>
@@ -55,32 +55,30 @@ class ClientView extends React.PureComponent {
     const {client, originOptionList, locale} = this.props
     const origin = find(originOptionList, {value: client.originId})
     return (
-      <Grid>
-        <Grid.Row columns={2}>
-          <Grid.Column>
-            <ClientFullName client={client} locale={locale} /><br />
-            {this.renderAge(client.birthDate)}
-            {client.email && client.email.length > 0 &&
-              <span>
-                <i className="envelope icon"></i>{client.email}<br />
-              </span>
-            }
-            {this.renderPhone(client.mainPhoneNumber)}
-            {this.renderPhone(client.alternatePhoneNumber)}
+      <Grid columns={2}>
+        <Grid.Column>
+          <ClientFullName client={client} locale={locale} /><br />
+          {this.renderAge(client.birthDate)}
+          {client.email && client.email.length > 0 &&
             <span>
-              <i className="home icon"></i>{origin.label}
+              <i className="envelope icon" />{client.email}<br />
             </span>
-            <AddressTile address={client.address} />
-          </Grid.Column>
-          <Grid.Column>
-            {client.notes && client.notes.length > 0 &&
-              <div>
-                <h5>Notes</h5>
-                <p>{client.notes}</p>
-              </div>
-            }
-          </Grid.Column>
-        </Grid.Row>
+          }
+          {this.renderPhone(client.mainPhoneNumber)}
+          {this.renderPhone(client.alternatePhoneNumber)}
+          <span>
+            <i className="home icon" />{origin.label}
+          </span>
+          <AddressTile address={client.address} />
+        </Grid.Column>
+        <Grid.Column>
+          {client.notes && client.notes.length > 0 &&
+            <div>
+              <h5>Notes</h5>
+              <p>{client.notes}</p>
+            </div>
+          }
+        </Grid.Column>
       </Grid>
     )
   }

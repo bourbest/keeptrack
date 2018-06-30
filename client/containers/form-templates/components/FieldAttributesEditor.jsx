@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import config, {CONTROL_CONFIG_BY_TYPE} from '../../../modules/form-templates/config'
 import {validateNode} from '../../../modules/form-templates/validate'
 // components
-import {Form} from 'semantic-ui-react'
+import {Form} from '../../components/controls/SemanticControls'
 import ChoiceListEditor from './ChoiceListEditor'
 import { Field, FieldArray, reduxForm } from 'redux-form'
 import FormHtmlEditor from '../../components/forms/FormHtmlEditor'

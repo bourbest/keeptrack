@@ -1,13 +1,8 @@
 import React from 'react'
-import {Header} from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 const FormHeader = (props) => {
   const size = 'h' + props.headerLevel
-  return (
-    <Header as={size}>
-      {props.label}
-    </Header>
-  )
+  return React.createElement(size, {}, props.label)
 }
 
 FormHeader.propTypes = {

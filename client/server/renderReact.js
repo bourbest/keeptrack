@@ -42,7 +42,7 @@ export default function (request, res, props, context) {
   const lng = config.defaultLocale
   const store = configureStore()
   const authCookie = request.cookies[COOKIE_NAMES.auth] || ''
-  const csrfToken = request['x-csrf-token'] || ''
+  const csrfToken = request.cookies[COOKIE_NAMES.csrfToken] || ''
 
   // redirects to /login if user is not authenticated
   if (!request.url.startsWith('/login') && (authCookie === '' || csrfToken === '')) {
@@ -78,6 +78,7 @@ export default function (request, res, props, context) {
   renderToString(rootComponent)
 
   run.then(() => {
+    const csrfToken = request.csrf.generateToken(request, res)
     const state = {...store.getState()}
     try {
       const html = renderToString(rootComponent)

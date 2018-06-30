@@ -2,7 +2,15 @@ import {ObjectId} from 'mongodb'
 import {EvolutionNoteRepository, ClientRepository} from '../repository'
 import {makeFindAllHandler, makeFindById, makeHandlePost} from './StandardController'
 import {entityFromBody} from '../middlewares/entityFromBody'
-import {evolutionNoteSchema} from '../../modules/evolution-notes/validate'
+import {evolutionNoteSchema} from '../../modules/evolution-notes/schema'
+import {boolean, Schema} from 'sapin'
+import {parseFilters, parsePagination} from '../middlewares'
+
+const ACCEPTED_SORT_PARAMS = ['fullName']
+
+const filtersSchema = new Schema({
+  isArchived: boolean
+})
 
 function preInsert (req, res, next) {
   // ensure client file exists
@@ -25,7 +33,11 @@ function preInsert (req, res, next) {
 export default (router) => {
   router.use('/evolution-notes', entityFromBody(evolutionNoteSchema))
   router.route('/evolution-notes')
-    .get(makeFindAllHandler(EvolutionNoteRepository))
+    .get([
+      parsePagination(ACCEPTED_SORT_PARAMS),
+      parseFilters(filtersSchema),
+      makeFindAllHandler(EvolutionNoteRepository)
+    ])
     .post([
       preInsert,
       makeHandlePost(EvolutionNoteRepository)

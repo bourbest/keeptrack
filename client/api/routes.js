@@ -7,24 +7,17 @@ import registerListOptions from './controllers/ListOptionsController'
 import registerFormTemplates from './controllers/FormTemplateController'
 import registerAccounts from './controllers/AccountsController'
 import registerEvolutionNotes from './controllers/EvolutionNoteController'
+import registerClientDocuments from './controllers/ClientDocumentsController'
 
 import corser from 'corser'
 import bodyParser from 'body-parser'
-import {CsrfTokenLayer, checkCsrf} from './middlewares/csrf'
-import {COOKIE_NAMES} from '../config/const'
+import {checkCsrf} from './middlewares/csrf'
 
 function createApiRouter (config, database) {
   const apiRouter = express.Router()
 
-  const csrf = new CsrfTokenLayer({
-    cookie: {
-      key: COOKIE_NAMES.csrfToken
-    }
-  })
-
   const globals = {
-    database,
-    csrf
+    database
   }
 
   apiRouter.use(corser.create())
@@ -51,6 +44,7 @@ function createApiRouter (config, database) {
   registerFormTemplates(apiRouter)
   registerAccounts(apiRouter)
   registerEvolutionNotes(apiRouter)
+  registerClientDocuments(apiRouter)
 
   // 404 on all other routes
   apiRouter.all('*', function (req, res, next) {

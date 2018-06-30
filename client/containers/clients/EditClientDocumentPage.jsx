@@ -2,10 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { browserHistory } from 'react-router'
 import {format} from 'date-fns'
+
 // redux
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm, FormSection } from 'redux-form'
+import {validate} from 'sapin'
 
 // actions and selectors
 import config from '../../modules/client-documents/config'
@@ -91,6 +93,7 @@ class EditClientDocumentPage extends React.PureComponent {
     return (
       <div>
         <StandardEditToolbar
+          location={this.props.location}
           title={this.formatTitle(client, document, formTemplate)}
           backTo={this.clientUrl}
           onSaveClicked={this.handleSubmit}
@@ -116,10 +119,11 @@ class EditClientDocumentPage extends React.PureComponent {
 
 const mapStateToProps = (state, props) => {
   const ret = {
-    isLoading: FormSelectors.isFetching(state) || ClientSelectors.isFetching(state),
+    isLoading: FormSelectors.isFetchingList(state) || ClientSelectors.isFetchingEntity(state),
     document: DocumentSelectors.getEditedEntity(state),
     client: ClientSelectors.getEditedEntity(state),
     formTemplate: FormSelectors.getEditedEntity(state),
+    formSchema: FormSelectors.getFormSchema(state),
 
     formControlsById: FormSelectors.getControls(state),
     formControlIdsByParentId: FormSelectors.getControlIdsByParentId(state),
@@ -138,6 +142,7 @@ EditClientDocumentPage.propTypes = {
   document: PropTypes.object,
   client: PropTypes.object,
   formTemplate: PropTypes.object,
+  formSchema: PropTypes.object.isRequired,
 
   formControlsById: PropTypes.object.isRequired,
   formControlIdsByParentId: PropTypes.object.isRequired,
@@ -149,8 +154,13 @@ EditClientDocumentPage.propTypes = {
   params: PropTypes.object.isRequired
 }
 
+const validateForm = (data, props) => {
+  return validate(data, props.formSchema)
+}
+
 const EditClientDocumentFormPage = reduxForm({
-  form: config.entityName
+  form: config.entityName,
+  validate: validateForm
 })(EditClientDocumentPage)
 
 const ConnectedEditClientDocumentPage = connect(mapStateToProps, mapDispatchToProps)(EditClientDocumentFormPage)

@@ -1,26 +1,5 @@
-import { get, identity } from 'lodash'
+import { identity } from 'lodash'
 import {isEmptyValue, PropertyDefinition, ValueTypes, isOfTypeString} from 'sapin'
-import moment from 'moment'
-
-export const isDateAfterOrEqualsToField = (propertyName, fieldLabelKey) => {
-  return ({dateValue, siblings}) => {
-    let isValid = true
-    const otherDate = get(siblings, propertyName) || ''
-    dateValue = dateValue || ''
-    if (dateValue.length === 10 && otherDate.length === 10) {
-      const dateValueM = moment(dateValue, 'YYYY-MM-DD', true)
-      const otherDateM = moment(otherDate, 'YYYY-MM-DD', true)
-      if (dateValueM.isValid() && otherDateM.isValid()) {
-        isValid = dateValueM.isSameOrAfter(otherDateM)
-      }
-    }
-
-    return isValid ? null : {
-      error: 'commonErrors.invalidDateAfter',
-      params: {otherFieldName: '$t(' + fieldLabelKey + ')'}
-    }
-  }
-}
 
 export const hasMinRows = (min) => {
   return ({value}) => {

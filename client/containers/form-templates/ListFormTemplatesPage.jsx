@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 // module
 import { ActionCreators as AppActions } from '../../modules/app/actions'
 import { ActionCreators as AccountActions } from '../../modules/form-templates/actions'
-import AccountSelectors from '../../modules/form-templates/selectors'
+import FormsSelectors from '../../modules/form-templates/selectors'
 import { getLocale } from '../../modules/app/selectors'
 
 // components
@@ -15,10 +15,11 @@ import {createTranslate} from '../../locales/translate'
 
 import { FormError } from '../components/forms/FormError'
 import makeStandardToolbar from '../components/behavioral/StandardListToolbar'
-import FormTemplateList from './components/FormTemplateList'
+import {SmartTable, Column, renderLinkToDetail} from '../components/SmartTable'
+import {Pagination} from '../components/Pagination'
 
 const labelNamespace = 'formTemplates'
-const StandardToolbar = makeStandardToolbar(AccountActions, AccountSelectors, labelNamespace, 'form-templates')
+const StandardToolbar = makeStandardToolbar(AccountActions, FormsSelectors, labelNamespace, 'form-templates')
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -27,25 +28,22 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-class ListAccountsPage extends React.PureComponent {
+class ListFormsPage extends React.PureComponent {
   constructor (props) {
     super(props)
-    this.setSort = this.setSort.bind(this)
     this.message = createTranslate(labelNamespace, this)
   }
 
   componentWillMount () {
     this.props.actions.clearSelectedItems()
     this.props.actions.setEditedEntity(null)
-    this.props.actions.setEditedFormFields([])
+    this.props.actions.fetchList(this.props.urlParams)
   }
 
-  componentDidMount () {
-    this.props.actions.fetchAll(this.props.listServerFilters)
-  }
-
-  setSort ({sortBy, sortDirection}) {
-    this.props.actions.setSortParams([{field: sortBy, direction: sortDirection}])
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.urlParams !== this.props.urlParams) {
+      this.props.actions.fetchList(nextProps.urlParams)
+    }
   }
 
   render () {
@@ -55,44 +53,56 @@ class ListAccountsPage extends React.PureComponent {
         <div className="main-content">
           <FormError error={formError} locale={locale} />
 
-          <StandardToolbar />
-          <FormTemplateList
-            entities={this.props.entities}
-            onToggleSelected={this.props.actions.toggleSelectedItem}
-            setSort={this.setSort}
-            sortParams={this.props.sortParams}
+          <StandardToolbar location={this.props.location} />
+          <SmartTable
+            rows={this.props.entities}
+            selectable
             selectedItemIds={this.props.selectedItemIds}
-            locale={this.props.locale}
-          />
+            onRowSelected={this.props.actions.toggleSelectedItem}
+            location={this.props.location}
+          >
+            <Column name="name" label={this.message('name')} renderer={renderLinkToDetail} />
+          </SmartTable>
+          {this.props.totalPages > 1 &&
+            <div className="ui centered grid">
+              <div className="center aligned column">
+                <Pagination
+                  location={this.props.location}
+                  totalPages={this.props.totalPages}
+                />
+              </div>
+            </div>
+          }
         </div>
       </div>
     )
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, props) => {
   return {
-    entities: AccountSelectors.getFilteredSortedList(state),
-    listFilters: AccountSelectors.getListLocalFilters(state),
-    listServerFilters: AccountSelectors.getListServerFilters(state),
-    sortParams: AccountSelectors.getSortParams(state),
-    selectedItemIds: AccountSelectors.getSelectedItemIds(state),
+    urlParams: FormsSelectors.getUrlParams(state, props),
+    entities: FormsSelectors.getEntitiesPage(state),
+    totalPages: FormsSelectors.getTotalPages(state, props),
+    listFilters: FormsSelectors.getFilters(state, props),
+    selectedItemIds: FormsSelectors.getSelectedItemIds(state),
     locale: getLocale(state),
 
-    formError: AccountSelectors.getSubmitError(state),
-    isDeleteEnabled: AccountSelectors.isListDeleteEnabled(state)
+    formError: FormsSelectors.getSubmitError(state),
+    isDeleteEnabled: FormsSelectors.isListDeleteEnabled(state)
   }
 }
 
-ListAccountsPage.propTypes = {
+ListFormsPage.propTypes = {
+  urlParams: PropTypes.object.isRequired,
   entities: PropTypes.array.isRequired,
+  totalPages: PropTypes.number.isRequired,
   listFilters: PropTypes.object.isRequired,
-  listServerFilters: PropTypes.object.isRequired,
-  sortParams: PropTypes.array.isRequired,
   selectedItemIds: PropTypes.array.isRequired,
-  locale: PropTypes.string.isRequired
+  locale: PropTypes.string.isRequired,
+  location: PropTypes.object.isRequired
 }
 
-const ConnectedListAccountsPage = connect(mapStateToProps, mapDispatchToProps)(ListAccountsPage)
+const ConnectedListFormsPage = connect(mapStateToProps, mapDispatchToProps)(ListFormsPage)
 
-export default ConnectedListAccountsPage
+export default ConnectedListFormsPage

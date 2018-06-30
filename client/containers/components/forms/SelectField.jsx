@@ -1,9 +1,8 @@
 import React from 'react'
 import { object, string, arrayOf, oneOfType, array, bool, func } from 'prop-types'
-import { Form } from 'semantic-ui-react'
+import { Field as SemanticField } from '../controls/SemanticControls'
 import { FieldError } from './FieldError'
 import FormLabel from './FormLabel'
-const SemanticField = Form.Field
 
 import { map, get, orderBy, omit } from 'lodash'
 

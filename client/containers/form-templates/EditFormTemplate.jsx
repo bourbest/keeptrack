@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
 
 // form controls
-import { Button, Grid, Container } from 'semantic-ui-react'
+import { Button, Grid } from '../components/controls/SemanticControls'
 import { FormError } from '../components/forms/FormError'
 import Toolbar from '../components/Toolbar/Toolbar'
 import BackButton from '../components/Toolbar/BackButton'
@@ -22,7 +22,6 @@ import { getLocale } from '../../modules/app/selectors'
 import {createTranslate} from '../../locales/translate'
 
 // module stuff
-import validateForm from '../../modules/form-templates/validate'
 import entityConfig from '../../modules/form-templates/config'
 const {entityName} = entityConfig
 
@@ -30,7 +29,6 @@ const {entityName} = entityConfig
 import FieldSelector from './components/FieldSelector'
 import FieldAttributesEditor from './components/FieldAttributesEditor'
 import DynamicForm from './components/DynamicForm'
-const Row = Grid.Row
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -96,10 +94,9 @@ class EditFormTemplate extends React.PureComponent {
     const form = FormsSelectors.buildFormReadyForSave(formEntity, controlsById, controlIdsByParentId)
 
     const isNew = this.props.isNew
-    const method = isNew ? this.props.actions.createEntity : this.props.actions.updateEntity
     const notify = this.props.appActions.notify
 
-    method(form, (entity) => {
+    this.props.actions.saveEntity(form, (entity) => {
       if (isNew) {
         browserHistory.replace('/form-templates/' + entity.id)
       }
@@ -183,37 +180,35 @@ class EditFormTemplate extends React.PureComponent {
         </Toolbar>
         <FormError error={error} locale={locale} />
 
-        <Container fluid>
+        <div className="container-fluid">
           <Grid>
-            <Row>
-              <div className="computer column left formPanel">
-                <FieldSelector />
-              </div>
-              <div className="computer column center formPanel overflow-y">
-                <DynamicForm
-                  rootControlIds={rootControlIds}
-                  controlsById={controlsById}
-                  controlIdsByParentId={controlIdsByParentId}
-                  selectedControlId={selectedControlId}
-                  controlsErrorsById={controlsErrorsById}
-                  locale={locale}
-                  onFieldSelected={this.handleFieldSelected}
-                  onFieldDeleted={this.props.actions.deleteField}
-                  onAddZone={this.handleAddZone}
-                />
-              </div>
-              <div className="computer column right formPanel overflow-y">
-                <FieldAttributesEditor
-                  locale={locale}
-                  editedField={editedField}
-                  onPropertiesChanged={this.props.actions.updateFieldProperties}
-                  onChoiceDeleted={this.props.actions.deleteChoice}
-                  onAddChoice={this.handleAddChoice}
-                />
-              </div>
-            </Row>
+            <div className="computer column left formPanel">
+              <FieldSelector />
+            </div>
+            <div className="computer column center formPanel overflow-y">
+              <DynamicForm
+                rootControlIds={rootControlIds}
+                controlsById={controlsById}
+                controlIdsByParentId={controlIdsByParentId}
+                selectedControlId={selectedControlId}
+                controlsErrorsById={controlsErrorsById}
+                locale={locale}
+                onFieldSelected={this.handleFieldSelected}
+                onFieldDeleted={this.props.actions.deleteField}
+                onAddZone={this.handleAddZone}
+              />
+            </div>
+            <div className="computer column right formPanel overflow-y">
+              <FieldAttributesEditor
+                locale={locale}
+                editedField={editedField}
+                onPropertiesChanged={this.props.actions.updateFieldProperties}
+                onChoiceDeleted={this.props.actions.deleteChoice}
+                onAddChoice={this.handleAddChoice}
+              />
+            </div>
           </Grid>
-        </Container>
+        </div>
       </div>
     )
   }
@@ -231,7 +226,7 @@ const mapStateToProps = (state) => {
     nextChoiceId: FormsSelectors.getNextChoiceId(state),
     locale: getLocale(state),
     isNew: FormsSelectors.isNewEntity(state),
-    canSaveEditedEntity: true
+    canSaveEditedEntity: FormsSelectors.canSaveEditedEntity(state)
   }
 }
 
@@ -257,8 +252,7 @@ EditFormTemplate.propTypes = {
 }
 
 const PageForm = reduxForm({
-  form: entityName,
-  validate: validateForm
+  form: entityName
 })(EditFormTemplate)
 
 const PageConnected = connect(mapStateToProps, mapDispatchToProps)(PageForm)

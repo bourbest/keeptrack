@@ -13,10 +13,10 @@ import { getLocale } from '../../modules/app/selectors'
 
 // components
 import {createTranslate} from '../../locales/translate'
-
 import { FormError } from '../components/forms/FormError'
 import makeStandardToolbar from '../components/behavioral/StandardListToolbar'
-import AccountList from './components/AccountList'
+import {SmartTable, Column, renderLinkToDetail} from '../components/SmartTable'
+import {Pagination} from '../components/Pagination'
 
 const labelNamespace = 'accounts'
 const StandardToolbar = makeStandardToolbar(AccountActions, AccountSelectors, labelNamespace, 'accounts')
@@ -31,21 +31,19 @@ const mapDispatchToProps = (dispatch) => {
 class ListAccountsPage extends React.PureComponent {
   constructor (props) {
     super(props)
-    this.setSort = this.setSort.bind(this)
     this.message = createTranslate(labelNamespace, this)
   }
 
   componentWillMount () {
     this.props.actions.clearSelectedItems()
     this.props.actions.setEditedEntity(null)
+    this.props.actions.fetchList(this.props.urlParams)
   }
 
-  componentDidMount () {
-    this.props.actions.fetchAll(this.props.listServerFilters)
-  }
-
-  setSort ({sortBy, sortDirection}) {
-    this.props.actions.setSortParams([{field: sortBy, direction: sortDirection}])
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.urlParams !== this.props.urlParams) {
+      this.props.actions.fetchList(nextProps.urlParams)
+    }
   }
 
   render () {
@@ -55,27 +53,41 @@ class ListAccountsPage extends React.PureComponent {
         <div className="main-content">
           <FormError error={formError} locale={locale} />
 
-          <StandardToolbar />
-          <AccountList
-            entities={this.props.entities}
-            onToggleSelected={this.props.actions.toggleSelectedItem}
-            setSort={this.setSort}
-            sortParams={this.props.sortParams}
+          <StandardToolbar location={this.props.location} />
+          <SmartTable
+            rows={this.props.entities}
+            selectable
             selectedItemIds={this.props.selectedItemIds}
-            locale={this.props.locale}
-          />
+            onRowSelected={this.props.actions.toggleSelectedItem}
+            location={this.props.location}
+          >
+            <Column name="username" label={this.message('userName')} renderer={renderLinkToDetail} />
+            <Column name="lastName" label={this.message('lastName')} />
+            <Column name="firstName" label={this.message('firstName')} />
+            <Column name="email" label={this.message('email')} />
+          </SmartTable>
+          {this.props.totalPages > 1 &&
+            <div className="ui centered grid">
+              <div className="center aligned column">
+                <Pagination
+                  location={this.props.location}
+                  totalPages={this.props.totalPages}
+                />
+              </div>
+            </div>
+          }
         </div>
       </div>
     )
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, props) => {
   return {
-    entities: AccountSelectors.getFilteredSortedList(state),
-    listFilters: AccountSelectors.getListLocalFilters(state),
-    listServerFilters: AccountSelectors.getListServerFilters(state),
-    sortParams: AccountSelectors.getSortParams(state),
+    urlParams: AccountSelectors.getUrlParams(state, props),
+    entities: AccountSelectors.getEntitiesPage(state),
+    totalPages: AccountSelectors.getTotalPages(state, props),
+    listFilters: AccountSelectors.getFilters(state, props),
     selectedItemIds: AccountSelectors.getSelectedItemIds(state),
     locale: getLocale(state),
 
@@ -85,12 +97,14 @@ const mapStateToProps = (state) => {
 }
 
 ListAccountsPage.propTypes = {
+  urlParams: PropTypes.object.isRequired,
   entities: PropTypes.array.isRequired,
+  totalPages: PropTypes.number.isRequired,
   listFilters: PropTypes.object.isRequired,
-  listServerFilters: PropTypes.object.isRequired,
-  sortParams: PropTypes.array.isRequired,
   selectedItemIds: PropTypes.array.isRequired,
-  locale: PropTypes.string.isRequired
+  locale: PropTypes.string.isRequired,
+  location: PropTypes.object.isRequired,
+  formError: PropTypes.any
 }
 
 const ConnectedListAccountsPage = connect(mapStateToProps, mapDispatchToProps)(ListAccountsPage)

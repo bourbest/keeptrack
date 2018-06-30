@@ -14,7 +14,7 @@ function * clientSaga (action) {
   const clientSvc = yield select(getService, 'clients')
   switch (action.type) {
     case Actions.LOAD_CLIENT:
-      yield put(ActionCreators.setFetching(true))
+      yield put(ActionCreators.setFetchingEntity(true))
       try {
         const promises = [
           clientSvc.get(action.clientId),
@@ -23,13 +23,13 @@ function * clientSaga (action) {
         ]
         const results = yield call([Promise, Promise.all], promises)
         const client = results[0]
-        client.documents = results[1]
+        client.documents = results[1].entities
         client.evolutionNotes = results[2]
         yield put(ActionCreators.setEditedEntity(client))
       } catch (error) {
         errorAction = handleError(config.entityName, error)
       }
-      yield put(ActionCreators.setFetching(false))
+      yield put(ActionCreators.setFetchingEntity(false))
       break
 
     default:

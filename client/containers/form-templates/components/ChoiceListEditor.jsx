@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button } from 'semantic-ui-react'
+import { Button } from '../../components/controls/SemanticControls'
 import { Field } from 'redux-form'
 import {FieldError} from '../../components/forms/FieldError'
 import {createTranslate} from '../../../locales/translate'

@@ -4,13 +4,12 @@ import PropTypes from 'prop-types'
 // Components
 import { reduxForm, Field } from 'redux-form'
 import {TextField, CheckboxList, SearchableSelectField} from '../../components/forms'
-import { Form } from 'semantic-ui-react'
 import {createTranslate} from '../../../locales/translate'
-
+import {Form} from '../../components/controls/SemanticControls'
 // module stuff
 import config from '../../../modules/accounts/config'
 
-import validateAccount from '../../../modules/accounts/validate'
+import validateAccount from '../../../modules/accounts/schema'
 
 class AccountForm extends React.PureComponent {
   constructor (props) {

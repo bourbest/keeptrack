@@ -2,8 +2,17 @@ import {omit} from 'lodash'
 import {UserAccountRepository} from '../repository'
 import {makeFindAllHandler, makeFindById, makeHandlePost, makeHandleDelete} from './StandardController'
 import {entityFromBody} from '../middlewares/entityFromBody'
-import {accountSchema, newAccountSchema} from '../../modules/accounts/validate'
+import {accountSchema, newAccountSchema} from '../../modules/accounts/schema'
 import bcrypt from 'bcryptjs'
+import {boolean, Schema, string} from 'sapin'
+import {parseFilters, parsePagination} from '../middlewares'
+
+const ACCEPTED_SORT_PARAMS = ['fullName']
+
+const filtersSchema = new Schema({
+  contains: string,
+  isArchived: boolean
+})
 
 const hashPassword = (req, res, next) => {
   const password = req.entity.password
@@ -54,7 +63,11 @@ const updateAccount = (req, res, next) => {
 
 export default (router) => {
   router.route('/accounts')
-    .get(makeFindAllHandler(UserAccountRepository))
+    .get([
+      parsePagination(ACCEPTED_SORT_PARAMS),
+      parseFilters(filtersSchema),
+      makeFindAllHandler(UserAccountRepository)
+    ])
     .post([
       entityFromBody(newAccountSchema),
       hashPassword,

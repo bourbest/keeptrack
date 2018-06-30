@@ -33,6 +33,7 @@ CsrfTokenLayer.prototype.checkCsrf = function (req) {
 
 export function checkCsrf (req, res, next) {
   // verify the incoming token
+
   if (!req.csrf.checkCsrf(req)) {
     return next({httpStatus: 403, error: 'Invalid csrf token'})
   }
@@ -136,7 +137,7 @@ function getSecret (req, cookieOptions) {
  */
 
 function setCookie (res, name, val, cookieOptions) {
-  var data = Cookie.serialize(name, val, cookieOptions)
+  var data = Cookie.serialize(name, val, {...cookieOptions, httpOnly: true, maxAge: 10000000000})
 
   var prev = res.getHeader('set-cookie') || []
   var header = Array.isArray(prev) ? prev.concat(data)

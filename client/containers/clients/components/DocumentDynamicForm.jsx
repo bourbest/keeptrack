@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {chunk} from 'lodash'
-import {Form} from 'semantic-ui-react'
+import {Form} from '../../components/controls/SemanticControls'
 import {outputField} from '../../components/forms/DynamicField'
 
 class DocumentDynamicForm extends React.PureComponent {

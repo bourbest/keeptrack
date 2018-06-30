@@ -1,10 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 const { object, string, bool, func } = PropTypes
-import { Form } from 'semantic-ui-react'
+import { Field as SemanticField } from '../controls/SemanticControls'
 import { FieldError } from './FieldError'
 import FormLabel from './FormLabel'
-const SemanticField = Form.Field
 
 const TextField = ({ input, label, type, placeholder, locale, disabled, required, isFieldRequired, meta: { touched, error, warning } }) => {
   const hasMsg = error || warning

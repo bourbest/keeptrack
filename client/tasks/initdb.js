@@ -79,7 +79,7 @@ const initializeAdminUser = (db) => {
 const createIndexes = (db) => {
   console.log('creating index')
   const promises = [
-    db.ensureIndex('ClientFile', {fullName: 1}, {collation: {locale: 'fr', caseLevel: true, strength: 3}}),
+    db.ensureIndex('ClientFile', {fullName: 1}, {collation: {locale: 'fr', strength: 2}}),
 
     db.ensureIndex('ClientDocument', 'clientId'),
     db.ensureIndex('ClientDocument', 'intervenantId'),

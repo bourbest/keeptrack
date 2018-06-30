@@ -1,4 +1,4 @@
-import {keyBy, without} from 'lodash'
+import {map, keyBy, without} from 'lodash'
 export default {
   entityName: 'form-templates',
   fieldEditorFormName: 'formFieldEditor',
@@ -9,7 +9,7 @@ const BASE_CONTROL_PROPERTIES = ['labels']
 
 const BASE_INPUT_PROPERTIES = [
   ...BASE_CONTROL_PROPERTIES,
-  'isRequired'
+  'required'
 ]
 
 export const ALL_CONTROLS_PROPERTIES = [
@@ -30,7 +30,7 @@ const CONTROL_CONFIGS = [
   },
   {
     type: 'checkbox',
-    properties: without(BASE_INPUT_PROPERTIES, 'isRequired'),
+    properties: without(BASE_INPUT_PROPERTIES, 'required'),
     isInput: true
   },
   {
@@ -46,11 +46,6 @@ const CONTROL_CONFIGS = [
   {
     type: 'combobox',
     properties: [...BASE_INPUT_PROPERTIES, 'choices'],
-    isInput: true
-  },
-  {
-    type: 'rating',
-    properties: [...BASE_INPUT_PROPERTIES, 'maxValue'],
     isInput: true
   },
   {
@@ -102,7 +97,7 @@ export const DEFAULT_CONTROL_OPTIONS = {
     {value: '3', labels: {fr: 'Oranges', en: 'Oranges'}, id: 3}
   ], // choix possibles
   maxLength: null, // maxlenght des input / textarea
-  maxFileSize: 1024, // contrôle fichier seulement, taille en Ko, max 1024
+//  maxFileSize: 1024, // contrôle fichier seulement, taille en Ko, max 1024
   columnCount: 1,
   headerLevel: 1,
   required: false
@@ -162,11 +157,7 @@ export const FORM_CONTROLS = [
     labels: {fr: 'Paragraphe', en: 'Paragraph'},
     image: '/public/images/controls/paragraph.png',
     order: 8
-  },
-  {
-    controlType: 'rating',
-    labels: {fr: 'Échelle', en: 'Rating'},
-    image: '/public/images/controls/rating.png',
-    order: 9
   }
 ]
+
+export const CONTROL_TYPES = ['grid', ...map(FORM_CONTROLS, 'controlType')]

@@ -1,5 +1,6 @@
 import config from './config'
 const entityName = config.entityName
+
 import {getFormSubmitErrors, getFormSyncErrors, getFormValues, isPristine, isSubmitting, isValid} from 'redux-form'
 import {EMPTY_OBJECT} from '../common/selectors'
 
@@ -12,7 +13,8 @@ Selectors.buildNewEntity = (clientId, formId) => {
     formId,
     values: {},
     createdOn: new Date(),
-    modifiedOn: new Date()
+    modifiedOn: new Date(),
+    isArchived: false
   }
   return newEntity
 }

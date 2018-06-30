@@ -18,7 +18,7 @@ import {getLocale, getOrganismRoleOptions, getOriginOptions} from '../../modules
 import Toolbar from '../components/Toolbar/Toolbar'
 import BackButton from '../components/Toolbar/BackButton'
 import {createTranslate} from '../../locales/translate'
-import {Button, Grid} from 'semantic-ui-react'
+import {Button, Grid} from '../components/controls/SemanticControls'
 
 import ClientView from './components/ClientView'
 import EvolutionNoteTile from '../evolution-note/components/EvolutionNoteTile'
@@ -26,7 +26,7 @@ import DocumentList from './components/DocumentList'
 import Select from 'react-select'
 
 const labelNamespace = 'clients'
-const baseUrl = '/clients/'
+const baseUrl = '/clients'
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -47,7 +47,7 @@ class ViewClientPage extends React.PureComponent {
 
   componentWillMount () {
     const id = this.props.params.id || null
-    this.props.formActions.fetchAll()
+    this.props.formActions.fetchList({limit: 1000})
     this.props.appActions.hideModal()
     this.props.actions.clearEditedEntity()
     this.props.actions.fetchEditedEntity(id)
@@ -83,7 +83,11 @@ class ViewClientPage extends React.PureComponent {
               client={client}
               originOptionList={originOptionList}
             />
-            <Button type="button" as={Link} to={`/clients/${client.id}/edit`}>Modifier</Button>
+            <div className="ui gird">
+              <div className="column">
+                <Link to={`/clients/${client.id}/edit`}>Modifier</Link>
+              </div>
+            </div>
           </div>
 
           <h3>{this.message('evolutionNotes')}</h3>

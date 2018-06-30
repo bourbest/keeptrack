@@ -1,6 +1,9 @@
-import { string, isEmail, arrayOf, isEqualToField, required, Schema, validate } from 'sapin'
+import {string, date, isEmail, arrayOf, isEqualToField, required, Schema, validate, boolean} from 'sapin'
+import {objectId} from '../common/validate'
 
 const baseSchema = {
+  id: objectId,
+  isArchived: boolean,
   username: string(required),
   firstName: string(required),
   lastName: string(required),
@@ -8,7 +11,9 @@ const baseSchema = {
   email: string(required, isEmail),
   password: string,
   confirmPassword: string(isEqualToField('password')),
-  roles: arrayOf(string)
+  roles: arrayOf(string),
+  createOn: date,
+  modifiedOn: date
 }
 
 export const accountSchema = new Schema(baseSchema)

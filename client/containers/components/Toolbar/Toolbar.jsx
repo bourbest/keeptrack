@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 const Toolbar = (props) => {
   const {children} = props
   return (
-    <div className="ui secondary menu crudtoolbar middle aligned content">
+    <div className="ui secondary menu middle aligned content">
       {children}
     </div>
   )

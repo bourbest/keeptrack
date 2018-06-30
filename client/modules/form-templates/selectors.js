@@ -1,33 +1,16 @@
 import config, {CONTROL_CONFIG_BY_TYPE, DEFAULT_CONTROL_OPTIONS} from './config'
-import {max, map, pick, size} from 'lodash'
+import {isEmpty, max, map, pick, size} from 'lodash'
 import { getFormValues } from 'redux-form'
 import { createSelector } from 'reselect'
-import { getLocale } from '../app/selectors'
+
 import {
   EMPTY_ARRAY,
   createBaseSelectors,
-  createFilteredListSelectorWithLocale,
-  getSortParamsForStringsOnlyTable,
-  makeCompareEntities,
   buildSortedOptionList, EMPTY_OBJECT
 } from '../common/selectors'
+import {buildSchemaForFields} from './dynamic-form-validation'
 
 const Selectors = createBaseSelectors(config.entityName)
-
-const concatInfo = (template, locale) => template.name
-
-Selectors.getFilteredList = createFilteredListSelectorWithLocale(Selectors, concatInfo, getLocale)
-
-Selectors.getSortParams = createSelector(
-  [Selectors.getSortParams],
-  getSortParamsForStringsOnlyTable
-)
-
-Selectors.getFilteredSortedList = createSelector(
-  [Selectors.getFilteredList, Selectors.getSortParams], (templates, sortParams) => {
-    return templates.sort(makeCompareEntities(sortParams))
-  }
-)
 
 Selectors.getOptionList = createSelector(
   [Selectors.getEntities],
@@ -129,5 +112,17 @@ Selectors.buildNewChoice = (id) => {
   }
   return choice
 }
+
+Selectors.canSaveEditedEntity = (state) => {
+  return isEmpty(Selectors.getNodeErrors(state)) &&
+    !Selectors.isSubmitting(state)
+}
+
+Selectors.getFormSchema = createSelector(
+  [Selectors.getControls],
+  (fields) => {
+    return buildSchemaForFields(fields)
+  }
+)
 
 export default Selectors

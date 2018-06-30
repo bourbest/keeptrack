@@ -1,9 +1,8 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {Form} from 'semantic-ui-react'
+import {Field as SemanticField} from '../controls/SemanticControls'
 import { FieldError } from './FieldError'
 import FormLabel from './FormLabel'
-const SemanticField = Form.Field
 
 const QUILL_MODULES = {
   toolbar: [

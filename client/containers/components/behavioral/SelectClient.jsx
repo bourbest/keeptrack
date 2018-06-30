@@ -105,8 +105,8 @@ class SelectClient extends React.Component {
 
   getOptions (input, callback) {
     this.clientService.findByNameStartingWith(input, 10)
-      .then(clientFiles => {
-        const options = clientFiles.map(c => ({
+      .then(response => {
+        const options = response.entities.map(c => ({
           client: c,
           value: c.id,
           label: c.firstName + ' ' + c.lastName

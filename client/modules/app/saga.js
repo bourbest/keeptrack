@@ -23,8 +23,8 @@ function * appSaga (action) {
 
     case Actions.LOAD_LISTS:
       const svc = yield select(getService, 'list-options')
-      const options = yield call(svc.list)
-      yield put(ActionCreators.setListsOptions(options))
+      const response = yield call(svc.list)
+      yield put(ActionCreators.setListsOptions(response.entities))
       break
 
     default:

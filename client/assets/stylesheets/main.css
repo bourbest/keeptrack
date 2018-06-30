@@ -52,28 +52,6 @@ body {
   margin: 0 15px 0 0;
 }
 
-/* override de React virtualized table ****************************************************/
-.ReactVirtualized__Table__headerRow.headerRow {
-  margin-top: 12px;
-}
-
-.ReactVirtualized__Table__headerColumn, .ReactVirtualized__Table__Grid {
-  outline-style: none;
-}
-.ReactVirtualized__Table__row div.field:last-child {
-  margin-bottom: 0;
-}
-
-/* table */
-table td, table th {
-  background: #d0e5ab ;
-}
-
-.Table {
-  width: 100%;
-  margin-top: 15px;
-}
-
 .evenRow,
 .oddRow {
   border-bottom: 1px solid #e0e0e0;
@@ -88,11 +66,20 @@ table td, table th {
   background-image: -moz-linear-gradient(top, #909fa7 0, #738791 100%);
   background-image: -webkit-linear-gradient(top, #909fa7 0, #738791 100%);
   background-image: linear-gradient(to bottom, #909fa7 0%, #738791 100%);
+}
 
+.headerRow th {
+  background-color: #909fa7 !important;
 }
 
 .oddRow {
   background-color: #fafafa;
+}
+
+.selectRowCell {
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 40px
 }
 
 .headerColumn {

@@ -1,4 +1,5 @@
-import { isArray, map, isObject, isString, omit } from 'lodash'
+import { isArray } from 'lodash'
+import {buildUrl} from '../url-utils'
 
 export const transformFromApi = (data, transformFunc) => {
   let ret = data
@@ -22,17 +23,6 @@ export const transformFromApi = (data, transformFunc) => {
   }
 }
 
-const isEmptyFilter = (value) => {
-  return value === null ||
-    (isString(value) && value.length === 0)
-}
-
-const buildRouteWithFilters = (baseRoute, filterMap) => {
-  const nonEmptyFilters = omit(filterMap, isEmptyFilter)
-  const filterParams = map(nonEmptyFilters, (value, key) => `${key}=${encodeURIComponent(value.toString())}`)
-  const filterUrl = filterParams.join('&')
-  return filterParams.length === 0 ? baseRoute : `${baseRoute}?${filterUrl}`
-}
 // fromApiTransformer: fonction qui modifie l'instance reçue de l'api pour ajuster sa structure pour le reducer
 // toApiTransformer : fonction qui transforme la donnée prise du state pour le serveur. Doit retourner un NOUVEL objet
 
@@ -48,94 +38,56 @@ export default class RestService {
     this.delete = this.delete.bind(this)
     this.patch = this.patch.bind(this)
     this.list = this.list.bind(this)
-
-    this.updateEntities = this.updateEntities.bind(this)
-    this.createEntities = this.createEntities.bind(this)
   }
 
   get (id) {
     const transform = this.fromApiTransformer
-    return new Promise((resolve, reject) => {
-      this.apiClient.get(this.route, id)
-        .then((data) => {
-          const transformedData = transform ? transformFromApi(data, transform) : data
-          resolve(transformedData)
-        })
-        .catch(reject)
-    })
+    return this.apiClient.get(this.route, id)
+      .then((data) => {
+        const transformedData = transform ? transformFromApi(data, transform) : data
+        return transformedData
+      })
   }
 
-  list (filterMap) {
+  list (filtersMap) {
     const transform = this.fromApiTransformer
-    const route = isObject(filterMap) ? buildRouteWithFilters(this.route, filterMap) : this.route
+    const route = buildUrl(this.route, filtersMap)
 
-    return new Promise((resolve, reject) => {
-      this.apiClient.get(route)
-        .then((data) => {
-          const transformedData = transform ? transformFromApi(data, transform) : data
-          resolve(transformedData)
-        })
-        .catch(reject)
-    })
+    return this.apiClient.get(route)
+      .then((data) => {
+        const transformedData = transform ? transformFromApi(data, transform) : data
+        return transformedData
+      })
   }
 
-  save (entity, id, requestHeaders) {
-    id = id || entity.id
+  save (entity, requestHeaders) {
+    const id = entity.id
 
     const transformedData = this.toApiTransformer ? this.toApiTransformer(entity) : entity
     const transform = this.fromApiTransformer
-    return new Promise((resolve, reject) => {
-      let promise
-      if (id) {
-        promise = this.apiClient.put(this.route, transformedData, id, requestHeaders)
-      } else {
-        promise = this.apiClient.post(this.route, transformedData, requestHeaders)
-      }
+    let promise
+    if (id) {
+      promise = this.apiClient.put(this.route, transformedData, id, requestHeaders)
+    } else {
+      promise = this.apiClient.post(this.route, transformedData, requestHeaders)
+    }
 
-      promise.then((data) => {
+    return promise.then((data) => {
+      const transformedData = transform ? transformFromApi(data, transform) : data
+      return transformedData
+    })
+  }
+
+  patch (entity, id, requestHeaders) {
+    const transform = this.fromApiTransformer
+    return this.apiClient.patch(this.route, entity, id, requestHeaders)
+      .then((data) => {
         const transformedData = transform ? transformFromApi(data, transform) : data
-        resolve(transformedData)
-      }).catch(reject)
-    })
+        return transformedData
+      })
   }
 
-  patch (entities, id, requestHearders) {
-    const transform = this.fromApiTransformer
-    return new Promise((resolve, reject) => {
-      this.apiClient.patch(this.route, entities, id, requestHearders)
-        .then((data) => {
-          const transformedData = transform ? transformFromApi(data, transform) : data
-          resolve(transformedData)
-        })
-        .catch(reject)
-    })
-  }
-
-  delete (ids, requestHearders) {
-    return this.apiClient.delete(this.route, ids, requestHearders)
-  }
-
-  updateEntities (entities, requestHearders) {
-    const transform = this.fromApiTransformer
-    return new Promise((resolve, reject) => {
-      this.apiClient.put(this.route, entities, null, requestHearders)
-        .then((data) => {
-          const transformedData = transform ? transformFromApi(data, transform) : data
-          resolve(transformedData)
-        })
-        .catch(reject)
-    })
-  }
-
-  createEntities (entities, requestHearders) {
-    const transform = this.fromApiTransformer
-    return new Promise((resolve, reject) => {
-      this.apiClient.post(this.route, entities, null, requestHearders)
-        .then((data) => {
-          const transformedData = transform ? transformFromApi(data, transform) : data
-          resolve(transformedData)
-        })
-        .catch(reject)
-    })
+  delete (ids, requestHeaders) {
+    return this.apiClient.delete(this.route, ids, requestHeaders)
   }
 }

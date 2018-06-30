@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 // Components
 import { reduxForm, Field, FormSection } from 'redux-form'
 import {TextField, TextAreaField, RadioButtonsField, DateField, CheckboxField, PhoneFields, AddressField} from '../../components/forms'
-import { Form } from 'semantic-ui-react'
+import { Form } from '../../components/controls/SemanticControls'
 import {createTranslate} from '../../../locales/translate'
 
 // module stuff

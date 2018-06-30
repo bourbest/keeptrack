@@ -7,7 +7,6 @@ import { connect } from 'react-redux'
 // module
 import { ActionCreators as AppActions } from '../../modules/app/actions'
 import { ActionCreators as ClientActions } from '../../modules/clients/actions'
-import { ActionCreators as NoteActions } from '../../modules/evolution-notes/actions'
 import ClientSelectors from '../../modules/clients/selectors'
 import { getLocale } from '../../modules/app/selectors'
 
@@ -15,7 +14,9 @@ import { getLocale } from '../../modules/app/selectors'
 import {createTranslate} from '../../locales/translate'
 import { FormError } from '../components/forms/FormError'
 import makeStandardToolbar from '../components/behavioral/StandardListToolbar'
-import ClientList from './components/ClientList'
+
+import {SmartTable, Column, renderLinkToDetail} from '../components/SmartTable'
+import {Pagination} from '../components/Pagination'
 
 const labelNamespace = 'clients'
 const StandardToolbar = makeStandardToolbar(ClientActions, ClientSelectors, labelNamespace, 'clients')
@@ -23,30 +24,26 @@ const StandardToolbar = makeStandardToolbar(ClientActions, ClientSelectors, labe
 const mapDispatchToProps = (dispatch) => {
   return {
     actions: bindActionCreators(ClientActions, dispatch),
-    appActions: bindActionCreators(AppActions, dispatch),
-    noteActions: bindActionCreators(NoteActions, dispatch)
+    appActions: bindActionCreators(AppActions, dispatch)
   }
 }
 
 class ListClientsPage extends React.PureComponent {
   constructor (props) {
     super(props)
-    this.setSort = this.setSort.bind(this)
     this.message = createTranslate(labelNamespace, this)
   }
 
   componentWillMount () {
-    this.props.appActions.hideModal()
     this.props.actions.clearSelectedItems()
     this.props.actions.setEditedEntity(null)
+    this.props.actions.fetchList(this.props.urlParams)
   }
 
-  componentDidMount () {
-    this.props.actions.fetchAll(this.props.listServerFilters)
-  }
-
-  setSort ({sortBy, sortDirection}) {
-    this.props.actions.setSortParams([{field: sortBy, direction: sortDirection}])
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.urlParams !== this.props.urlParams) {
+      this.props.actions.fetchList(nextProps.urlParams)
+    }
   }
 
   render () {
@@ -56,46 +53,55 @@ class ListClientsPage extends React.PureComponent {
         <div className="main-content">
           <FormError error={formError} locale={locale} />
 
-          <StandardToolbar />
-          <ClientList
-            entities={this.props.entities}
-            onToggleSelected={this.props.actions.toggleSelectedItem}
-            setSort={this.setSort}
-            sortParams={this.props.sortParams}
+          <StandardToolbar location={this.props.location} />
+          <SmartTable
+            rows={this.props.entities}
+            selectable
             selectedItemIds={this.props.selectedItemIds}
-            locale={this.props.locale}
-          />
+            onRowSelected={this.props.actions.toggleSelectedItem}
+            location={this.props.location}
+          >
+            <Column name="lastName" label={this.message('lastName')} renderer={renderLinkToDetail} />
+            <Column name="firstName" label={this.message('firstName')} renderer={renderLinkToDetail} />
+          </SmartTable>
+          {this.props.totalPages > 1 &&
+            <div className="ui centered grid">
+              <div className="center aligned column">
+                <Pagination
+                  location={this.props.location}
+                  totalPages={this.props.totalPages}
+                />
+              </div>
+            </div>
+          }
         </div>
       </div>
     )
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, props) => {
   return {
-    entities: ClientSelectors.getFilteredSortedList(state),
-    listFilters: ClientSelectors.getListLocalFilters(state),
-    listServerFilters: ClientSelectors.getListServerFilters(state),
-    sortParams: ClientSelectors.getSortParams(state),
+    urlParams: ClientSelectors.getUrlParams(state, props),
+    entities: ClientSelectors.getEntitiesPage(state),
+    totalPages: ClientSelectors.getTotalPages(state, props),
+    listFilters: ClientSelectors.getFilters(state, props),
     selectedItemIds: ClientSelectors.getSelectedItemIds(state),
-    selectedItems: ClientSelectors.getSelectedEntities(state),
-    isDeleteEnabled: ClientSelectors.isListDeleteEnabled(state),
     locale: getLocale(state),
 
-    formError: ClientSelectors.getSubmitError(state)
+    formError: ClientSelectors.getSubmitError(state),
+    isDeleteEnabled: ClientSelectors.isListDeleteEnabled(state)
   }
 }
 
 ListClientsPage.propTypes = {
+  urlParams: PropTypes.object.isRequired,
   entities: PropTypes.array.isRequired,
+  totalPages: PropTypes.number.isRequired,
   listFilters: PropTypes.object.isRequired,
-  listServerFilters: PropTypes.object.isRequired,
-  sortParams: PropTypes.array.isRequired,
   selectedItemIds: PropTypes.array.isRequired,
-  selectedItems: PropTypes.array.isRequired,
-  isDeleteEnabled: PropTypes.bool.isRequired,
   locale: PropTypes.string.isRequired,
-
+  location: PropTypes.object.isRequired,
   formError: PropTypes.any
 }
 

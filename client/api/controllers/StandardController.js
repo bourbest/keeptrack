@@ -4,9 +4,18 @@ import {isArray} from 'lodash'
 export const makeFindAllHandler = (Repository) => {
   return function (req, res, next) {
     const repo = new Repository(req.database)
-    return repo.findAll(req.filters, req.pagination)
-      .then(function (entities) {
-        res.json(entities)
+    const promises = [
+      repo.findAll(req.filters, req.pagination),
+      repo.count(req.filters)
+    ]
+    return Promise.all(promises)
+      .then(function (data) {
+        const entities = data[0]
+        const totalCount = data[1]
+        res.json({
+          totalCount,
+          entities
+        })
       })
       .catch(next)
   }

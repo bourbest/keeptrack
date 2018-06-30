@@ -57,7 +57,7 @@ CheckboxList.propTypes = {
   value: PropTypes.array,
   label: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
-  isRequired: PropTypes.bool,
+  required: PropTypes.bool,
   meta: PropTypes.object
 }
 

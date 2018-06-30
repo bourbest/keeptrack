@@ -6,10 +6,9 @@ import TextArea from './TextArea'
 import TextInput from './TextField'
 import DateField from './DateField'
 import SelectField from './SearchableSelectField'
-import RatingField from './RatingField'
 import Checkbox from './Checkbox'
 import FormHeader from './FormHeader'
-import { Grid } from 'semantic-ui-react'
+import { Grid } from '../controls/SemanticControls'
 import CheckboxList from './CheckboxList'
 import RadioButtons from './RadioButtons'
 import FormParagraph from './FormParagraph'
@@ -24,7 +23,6 @@ const CONTROL_MAP = {
   'date': DateField,
   'title': FormHeader,
   'paragraph': FormParagraph,
-  'rating': RatingField,
   'grid': Grid
 }
 
@@ -69,6 +67,7 @@ export const outputField = (field, locale, handlers) => {
       id={controlId}
       name={controlId}
       label={field.labels[locale]}
+      required={field.isRequired}
       {...options}
       locale={locale}
       component={Control}

@@ -9,6 +9,9 @@ import routes from '../routes'
 import createApiRouter from '../api/routes'
 import renderReact from './renderReact'
 import {connectDatabase} from '../api/repository/connect'
+import {COOKIE_NAMES} from '../config/const'
+import {CsrfTokenLayer} from '../api/middlewares/csrf'
+import {injectGlobals} from '../api/middlewares/injectGlobals'
 
 const app = express()
 
@@ -22,6 +25,19 @@ app.get('/public/favicon.ico', function (req, res) {
 })
 
 app.use(cookieParser())
+
+const csrf = new CsrfTokenLayer({
+  cookie: {
+    key: COOKIE_NAMES.csrfToken,
+    secure: process.env.env === 'prod'
+  }
+})
+
+const globals = {
+  csrf
+}
+
+app.use(injectGlobals(globals))
 
 // Connection url
 const dbConfig = context.configuration.db

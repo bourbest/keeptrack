@@ -24,7 +24,9 @@ export const clientSchema = new Schema({
     app: string,
     city: string,
     postalCode: string
-  }
+  },
+  createdOn: date,
+  modifiedOn: date
 })
 
 export default (entity, props) => {

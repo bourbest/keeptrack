@@ -2,16 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import config, {CONTROL_CONFIG_BY_TYPE} from '../../../modules/form-templates/config'
 import {outputField} from '../../components/forms/DynamicField'
-import {Form, Grid, Icon, Label} from 'semantic-ui-react'
+import {Form, Grid, Icon, Column} from '../../components/controls/SemanticControls'
 import {reduxForm} from 'redux-form'
 
-const Row = Grid.Row
-const Col = Grid.Column
-
 const DeleteHandle = (props) => (
-  <Label corner className="deleteHandle" data-control-id={props.controlId}>
+  <label corner className="deleteHandle" data-control-id={props.controlId}>
     <Icon name="delete" />
-  </Label>
+  </label>
 )
 
 DeleteHandle.propTypes = {
@@ -60,22 +57,22 @@ class DynamicForm extends React.PureComponent {
               <Icon name="delete" className="deleteHandle grid-option" data-control-id={controlId} />
             </div>
           </div>
-          <Row className="accept-drop drag-container" data-control-id={controlId}>
+          <div className="accept-drop drag-container" data-control-id={controlId}>
             {children.map(childId => {
               const childClasses = ['draggable']
               if (childId === this.props.selectedControlId) childClasses.push('selectedForEdit')
               if (controlsErrorsById[childId]) childClasses.push('with-error')
 
               return (
-                <Col className={childClasses.join(' ')} key={childId} data-control-id={childId}>
-                  <Label corner className="deleteHandle" data-control-id={childId}>
+                <Column className={childClasses.join(' ')} key={childId} data-control-id={childId}>
+                  <label corner className="deleteHandle" data-control-id={childId}>
                     <Icon name="delete" />
-                  </Label>
+                  </label>
                   {this.renderControl(childId)}
-                </Col>
+                </Column>
               ) }
             )}
-          </Row>
+          </div>
         </Grid>
       )
     } else {
@@ -94,16 +91,16 @@ class DynamicForm extends React.PureComponent {
     return (
       <Form>
         <Grid columns={1}>
-          <Row>
-            <Col>
+          <div>
+            <Column>
               <div className="container" id="0" onClick={this.handleControlClicked}>
                 {this.props.rootControlIds.map(this.renderControl)}
               </div>
-            </Col>
-          </Row>
-          <Row>
+            </Column>
+          </div>
+          <div>
             <a href="#" onClick={this.props.onAddZone}>Ajouter une zone</a>
-          </Row>
+          </div>
         </Grid>
       </Form>
     )
