@@ -95,37 +95,33 @@ const makeStandardListToolbar = (entityActions, entitySelectors, labelNamespace,
       const searchFilter = this.props.urlParams.contains || ''
 
       return (
-        <Toolbar>
-          <div className="item section-title">{this.message('list-title')}</div>
-          <div className="ui secondary right menu">
-            <Dropdown
-              options={this.filterOptions}
-              value={isDisplayingArchived ? 'archived' : 'active'}
-              onChange={this.handleViewChanged}
-              style={{'marginRight': '90px'}}
-            />
-            {!noSearch &&
-              <SearchBox placeholder={this.message('filterSearch', 'common')}
-                value={searchFilter}
-                onChange={this.handleSearchChanged} />
-            }
-            {children}
-            {!noAdd &&
-              <Button type="button" primary onClick={handleCreate} disabled={!isCreateEnabled}>
-                {this.message('create', 'common')}
-              </Button>
-            }
-            {!noDelete && !isDisplayingArchived &&
-              <ConfirmButton locale={locale} onClick={this.handleDeleteConfirmed} disabled={!isDeleteEnabled}>
-                {this.message('delete', 'common')}
-              </ConfirmButton>
-            }
-            {!noDelete && isDisplayingArchived &&
-              <Button type="button" secondary onClick={this.handleRestoreClicked} disabled={!isRestoreEnabled}>
-                {this.message('restore', 'common')}
-              </Button>
-            }
-          </div>
+        <Toolbar title={this.message('list-title')}>
+          <Dropdown
+            options={this.filterOptions}
+            value={isDisplayingArchived ? 'archived' : 'active'}
+            onChange={this.handleViewChanged}
+          />
+          {!noSearch &&
+            <SearchBox placeholder={this.message('filterSearch', 'common')}
+              value={searchFilter}
+              onChange={this.handleSearchChanged} />
+          }
+          {children}
+          {!noAdd &&
+            <Button type="button" primary onClick={handleCreate} disabled={!isCreateEnabled}>
+              {this.message('create', 'common')}
+            </Button>
+          }
+          {!noDelete && !isDisplayingArchived &&
+            <ConfirmButton locale={locale} onClick={this.handleDeleteConfirmed} disabled={!isDeleteEnabled}>
+              {this.message('delete', 'common')}
+            </ConfirmButton>
+          }
+          {!noDelete && isDisplayingArchived &&
+            <Button type="button" secondary onClick={this.handleRestoreClicked} disabled={!isRestoreEnabled}>
+              {this.message('restore', 'common')}
+            </Button>
+          }
         </Toolbar>
       )
     }

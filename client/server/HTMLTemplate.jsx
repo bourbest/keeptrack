@@ -11,9 +11,8 @@ const HTMLDocument = (props) => (
       <meta name="theme-color" content="#000000" />
       <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
 
-      <link rel="stylesheet" type="text/css" href="/public/stylesheets/semantic.css" />
+      <link rel="stylesheet" type="text/css" href="/public/stylesheets/App.css" />
       <link rel="stylesheet" type="text/css" href="/public/stylesheets/react-redux-toastr.min.css" />
-      <link rel="stylesheet" type="text/css" href="/public/stylesheets/react-datepicker.min.css" />
       <link rel="stylesheet" type="text/css" href="/public/stylesheets/react-select.min.css" />
       <link rel="stylesheet" type="text/css" href="/public/stylesheets/lib-fix.css" />
       <link rel="stylesheet" type="text/css" href="/public/stylesheets/main.css" />

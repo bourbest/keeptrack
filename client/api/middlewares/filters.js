@@ -1,3 +1,4 @@
+import {omit} from 'lodash'
 import {validate, transform} from 'sapin'
 
 // validate route query parameters against schema and set isArchived to false by default
@@ -11,9 +12,11 @@ export function parseFilters (filtersSchema) {
         return next({httpStatus: 400, message: 'Invalid filters parameters', error})
       }
 
-      const filters = transform(req.query, filtersSchema)
+      let filters = transform(req.query, filtersSchema)
 
-      if (filters.isArchived !== true) {
+      if (filters.includeArchived) {
+        filters = omit(filters, 'includeArchived')
+      } else if (filters.isArchived !== true) {
         filters.isArchived = false
       }
 

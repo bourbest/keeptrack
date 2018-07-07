@@ -12,6 +12,7 @@ import {connectDatabase} from '../api/repository/connect'
 import {COOKIE_NAMES} from '../config/const'
 import {CsrfTokenLayer} from '../api/middlewares/csrf'
 import {injectGlobals} from '../api/middlewares/injectGlobals'
+import {loadCache} from './cache'
 
 const app = express()
 
@@ -42,6 +43,13 @@ app.use(injectGlobals(globals))
 // Connection url
 const dbConfig = context.configuration.db
 connectDatabase(dbConfig.server, dbConfig.dbName)
+  .then(database => {
+    return loadCache(database)
+      .then(cache => {
+        context.cache = cache
+        return database
+      })
+  })
   .then(database => {
     // api related
     app.use('/api', createApiRouter(context.configuration, database))

@@ -13,9 +13,7 @@ import { ActionCreators as AppActions } from '../modules/app/actions'
 import { ActionCreators as AuthActions } from '../modules/authentication/actions'
 
 import { I18nextProvider } from 'react-i18next'
-import { getUser } from '../modules/authentication/selectors'
 import createI18n from '../i18n-server'
-import AuthConfig from '../modules/authentication/config'
 import {COOKIE_NAMES} from '../config/const'
 
 function renderApplication (props) {
@@ -62,6 +60,7 @@ export default function (request, res, props, context) {
   store.dispatch(AppActions.setCookies(cookies))
   store.dispatch(AppActions.setCsrfToken(csrfToken))
   store.dispatch(AuthActions.setUser(deserializeTicket(authCookie)))
+  store.dispatch(AppActions.setListsOptions(context.cache.listOptions))
 
   const rootComponent = (
     <I18nextProvider i18n={i18nMap[lng]}>
@@ -71,10 +70,9 @@ export default function (request, res, props, context) {
     </I18nextProvider>
   )
   const run = store.runSaga(rootSaga).done
-  store.dispatch(AppActions.loadLists())
+  store.dispatch(AppActions.setRenderingApp(true))
 
   // Trigger sagas for component to run
-  // https://github.com/yelouafi/redux-saga/issues/255#issuecomment-210275959
   renderToString(rootComponent)
 
   run.then(() => {
@@ -98,6 +96,6 @@ export default function (request, res, props, context) {
     }
   })
 
-  // Dispatch a close event so sagas stop listening after they're resolved
-  store.close()
+  // Dispatch a close event when all fetching sagas are done
+  store.dispatch(AppActions.setRenderingApp(false))
 }

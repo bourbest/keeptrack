@@ -61,8 +61,9 @@ class EditClientPage extends React.PureComponent {
   }
 
   render () {
-    const {canSave, error, locale, isNew, genderOptionList} = this.props
+    const {canSave, error, locale, isNew, genderOptionList, entity} = this.props
     const titleLabelKey = isNew ? 'create-title' : 'edit-title'
+    if (!entity) return null
 
     return (
       <div>

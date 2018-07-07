@@ -17,7 +17,8 @@ import validate from '../modules/authentication/validate'
 import { FormError } from './components/forms/FormError'
 import { Field, reduxForm } from 'redux-form'
 import { Button, Form } from './components/controls/SemanticControls'
-import TextField from './components/forms/TextField'
+import FormField from './components/forms/FormFieldWrapper'
+import Input from './components/forms/Input'
 
 import AuthConfig from '../modules/authentication/config'
 
@@ -72,10 +73,10 @@ class LoginPage extends React.PureComponent {
         <FormError error={loginError} locale={locale} />
         <Form style={style} onSubmit={handleSubmit(this.handleSubmit)}>
 
-          <Field name="username" label={this.message('username')} component={TextField} locale={locale} />
-          <Field name="password" label={this.message('password')} component={TextField} locale={locale} type="password" />
+          <Field name="username" label={this.message('username')} component={FormField} InputControl={Input} locale={locale} />
+          <Field name="password" label={this.message('password')} component={FormField} InputControl={Input} locale={locale} type="password" />
 
-          <Button type="submit" disabled={submitting || !valid}>
+          <Button type="submit" primary disabled={submitting || !valid}>
             {this.message('authenticate')}
           </Button>
         </Form>

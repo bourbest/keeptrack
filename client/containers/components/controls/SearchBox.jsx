@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
+import {Icon} from '../controls/SemanticControls'
 class SearchBox extends React.Component {
   constructor (props) {
     super(props)
@@ -19,12 +19,19 @@ class SearchBox extends React.Component {
   render () {
     const {value, placeholder} = this.props
     return (
-      <div className="ui right icon input search-input">
-        {value.length === 0 && <i className="search icon"></i>}
-        <input type='text' placeholder={placeholder}
+      <div className="input-group">
+        <input
+          type='text' placeholder={placeholder}
+          className="form-control py-2 border-right-0 border"
           value={value}
-          onChange={this.handleValueChanged} />
-        {value.length > 0 && <i className="remove link icon" onClick={this.handleResetValue}></i>}
+          onChange={this.handleValueChanged}
+        />
+        <span className="input-group-append">
+          <div className="input-group-text bg-transparent">
+            {value.length === 0 && <Icon name="search" />}
+            {value.length > 0 && <Icon name="cancel" onClick={this.handleResetValue} />}
+          </div>
+        </span>
       </div>
     )
   }

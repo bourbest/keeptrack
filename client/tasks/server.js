@@ -21,6 +21,10 @@ const getNodeServerPlugins = ({sourcePath, outputPath, isProd, appConfig}) => {
       to: path.join(outputPath, './public')
     }]),
     new CopyWebpackPlugin([{
+      from: path.join(sourcePath, './scss/fontello/font'),
+      to: path.join(outputPath, './public/font')
+    }]),
+    new CopyWebpackPlugin([{
       from: path.join(sourcePath, './locales'),
       to: path.join(outputPath, './public/locales')
     }]),

@@ -2,7 +2,6 @@ const webpack = require('webpack')
 const path = require('path')
 const ManifestPlugin = require('webpack-manifest-plugin')
 const {generateBabelEnvLoader, addOptimizationPlugins, getConfig} = require('./common')
-const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const md5 = require('md5')
@@ -15,11 +14,6 @@ const getFrontEndPlugins = ({sourcePath, outputPath, appConfig, isProd, useAnaly
       'process.env.NODE_ENV': isProd ? '"production"' : '"development"',
       'process.env.appConfig': JSON.stringify(appConfig),
       'process.env.target': '"client"'
-    }),
-
-    // strip all locales but english and french, reduces final file size by 200k
-    new MomentLocalesPlugin({
-      localesToKeep: ['en', 'fr']
     }),
 
     // Give modules a deterministic name for better long-term caching:

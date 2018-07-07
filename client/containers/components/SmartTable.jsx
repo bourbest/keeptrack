@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {Link} from 'react-router'
-import {map, isArray} from 'lodash'
+import {map, isArray, endsWith} from 'lodash'
 
 import {buildUrl} from '../../services/url-utils'
 export class Column extends React.PureComponent {
@@ -95,6 +95,7 @@ SmartTable.propTypes = {
 export const renderLinkToDetail = (entity, columnName, column, globals) => {
   const location = globals.location
   const backTo = encodeURIComponent(buildUrl(location.pathname, location.query))
-  const to = `${location.pathname}/${entity.id}?backTo=${backTo}`
+  let to = endsWith(location.pathname, '/') ? location.pathname : location.pathname + '/'
+  to = `${to}${entity.id}?backTo=${backTo}`
   return <Link to={to}>{entity[columnName]}</Link>
 }

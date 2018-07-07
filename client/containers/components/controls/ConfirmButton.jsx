@@ -28,14 +28,14 @@ class ConfirmButton extends React.Component {
     const otherProps = omit(this.props, 'onClick')
     if (!this.state.confirming) {
       return (
-        <button type="button" className="ui secondary button" {...otherProps} onClick={this.setConfirmationStatus}>
+        <button type="button" className="btn" {...otherProps} onClick={this.setConfirmationStatus}>
           {this.props.children}
         </button>
       )
     }
 
     return (
-      <button type='button' className="ui red button" {...otherProps} onClick={this.handleConfirmation}>
+      <button type='button' className="btn btn-danger" {...otherProps} onClick={this.handleConfirmation}>
         {this.t('confirm', 'common')}
       </button>
     )

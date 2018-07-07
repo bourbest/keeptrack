@@ -22,23 +22,28 @@ class NavBar extends React.PureComponent {
       currentLocation = '/' + currentLocation
     }
     return (
-      <div className="topbar">
-        <div className="ui menu container">
-          {menuItems.map(
-            (menuItem) => {
-              if (!menuItem.role || (user.roles && user.roles.indexOf(menuItem.role) > -1)) {
-                const isActive = currentLocation.indexOf(menuItem.link) !== -1
-                const className = isActive ? 'active item' : 'item'
-                return (<Link
-                  key={menuItem.name}
-                  to={menuItem.link}
-                  className={className}>
-                  {this.message(menuItem.labelKey)}
-                </Link>)
+      <div className="navbar navbar-expand bg-dark text-light">
+        <div className="container">
+          <ul className="navbar-nav">
+            {menuItems.map(
+              (menuItem) => {
+                if (!menuItem.role || (user.roles && user.roles.indexOf(menuItem.role) > -1)) {
+                  const isActive = currentLocation.indexOf(menuItem.link) !== -1
+                  const className = isActive ? 'active nav-item' : 'nav-item'
+                  return (
+                    <li className={className} key={menuItem.name}>
+                      <Link
+                        to={menuItem.link}
+                        className="nav-link text-light"
+                      >
+                        {this.message(menuItem.labelKey)}
+                      </Link>
+                    </li>)
+                }
+                return null
               }
-              return null
-            }
-          )}
+            )}
+          </ul>
         </div>
       </div>
     )

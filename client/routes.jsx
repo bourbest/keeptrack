@@ -41,7 +41,6 @@ export default (
       <Route path='accounts/:id' component={AccountManager(EditAccountsPage)} />
       <Route path='form-templates' component={FormManager(ListFormTemplatesPage)} />
       <Route path='form-templates/:id' component={FormManager(EditFormTemplatePage)} />
-    </Route>,
-    <Route path='/*' component={ErrorPage} code={'404'} />
+    </Route>
   ]
 )

@@ -87,7 +87,6 @@ class EditClientDocumentPage extends React.PureComponent {
   render () {
     const {canSave, error, locale, isLoading} = this.props
     const {client, document, formTemplate} = this.props
-    const style = {width: '1000px'}
 
     if (isLoading) return null
     return (
@@ -102,7 +101,7 @@ class EditClientDocumentPage extends React.PureComponent {
 
         <FormError error={error} locale={locale} />
 
-        <div style={style}>
+        <div>
           <FormSection name="values">
             <DocumentDynamicForm
               controlsById={this.props.formControlsById}

@@ -130,7 +130,7 @@ export function archive (ids) {
     $set: {isArchived: true}
   }
 
-  return this.collection.updateOne(filters, update)
+  return this.collection.updateMany(filters, update)
 }
 
 export const createBaseRepository = (collectionName) => {

@@ -8,10 +8,9 @@ import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
 
 // form controls
-import { Button, Grid } from '../components/controls/SemanticControls'
+import { Button } from '../components/controls/SemanticControls'
 import { FormError } from '../components/forms/FormError'
 import Toolbar from '../components/Toolbar/Toolbar'
-import BackButton from '../components/Toolbar/BackButton'
 import ContentEditable from '../components/controls/ContentEditable'
 
 // actions and selectors
@@ -156,36 +155,29 @@ class EditFormTemplate extends React.PureComponent {
 
     const selectedControlId = editedField ? editedField.id : null
 
-    let titleLabelKey = 'create-title'
-    if (this.props.form.id) {
-      titleLabelKey = 'edit-title'
-    }
+    const title = (
+      <ContentEditable
+        onEditEnded={this.handleFormNameChanged}
+        value={get(this.props.formEntity, 'name', '')}
+        name='name'
+      />
+    )
 
     return (
       <div>
-        <Toolbar title={this.message(titleLabelKey)} backTo="/form-templates">
-          <BackButton backTo='/form-templates' />
-          <div className="item section-title">
-            <ContentEditable
-              onEditEnded={this.handleFormNameChanged}
-              value={get(this.props.formEntity, 'name', '')}
-              name='name'
-            />
-          </div>
-          <div className="ui secondary right menu">
-            <Button loading={submitting} id="saveButton" onClick={this.handleSubmit} disabled={!canSaveEditedEntity}>
-              {this.message('save', 'common')}
-            </Button>
-          </div>
+        <Toolbar title={title} backTo="/form-templates">
+          <Button id="saveButton" onClick={this.handleSubmit} disabled={!canSaveEditedEntity}>
+            {this.message('save', 'common')}
+          </Button>
         </Toolbar>
         <FormError error={error} locale={locale} />
 
-        <div className="container-fluid">
-          <Grid>
-            <div className="computer column left formPanel">
+        <div>
+          <div className="formEditor d-flex">
+            <div className="left formPanel overflow-y">
               <FieldSelector />
             </div>
-            <div className="computer column center formPanel overflow-y">
+            <div className="center formPanel overflow-y">
               <DynamicForm
                 rootControlIds={rootControlIds}
                 controlsById={controlsById}
@@ -195,10 +187,12 @@ class EditFormTemplate extends React.PureComponent {
                 locale={locale}
                 onFieldSelected={this.handleFieldSelected}
                 onFieldDeleted={this.props.actions.deleteField}
-                onAddZone={this.handleAddZone}
               />
+              <Button secondary className="mt-2" onClick={this.handleAddZone} disabled={submitting}>
+                {this.message('addZone')}
+              </Button>
             </div>
-            <div className="computer column right formPanel overflow-y">
+            <div className="right formPanel overflow-y box-fifth">
               <FieldAttributesEditor
                 locale={locale}
                 editedField={editedField}
@@ -207,7 +201,7 @@ class EditFormTemplate extends React.PureComponent {
                 onAddChoice={this.handleAddChoice}
               />
             </div>
-          </Grid>
+          </div>
         </div>
       </div>
     )

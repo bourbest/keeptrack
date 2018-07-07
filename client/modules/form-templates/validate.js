@@ -49,7 +49,7 @@ const BASE_FIELD = {
   id: string(required),
   controlType: string([required, oneOf(CONTROL_TYPES)]),
   order: number,
-  parentId: string(required)
+  parentId: string
 }
 
 const VALIDATIONS_BY_CONTROL_TYPE = {

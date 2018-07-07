@@ -1,5 +1,5 @@
 import config, {CONTROL_CONFIG_BY_TYPE, DEFAULT_CONTROL_OPTIONS} from './config'
-import {isEmpty, max, map, pick, size} from 'lodash'
+import {isEmpty, max, map, pick, size, filter} from 'lodash'
 import { getFormValues } from 'redux-form'
 import { createSelector } from 'reselect'
 
@@ -16,6 +16,14 @@ Selectors.getOptionList = createSelector(
   [Selectors.getEntities],
   (entities) => {
     return buildSortedOptionList(entities, 'name')
+  }
+)
+
+Selectors.getCreatableFormOptionList = createSelector(
+  [Selectors.getEntities],
+  (entities) => {
+    const active = filter(entities, {isArchived: false})
+    return buildSortedOptionList(active, 'name')
   }
 )
 

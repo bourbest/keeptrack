@@ -17,3 +17,5 @@ export const getOriginOptions = (state) => state.app.listOptionsByListId['Origin
 export const getOrganismRoleOptions = (state) => state.app.listOptionsByListId['OrganismRole'] || EMPTY_ARRAY
 
 export const getAppRoleOptions = (state) => state.app.listOptionsByListId['AppRole'] || EMPTY_ARRAY
+
+export const getFetchingActions = (state) => state.app.fetchingActions

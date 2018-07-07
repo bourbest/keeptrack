@@ -62,9 +62,9 @@ class EditAccountPage extends React.PureComponent {
   }
 
   render () {
-    const {canSave, error, locale, isNew, roleOptions} = this.props
+    const {canSave, error, locale, isNew, roleOptions, entity} = this.props
     const titleLabelKey = isNew ? 'create-title' : 'edit-title'
-    const style = {width: '1000px'}
+    if (!entity) return null
 
     return (
       <div>
@@ -78,14 +78,12 @@ class EditAccountPage extends React.PureComponent {
 
         <FormError error={error} locale={locale} />
 
-        <div style={style}>
-          <AccountForm
-            locale={locale}
-            isNew={isNew}
-            roleOptionList={roleOptions}
-            organismRoleOptionList={this.props.organismRoleOptions}
-          />
-        </div>
+        <AccountForm
+          locale={locale}
+          isNew={isNew}
+          roleOptionList={roleOptions}
+          organismRoleOptionList={this.props.organismRoleOptions}
+        />
       </div>
     )
   }

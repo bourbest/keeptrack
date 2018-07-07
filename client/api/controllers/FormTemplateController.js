@@ -8,7 +8,8 @@ const ACCEPTED_SORT_PARAMS = ['fullName']
 
 const filtersSchema = new Schema({
   contains: string,
-  isArchived: boolean
+  isArchived: boolean,
+  includeArchived: boolean
 })
 
 export default (router) => {

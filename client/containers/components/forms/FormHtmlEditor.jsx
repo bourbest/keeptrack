@@ -1,9 +1,5 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
-import {Field as SemanticField} from '../controls/SemanticControls'
-import { FieldError } from './FieldError'
-import FormLabel from './FormLabel'
-
+import {omit} from 'lodash'
 const QUILL_MODULES = {
   toolbar: [
     ['bold', 'italic', 'underline', 'strike'],
@@ -41,34 +37,17 @@ class FormHtmlEditor extends Component {
   render () {
     if (!this.state.isLoaded) return null
     const Quill = this.quill
-    const { input, meta, label, isRequired, locale } = this.props
-    const hasMsg = meta.error || meta.warning
 
     return (
-      <SemanticField>
-        <FormLabel required={isRequired}>{label}</FormLabel>
-        {meta.touched && hasMsg && <FieldError locale={locale} error={meta.error} isWarning={meta.warning} />}
-        <Quill
-          style={this.props.style}
-          onChange={input.onChange}
-          modules={QUILL_MODULES}
-          formats={QUILL_FORMATS}
-          theme="snow"
-          value={input.value}
-        />
-      </SemanticField>
+      <Quill
+        modules={QUILL_MODULES}
+        formats={QUILL_FORMATS}
+        theme="snow"
+        className="bg-white"
+        {...omit(this.props, 'onBlur')}
+      />
     )
   }
-}
-
-FormHtmlEditor.propTypes = {
-  input: PropTypes.object.isRequired,
-  value: PropTypes.string,
-  label: PropTypes.string.isRequired,
-  locale: PropTypes.string.isRequired,
-  meta: PropTypes.object,
-  isRequired: PropTypes.bool,
-  style: PropTypes.object
 }
 
 export default FormHtmlEditor

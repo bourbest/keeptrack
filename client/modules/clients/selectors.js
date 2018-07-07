@@ -42,7 +42,8 @@ Selectors.buildNewEntity = () => {
       app: '',
       city: '',
       postalCode: ''
-    }
+    },
+    acceptPublipostage: false
   }
   return newEntity
 }

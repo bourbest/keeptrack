@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {find, omit} from 'lodash'
 
 export const Form = ({classNames = '', children, ...otherProps}) => (
-  <form className={'ui form ' + classNames} {...otherProps}>
+  <form className={classNames} {...otherProps}>
     {children}
   </form>
 )
@@ -13,16 +13,12 @@ Form.propTypes = {
   classNames: PropTypes.string
 }
 
-export const Button = ({classNames, size, loading, primary, secondary, children, ...otherProps}) => {
-  const classes = ['ui button']
-  if (primary) classes.push('primary')
-  else if (secondary) classes.push('secondary')
+export const Button = ({className, primary, secondary, children, ...otherProps}) => {
+  const classes = ['btn']
+  if (primary) classes.push('btn-primary')
+  else if (secondary) classes.push('btn-dark')
 
-  if (classNames) classes.push(classNames)
-
-  if (loading) classes.push('loading')
-
-  if (size) classes.push(size)
+  if (className) classes.push(className)
 
   return (
     <button className={classes.join(' ')} {...otherProps}>
@@ -33,11 +29,9 @@ export const Button = ({classNames, size, loading, primary, secondary, children,
 
 Button.propTypes = {
   children: PropTypes.any,
-  classNames: PropTypes.string,
+  className: PropTypes.string,
   primary: PropTypes.bool,
-  secondary: PropTypes.bool,
-  loading: PropTypes.bool,
-  size: PropTypes.string
+  secondary: PropTypes.bool
 }
 
 const numbers = [
@@ -65,14 +59,23 @@ Grid.propTypes = {
   columns: PropTypes.number
 }
 
-export const Column = ({classNames = '', children, ...otherProps}) => (
-  <div className={'column ' + classNames} {...otherProps}>
-    {children}
-  </div>
-)
+export const Column = ({className = '', children, columns, ...otherProps}) => {
+  const classes = [className]
+  if (columns) {
+    classes.push('col-' + columns)
+  } else {
+    classes.push('col')
+  }
+  return (
+    <div className={classes.join(' ')} {...otherProps}>
+      {children}
+    </div>
+  )
+}
 Column.propTypes = {
   children: PropTypes.any,
-  classNames: PropTypes.string
+  className: PropTypes.string,
+  columns: PropTypes.number
 }
 Grid.Column = Column
 
@@ -111,28 +114,25 @@ export class Dropdown extends React.Component {
   }
 
   render () {
-    const {value, options, header, className, ...otherProps} = this.props
-    const dropdownClasses = ['ui item dropdown']
-    if (this.state.isOpen) dropdownClasses.push('active visible')
+    const {value, options, className, ...otherProps} = this.props
+    const dropdownClasses = ['dropdown']
     if (className) dropdownClasses.push(className)
 
-    const menuClasses = ['menu transition']
-    if (this.state.isOpen) menuClasses.push('visible')
+    const menuClasses = ['dropdown-menu']
+    if (this.state.isOpen) menuClasses.push('show')
 
     const selectedOption = find(options, {value})
     const text = selectedOption ? selectedOption.text : ''
 
     const otherDivProps = omit(otherProps, 'onChange')
     return (
-      <div role="listbox" aria-expanded={this.state.isOpen} className={dropdownClasses.join(' ')} tabIndex="0" {...otherDivProps}>
-        <div onClick={this.toggle}>
-          <span className="text" role="alert" aria-live="polite">{text}</span>
-          <i aria-hidden="true" className="dropdown icon" />
-        </div>
+      <div role="listbox" className={dropdownClasses.join(' ')} tabIndex="0" {...otherDivProps}>
+        <button onClick={this.toggle} className="btn dropdown-toggle bg-transparent" type="button" aria-haspopup="true" aria-expanded={this.state.isOpen}>
+          {text}
+        </button>
         <div className={menuClasses.join(' ')}>
-          {header && <div className="header">{header}</div>}
           {options.map(option => (
-            <div role="option" className="item" key={option.value} onClick={this.handleClick} data-value={option.value}>{option.text}</div>
+            <div role="option" className="dropdown-item" key={option.value} onClick={this.handleClick} data-value={option.value}>{option.text}</div>
           ))}
         </div>
       </div>
@@ -152,7 +152,7 @@ Dropdown.propTypes = {
 export {default as ConfirmButton} from './ConfirmButton'
 
 export const Icon = ({name, className, ...otherProps}) => (
-  <i className={`${name} icon ${className}`} {...otherProps} />
+  <i className={`icon-${name} ${className}`} {...otherProps} />
 )
 Icon.propTypes = {
   name: PropTypes.string.isRequired,

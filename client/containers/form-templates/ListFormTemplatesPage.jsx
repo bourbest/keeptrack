@@ -50,30 +50,27 @@ class ListFormsPage extends React.PureComponent {
     const {formError, locale} = this.props
     return (
       <div>
-        <div className="main-content">
-          <FormError error={formError} locale={locale} />
-
-          <StandardToolbar location={this.props.location} />
-          <SmartTable
-            rows={this.props.entities}
-            selectable
-            selectedItemIds={this.props.selectedItemIds}
-            onRowSelected={this.props.actions.toggleSelectedItem}
-            location={this.props.location}
-          >
-            <Column name="name" label={this.message('name')} renderer={renderLinkToDetail} />
-          </SmartTable>
-          {this.props.totalPages > 1 &&
-            <div className="ui centered grid">
-              <div className="center aligned column">
-                <Pagination
-                  location={this.props.location}
-                  totalPages={this.props.totalPages}
-                />
-              </div>
+        <StandardToolbar location={this.props.location} />
+        <FormError error={formError} locale={locale} />
+        <SmartTable
+          rows={this.props.entities}
+          selectable
+          selectedItemIds={this.props.selectedItemIds}
+          onRowSelected={this.props.actions.toggleSelectedItem}
+          location={this.props.location}
+        >
+          <Column name="name" label={this.message('name')} renderer={renderLinkToDetail} />
+        </SmartTable>
+        {this.props.totalPages > 1 &&
+          <div className="ui centered grid">
+            <div className="center aligned column">
+              <Pagination
+                location={this.props.location}
+                totalPages={this.props.totalPages}
+              />
             </div>
-          }
-        </div>
+          </div>
+        }
       </div>
     )
   }

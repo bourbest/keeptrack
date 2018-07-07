@@ -1,22 +1,18 @@
-import CheckboxFieldComp from './Checkbox'
-import DateFieldComp from './DateField'
-import {FormError as FormErrorComp} from './FormError'
-import RadioButtonsFieldComp from './RadioButtons'
-import SearchableSelectFieldComp from './SearchableSelectField'
-import SelectFieldComp from './SelectField'
-import TextAreaFieldComp from './TextArea'
-import TextFieldComp from './TextField'
+export {FormError} from './FormError'
+export {FormLabel} from './FormLabel'
+export {FieldError} from './FieldError'
+export {default as FieldWrapper} from './FormFieldWrapper'
 
-export const CheckboxField = CheckboxFieldComp
-export const DateField = DateFieldComp
-export const FormError = FormErrorComp
-export const RadioButtonsField = RadioButtonsFieldComp
-export const SearchableSelectField = SearchableSelectFieldComp
-export const SelectField = SelectFieldComp
-export const TextAreaField = TextAreaFieldComp
-export const TextField = TextFieldComp
+export {default as Checkbox} from './Checkbox'
+export {default as CheckboxList} from './CheckboxList'
+export {default as DateInput} from './DateInput'
+export {default as RadioButtons} from './RadioButtons'
+export {default as TextArea} from './TextArea'
+export {default as Select} from './SelectField'
+
+export {default as SearchableSelect} from './SearchableSelect'
+
+export {default as Input} from './Input'
 
 export {default as PhoneFields} from './PhoneFields'
 export {default as AddressField} from './AddressField'
-export {default as FormLabel} from './FormLabel'
-export {default as CheckboxList} from './CheckboxList'

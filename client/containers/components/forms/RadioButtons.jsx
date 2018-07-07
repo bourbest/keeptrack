@@ -1,7 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FieldError } from './FieldError'
-import FormLabel from './FormLabel'
 
 class RadioButtons extends React.PureComponent {
   constructor (props) {
@@ -10,29 +8,29 @@ class RadioButtons extends React.PureComponent {
   }
 
   handleChange (event) {
-    const input = this.props.input
-    const value = event.target.previousSibling.value
-
-    input.onChange(value)
+    event.target.previousSibling.click()
   }
 
   render () {
-    const {locale, label, required, options, meta: {touched, error, warning}, input} = this.props
-    const hasMsg = error || warning
+    const {value, options, disabled, onChange, name} = this.props
 
     return (
-      <div className="grouped fields">
-        <FormLabel required={required}>{label}</FormLabel>
-        {touched && hasMsg && <FieldError locale={locale} error={error} isWarning={warning} />}
+      <div>
         {options.map((option) => {
           const key = option.value
-          const checked = option.value === input.value ? 'checked' : ''
+          const checked = option.value === value ? 'checked' : ''
           return (
-            <div className="field" key={key}>
-              <div className={`ui radio checkbox ${checked}`}>
-                <input type="radio" value={option.value} name={input.name} checked={input.value === option.value} readOnly className="hidden" tabIndex="0" />
-                <label onClick={this.handleChange}>{option.label}</label>
-              </div>
+            <div className={'form-check'} key={key}>
+              <input
+                className="form-check-input"
+                type="radio" tabIndex="0" checked={checked} disabled={disabled}
+                onChange={onChange}
+                value={option.value}
+                name={name}
+              />
+              <label className="form-check-label" onClick={this.handleChange}>
+                {option.label}
+              </label>
             </div>
           )
         })
@@ -44,15 +42,8 @@ class RadioButtons extends React.PureComponent {
 
 RadioButtons.propTypes = {
   options: PropTypes.array.isRequired,
-  input: PropTypes.object.isRequired,
-  label: PropTypes.string.isRequired,
-  locale: PropTypes.string.isRequired,
-  required: PropTypes.bool,
-  meta: PropTypes.object
-}
-
-RadioButtons.defaultProps = {
-  direction: 'horizontal'
+  disabled: PropTypes.bool,
+  value: PropTypes.string
 }
 
 export default RadioButtons

@@ -20,7 +20,7 @@ class Layout extends React.PureComponent {
     return (
       <div className="page-content">
         <NavBar location={this.context.router.location.pathname} locale={this.props.locale} user={this.props.user} />
-        <div className="ui container">
+        <div className="container">
           {this.props.children}
         </div>
         <ReduxToastr timeOut={4000}

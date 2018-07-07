@@ -14,8 +14,8 @@ import validateNote from '../../modules/evolution-notes/schema'
 // sections tabs components
 import {createTranslate} from '../../locales/translate'
 import FormHtmlEditor from '../components/forms/FormHtmlEditor'
-import {TextField, FormLabel} from '../components/forms'
-import SelectClientField from '../components/forms/SelectClientField'
+import {Input, FieldWrapper} from '../components/forms'
+import SelectClient from '../components/behavioral/SelectClient'
 import {Form, Button} from '../components/controls/SemanticControls'
 import {Field, reduxForm} from 'redux-form'
 import ClientFullName from '../clients/components/ClientFullName'
@@ -51,12 +51,13 @@ class CreateEvolutionNotePage extends React.PureComponent {
   render () {
     const {locale, client} = this.props
     return (
-      <div>
+      <div className="mt-2">
         <Form>
           <Field
             label={this.t('client')}
             name="clientId"
-            component={SelectClientField}
+            component={FieldWrapper}
+            InputControl={SelectClient}
             required
             locale={locale}
             instanceId="clientId"
@@ -65,8 +66,7 @@ class CreateEvolutionNotePage extends React.PureComponent {
           />
 
           {client &&
-            <div className="ui field">
-              <FormLabel>{this.t('client')}</FormLabel>
+            <div className="box-fifth mb-1">
               <ClientFullName client={client} locale={locale} />
               <AddressTile address={client.address} />
             </div>
@@ -74,20 +74,22 @@ class CreateEvolutionNotePage extends React.PureComponent {
           <Field
             label={this.t('duration')}
             name="minutes"
-            component={TextField}
+            component={FieldWrapper}
+            InputControl={Input}
             locale={locale}
             required />
           <Field
             label="Note"
             name="note"
-            component={FormHtmlEditor}
+            component={FieldWrapper}
+            InputControl={FormHtmlEditor}
             style={{height: '200px'}}
             locale={locale}
             required />
         </Form>
         <br /><br /><br />
-        <Button primary type="button" onClick={this.handleSave} disabled={!this.props.canSave}>{this.t('save', 'common')}</Button>
-        <Button type="button" onClick={this.props.actions.resetForm}>{this.t('reset', 'common')}</Button>
+        <Button primary className="mr-2" onClick={this.handleSave} disabled={!this.props.canSave}>{this.t('save', 'common')}</Button>
+        <Button onClick={this.props.actions.resetForm}>{this.t('reset', 'common')}</Button>
       </div>
     )
   }

@@ -1,0 +1,21 @@
+
+.icon-star:before { content: '\e800'; } /* '' */
+.icon-star-empty:before { content: '\e801'; } /* '' */
+.icon-ok:before { content: '\e802'; } /* '' */
+.icon-cancel:before { content: '\e803'; } /* '' */
+.icon-plus:before { content: '\e804'; } /* '' */
+.icon-minus:before { content: '\e805'; } /* '' */
+.icon-home:before { content: '\e806'; } /* '' */
+.icon-eye:before { content: '\e807'; } /* '' */
+.icon-eye-off:before { content: '\e808'; } /* '' */
+.icon-attach:before { content: '\e809'; } /* '' */
+.icon-pencil:before { content: '\e80a'; } /* '' */
+.icon-print:before { content: '\e80b'; } /* '' */
+.icon-attention-circled:before { content: '\e80c'; } /* '' */
+.icon-down-dir:before { content: '\e80d'; } /* '' */
+.icon-phone:before { content: '\e80e'; } /* '' */
+.icon-search:before { content: '\e80f'; } /* '' */
+.icon-mail-alt:before { content: '\f0e0'; } /* '' */
+.icon-star-half-alt:before { content: '\f123'; } /* '' */
+.icon-male:before { content: '\f183'; } /* '' */
+.icon-left-circled2:before { content: '\f190'; } /* '' */

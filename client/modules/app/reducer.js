@@ -9,7 +9,8 @@ const initialState = {
   },
   displayedModalName: null,
   locale: 'fr',
-  listOptionsByListId: {}
+  listOptionsByListId: {},
+  fetchingActions: {}
 }
 
 const appReducer = (state = initialState, action = {}) => {
@@ -47,6 +48,9 @@ const appReducer = (state = initialState, action = {}) => {
       }
       newState.listOptionsByListId = optionsByListId
       return newState
+
+    case Actions.SET_FETCHING_ACTIONS:
+      return {...state, fetchingActions: action.fetchingActions}
 
     default:
       return state

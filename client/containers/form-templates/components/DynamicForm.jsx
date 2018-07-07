@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import config, {CONTROL_CONFIG_BY_TYPE} from '../../../modules/form-templates/config'
-import {outputField} from '../../components/forms/DynamicField'
-import {Form, Grid, Icon, Column} from '../../components/controls/SemanticControls'
+import {outputField} from '../../components/GenericForm/DynamicField'
+import {Icon, Column} from '../../components/controls/SemanticControls'
 import {reduxForm} from 'redux-form'
 
 const DeleteHandle = (props) => (
@@ -30,7 +30,7 @@ class DynamicForm extends React.PureComponent {
       if (el.getAttribute) {
         const id = el.getAttribute('data-control-id')
         if (id) {
-          if (el.classList.contains('deleteHandle')) {
+          if (el.classList.contains('deleteFieldButton') || el.classList.contains('deleteSectionButton')) {
             this.props.onFieldDeleted(id)
           } else {
             this.props.onFieldSelected(id)
@@ -50,38 +50,42 @@ class DynamicForm extends React.PureComponent {
     if (controlConfig.isLayout) {
       const children = controlIdsByParentId[controlId] || []
       const containerClass = field.id === this.props.selectedControlId ? 'selectedForEdit form-zone' : 'form-zone'
+      const dragClasses = !field.isSystem ? 'accept-drop drag-container d-flex flex-wrap' : 'd-flex flex-wrap'
       return (
-        <Grid key={controlId} columns={field.columnCount} data-control-id={controlId} className={containerClass}>
-          <div className="ui top attached" style={{height: '20px'}}>
-            <div className="grid-options">
-              <Icon name="delete" className="deleteHandle grid-option" data-control-id={controlId} />
+        <div key={controlId} data-control-id={controlId} className={containerClass}>
+          <div className="grid-toolbar">
+            <span>Section</span>
+            {!field.isSystem &&
+              <button type="button" name="delete" className="close deleteSectionButton float-right" data-control-id={controlId}>
+                &times;
+              </button>
+            }
+          </div>
+          <div className="form-zone-inner">
+            <div className={dragClasses} data-control-id={controlId}>
+              {children.map(childId => {
+                const childClasses = ['field-tile']
+                if (!controlsById[childId].isSystem) childClasses.push('draggable')
+                if (childId === this.props.selectedControlId) childClasses.push('selectedForEdit')
+                if (controlsErrorsById[childId]) childClasses.push('with-error')
+
+                return (
+                  <Column columns={12 / field.columnCount} className={childClasses.join(' ')} key={childId} data-control-id={childId}>
+                    <div className="top-corner-triangle deleteFieldButton" data-control-id={childId}>
+                      <button type="button" className="close deleteButton">
+                        &times;
+                      </button>
+                    </div>
+                    {this.renderControl(childId)}
+                  </Column>
+                ) }
+              )}
             </div>
           </div>
-          <div className="accept-drop drag-container" data-control-id={controlId}>
-            {children.map(childId => {
-              const childClasses = ['draggable']
-              if (childId === this.props.selectedControlId) childClasses.push('selectedForEdit')
-              if (controlsErrorsById[childId]) childClasses.push('with-error')
-
-              return (
-                <Column className={childClasses.join(' ')} key={childId} data-control-id={childId}>
-                  <label corner className="deleteHandle" data-control-id={childId}>
-                    <Icon name="delete" />
-                  </label>
-                  {this.renderControl(childId)}
-                </Column>
-              ) }
-            )}
-          </div>
-        </Grid>
+        </div>
       )
     } else {
-      let handlers = {}
-      if (field.controlType === 'file') {
-        handlers.onFileSelected = (e) => {}
-        handlers.onFileSelectError = (e) => {}
-      }
-      return outputField(field, locale, handlers)
+      return outputField(field, locale)
     }
   }
 
@@ -89,23 +93,15 @@ class DynamicForm extends React.PureComponent {
     if (!this.props.rootControlIds) return null
 
     return (
-      <Form>
-        <Grid columns={1}>
-          <div>
-            <Column>
-              <div className="container" id="0" onClick={this.handleControlClicked}>
-                {this.props.rootControlIds.map(this.renderControl)}
-              </div>
-            </Column>
-          </div>
-          <div>
-            <a href="#" onClick={this.props.onAddZone}>Ajouter une zone</a>
-          </div>
-        </Grid>
-      </Form>
+      <form>
+        <div id="c0" onClick={this.handleControlClicked}>
+          {this.props.rootControlIds.map(this.renderControl)}
+        </div>
+      </form>
     )
   }
 }
+
 DynamicForm.propTypes = {
   rootControlIds: PropTypes.array.isRequired,
   controlIdsByParentId: PropTypes.object.isRequired,
@@ -114,8 +110,7 @@ DynamicForm.propTypes = {
   selectedControlId: PropTypes.string,
   locale: PropTypes.string.isRequired,
   onFieldSelected: PropTypes.func.isRequired,
-  onFieldDeleted: PropTypes.func.isRequired,
-  onAddZone: PropTypes.func.isRequired
+  onFieldDeleted: PropTypes.func.isRequired
 }
 
 const DynamicFormConnected = reduxForm({
