@@ -3,14 +3,13 @@ import PropTypes from 'prop-types'
 
 // Components
 import { reduxForm, Field } from 'redux-form'
-import {TextField, CheckboxList, SearchableSelectField} from '../../components/forms'
-import { Form } from 'semantic-ui-react'
+import {CheckboxList, SearchableSelect, Input, FieldWrapper} from '../../components/forms'
 import {createTranslate} from '../../../locales/translate'
-
+import {Form} from '../../components/controls/SemanticControls'
 // module stuff
 import config from '../../../modules/accounts/config'
 
-import validateAccount from '../../../modules/accounts/validate'
+import validateAccount from '../../../modules/accounts/schema'
 
 class AccountForm extends React.PureComponent {
   constructor (props) {
@@ -22,14 +21,14 @@ class AccountForm extends React.PureComponent {
     const {locale, isNew, roleOptionList, organismRoleOptionList} = this.props
     return (
       <Form>
-        <Field name="userName" label={this.message('userName')} required component={TextField} locale={locale} />
-        <Field name="lastName" label={this.message('lastName')} required component={TextField} locale={locale} />
-        <Field name="firstName" label={this.message('firstName')} required component={TextField} locale={locale} />
-        <Field name="organismRole" label={this.message('organismRole')} required component={SearchableSelectField} locale={locale} options={organismRoleOptionList} />
-        <Field name="email" label={this.message('email')} required component={TextField} locale={locale} />
-        <Field name="password" label={this.message('password')} required={isNew} component={TextField} locale={locale} type="password" />
-        <Field name="confirmPassword" label={this.message('confirmPassword')} required={isNew} component={TextField} locale={locale} type="password" />
-        <Field name="roles" label={this.message('roles')} component={CheckboxList} locale={locale} options={roleOptionList} />
+        <Field name="username" label={this.message('userName')} required component={FieldWrapper} InputControl={Input} locale={locale} />
+        <Field name="lastName" label={this.message('lastName')} required component={FieldWrapper} InputControl={Input} locale={locale} />
+        <Field name="firstName" label={this.message('firstName')} required component={FieldWrapper} InputControl={Input} locale={locale} />
+        <Field name="organismRole" label={this.message('organismRole')} required component={FieldWrapper} InputControl={SearchableSelect} locale={locale} options={organismRoleOptionList} />
+        <Field name="email" label={this.message('email')} required component={FieldWrapper} InputControl={Input} locale={locale} />
+        <Field name="password" label={this.message('password')} required={isNew} component={FieldWrapper} InputControl={Input} locale={locale} type="password" />
+        <Field name="confirmPassword" label={this.message('confirmPassword')} required={isNew} component={FieldWrapper} InputControl={Input} locale={locale} type="password" />
+        <Field name="roles" label={this.message('roles')} component={FieldWrapper} InputControl={CheckboxList} locale={locale} options={roleOptionList} />
       </Form>
     )
   }

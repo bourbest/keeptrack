@@ -1,10 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button } from 'semantic-ui-react'
+import { Button } from '../../components/controls/SemanticControls'
 import { Field } from 'redux-form'
-import {FieldError} from '../../components/forms/FieldError'
+import {FieldError, Input, FieldWrapper} from '../../components/forms'
 import {createTranslate} from '../../../locales/translate'
-import FormLabel from '../../components/forms/FormLabel'
 
 class ChoiceListEditor extends React.PureComponent {
   constructor (props) {
@@ -28,7 +27,7 @@ class ChoiceListEditor extends React.PureComponent {
     const {choices, meta: {error}, locale} = this.props
     return (
       <div>
-        <FormLabel>{this.message('choices')}</FormLabel>
+        <h4>{this.message('choices')}</h4>
         {error && <FieldError locale={locale} error={error} />}
         <table>
           <thead>
@@ -36,7 +35,7 @@ class ChoiceListEditor extends React.PureComponent {
               <td>{this.message('fr', 'common')}</td>
               <td>{this.message('en', 'common')}</td>
               <td>{this.message('export-value')}</td>
-              <td></td>
+              <td />
             </tr>
           </thead>
           <tbody>
@@ -45,18 +44,26 @@ class ChoiceListEditor extends React.PureComponent {
               return (
                 <tr key={index}>
                   <td>
-                    <Field component="input" style={{width: '100px'}} name={`${baseFieldName}.labels.fr`} autoComplete="off" />
+                    <div className="d-flex justify-content-start">
+                      <Field component={FieldWrapper} InputControl={Input} style={{width: '100px'}} name={`${baseFieldName}.labels.fr`} locale={locale} autoComplete="off" />
+                    </div>
                   </td>
                   <td>
-                    <Field component="input" style={{width: '100px'}} name={`${baseFieldName}.labels.en`} autoComplete="off" />
+                    <div className="d-flex justify-content-start">
+                      <Field component={FieldWrapper} InputControl={Input} style={{width: '100px'}} name={`${baseFieldName}.labels.en`} locale={locale} autoComplete="off" />
+                    </div>
                   </td>
                   <td>
-                    <Field component="input" style={{width: '50px'}} name={`${baseFieldName}.value`} autoComplete="off" />
+                    <div className="d-flex justify-content-start">
+                      <Field component={FieldWrapper} InputControl={Input} style={{width: '50px'}} name={`${baseFieldName}.value`} locale={locale} autoComplete="off" />
+                    </div>
                   </td>
                   <td>
-                    <Button type='button' data-index={index} onClick={this.handleChoiceDeleted} size="mini">
-                      X
-                    </Button>
+                    <div className="d-flex justify-content-start mb-3">
+                      <Button type='button' data-index={index} onClick={this.handleChoiceDeleted}>
+                        X
+                      </Button>
+                    </div>
                   </td>
                 </tr>
               )

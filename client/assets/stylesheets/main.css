@@ -3,9 +3,6 @@ body {
   font-family: 'Lato';
 }
 
-.page-content {
-  padding-bottom: 50px;
-}
 /* barre de navigation, override de semantic-ui ***********************************************/
 .topbar {
   width: 100%;
@@ -52,28 +49,6 @@ body {
   margin: 0 15px 0 0;
 }
 
-/* override de React virtualized table ****************************************************/
-.ReactVirtualized__Table__headerRow.headerRow {
-  margin-top: 12px;
-}
-
-.ReactVirtualized__Table__headerColumn, .ReactVirtualized__Table__Grid {
-  outline-style: none;
-}
-.ReactVirtualized__Table__row div.field:last-child {
-  margin-bottom: 0;
-}
-
-/* table */
-table td, table th {
-  background: #d0e5ab ;
-}
-
-.Table {
-  width: 100%;
-  margin-top: 15px;
-}
-
 .evenRow,
 .oddRow {
   border-bottom: 1px solid #e0e0e0;
@@ -88,11 +63,20 @@ table td, table th {
   background-image: -moz-linear-gradient(top, #909fa7 0, #738791 100%);
   background-image: -webkit-linear-gradient(top, #909fa7 0, #738791 100%);
   background-image: linear-gradient(to bottom, #909fa7 0%, #738791 100%);
+}
 
+.headerRow th {
+  background-color: #909fa7 !important;
 }
 
 .oddRow {
   background-color: #fafafa;
+}
+
+.selectRowCell {
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 40px
 }
 
 .headerColumn {
@@ -131,79 +115,90 @@ div.error {
 }
 
 /* =============== Edit form template ====================================== */
-
+/* DynamicForm Component style */
 .field-selector {
   background-color: white;
 }
 
-.editedForm {
-  margin-top: 10px;
-  padding-top: 100px;
-}
 .controlTile {
-  height: 100px;
-  border-color: #6c9db6;
+  border-color: rgba(169,204,105,.90);
   border-width: thin;
   border-style: solid;
   text-align: center;
   font-size: 0.71428571rem;
+  overflow: hidden;
 }
 
 .controlTile .thumbnail {
   height: 75px;
 }
 
-.drag-container.accept-drop {
-  border-style: dashed;
-  border-color: #6c9db6;
-  border-width: thin;
-  padding: 5px 5px 5px 5px;
-  min-height: 20px;
-  width: 100%
+.grid-toolbar {
+  width: 100%;
+  background-color: rgba(169,204,105,.75);
+  border: 1px solid rgba(169,204,105,.90);
+  color: black;
+  font-size: .7em;
+  line-height: 2;
+  box-sizing: border-box;
+  border-collapse: separate;
+  padding-left: .75rem;
+  padding-right: .75rem;
 }
 
-.draggable {
-  padding-bottom: 8px;
-  padding-top: 8px;
+.accept-drop {
+  min-height: 20px;
+  width: 100%;
+}
+
+.form-zone-inner {
+  padding: 5px 5px 5px 5px;
+  border: 1px solid rgba(169,204,105,.90);
+  box-sizing: border-box;
+  border-collapse: separate;
+  min-height: 20px;
 }
 
 .draggable, .draggable * {
   cursor: -webkit-grab;
 }
 
-
-.gridOptions {
-  width: 100%;
-  padding-left: 0;
-  padding-right: 0;
-}
-
 .selectedForEdit {
-  border-color: blue;
+  border-color: rgba(169,204,105,.90);
   border-width: thin;
   border-style: solid;
 }
 
-.deleteHandle {
-  visibility: hidden;
+.top-corner-triangle {
+  border-right: 30px solid lightgray;
+  border-bottom: 30px solid transparent;
+  height: 0;
+  width: 0;
+  top: 0;
+  position: absolute;
+  right: 0px;
+  z-index: 2;
 }
 
-.deleteHandle:hover {
+.top-corner-triangle .deleteButton {
+  top: -5px;
+  right: -30px;
+  position: absolute;
+  cursor: pointer;
+}
+
+.deleteFieldButton {
+  visibility: hidden;
+  cursor: pointer;
+  color: white;
+}
+
+.deleteFieldButton:hover {
   color: black !important;
 }
 
-.deleteHandle * {
-  cursor: pointer !important;
-}
-
-.draggable:hover > .deleteHandle, .form-zone:hover .grid-option  {
+.field-tile:hover .deleteFieldButton {
   visibility: visible !important;
-}
-
-.grid-options {
-  position: absolute;
-  right: -14px;
-  color: lightgrey
 }
 
 .draggable.with-error {
@@ -212,45 +207,44 @@ div.error {
   border-style: dashed;
 }
 
-.ui.grid .computer.left {
+/* form editor */
+.formEditor .left {
   width: 200px;
   padding-right: 0px;
+  flex-shrink: 0;
 }
 
-.ui.grid .computer.right {
-  width: 400px;
+.formEditor .right {
+  width: 450px;
+  flex-shrink: 0;
 }
-.ui.grid .computer.center {
-  width: calc(100% - 600px);
+.formEditor .center {
+  flex-grow: 1;
 }
 
 .formPanel {
-  height: 550px;
+  height: calc(100vh - 110px);
   overflow-x: hidden;
 }
-.computer.left .drag-container .draggable:nth-child(odd) .controlTile {
-  border-right: none;
-}
-.computer.left .drag-container .draggable .controlTile {
-  border-top: none;
-}
-.computer.left .drag-container .draggable:first-child .controlTile,
-.computer.left .drag-container .draggable:nth-child(2) .controlTile
-{
-  border-top: 1px solid #6c9db6;
+
+.controlTile > img {
+  margin-bottom: -15px;
 }
 .controlTile:hover, .controlTile:focus {
   background-color: lightgrey;
 }
 
-.ui.grid .column.left .row .column.draggable {
-  padding-left: 0;
-  padding-right: 0;
-  padding-bottom: 0;
-  padding-top: 0;
+.overflow-hidden {
+  overflow: hidden;
 }
-.ui.grid .column.left .row.drag-container {
-  margin: 6px 16px;
+.overflow-y {
+  overflow-y: scroll;
+}
+.overflow-x {
+  overflow-x: scroll;
+}
+.overflow-x-auto {
+  overflow-x: auto;
 }
 
 .foot-note {

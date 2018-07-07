@@ -17,6 +17,7 @@ namespace Common.API
     {
         private const string LIMIT = "limit";
         private const string SORT_BY = "sortby";
+        private const string PAGE = "page";
         private const string REVERSE_ORDER = "reverseorder";
         private const string CONTAINS_FILTER = "contains";
         private static readonly string[] IGNORED_FILTERS = {"format"};

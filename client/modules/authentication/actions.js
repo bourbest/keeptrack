@@ -2,7 +2,7 @@ const actionPrefix = 'AUTH/'
 
 export const Actions = {
   LOG_IN: `${actionPrefix}LOG_IN`,
-  SET_TICKET: `${actionPrefix}SET_TICKET`,
+  SET_USER: `${actionPrefix}SET_USER`,
   LOG_OUT: `${actionPrefix}LOG_OUT`,
 
   SET_LOGIN_ERROR: `${actionPrefix}SET_LOGIN_ERROR`,
@@ -11,7 +11,7 @@ export const Actions = {
 
 export const ActionCreators = {
   loginUser: (username, password, redirect) => ({ type: Actions.LOG_IN, username, password, redirect }),
-  setTicket: (ticket) => ({ type: Actions.SET_TICKET, ticket }),
+  setUser: (user) => ({ type: Actions.SET_USER, user }),
   logoutUser: () => ({ type: Actions.LOG_OUT }),
 
   setLoginError: (error) => ({ type: Actions.SET_LOGIN_ERROR, error }),

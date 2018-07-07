@@ -49,10 +49,9 @@ class EditClientPage extends React.PureComponent {
 
   handleSubmit () {
     const isNew = this.props.isNew
-    const method = isNew ? this.props.actions.createEntity : this.props.actions.updateEntity
     const notify = this.props.appActions.notify
 
-    method(this.props.entity, (entity) => {
+    this.props.actions.saveEntity(this.props.entity, (entity) => {
       if (isNew) {
         browserHistory.replace(baseUrl + entity.id)
       }
@@ -62,12 +61,14 @@ class EditClientPage extends React.PureComponent {
   }
 
   render () {
-    const {canSave, error, locale, isNew, genderOptionList} = this.props
+    const {canSave, error, locale, isNew, genderOptionList, entity} = this.props
     const titleLabelKey = isNew ? 'create-title' : 'edit-title'
+    if (!entity) return null
 
     return (
       <div>
         <StandardEditToolbar
+          location={this.props.location}
           title={this.message(titleLabelKey)}
           backTo={baseUrl}
           onSaveClicked={this.handleSubmit}

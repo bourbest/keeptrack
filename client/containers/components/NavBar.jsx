@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router'
-import { FORM_MANAGER, ACCOUNT_MANAGER, INTERACT_WITH_CLIENT } from '../../modules/app/roles'
+import { canInteractWithClient, formsManager, usersManager } from '../../modules/accounts/roles'
 import { createTranslate } from '../../locales/translate'
 class NavBar extends React.PureComponent {
   constructor (props) {
@@ -12,9 +12,9 @@ class NavBar extends React.PureComponent {
   render () {
     const user = this.props.user
     const menuItems = [
-      { name: 'clients', link: '/clients', labelKey: 'clients', role: INTERACT_WITH_CLIENT },
-      { name: 'formTemplates', link: '/form-templates', labelKey: 'formTemplates', role: FORM_MANAGER },
-      { name: 'accounts', link: '/accounts', labelKey: 'accounts', role: ACCOUNT_MANAGER },
+      { name: 'clients', link: '/clients', labelKey: 'clients', role: canInteractWithClient },
+      { name: 'formTemplates', link: '/form-templates', labelKey: 'formTemplates', role: formsManager },
+      { name: 'accounts', link: '/accounts', labelKey: 'accounts', role: usersManager },
       { name: 'createEvolutionNote', link: '/new-evolution-note', labelKey: 'createEvolutionNote' }
     ]
     let currentLocation = this.props.location
@@ -22,23 +22,28 @@ class NavBar extends React.PureComponent {
       currentLocation = '/' + currentLocation
     }
     return (
-      <div className="topbar">
-        <div className="ui menu container">
-          {menuItems.map(
-            (menuItem) => {
-              if (!menuItem.role || user.roles.indexOf(menuItem.role) > -1) {
-                const isActive = currentLocation.indexOf(menuItem.link) !== -1
-                const className = isActive ? 'active item' : 'item'
-                return (<Link
-                  key={menuItem.name}
-                  to={menuItem.link}
-                  className={className}>
-                  {this.message(menuItem.labelKey)}
-                </Link>)
+      <div className="navbar navbar-expand bg-dark text-light">
+        <div className="container">
+          <ul className="navbar-nav">
+            {menuItems.map(
+              (menuItem) => {
+                if (!menuItem.role || (user.roles && user.roles.indexOf(menuItem.role) > -1)) {
+                  const isActive = currentLocation.indexOf(menuItem.link) !== -1
+                  const className = isActive ? 'active nav-item' : 'nav-item'
+                  return (
+                    <li className={className} key={menuItem.name}>
+                      <Link
+                        to={menuItem.link}
+                        className="nav-link text-light"
+                      >
+                        {this.message(menuItem.labelKey)}
+                      </Link>
+                    </li>)
+                }
+                return null
               }
-              return null
-            }
-          )}
+            )}
+          </ul>
         </div>
       </div>
     )

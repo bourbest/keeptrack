@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import {Field} from 'redux-form'
-import TextField from './TextField'
+import Input from './Input'
+import FieldWrapper from './FormFieldWrapper'
 import {createTranslate} from '../../../locales/translate'
 
 class AddressField extends React.PureComponent {
@@ -13,19 +14,45 @@ class AddressField extends React.PureComponent {
   render () {
     const { required, locale } = this.props
     return [
-      <div className="fields" key="street">
-        <div className="three wide field">
-          <Field name="civicNumber" label={this.message('civicNumber')} required={required} component={TextField} locale={locale} />
+      <div className="row" key="street">
+        <div className="col-2">
+          <Field
+            name="civicNumber"
+            label={this.message('civicNumber')}
+            required={required}
+            component={FieldWrapper}
+            InputControl={Input}
+            locale={locale}
+          />
         </div>
-        <div className="ten wide field">
-          <Field name="streetName" label={this.message('streetName')} required={required} component={TextField} locale={locale} />
+        <div className="col-8">
+          <Field
+            name="streetName"
+            label={this.message('streetName')}
+            required={required}
+            component={FieldWrapper}
+            InputControl={Input}
+            locale={locale}
+          />
         </div>
-        <div className="three wide field">
-          <Field name="app" label={this.message('app')} component={TextField} locale={locale} />
+        <div className="col-2">
+          <Field
+            name="app"
+            label={this.message('app')}
+            component={FieldWrapper}
+            InputControl={Input}
+            locale={locale}
+          />
         </div>
       </div>,
-      <Field name="city" label={this.message('city')} required={required} component={TextField} locale={locale} key="city" />,
-      <Field name="postalCode" label={this.message('postalCode')} required={required} component={TextField} locale={locale} key="postal" />
+      <div key="city" className="row">
+        <div className="col-md-8">
+          <Field name="city" label={this.message('city')} required={required} component={FieldWrapper} InputControl={Input} locale={locale} />
+        </div>
+        <div className="col-md-4">
+          <Field name="postalCode" label={this.message('postalCode')} required={required} component={FieldWrapper} InputControl={Input} maxLength={7} locale={locale} />
+        </div>
+      </div>
     ]
   }
 }

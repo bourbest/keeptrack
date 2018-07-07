@@ -374,6 +374,42 @@ namespace Common.Data.MongoDB.Test
             Assert.IsNotNull(thrownEx, "No exception was thrown");
             Assert.AreEqual("intValue", thrownEx.Filter);
         }
+
+        [TestMethod]
+        public async Task FindByFilters_modifiedSince_returns_only_modified_entities()
+        {
+            // prepare
+            DateTime now = DateTime.Now;
+            DateTime modifiedBefore = now.AddMinutes(-1);
+            DateTime modifiedAfter = now.AddMilliseconds(1);
+            MongoDBContext context = new MongoDBContext(TestUtils.HOST, TestUtils.TEST_DB);
+            TestModelRepository repo = new TestModelRepository(context);
+            List<TestModel> foundDocs = null;
+            ObjectId[] expectedIds = new ObjectId[] { ObjectId.GenerateNewId(),
+                                                        ObjectId.GenerateNewId()};
+
+            TestModel[] values = new TestModel[] {
+                new TestModel() { stringValue = "A", ModifiedOn = modifiedBefore},
+                new TestModel() { stringValue = "C", ModifiedOn = modifiedBefore},
+                new TestModel() { stringValue = "B", ModifiedOn = now},
+                new TestModel() { stringValue = "D", ModifiedOn = modifiedAfter}
+            };
+
+            repo.InsertRange(values.AsEnumerable());
+            await context.SaveChangesAsync();
+
+            QueryParameters queryParams = new QueryParameters();
+            queryParams.KeyValueFilters.Add("ModifiedSince", now.ToString());
+
+            // execute
+            foundDocs = await repo.FindByFiltersAsync(queryParams);
+
+            // assert
+            Assert.AreEqual(2, foundDocs.Count, "received count did not match");
+            Assert.IsTrue(foundDocs[0].stringValue == "B" || foundDocs[0].stringValue == "D");
+            Assert.IsTrue(foundDocs[1].stringValue == "B" || foundDocs[0].stringValue == "D");
+
+        }
         #endregion
 
         #region Count

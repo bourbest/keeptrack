@@ -1,5 +1,4 @@
-import {isString} from 'lodash'
-
+import {isString, isDate} from 'lodash'
 export const stripNonDigits = (str) => {
   const result = str && isString(str) ? str.replace(/\D/g, '') : str
   return result
@@ -109,8 +108,13 @@ export const removeDiacritics = (str) => {
 }
 
 export const formatDate = (date) => {
-  if (date) {
+  if (isString(date)) {
     return date.substring(0, 10)
+  } else if (isDate(date)) {
+    return date.toISOString().substring(0, 10)
   }
   return ''
 }
+
+const stringCmp = new Intl.Collator(undefined, {sensitivity: 'base'})
+export const compareStrings = stringCmp.compare

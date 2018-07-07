@@ -28,8 +28,8 @@ class ErrorPage extends React.PureComponent {
       <div className='error-page'>
         <h2>{this.message('title')}</h2>
         <p><strong>{this.message('message', {code: code})}</strong></p>
-        <Link to="/" className="ui button">{this.message('home', 'common')}</Link>
-        <button className="ui button" onClick={this.handleGoBack}>{this.message('back', 'common')}</button>
+        <Link to="/" className="btn">{this.message('home', 'common')}</Link>
+        <button className="btn" onClick={this.handleGoBack}>{this.message('back', 'common')}</button>
       </div>
     )
   }

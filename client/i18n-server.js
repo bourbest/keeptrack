@@ -1,12 +1,13 @@
 import i18n from 'i18next'
 import Backend from 'i18next-sync-fs-backend'
+import {DEFAULT_LOCALE} from './config/const'
 
 // import Cache from 'i18next-localstorage-cache';
 export default function create () {
   i18n.use(Backend)
   // .use(Cache)
   .init({
-    fallbackLng: 'fr',
+    fallbackLng: DEFAULT_LOCALE,
     lngs: ['fr', 'en'],
     // have a common namespace used around the full app
     ns: ['languages'],

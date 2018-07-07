@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FieldError } from './FieldError'
-import FormLabel from './FormLabel'
+import Checkbox from './Checkbox'
 import {isArray} from 'lodash'
 
 class CheckboxList extends React.PureComponent {
@@ -11,9 +10,8 @@ class CheckboxList extends React.PureComponent {
   }
 
   handleChange (event) {
-    const input = this.props.input
-    const newArray = isArray(input.value) ? [...input.value] : []
-    const value = event.target.previousSibling.value
+    const newArray = isArray(this.props.value) ? [...this.props.value] : []
+    const value = event.target.name
 
     const idx = newArray.indexOf(value)
     if (idx > -1) {
@@ -22,31 +20,26 @@ class CheckboxList extends React.PureComponent {
       newArray.push(value)
     }
 
-    input.onChange(newArray)
+    this.props.onChange(newArray)
   }
 
   render () {
-    const {locale, label, isRequired, options, meta: {touched, error, warning}, input} = this.props
-    const value = isArray(input.value) ? input.value : []
-    const hasMsg = error || warning
-    const checkedValues = new Set(value || [])
+    const {options, value, disabled} = this.props
+    const currentValue = isArray(value) ? value : []
+    const checkedValues = new Set(currentValue)
 
     return (
-      <div className="grouped fields">
-        <FormLabel required={isRequired}>{label}</FormLabel>
-        {touched && hasMsg && <FieldError locale={locale} error={error} isWarning={warning} />}
-        {options.map((option) => {
-          const checked = checkedValues.has(option.value) ? 'checked' : ''
-          return (
-            <div className="inline field" key={option.value}>
-              <div className={`ui checkbox ${checked}`}>
-                <input type="checkbox" tabIndex="0" className="hidden" checked={checkedValues.has(option.value)} value={option.value} />
-                <label onClick={this.handleChange}>{option.label}</label>
-              </div>
-            </div>
-          )
-        })
-        }
+      <div>
+        {options.map(option => (
+          <Checkbox
+            key={option.value}
+            name={option.value}
+            value={checkedValues.has(option.value)}
+            text={option.label}
+            onChange={this.handleChange}
+            disabled={disabled}
+          />)
+        )}
       </div>
     )
   }
@@ -55,10 +48,7 @@ class CheckboxList extends React.PureComponent {
 CheckboxList.propTypes = {
   options: PropTypes.array.isRequired,
   value: PropTypes.array,
-  label: PropTypes.string.isRequired,
-  locale: PropTypes.string.isRequired,
-  isRequired: PropTypes.bool,
-  meta: PropTypes.object
+  disabled: PropTypes.bool
 }
 
 export default CheckboxList

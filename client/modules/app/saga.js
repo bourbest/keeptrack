@@ -1,6 +1,7 @@
-import { call, put, select, takeEvery, takeLatest } from 'redux-saga/effects'
+import { put, select, takeEvery } from 'redux-saga/effects'
+import {omit, size} from 'lodash'
 import {toastr} from 'react-redux-toastr'
-import { getLocale, getService } from './selectors'
+import { getLocale, getFetchingActions } from './selectors'
 import i18next from 'i18next'
 
 import {
@@ -21,18 +22,36 @@ function * appSaga (action) {
       }
       break
 
-    case Actions.LOAD_LISTS:
-      const svc = yield select(getService, 'list-options')
-      const options = yield call(svc.list)
-      yield put(ActionCreators.setListsOptions(options))
-      break
-
     default:
       throw new Error('Unsupported trigger action in app saga', action)
   }
 }
 
-export default [
-  takeEvery(Actions.NOTIFY, appSaga),
-  takeLatest(Actions.LOAD_LISTS, appSaga)
+const allAppSaga = [
+  takeEvery(Actions.NOTIFY, appSaga)
 ]
+
+if (process.env.target === 'server') {
+  // eslint-disable-next-line
+  function * watchFetchingActions (action) {
+    const executingFetchingActions = yield select(getFetchingActions)
+    let updated = null
+    if (action.isFetching) {
+      updated = {...executingFetchingActions}
+      updated[action.type] = true
+    } else {
+      updated = omit(executingFetchingActions, action.type)
+    }
+
+    yield put(ActionCreators.setFetchingActions(updated))
+    if (size(updated) === 0) {
+      yield put(ActionCreators.closeSaga())
+    }
+  }
+
+  allAppSaga.push(
+    takeEvery(action => action.isFetching !== undefined, watchFetchingActions)
+  )
+}
+
+export default allAppSaga

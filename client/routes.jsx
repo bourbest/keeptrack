@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route } from 'react-router'
-import { FORM_MANAGER, ACCOUNT_MANAGER, INTERACT_WITH_CLIENT } from './modules/app/roles'
+import { canInteractWithClient, formsManager, usersManager } from './modules/accounts/roles'
 
 import Authorization from './containers/components/Authorization'
 import LoginPage from './containers/LoginPage'
@@ -21,9 +21,9 @@ import EditClientDocumentPage from './containers/clients/EditClientDocumentPage'
 import Layout from './containers/Layout'
 
 // checkRoles example
-const FormManager = Authorization(FORM_MANAGER)
-const AccountManager = Authorization(ACCOUNT_MANAGER)
-const InteractWithClient = Authorization(INTERACT_WITH_CLIENT)
+const FormManager = Authorization(formsManager)
+const AccountManager = Authorization(usersManager)
+const InteractWithClient = Authorization(canInteractWithClient)
 
 export default (
   [
@@ -41,7 +41,6 @@ export default (
       <Route path='accounts/:id' component={AccountManager(EditAccountsPage)} />
       <Route path='form-templates' component={FormManager(ListFormTemplatesPage)} />
       <Route path='form-templates/:id' component={FormManager(EditFormTemplatePage)} />
-    </Route>,
-    <Route path='/*' component={ErrorPage} code={'404'} />
+    </Route>
   ]
 )

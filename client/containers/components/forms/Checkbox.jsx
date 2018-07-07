@@ -1,39 +1,42 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Form, Checkbox as SemanticCheckbox} from 'semantic-ui-react'
 
-const { object, string } = PropTypes
-const SemanticField = Form.Field
-
-export default class Checkbox extends React.PureComponent {
-
+class Checkbox extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleChange = this.handleChange.bind(this)
   }
 
-  handleChange () {
-    this.props.input.onChange(!this.props.input.value)
+  handleChange (event) {
+    event.target.previousSibling.click()
   }
 
   render () {
-    const { label, input } = this.props
-    let checkedValue = input.value === true
+    const { text, value, disabled, className, onChange, name } = this.props
+    let checked = value === true
     return (
-      <SemanticField >
-        <SemanticCheckbox
-          checked={checkedValue}
-          onChange={this.handleChange}
-          label={label}
-          name={input.name} />
-      </SemanticField>
+      <div className={'form-check ' + (className || '')}>
+        <input
+          className="form-check-input"
+          type="checkbox" tabIndex="0"
+          checked={checked} disabled={disabled}
+          onChange={onChange}
+          name={name}
+        />
+        <label className="form-check-label" onClick={this.handleChange}>
+          {text}
+        </label>
+      </div>
     )
   }
 }
 
 Checkbox.propTypes = {
-  input: object.isRequired,
-  label: string,
-  locale: string,
-  meta: object
+  value: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  name: PropTypes.string,
+  text: PropTypes.string,
+  disabled: PropTypes.bool,
+  className: PropTypes.string
 }
+
+export default Checkbox

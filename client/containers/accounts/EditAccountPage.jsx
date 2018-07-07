@@ -42,7 +42,7 @@ class EditAccountPage extends React.PureComponent {
 
     if (id !== 'create') {
       this.props.actions.clearEditedEntity()
-      this.props.actions.fetchEditedEntity(id)
+      this.props.actions.fetchEntity(id)
     } else {
       this.props.actions.setEditedEntity(AccountSelectors.buildNewEntity())
     }
@@ -50,10 +50,9 @@ class EditAccountPage extends React.PureComponent {
 
   handleSubmit () {
     const isNew = this.props.isNew
-    const method = isNew ? this.props.actions.createEntity : this.props.actions.updateEntity
     const notify = this.props.appActions.notify
 
-    method(this.props.entity, (entity) => {
+    this.props.actions.saveEntity(this.props.entity, (entity) => {
       if (isNew) {
         browserHistory.replace(baseUrl + entity.id)
       }
@@ -63,9 +62,9 @@ class EditAccountPage extends React.PureComponent {
   }
 
   render () {
-    const {canSave, error, locale, isNew, roleOptions} = this.props
+    const {canSave, error, locale, isNew, roleOptions, entity} = this.props
     const titleLabelKey = isNew ? 'create-title' : 'edit-title'
-    const style = {width: '1000px'}
+    if (!entity) return null
 
     return (
       <div>
@@ -74,18 +73,17 @@ class EditAccountPage extends React.PureComponent {
           backTo={baseUrl}
           onSaveClicked={this.handleSubmit}
           locale={locale}
+          location={this.props.location}
           canSave={canSave} />
 
         <FormError error={error} locale={locale} />
 
-        <div style={style}>
-          <AccountForm
-            locale={locale}
-            isNew={isNew}
-            roleOptionList={roleOptions}
-            organismRoleOptionList={this.props.organismRoleOptions}
-          />
-        </div>
+        <AccountForm
+          locale={locale}
+          isNew={isNew}
+          roleOptionList={roleOptions}
+          organismRoleOptionList={this.props.organismRoleOptions}
+        />
       </div>
     )
   }
@@ -111,7 +109,8 @@ EditAccountPage.propTypes = {
   canSave: PropTypes.bool.isRequired,
   error: PropTypes.object,
   locale: PropTypes.string.isRequired,
-  params: PropTypes.object.isRequired
+  params: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired
 }
 
 const ConnectedEditAccountPage = connect(mapStateToProps, mapDispatchToProps)(EditAccountPage)

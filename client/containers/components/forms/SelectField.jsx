@@ -1,18 +1,13 @@
 import React from 'react'
-import { object, string, arrayOf, oneOfType, array, bool, func } from 'prop-types'
-import { Form } from 'semantic-ui-react'
-import { FieldError } from './FieldError'
-import FormLabel from './FormLabel'
-const SemanticField = Form.Field
-
+import { object, string, arrayOf, oneOfType, array, bool } from 'prop-types'
 import { map, get, orderBy, omit } from 'lodash'
 
-class SelectField extends React.PureComponent {
+class Select extends React.PureComponent {
 
   constructor (props) {
     super(props)
     this.state = {
-      values: []
+      options: []
     }
 
     this.initializeList = this.initializeList.bind(this)
@@ -26,25 +21,25 @@ class SelectField extends React.PureComponent {
     } else {
       textKey = `${props.textProperty}`
     }
-    const filteredValues = omit(props.values, props.omit)
-    let values = map(filteredValues, (pk) => {
+    const filteredValues = omit(props.options, props.omit)
+    let options = map(filteredValues, (pk) => {
       return {
         id: get(pk, idKey),
         text: get(pk, textKey)
       }
     })
 
-    values = orderBy(values, 'text')
+    options = orderBy(options, 'text')
 
     if (props.noSelectionValue) {
-      values.unshift({
+      options.unshift({
         id: props.noSelectionValue,
         text: props.noSelectionText
       }
       )
     }
 
-    this.setState({ values })
+    this.setState({ options })
   }
 
   componentWillMount () {
@@ -52,7 +47,7 @@ class SelectField extends React.PureComponent {
   }
 
   componentWillReceiveProps (nextProps) {
-    const mustRefreshState = this.props.values !== nextProps.values ||
+    const mustRefreshState = this.props.options !== nextProps.options ||
       this.props.locale !== nextProps.locale ||
       this.props.textProperty !== nextProps.textProperty ||
       this.props.idProperty !== nextProps.idProperty ||
@@ -66,49 +61,37 @@ class SelectField extends React.PureComponent {
   }
 
   render () {
-    const { input, label, locale, disabled, required, isFieldRequired, meta: { touched, error, warning } } = this.props
-    const hasMsg = error || warning
-    const values = this.state.values
-    const isRequired = required || (isFieldRequired && isFieldRequired(input.name))
-    const selectProps = {...input, disabled}
+    const selectProps = omit(this.props, ['options', 'locale', 'className', 'idProperty', 'textProperty', 'textPropertyByLocale', 'noSelectionValue', 'noSelectionText', 'omit'])
+    const options = this.state.options
+    const classes = 'form-control ' + this.props.className || ''
     return (
-      <SemanticField>
-        <FormLabel rquired={isRequired}>{label}</FormLabel>
-        {touched && hasMsg && <FieldError locale={locale} error={error} isWarning={warning} />}
-        <div>
-          <select {...selectProps}>
-            {map(values, (valueItem) => (
-              <option key={valueItem.id} value={valueItem.id}>{valueItem.text}</option>
-            ))}
-          </select>
-        </div>
-      </SemanticField>
+      <select {...selectProps} className={classes}>
+        {map(options, (valueItem) => (
+          <option key={valueItem.id} value={valueItem.id}>{valueItem.text}</option>
+        ))}
+      </select>
     )
   }
 }
 
-SelectField.propTypes = {
-  input: object.isRequired,
-  label: string,
-  meta: object,
-  values: oneOfType([object, arrayOf(object)]).isRequired,
+Select.propTypes = {
+  options: oneOfType([object, arrayOf(object)]).isRequired,
   locale: string.isRequired,
   idProperty: string,
   textProperty: string,
   textPropertyByLocale: bool,
   noSelectionValue: string,
   noSelectionText: string,
-  omit: array,
-  isFieldRequired: func
+  omit: array
 }
 
-SelectField.defaultProps = {
+Select.defaultProps = {
   idProperty: 'id',
-  textProperty: 'names',
-  textPropertyByLocale: true,
+  textProperty: 'label',
+  textPropertyByLocale: false,
   noSelectionValue: ' ',
   noSelectionText: '',
   omit: []
 }
 
-export default SelectField
+export default Select

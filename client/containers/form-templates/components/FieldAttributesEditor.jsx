@@ -3,14 +3,11 @@ import PropTypes from 'prop-types'
 import config, {CONTROL_CONFIG_BY_TYPE} from '../../../modules/form-templates/config'
 import {validateNode} from '../../../modules/form-templates/validate'
 // components
-import {Form} from 'semantic-ui-react'
+import {Form} from '../../components/controls/SemanticControls'
 import ChoiceListEditor from './ChoiceListEditor'
 import { Field, FieldArray, reduxForm } from 'redux-form'
 import FormHtmlEditor from '../../components/forms/FormHtmlEditor'
-import TextField from '../../components/forms/TextField'
-import SelectField from '../../components/forms/SelectField'
-import CheckboxField from '../../components/forms/Checkbox'
-import DateField from '../../components/forms/DateField'
+import {FieldWrapper, Input, Select, Checkbox, DateInput} from '../../components/forms'
 import { FormError } from '../../components/forms/FormError'
 import {createTranslate} from '../../../locales/translate'
 
@@ -37,65 +34,61 @@ class FieldAttributesEditor extends React.PureComponent {
     const properties = new Set(controlConfig.properties)
 
     return (
-      <div>
+      <div className="ml-2 mr-2">
         <FormError error={error} locale={locale} />
         <Form>
           {properties.has('labels') && editedField.controlType !== 'paragraph' &&
-            <Field name="labels.fr" label={this.message('labelFr')} required component={TextField} locale={locale} />
+            <Field name="labels.fr" label={this.message('labelFr')} required component={FieldWrapper} InputControl={Input} locale={locale} />
           }
           {properties.has('labels') && editedField.controlType !== 'paragraph' &&
-            <Field name="labels.en" label={this.message('labelEn')} required component={TextField} locale={locale} />
+            <Field name="labels.en" label={this.message('labelEn')} required component={FieldWrapper} InputControl={Input} locale={locale} />
           }
 
           {properties.has('labels') && editedField.controlType === 'paragraph' &&
-            <Field name="labels.fr" label={this.message('labelFr')} required component={FormHtmlEditor} locale={locale} />
+            <Field name="labels.fr" label={this.message('labelFr')} required component={FieldWrapper} InputControl={FormHtmlEditor} locale={locale} />
           }
           {properties.has('labels') && editedField.controlType === 'paragraph' &&
-            <Field name="labels.en" label={this.message('labelEn')} required component={FormHtmlEditor} locale={locale} />
+            <Field name="labels.en" label={this.message('labelEn')} required component={FieldWrapper} InputControl={FormHtmlEditor} locale={locale} />
           }
 
           {properties.has('isRequired') &&
-            <Field name="isRequired" label={this.message('isRequired')} component={CheckboxField} locale={locale} />
+            <Field name="isRequired" label={this.message('isRequired')} component={FieldWrapper} InputControl={Checkbox} locale={locale} />
           }
 
           {properties.has('maxLength') &&
-            <Field name="maxLength" label={this.message('maxLength')} component={TextField} locale={locale} />
+            <Field name="maxLength" label={this.message('maxLength')} component={FieldWrapper} InputControl={Input} locale={locale} />
           }
 
           {properties.has('columnCount') &&
-            <Field name="columnCount" label={this.message('columnCount')} component={SelectField} locale={locale}
-              values={COLUMN_OPTIONS} textPropertyByLocale={false} textProperty="text" noSelectionValue={null}
+            <Field name="columnCount" label={this.message('columnCount')} component={FieldWrapper} InputControl={Select} locale={locale}
+              options={COLUMN_OPTIONS} textPropertyByLocale={false} textProperty="text" noSelectionValue={null}
             />
           }
 
           {properties.has('headerLevel') &&
-            <Field name="headerLevel" label={this.message('level')} component={SelectField} locale={locale}
-              values={HEADER_LEVELS} textPropertyByLocale={false} textProperty="text" noSelectionValue={null}
+            <Field name="headerLevel" label={this.message('level')} component={FieldWrapper} InputControl={Select} locale={locale}
+              options={HEADER_LEVELS} textPropertyByLocale={false} textProperty="text" noSelectionValue={null}
           />
           }
 
           {editedField.controlType === 'date' &&
-            <Field name="useCurrentDateAsDefaultValue" label={this.message('useCurrentDateAsDefaultValue')} component={CheckboxField} locale={locale} />
+            <Field name="useCurrentDateAsDefaultValue" label={this.message('useCurrentDateAsDefaultValue')} component={FieldWrapper} InputControl={Checkbox} locale={locale} />
           }
 
           {editedField.controlType === 'date' &&
-            <Field name="minValue" label={this.message('minValue')} component={DateField} locale={locale} />
+            <Field name="minValue" label={this.message('minValue')} component={FieldWrapper} InputControl={DateInput} locale={locale} />
           }
 
           {editedField.controlType === 'date' &&
-            <Field name="maxValue" label={this.message('maxValue')} component={DateField} locale={locale} />
+            <Field name="maxValue" label={this.message('maxValue')} component={FieldWrapper} InputControl={DateInput} locale={locale} />
           }
 
           {editedField.controlType !== 'date' && properties.has('minValue') &&
-            <Field name="minValue" label={this.message('minValue')} component={TextField} locale={locale} />
+            <Field name="minValue" label={this.message('minValue')} component={FieldWrapper} InputControl={Input} locale={locale} />
           }
 
           {editedField.controlType !== 'date' && properties.has('maxValue') &&
-            <Field name="maxValue" label={this.message('maxValue')} component={TextField} locale={locale} />
-          }
-
-          {properties.has('maxFileSize') &&
-            <Field name="maxFileSize" label={this.message('maxFileSize')} component={TextField} locale={locale} />
+            <Field name="maxValue" label={this.message('maxValue')} component={FieldWrapper} InputControl={Input} locale={locale} />
           }
 
           {properties.has('choices') &&

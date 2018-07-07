@@ -12,12 +12,14 @@ import {startSubmit, stopSubmit} from 'redux-form'
 function * clientDocumentSaga (action) {
   let errorAction = null
   const clientSvc = yield select(getService, 'clients')
+  const docSvc = yield select(getService, 'client-documents')
+
   switch (action.type) {
     case Actions.LOAD_DOCUMENT:
       try {
         const promises = [
           clientSvc.get(action.clientId),
-          clientSvc.getDocument(action.documentId)
+          docSvc.get(action.documentId)
         ]
 
         const results = yield call([Promise, Promise.all], promises)
@@ -37,7 +39,7 @@ function * clientDocumentSaga (action) {
     case Actions.SAVE_DOCUMENT:
       yield put(startSubmit(entityName))
       try {
-        const newEntity = yield call(clientSvc.saveDocument, action.entity)
+        const newEntity = yield call(docSvc.save, action.entity)
         yield put(DocumentActions.setEditedEntity(newEntity))
         if (action.callback) {
           yield call(action.callback, newEntity)

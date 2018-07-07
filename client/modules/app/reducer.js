@@ -9,7 +9,8 @@ const initialState = {
   },
   displayedModalName: null,
   locale: 'fr',
-  listOptionsByListId: {}
+  listOptionsByListId: {},
+  fetchingActions: {}
 }
 
 const appReducer = (state = initialState, action = {}) => {
@@ -43,10 +44,13 @@ const appReducer = (state = initialState, action = {}) => {
     case Actions.SET_LISTS_OPTIONS:
       const optionsByListId = groupBy(action.options, 'listId')
       for (let listId in optionsByListId) {
-        optionsByListId[listId] = buildSortedOptionList(optionsByListId[listId], 'name')
+        optionsByListId[listId] = buildSortedOptionList(optionsByListId[listId], 'name', 'value')
       }
       newState.listOptionsByListId = optionsByListId
       return newState
+
+    case Actions.SET_FETCHING_ACTIONS:
+      return {...state, fetchingActions: action.fetchingActions}
 
     default:
       return state

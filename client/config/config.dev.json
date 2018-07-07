@@ -1,0 +1,10 @@
+{
+  "port": 5050,
+  "apiEndpoint": "http://keep-track:5050/api",
+  "secret": "98fyv8cynh874chnr0rch87nidaÉdf,sdvc..3234fd",
+  "defaultLocale": "fr",
+  "db": {
+    "server": "mongodb://localhost:27017",
+    "dbName": "keeptrack_dev"
+  }
+}

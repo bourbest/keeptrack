@@ -12,7 +12,7 @@ export default class ClientService extends RestService {
   }
 
   getDocumentsByClientId (clientId) {
-    const documentsUrl = `${url}/${clientId}/documents`
+    const documentsUrl = `${docUrl}?clientId=${clientId}`
     return this.apiClient.get(documentsUrl)
   }
 
@@ -27,14 +27,14 @@ export default class ClientService extends RestService {
 
   saveDocument (clientDocument) {
     if (!clientDocument.id) {
-      return this.apiClient.post(docUrl, clientDocument)
+      return this.apiClient.post(docUrl, clientDocument, null)
     } else {
       return this.apiClient.put(docUrl, clientDocument, clientDocument.id)
     }
   }
 
   findByNameStartingWith (startsWith, limit) {
-    const query = `${url}?fullname=${encodeURIComponent(startsWith)}&limit=${limit}&sortby=fullname`
+    const query = `${url}?contains=${encodeURIComponent(startsWith)}&limit=${limit}&sortby=fullname`
     return this.apiClient.get(query)
   }
 }

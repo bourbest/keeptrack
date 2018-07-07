@@ -1,64 +1,38 @@
-import { isArray, indexOf, keyBy, without, concat, isFunction, omit } from 'lodash'
+import { indexOf, keyBy, without, concat, isFunction, omit } from 'lodash'
 
 export const baseInitialState = {
-  isFetching: false,
-  isListLoaded: false,
+  currentPageContext: null,
+  isFetchingList: false,
+  isFetchingEntity: false,
   byId: {},
-  listLocalFilters: {
-    contains: ''
-  },
-  listServerFilters: {
-    contains: '',
-    isArchived: false
-  },
-  currentActionName: null,
-  selectedItemIds: [],
-  sortParams: []
+  totalCount: 0,
+  selectedItemIds: []
 }
 
 export const baseActionsHandler = (Actions, state, action) => {
   let byId
   switch (action.type) {
-    case Actions.SET_LIST_LOCAL_FILTERS:
-      return {...state, listLocalFilters: {...action.filters}}
+    case Actions.SET_FETCHING_LIST:
+      return {...state, isFetchingList: action.isFetching}
 
-    case Actions.SET_LIST_SERVER_FILTERS:
-      return {...state, listServerFilters: {...action.filters}}
+    case Actions.SET_FETCHING_ENTITY:
+      return {...state, isFetchingEntity: action.isFetching}
 
-    case Actions.SET_FILTER_VALUE:
-      const propName = action.isServer ? 'listServerFilters' : 'listLocalFilters'
-      const newFilters = {...state[propName], [action.filterName]: action.value}
-      return {...state, [propName]: newFilters}
-
-    case Actions.SET_SORT_PARAMS:
-      return {...state, sortParams: action.sortParams}
-
-    case Actions.SET_FETCHING:
-      const currentActionName = action.isFetching ? 'fetch' : null
-      return {...state, isFetching: action.isFetching, currentActionName}
-
-    case Actions.SET_LIST_LOADED:
-      return {...state, isListLoaded: action.isLoaded}
-
-    case Actions.SET_CURRENT_ACTION:
-      return {...state, currentActionName: action.actionName}
-
-    case Actions.SET_ENTITIES:
-      const entityArray = isArray(action.entities) ? action.entities : [action.entities]
-      const newEntities = keyBy(entityArray, (f) => (f.id))
-
-      if (action.replace) {
-        byId = newEntities
-      } else {
-        byId = {...state.byId, ...newEntities}
+    case Actions.SET_ENTITY_PAGE:
+      return {
+        ...state,
+        byId: keyBy(action.entities, 'id'),
+        currentPageContext: action.pageContext,
+        totalCount: action.totalCount
       }
 
-      return {...state, byId}
+    case Actions.RESET_FETCH_CONTEXT:
+      return {...state, currentPageContext: null}
 
     case Actions.REMOVE_LOCAL_ENTITIES:
-      const serverListCount = state.serverListCount - action.entityIds.length
+      const totalCount = state.serverListCount - action.entityIds.length
       byId = omit(state.byId, action.entityIds)
-      return {...state, byId, serverListCount}
+      return {...state, byId, totalCount}
 
     case Actions.TOGGLE_SELECTED_ITEM:
       let selectedItemIds

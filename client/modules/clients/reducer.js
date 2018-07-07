@@ -4,7 +4,6 @@ import { Actions } from './actions'
 
 const initialState = {
   ...baseInitialState,
-  sortParams: [{field: 'lastName', direction: 'ASC'}],
   selectedFormId: null
 }
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {browserHistory, Link} from 'react-router'
+import {browserHistory} from 'react-router'
 
 // redux
 import { bindActionCreators } from 'redux'
@@ -16,9 +16,8 @@ import {getLocale, getOrganismRoleOptions, getOriginOptions} from '../../modules
 
 // sections tabs components
 import Toolbar from '../components/Toolbar/Toolbar'
-import BackButton from '../components/Toolbar/BackButton'
 import {createTranslate} from '../../locales/translate'
-import {Button, Grid} from 'semantic-ui-react'
+import {Button} from '../components/controls/SemanticControls'
 
 import ClientView from './components/ClientView'
 import EvolutionNoteTile from '../evolution-note/components/EvolutionNoteTile'
@@ -26,7 +25,7 @@ import DocumentList from './components/DocumentList'
 import Select from 'react-select'
 
 const labelNamespace = 'clients'
-const baseUrl = '/clients/'
+const baseUrl = '/clients'
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -47,7 +46,7 @@ class ViewClientPage extends React.PureComponent {
 
   componentWillMount () {
     const id = this.props.params.id || null
-    this.props.formActions.fetchAll()
+    this.props.formActions.fetchList({limit: 1000, includeArchived: true})
     this.props.appActions.hideModal()
     this.props.actions.clearEditedEntity()
     this.props.actions.fetchEditedEntity(id)
@@ -67,60 +66,60 @@ class ViewClientPage extends React.PureComponent {
     const {locale, client, originOptionList, organismRoleList} = this.props
     if (!client) return null
     const {selectedFormId} = this.props
-    const style = {width: '1000px'}
     const clientName = `${client.firstName} ${client.lastName}`
     return (
       <div>
-        <Toolbar>
-          {<BackButton backTo={baseUrl} />}
-          <div className="item section-title">{clientName}</div>
-        </Toolbar>
+        <Toolbar title={clientName} backTo={baseUrl} />
 
-        <div style={style}>
-          <div className="ui section">
+        <div>
+          <div>
             <ClientView
               locale={locale}
               client={client}
               originOptionList={originOptionList}
             />
-            <Button type="button" as={Link} to={`/clients/${client.id}/edit`}>Modifier</Button>
           </div>
 
-          <h3>{this.message('evolutionNotes')}</h3>
-          {this.props.evolutionNotes.map(note => [
-            <EvolutionNoteTile evolutionNote={note} organismRoles={organismRoleList} key={note.id} />,
-            <div className="ui divider" key={`div-${note.id}`} />
-          ])}
-          {this.props.evolutionNotes.length === 0 &&
-            <span>{this.message('noEvolutionNotes')}</span>
-          }
+          <div className="row mt-2">
+            <div className="col-md-6">
+              <h3>{this.message('evolutionNotes')}</h3>
+              {this.props.evolutionNotes.map(note =>
+                <EvolutionNoteTile evolutionNote={note} organismRoles={organismRoleList} key={note.id} />
+              )}
+              {this.props.evolutionNotes.length === 0 &&
+                <span>{this.message('noEvolutionNotes')}</span>
+              }
+            </div>
 
-          <h3>{this.message('documents')}</h3>
-          <Grid columns={2}>
-            <Grid.Column>
-              <Select
-                instanceId="selectForm"
-                options={this.props.formOptionList}
-                onChange={this.handleFormSelected}
-                value={selectedFormId}
-                name="selectedFormId"
-                placeholder={this.message('selectForm')}
-              />
-            </Grid.Column>
-            <Grid.Column>
-              <Button primary type="button" disabled={selectedFormId === null} onClick={this.handleAddForm}>
-                {this.message('create', 'common')}
-              </Button>
-            </Grid.Column>
-          </Grid>
+            <div className="col-md-6">
+              <h3>{this.message('documents')}</h3>
+              <div className="row mb-2">
+                <div className="col-9">
+                  <Select
+                    instanceId="selectForm"
+                    options={this.props.formOptionList}
+                    onChange={this.handleFormSelected}
+                    value={selectedFormId}
+                    name="selectedFormId"
+                    placeholder={this.message('selectForm')}
+                  />
+                </div>
+                <div className="col-3 p-0">
+                  <Button primary type="button" disabled={selectedFormId === null} onClick={this.handleAddForm}>
+                    {this.message('create', 'common')}
+                  </Button>
+                </div>
+              </div>
 
-          {this.props.documents && this.props.documents.length > 0 &&
-            <DocumentList
-              documents={this.props.documents}
-              formsById={this.props.formsById}
-              message={this.message}
-            />
-          }
+              {this.props.documents && this.props.documents.length > 0 &&
+                <DocumentList
+                  documents={this.props.documents}
+                  formsById={this.props.formsById}
+                  message={this.message}
+                />
+              }
+            </div>
+          </div>
         </div>
       </div>
     )
@@ -134,7 +133,7 @@ const mapStateToProps = (state) => {
     organismRoleList: getOrganismRoleOptions(state),
 
     formsById: FormSelectors.getEntities(state),
-    formOptionList: FormSelectors.getOptionList(state),
+    formOptionList: FormSelectors.getCreatableFormOptionList(state),
     selectedFormId: ClientSelectors.getSelectedFormId(state),
     documents: ClientSelectors.getClientDocumentsOrderByDate(state),
     evolutionNotes: ClientSelectors.getClientNotesOrderByDate(state),

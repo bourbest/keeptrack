@@ -17,7 +17,7 @@ const specificFormSaga = function * baseSaga (action) {
 
   switch (action.type) {
     case Actions.FETCH_EDITED_FORM:
-      yield put(ActionCreators.setFetching(true))
+      yield put(ActionCreators.setFetchingEntity(true))
       try {
         const svc = yield select(getService, config.entityName)
         const entity = yield call(svc.get, action.id)
@@ -28,7 +28,7 @@ const specificFormSaga = function * baseSaga (action) {
       } catch (error) {
         errorAction = handleError(config.entityName, error)
       }
-      yield put(ActionCreators.setFetching(false))
+      yield put(ActionCreators.setFetchingEntity(false))
       break
 
     case Actions.ADD_FIELD:

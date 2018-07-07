@@ -16,18 +16,18 @@ import validate from '../modules/authentication/validate'
 // components
 import { FormError } from './components/forms/FormError'
 import { Field, reduxForm } from 'redux-form'
-import { Button, Form } from 'semantic-ui-react'
-import TextField from './components/forms/TextField'
+import { Button, Form } from './components/controls/SemanticControls'
+import FormField from './components/forms/FormFieldWrapper'
+import Input from './components/forms/Input'
 
-import AppConfig from '../config'
 import AuthConfig from '../modules/authentication/config'
 
 const mapStateToProps = (state) => {
   let initialValues = {}
-  if (AppConfig.debugMode) {
+  if (process.env.NODE_ENV !== 'production') {
     initialValues = {
-      username: 'bourbest',
-      password: 'test'
+      username: 'admin',
+      password: 'admin'
     }
   }
   return {
@@ -73,10 +73,10 @@ class LoginPage extends React.PureComponent {
         <FormError error={loginError} locale={locale} />
         <Form style={style} onSubmit={handleSubmit(this.handleSubmit)}>
 
-          <Field name="username" label={this.message('username')} component={TextField} locale={locale} />
-          <Field name="password" label={this.message('password')} component={TextField} locale={locale} type="password" />
+          <Field name="username" label={this.message('username')} component={FormField} InputControl={Input} locale={locale} />
+          <Field name="password" label={this.message('password')} component={FormField} InputControl={Input} locale={locale} type="password" />
 
-          <Button type="submit" disabled={submitting || !valid}>
+          <Button type="submit" primary disabled={submitting || !valid}>
             {this.message('authenticate')}
           </Button>
         </Form>
@@ -89,7 +89,7 @@ LoginPage.propTypes = {
   actions: PropTypes.object.isRequired,
   params: PropTypes.object,
   location: PropTypes.object.isRequired,
-  loginError: PropTypes.string,
+  loginError: PropTypes.object,
   locale: PropTypes.string
 }
 
