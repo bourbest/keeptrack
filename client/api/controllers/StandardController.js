@@ -68,7 +68,7 @@ export const makeHandlePut = (Repository) => {
   }
 }
 
-export const makeHandleDelete = (Repository) => {
+export const makeHandleArchive = (Repository) => {
   return function (req, res, next) {
     const repo = new Repository(req.database)
     if (!isArray(req.body) || req.body.length === 0) {
@@ -76,6 +76,38 @@ export const makeHandleDelete = (Repository) => {
     } else {
       const ids = req.body.map(ObjectId)
       return repo.archive(ids)
+        .then(function () {
+          res.status(204).send('') // no content
+        })
+        .catch(next)
+    }
+  }
+}
+
+export const makeHandleRestore = (Repository) => {
+  return function (req, res, next) {
+    const repo = new Repository(req.database)
+    if (!isArray(req.body) || req.body.length === 0) {
+      res.status(400).json({error: 'no ids provided in the body'})
+    } else {
+      const ids = req.body.map(ObjectId)
+      return repo.restore(ids)
+        .then(function () {
+          res.status(204).send('') // no content
+        })
+        .catch(next)
+    }
+  }
+}
+
+export const makeHandleDelete = (Repository) => {
+  return function (req, res, next) {
+    const repo = new Repository(req.database)
+    if (!isArray(req.body) || req.body.length === 0) {
+      res.status(400).json({error: 'no ids provided in the body'})
+    } else {
+      const ids = req.body.map(ObjectId)
+      return repo.delete(ids)
         .then(function () {
           res.status(204).send('') // no content
         })

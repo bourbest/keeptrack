@@ -40,22 +40,28 @@ export const createBaseSaga = (entityName, Actions, ActionCreators, getService, 
           }
           yield put(stopSubmit(entityName, {}))
         } catch (error) {
-          console.log('saga', error)
           errorAction = errorHandler(entityName, error)
         }
         break
 
+      case Actions.ARCHIVE_REMOTE_ENTITIES:
+      case Actions.RESTORE_REMOTE_ENTITIES:
       case Actions.DELETE_REMOTE_ENTITIES:
         yield put(startSubmit(entityName))
         try {
-          yield call(svc.delete, action.remoteIds)
+          if (action.type === Actions.ARCHIVE_REMOTE_ENTITIES) {
+            yield call(svc.archive, action.remoteIds)
+          } else if (action.type === Actions.DELETE_REMOTE_ENTITIES) {
+            yield call(svc.delete, action.remoteIds)
+          } else {
+            yield call(svc.restore, action.remoteIds)
+          }
           yield put(ActionCreators.removeLocalEntities(action.remoteIds))
           if (action.callback) {
             yield call(action.callback)
           }
           yield put(stopSubmit(entityName, {}))
         } catch (error) {
-          console.log(error)
           errorAction = errorHandler(entityName, error)
         }
         break
@@ -93,6 +99,8 @@ export const createBaseSagaWatcher = (Actions, saga) => {
     Actions.FETCH_LIST,
     Actions.FETCH_ENTITY,
     Actions.SAVE_REMOTE_ENTITY,
-    Actions.DELETE_REMOTE_ENTITIES
+    Actions.DELETE_REMOTE_ENTITIES,
+    Actions.ARCHIVE_REMOTE_ENTITIES,
+    Actions.RESTORE_REMOTE_ENTITIES
   ], saga)
 }

@@ -36,6 +36,8 @@ export default class RestService {
     this.get = this.get.bind(this)
     this.save = this.save.bind(this)
     this.delete = this.delete.bind(this)
+    this.archive = this.archive.bind(this)
+    this.restore = this.restore.bind(this)
     this.patch = this.patch.bind(this)
     this.list = this.list.bind(this)
   }
@@ -89,5 +91,15 @@ export default class RestService {
 
   delete (ids, requestHeaders) {
     return this.apiClient.delete(this.route, ids, requestHeaders)
+  }
+
+  archive (ids, requestHeaders) {
+    const url = this.route + '/archive'
+    return this.apiClient.post(url, ids, requestHeaders)
+  }
+
+  restore (ids, requestHeaders) {
+    const url = this.route + '/restore'
+    return this.apiClient.post(url, ids, requestHeaders)
   }
 }

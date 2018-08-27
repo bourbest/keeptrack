@@ -1,5 +1,5 @@
 import {ClientDocumentRespository, ClientRepository, FormTemplateRepository} from '../repository'
-import {makeFindAllHandler, makeFindById, makeHandleDelete, makeHandlePost, makeHandlePut} from './StandardController'
+import {makeFindAllHandler, makeFindById, makeHandleArchive, makeHandlePost, makeHandlePut} from './StandardController'
 import {entityFromBody, parsePagination, parseFilters} from '../middlewares'
 import {clientDocumentSchema} from '../../modules/client-documents/schema'
 import {buildSchemaForFields} from '../../modules/form-templates/dynamic-form-validation'
@@ -53,7 +53,7 @@ export default (router) => {
       validateDocument,
       makeHandlePost(ClientDocumentRespository)
     ])
-    .delete(makeHandleDelete(ClientDocumentRespository))
+    .delete(makeHandleArchive(ClientDocumentRespository))
 
   router.route('/client-documents/:id')
     .get(makeFindById(ClientDocumentRespository))

@@ -1,5 +1,5 @@
 import {FormTemplateRepository} from '../repository'
-import {makeFindAllHandler, makeFindById, makeHandleDelete, makeHandlePost, makeHandlePut} from './StandardController'
+import {makeFindAllHandler, makeFindById, makeHandleArchive, makeHandlePost, makeHandlePut} from './StandardController'
 import {entityFromBody, parseFilters, parsePagination} from '../middlewares'
 import {formSchema} from '../../modules/form-templates/validate'
 import {boolean, Schema, string} from 'sapin'
@@ -21,7 +21,7 @@ export default (router) => {
       makeFindAllHandler(FormTemplateRepository)
     ])
     .post(makeHandlePost(FormTemplateRepository))
-    .delete(makeHandleDelete(FormTemplateRepository))
+    .delete(makeHandleArchive(FormTemplateRepository))
   router.route('/form-templates/:id')
     .get(makeFindById(FormTemplateRepository))
     .put(makeHandlePut(FormTemplateRepository))

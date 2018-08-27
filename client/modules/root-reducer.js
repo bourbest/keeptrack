@@ -6,6 +6,7 @@ import clients from './clients/reducer'
 import accounts from './accounts/reducer'
 import formTemplates from './form-templates/reducer'
 import evolutionNote from './evolution-notes/reducer'
+import clientFeedSubscriptions from './client-feed-subscriptions/reducer'
 import { reducer as formReducer } from 'redux-form'
 import {reducer as toastrReducer} from 'react-redux-toastr'
 
@@ -16,6 +17,7 @@ export default combineReducers({
   ...accounts,
   ...formTemplates,
   ...evolutionNote,
+  ...clientFeedSubscriptions,
   toastr: toastrReducer,
   form: formReducer
 })

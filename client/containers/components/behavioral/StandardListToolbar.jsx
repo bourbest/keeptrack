@@ -64,7 +64,7 @@ const makeStandardListToolbar = (entityActions, entitySelectors, labelNamespace,
       const {actions, appActions, selectedItemIds} = this.props
       const count = selectedItemIds.length
       appActions.hideModal()
-      actions.deleteEntities(selectedItemIds, () => {
+      actions.archiveEntities(selectedItemIds, () => {
         actions.clearSelectedItems()
         appActions.notify('common.delete', 'common.deleted', {count})
       })

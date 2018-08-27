@@ -87,7 +87,9 @@ const createIndexes = (db) => {
     db.ensureIndex('EvolutionNote', 'clientId'),
 
     db.ensureIndex('UserAccount', 'username', {unique: true}),
-    db.ensureIndex('UserAccount', 'fullName')
+    db.ensureIndex('UserAccount', 'fullName'),
+
+    db.ensureIndex('ClientFeedSubscription', {userId: 1, clientId: 1}, {unique: true}),
   ]
 
   return Promise.all(promises)

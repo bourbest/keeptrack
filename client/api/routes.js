@@ -8,6 +8,8 @@ import registerFormTemplates from './controllers/FormTemplateController'
 import registerAccounts from './controllers/AccountsController'
 import registerEvolutionNotes from './controllers/EvolutionNoteController'
 import registerClientDocuments from './controllers/ClientDocumentsController'
+import registerClientFeedSubscriptions from './controllers/ClientFeedSubscriptionController'
+import registerNotifications from './controllers/NotificationsController'
 
 import corser from 'corser'
 import bodyParser from 'body-parser'
@@ -45,6 +47,8 @@ function createApiRouter (config, database) {
   registerAccounts(apiRouter)
   registerEvolutionNotes(apiRouter)
   registerClientDocuments(apiRouter)
+  registerClientFeedSubscriptions(apiRouter)
+  registerNotifications(apiRouter)
 
   // 404 on all other routes
   apiRouter.all('*', function (req, res, next) {

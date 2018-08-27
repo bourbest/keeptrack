@@ -30,6 +30,9 @@ export const createService = (serviceName, apiConfig) => {
     case 'evolution-notes':
       return new RestService('evolution-notes', apiClient)
 
+    case 'client-feed-subscriptions':
+      return new RestService('client-feed-subscriptions', apiClient)
+
     default:
       throw new Error('Invalid service name', serviceName)
   }
