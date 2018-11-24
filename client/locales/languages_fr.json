@@ -6,7 +6,8 @@
     "clients" : "Participants",
     "formTemplates": "Formulaires",
     "accounts" : "Comptes utilisateurs",
-    "createEvolutionNote": "Nouvelle note évolutive"
+    "createEvolutionNote": "Nouvelle note évolutive",
+    "quit": "Se déconnecter"
   },
   "login": {
     "username": "Code utilisateur",

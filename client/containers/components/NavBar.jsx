@@ -44,6 +44,9 @@ class NavBar extends React.PureComponent {
               }
             )}
           </ul>
+          <form className="form-inline clickable" onClick={this.props.onLogout}>
+            {this.message('quit')}
+          </form>
         </div>
       </div>
     )
@@ -53,7 +56,8 @@ class NavBar extends React.PureComponent {
 NavBar.propTypes = {
   location: PropTypes.string,
   locale: PropTypes.string.isRequired,
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  onLogout: PropTypes.func.isRequired
 }
 
 export default NavBar
