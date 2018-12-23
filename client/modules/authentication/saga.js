@@ -39,7 +39,7 @@ function * authSaga (action) {
       } catch (error) {
         console.log('logout error', error)
       } finally {
-        yield put(AuthActionCreators.setUser, null)
+        yield put(AuthActionCreators.setUser({}))
         browserHistory.push('/login')
       }
       break

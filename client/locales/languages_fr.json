@@ -8,7 +8,8 @@
     "accounts" : "Comptes utilisateurs",
     "createEvolutionNote": "Nouvelle note évolutive",
     "dashboard": "Tableau de bord",
-    "reports": "Rapports"
+    "reports": "Rapports",
+    "quit": "Se déconnecter"
   },
   "login": {
     "username": "Code utilisateur",
