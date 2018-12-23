@@ -40,18 +40,35 @@ function deleteFeedSubscriptions (req, res, next) {
   }
 }
 
+function getUserSubscribedClients (req, res, next) {
+  const repo = new ClientFeedSubcriptionRepository(req.database) 
+  repo.getClientsSubscribedForUserId(req.user.id)
+    .then(function (clients) {
+      res.json(clients)
+    })
+    .catch(next)
+}
+
+function getEmailDistributionList (req, res, next) {
+  const repo = new ClientRepository(req.database)
+  repo.getEmailDistributionList()
+    .then(function (list) {
+      res.json(list)
+    })
+    .catch(next)
+}
+
 const ACCEPTED_SORT_PARAMS = ['fullName']
 
 export default (router) => {
-  router.use('/client-files', entityFromBody(clientSchema))
+  const validateSchema = entityFromBody(clientSchema)
   router.route('/client-files')
     .get([
       parsePagination(ACCEPTED_SORT_PARAMS),
       parseFilters(filtersSchema),
       makeFindAllHandler(ClientRepository)
     ])
-    .post(makeHandlePost(ClientRepository))
-    .delete(makeHandleArchive(ClientRepository))
+    .post([validateSchema, makeHandlePost(ClientRepository)])
 
   router.route('/client-files/archive')
     .post([
@@ -62,10 +79,17 @@ export default (router) => {
   router.route('/client-files/restore')
     .post(makeHandleRestore(ClientRepository))
 
+  router.route('/client-files/emailDistributionList')
+    .get(getEmailDistributionList)
+
   router.route('/client-files/:id')
     .get(makeFindById(ClientRepository))
-    .put(makeHandlePut(ClientRepository))
+    .put([validateSchema, makeHandlePut(ClientRepository)])
 
   router.route('/client-files/:id/evolution-notes')
     .get(getDocumentsByClientId(EvolutionNoteRepository))
+
+  router.route('/my-clients')
+    .get(getUserSubscribedClients)
+
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router'
-import { canInteractWithClient, formsManager, usersManager } from '../../modules/accounts/roles'
+import { canInteractWithClient, formsManager, usersManager, statsProducer } from '../../modules/accounts/roles'
 import { createTranslate } from '../../locales/translate'
 class NavBar extends React.PureComponent {
   constructor (props) {
@@ -12,11 +12,14 @@ class NavBar extends React.PureComponent {
   render () {
     const user = this.props.user
     const menuItems = [
+      { name: 'dashboard', link: '/dashboard', labelKey: 'dashboard', role: canInteractWithClient },
       { name: 'clients', link: '/clients', labelKey: 'clients', role: canInteractWithClient },
       { name: 'formTemplates', link: '/form-templates', labelKey: 'formTemplates', role: formsManager },
       { name: 'accounts', link: '/accounts', labelKey: 'accounts', role: usersManager },
-      { name: 'createEvolutionNote', link: '/new-evolution-note', labelKey: 'createEvolutionNote' }
+      { name: 'createEvolutionNote', link: '/new-evolution-note', labelKey: 'createEvolutionNote' },
+      { name: 'reports', link: '/reports/distribution-list', labelKey: 'reports', role: statsProducer }
     ]
+
     let currentLocation = this.props.location
     if (currentLocation.indexOf('/') !== 0) {
       currentLocation = '/' + currentLocation

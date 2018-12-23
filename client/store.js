@@ -3,7 +3,7 @@ import createSagaMiddleware from 'redux-saga'
 import rootReducer from './modules/root-reducer'
 
 const sagaMiddleware = createSagaMiddleware()
-const devToolsExtension = typeof window === 'object' && typeof window.devToolsExtension !== 'undefined' ? window.devToolsExtension() : (f) => f
+const devToolsExtension = typeof window === 'object' && typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== 'undefined' ? window.window.__REDUX_DEVTOOLS_EXTENSION__() : (f) => f
 
 let browserStore = null
 

@@ -8,8 +8,8 @@ const fs = require('fs')
 const bluebird = require('bluebird')
 
 const LIST_OPTIONS = [
- {_id: 101, value: '03', listId: 'Origine', name: '03 - Québec'},
- {_id: 102, value: '06', listId: 'Origine', name: '06 - Lévis'},
+ {_id: 101, value: '03', listId: 'Origine', name: '03 - Capitale Nationale'},
+ {_id: 102, value: '06', listId: 'Origine', name: '12 - Chaudière-Appalaches'},
 
   {_id: 201, value: 'INTER', listId: 'OrganismRole', name: 'Intervenante'},
   {_id: 202, value: 'BENEV', listId: 'OrganismRole', name: 'Bénévole'},
@@ -18,7 +18,7 @@ const LIST_OPTIONS = [
 
   {_id: 301, value: AppRoles.canInteractWithClient, listId: 'AppRole', name: 'Créer et modifier un dossier de participant'},
   {_id: 302, value: AppRoles.formsManager, listId: 'AppRole', name: 'Gérer les formulaires'},
-  {_id: 303, value: AppRoles.statsProducer, listId: 'AppRole', name: 'Consulter et produire les statistiques'},
+  {_id: 303, value: AppRoles.statsProducer, listId: 'AppRole', name: 'Consulter les rapports'},
   {_id: 304, value: AppRoles.usersManager, listId: 'AppRole', name: 'Administrer les comptes utilisateurs'}
 ]
 
@@ -90,6 +90,8 @@ const createIndexes = (db) => {
     db.ensureIndex('UserAccount', 'fullName'),
 
     db.ensureIndex('ClientFeedSubscription', {userId: 1, clientId: 1}, {unique: true}),
+
+    db.ensureIndex('Notification', {userId: 1, createdOn: -1, type: 1})
   ]
 
   return Promise.all(promises)

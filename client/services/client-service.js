@@ -9,6 +9,8 @@ export default class ClientService extends RestService {
     this.saveDocument = this.saveDocument.bind(this)
     this.getDocument = this.getDocument.bind(this)
     this.findByNameStartingWith = this.findByNameStartingWith.bind(this)
+    this.getMyClients = this.getMyClients.bind(this)
+    this.getDistributionList = this.getDistributionList.bind(this)
   }
 
   getDocumentsByClientId (clientId) {
@@ -36,6 +38,14 @@ export default class ClientService extends RestService {
   findByNameStartingWith (startsWith, limit) {
     const query = `${url}?contains=${encodeURIComponent(startsWith)}&limit=${limit}&sortby=fullname`
     return this.apiClient.get(query)
+  }
+
+  getMyClients () {
+    return this.apiClient.get('/my-clients')
+  }
+
+  getDistributionList () {
+    return this.apiClient.get('/client-files/emailDistributionList')
   }
 }
 

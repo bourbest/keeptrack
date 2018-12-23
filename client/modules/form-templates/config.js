@@ -90,7 +90,7 @@ export const DEFAULT_CONTROL_OPTIONS = {
   name: '',
   useCurrentDateAsDefaultValue: false,
   minValue: null,
-  maxValue: 10,
+  maxValue: null,
   choices: [
     {value: '1', labels: {fr: 'Pommes', en: 'Apples'}, id: 1},
     {value: '2', labels: {fr: 'Bananes', en: 'Bananas'}, id: 2},

@@ -20,8 +20,13 @@ class ClientView extends React.PureComponent {
 
   renderAge (birthDate) {
     if (birthDate) {
+      const today = new Date()
+      const dob = new Date(birthDate)
+      const diff = (today.getTime() - dob.getTime()) / (60 * 60 * 24 * 1000)
+      const age = Math.abs(Math.round(diff / 365.25))
+
       const params = {
-        age: 0, // moment().diff(birthDate, 'years'),
+        age,
         birthDate: formatDate(birthDate)
       }
       return (
@@ -36,14 +41,11 @@ class ClientView extends React.PureComponent {
 
   renderPhone (phone) {
     if (phone && phone.value) {
-      let text = phone.value
-      if (phone.canLeaveMessage) {
-        text = `${phone.value} (message ok)`
-      }
+      const messageOptionText = this.message(`messageOptions.${phone.messageOption}`)
       return (
         <span>
           <Icon name="phone" className="mr-2" />
-          {text}
+          {phone.value} ({messageOptionText})
           <br />
         </span>
       )

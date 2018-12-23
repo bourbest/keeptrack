@@ -8,8 +8,7 @@ import {clientFeedSubscriptionSchema} from '../../modules/client-feed-subscripti
 const ACCEPTED_SORT_PARAMS = ['createdOn']
 
 const filtersSchema = new Schema({
-  clientId: objectId,
-  userId: objectId
+  clientId: objectId
 })
 
 export default (router) => {
@@ -17,7 +16,7 @@ export default (router) => {
   router.route('/client-feed-subscriptions')
     .get([
       parsePagination(ACCEPTED_SORT_PARAMS),
-      parseFilters(filtersSchema),
+      parseFilters(filtersSchema, true),
       makeFindAllHandler(ClientFeedSubcriptionRepository)
     ])
     .post([

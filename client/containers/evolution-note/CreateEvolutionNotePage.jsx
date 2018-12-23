@@ -14,7 +14,7 @@ import validateNote from '../../modules/evolution-notes/schema'
 // sections tabs components
 import {createTranslate} from '../../locales/translate'
 import FormHtmlEditor from '../components/forms/FormHtmlEditor'
-import {Input, FieldWrapper} from '../components/forms'
+import {Input, FieldWrapper, DateInput} from '../components/forms'
 import SelectClient from '../components/behavioral/SelectClient'
 import {Form, Button} from '../components/controls/SemanticControls'
 import {Field, reduxForm} from 'redux-form'
@@ -71,6 +71,13 @@ class CreateEvolutionNotePage extends React.PureComponent {
               <AddressTile address={client.address} />
             </div>
           }
+          <Field
+            label={this.t('exchangeDate')}
+            name="exchangeDate"
+            component={FieldWrapper}
+            InputControl={DateInput}
+            locale={locale}
+            required />
           <Field
             label={this.t('duration')}
             name="minutes"

@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {browserHistory} from 'react-router'
+import {get} from 'lodash'
 
 // redux
 import { bindActionCreators } from 'redux'
@@ -98,9 +99,10 @@ class ViewClientPage extends React.PureComponent {
     if (!client) return null
     const {selectedFormId} = this.props
     const clientName = `${client.firstName} ${client.lastName}`
+    const backTo = get(this.props, 'location.query.backTo', baseUrl)
     return (
       <div>
-        <Toolbar title={clientName} backTo={baseUrl}>
+        <Toolbar title={clientName} backTo={backTo}>
           {this.renderSubscriptionButton()}
         </Toolbar>
 

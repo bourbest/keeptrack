@@ -1,21 +1,20 @@
-import {ObjectId} from 'mongodb'
-import {EvolutionNoteRepository} from '../repository'
+import {NotificationRepository} from '../repository'
+import {makeFindAllHandler} from './StandardController'
+import {boolean, date, Schema} from 'sapin'
+import {objectId} from '../../modules/common/validate'
+import {parseFilters} from '../middlewares'
 
-function findNewNotesForUser (req, res, next) {
-  if (req.user) {
-    const userId = ObjectId(req.user.id)
-    const repo = new EvolutionNoteRepository(req.database)
-    repo.findNewForUser(userId)
-      .then(data => {
-        res.json(data)
-      })
-      .catch(next)
-  } else {
-    res.status(400)
-    res.json({error: 'Not authenticated'})
-  }
-}
+const filtersSchema = new Schema({
+  fromDate: date,
+  fromId: objectId,
+  isRead: boolean,
+  clientId: objectId
+})
+
 export default (router) => {
   router.route('/notifications')
-    .get(findNewNotesForUser)
+    .get([
+      parseFilters(filtersSchema, true),
+      makeFindAllHandler(NotificationRepository)
+    ])
 }

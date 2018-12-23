@@ -1,5 +1,5 @@
 import {FormTemplateRepository} from '../repository'
-import {makeFindAllHandler, makeFindById, makeHandleArchive, makeHandlePost, makeHandlePut} from './StandardController'
+import {makeFindAllHandler, makeFindById, makeHandleArchive, makeHandlePost, makeHandlePut, makeHandleRestore} from './StandardController'
 import {entityFromBody, parseFilters, parsePagination} from '../middlewares'
 import {formSchema} from '../../modules/form-templates/validate'
 import {boolean, Schema, string} from 'sapin'
@@ -13,16 +13,19 @@ const filtersSchema = new Schema({
 })
 
 export default (router) => {
-  router.use('/form-templates', entityFromBody(formSchema))
+  const validateSchema = entityFromBody(formSchema)
   router.route('/form-templates')
     .get([
       parsePagination(ACCEPTED_SORT_PARAMS),
       parseFilters(filtersSchema),
       makeFindAllHandler(FormTemplateRepository)
     ])
-    .post(makeHandlePost(FormTemplateRepository))
-    .delete(makeHandleArchive(FormTemplateRepository))
+    .post([validateSchema, makeHandlePost(FormTemplateRepository)])
+  router.route('/form-templates/archive')  
+    .post(makeHandleArchive(FormTemplateRepository))
+  router.route('/form-templates/restore')  
+    .post(makeHandleRestore(FormTemplateRepository))    
   router.route('/form-templates/:id')
     .get(makeFindById(FormTemplateRepository))
-    .put(makeHandlePut(FormTemplateRepository))
+    .put([validateSchema, makeHandlePut(FormTemplateRepository)])
 }

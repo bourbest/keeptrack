@@ -30,11 +30,11 @@ Selectors.buildNewEntity = () => {
     originId: '',
     mainPhoneNumber: {
       value: '',
-      canLeaveMessage: false
+      messageOption: ''
     },
     alternatePhoneNumber: {
       value: '',
-      canLeaveMessage: false
+      messageOption: ''
     },
     address: {
       civicNumber: '',

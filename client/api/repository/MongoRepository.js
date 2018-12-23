@@ -112,6 +112,11 @@ export function insert (entity) {
   return this.collection.insertOne(data)
 }
 
+export function insertMany (entities) {
+  const data = this.prepareForDatabase(entities)
+  return this.collection.insertMany(entities)
+}
+
 export function update (entity) {
   const data = this.prepareForDatabase(entity)
   const filters = {_id: data._id}
@@ -156,6 +161,7 @@ export const createBaseRepository = (collectionName) => {
   BaseRepository.prototype.findAll = findAll
   BaseRepository.prototype.findById = findById
   BaseRepository.prototype.insert = insert
+  BaseRepository.prototype.insertMany = insertMany
   BaseRepository.prototype.update = update
   BaseRepository.prototype.upsert = upsert
   BaseRepository.prototype.findByIds = findByIds
