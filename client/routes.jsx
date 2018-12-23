@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route } from 'react-router'
-import { canInteractWithClient, formsManager, usersManager } from './modules/accounts/roles'
+import { canInteractWithClient, formsManager, usersManager, statsProducer } from './modules/accounts/roles'
 
 import Authorization from './containers/components/Authorization'
 import LoginPage from './containers/LoginPage'
@@ -18,18 +18,24 @@ import EditAccountsPage from './containers/accounts/EditAccountPage'
 import ListFormTemplatesPage from './containers/form-templates/ListFormTemplatesPage'
 import EditFormTemplatePage from './containers/form-templates/EditFormTemplate'
 import EditClientDocumentPage from './containers/clients/EditClientDocumentPage'
+
+import DashboardPage from './containers/dashboard/DashboardPage'
+
+import DistributionListPage from './containers/reports/DistributionListPage'
 import Layout from './containers/Layout'
 
 // checkRoles example
 const FormManager = Authorization(formsManager)
 const AccountManager = Authorization(usersManager)
 const InteractWithClient = Authorization(canInteractWithClient)
+const ReportUser = Authorization(statsProducer)
 
 export default (
   [
     <Route path='/login' component={LoginPage} />,
     <Route path='/error/:code' component={ErrorPage} />,
     <Route path='/' component={Layout}>
+      <Route path='dashboard' component={InteractWithClient(DashboardPage)} />
       <Route path='clients' component={InteractWithClient(ListClientsPage)} />
       <Route path='clients/create' component={InteractWithClient(EditClientPage)} />
       <Route path='clients/:id' component={InteractWithClient(ViewClientPage)} />
@@ -41,6 +47,7 @@ export default (
       <Route path='accounts/:id' component={AccountManager(EditAccountsPage)} />
       <Route path='form-templates' component={FormManager(ListFormTemplatesPage)} />
       <Route path='form-templates/:id' component={FormManager(EditFormTemplatePage)} />
+      <Route path='reports/distribution-list' component={ReportUser(DistributionListPage)} />
     </Route>
   ]
 )

@@ -1,0 +1,7 @@
+/*
+  packager le initdb
+  tester avec IE 11
+  Chaudière-Appalache : 12
+  Capitale Nationale : 03
+  Pourquoi les cases à cocher ne fonctionnent pas
+*/

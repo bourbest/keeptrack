@@ -1,6 +1,6 @@
 import {omit} from 'lodash'
 import {UserAccountRepository} from '../repository'
-import {makeFindAllHandler, makeFindById, makeHandlePost, makeHandleDelete} from './StandardController'
+import {makeFindAllHandler, makeFindById, makeHandlePost, makeHandleArchive, makeHandleRestore} from './StandardController'
 import {entityFromBody} from '../middlewares/entityFromBody'
 import {accountSchema, newAccountSchema} from '../../modules/accounts/schema'
 import bcrypt from 'bcryptjs'
@@ -73,7 +73,12 @@ export default (router) => {
       hashPassword,
       makeHandlePost(UserAccountRepository)
     ])
-    .delete(makeHandleDelete(UserAccountRepository))
+  router.route('/accounts/archive')
+    .post(makeHandleArchive(UserAccountRepository))
+
+  router.route('/accounts/restore')
+    .post(makeHandleRestore(UserAccountRepository))
+
   router.route('/accounts/:id')
     .get(makeFindById(UserAccountRepository))
     .put([

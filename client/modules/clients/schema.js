@@ -1,5 +1,11 @@
-import { Schema, boolean, date, string, required, isEmail, validate, requiredIfOtherFieldIsTrue } from 'sapin'
+import { Schema, oneOf, boolean, date, string, required, isEmail, validate, requiredIfOtherFieldIsGiven } from 'sapin'
 import {isPhone, objectId} from '../common/validate'
+
+const messageOptionValidator = string([
+  requiredIfOtherFieldIsGiven('value'),
+  oneOf(['noMessage', 'fullMessage', 'nameAndPhoneOnly'])
+])
+
 export const clientSchema = new Schema({
   id: objectId,
   isArchived: boolean,
@@ -11,12 +17,12 @@ export const clientSchema = new Schema({
   birthDate: date,
   originId: string(required),
   mainPhoneNumber: {
-    value: string([isPhone, requiredIfOtherFieldIsTrue('canLeaveMessage')]),
-    canLeaveMessage: boolean
+    value: string(isPhone),
+    messageOption: messageOptionValidator
   },
   alternatePhoneNumber: {
-    value: string([isPhone, requiredIfOtherFieldIsTrue('canLeaveMessage')]),
-    canLeaveMessage: boolean
+    value: string(isPhone),
+    messageOption: messageOptionValidator
   },
   address: {
     civicNumber: string,

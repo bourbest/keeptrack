@@ -17,7 +17,6 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-
 class Layout extends React.PureComponent {
 
   constructor (props) {

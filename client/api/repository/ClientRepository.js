@@ -33,12 +33,28 @@ ClientRepository.prototype.convertFromDatabase = function (entity) {
   return removeFullName(entity)
 }
 
-ClientRepository.prototype.convertFilters = (filters) => {
+ClientRepository.prototype.convertFilters = function (filters) {
   const ret = omit(filters, 'contains')
   if (filters.contains && filters.contains.length > 0) {
     addStartsWithCriteria(ret, 'fullName', filters.contains)
   }
   return ret
+}
+
+ClientRepository.prototype.getEmailDistributionList = function () {
+  const filters = {
+    isArchived: false,
+    acceptPublipostage: true
+  }
+  const options = {
+    projection: {email: 1}
+  }
+
+  return this.collection.find(filters, options)
+    .toArray()
+    .then(clients => {
+      return clients.map(c => c.email)
+    })
 }
 
 export default ClientRepository

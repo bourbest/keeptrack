@@ -7,6 +7,8 @@
     "formTemplates": "Formulaires",
     "accounts" : "Comptes utilisateurs",
     "createEvolutionNote": "Nouvelle note évolutive",
+    "dashboard": "Tableau de bord",
+    "reports": "Rapports",
     "quit": "Se déconnecter"
   },
   "login": {
@@ -26,9 +28,9 @@
     "lastName": "Nom",
     "firstName": "Prénom",
     "birthDate": "Date de naissance",
-    "origin": "Zone d'origine",
+    "origin": "Lieu de résidence",
     "address": "Adresse",
-    "acceptPublipostage": "Accepte le publipostage",
+    "acceptPublipostage": "Accepte de recevoir des courriels de la part de la Maison l'Éclaircie",
     "email": "Courriel",
     "notes": "Notes",
     "gender": "Sexe",
@@ -38,13 +40,18 @@
     "selectForm": "Sélectionner un formulaire",
     "mainPhoneNumber": "Téléphone principal",
     "alternatePhoneNumber": "Téléphone secondaire",
-    "canLeaveMessage": "Peut laisser un message",
     "evolutionNotes": "Notes évolutives",
-    "noEvolutionNotes": "Aucune note évolutive au dossier"
+    "noEvolutionNotes": "Aucune note évolutive au dossier",
+    "messageOptions": {
+      "noMessage": "Pas de message",
+      "fullMessage": "Message complet",
+      "nameAndPhoneOnly": "Nom et numéro seulement"
+    }
   },
   "evolutionNote": {
     "client": "Participant",
-    "duration": "Durée (minutes)"
+    "duration": "Durée (minutes)",
+    "exchangeDate": "Date de l'échange"
   },
   "accounts":{
     "list-title": "Liste des comptes utilisateurs",
@@ -97,6 +104,9 @@
     "postalCode": "Code postal",
     "app": "App."
   },
+  "distributionList": {
+    "title": "Liste de distribution"
+  },
   "common": {
     "fr":"Français",
     "en":"Anglais",
@@ -105,6 +115,7 @@
     "delete": "Archiver",
     "restore": "Récupérer",
     "reset": "Réinitialiser",
+    "confirm": "Confirmer",
     "yes":"Oui",
     "no":"Non",
     "create": "Créer",
@@ -139,6 +150,7 @@
     "invalidInteger": "Nombre entier invalide",
     "valueNotInRange": "La valeur doit être comprise entre {{minValue}} et {{maxValue}}",
     "invalidEmail": "Courriel invalide",
-    "invalidDate" : "Date invalide"
+    "invalidDate" : "Date invalide",
+    "valueShouldEqualField": "Les valeurs ne sont pas égales"
   }
 }

@@ -16,7 +16,9 @@ export const standardActions = [
   'FETCH_ENTITY',  // saga
   'SET_FETCHING_ENTITY', // saga
   'SAVE_REMOTE_ENTITY', // saga
-  'DELETE_REMOTE_ENTITIES' // saga
+  'DELETE_REMOTE_ENTITIES', // saga
+  'ARCHIVE_REMOTE_ENTITIES',  // saga
+  'RESTORE_REMOTE_ENTITIES' // saga
 ]
 
 export const createActions = (prefix, actionNames) => {
@@ -46,6 +48,7 @@ export const createBaseActionCreators = (actions, entityName) => {
 
     saveEntity: (entity, callback = null) => ({ type: actions.SAVE_REMOTE_ENTITY, entity, callback }),
     deleteEntities: (remoteIds, callback = null) => ({ type: actions.DELETE_REMOTE_ENTITIES, remoteIds, callback }),
-    restoreEntity: (entity, callback = null) => ({ type: actions.UPDATE_REMOTE_ENTITY, entity, callback })
+    archiveEntities: (remoteIds, callback = null) => ({ type: actions.ARCHIVE_REMOTE_ENTITIES, remoteIds, callback }),
+    restoreEntities: (remoteIds, callback = null) => ({ type: actions.RESTORE_REMOTE_ENTITIES, remoteIds, callback })
   }
 }

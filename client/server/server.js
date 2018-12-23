@@ -69,6 +69,7 @@ connectDatabase(dbConfig.server, dbConfig.dbName)
       })
     })
 
+    console.log('api endpoint : ' + context.configuration.apiEndpoint)
     console.log('listening on port ' + context.configuration.port)
     app.listen(context.configuration.port)
   })

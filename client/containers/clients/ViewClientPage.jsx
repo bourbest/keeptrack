@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {browserHistory} from 'react-router'
+import {get} from 'lodash'
 
 // redux
 import { bindActionCreators } from 'redux'
@@ -10,14 +11,18 @@ import { connect } from 'react-redux'
 import { ActionCreators as AppActions } from '../../modules/app/actions'
 import { ActionCreators as ClientActions } from '../../modules/clients/actions'
 import { ActionCreators as FormActions } from '../../modules/form-templates/actions'
+import { ActionCreators as SubscriptionActions } from '../../modules/client-feed-subscriptions/actions'
+
 import ClientSelectors from '../../modules/clients/selectors'
+import SubscriptionSelectors from '../../modules/client-feed-subscriptions/selectors'
 import FormSelectors from '../../modules/form-templates/selectors'
 import {getLocale, getOrganismRoleOptions, getOriginOptions} from '../../modules/app/selectors'
+import {getUser} from '../../modules/authentication/selectors'
 
 // sections tabs components
 import Toolbar from '../components/Toolbar/Toolbar'
 import {createTranslate} from '../../locales/translate'
-import {Button} from '../components/controls/SemanticControls'
+import {Button, Icon} from '../components/controls/SemanticControls'
 
 import ClientView from './components/ClientView'
 import EvolutionNoteTile from '../evolution-note/components/EvolutionNoteTile'
@@ -31,7 +36,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     actions: bindActionCreators(ClientActions, dispatch),
     appActions: bindActionCreators(AppActions, dispatch),
-    formActions: bindActionCreators(FormActions, dispatch)
+    formActions: bindActionCreators(FormActions, dispatch),
+    subscriptionActions: bindActionCreators(SubscriptionActions, dispatch)
   }
 }
 
@@ -42,12 +48,15 @@ class ViewClientPage extends React.PureComponent {
     this.message = createTranslate(labelNamespace, this)
     this.handleFormSelected = this.handleFormSelected.bind(this)
     this.handleAddForm = this.handleAddForm.bind(this)
+    this.toggleSubscription = this.toggleSubscription.bind(this)
+    this.renderSubscriptionButton = this.renderSubscriptionButton.bind(this)
   }
 
   componentWillMount () {
     const id = this.props.params.id || null
     this.props.formActions.fetchList({limit: 1000, includeArchived: true})
     this.props.appActions.hideModal()
+    this.props.subscriptionActions.fetchList({userId: this.props.user.id})
     this.props.actions.clearEditedEntity()
     this.props.actions.fetchEditedEntity(id)
   }
@@ -62,14 +71,40 @@ class ViewClientPage extends React.PureComponent {
     browserHistory.push(`/clients/${id}/documents/create/${formId}`)
   }
 
+  toggleSubscription () {
+    const {feedSubscription, subscriptionActions, user, client} = this.props
+    if (feedSubscription) {
+      subscriptionActions.deleteEntities([feedSubscription.id])
+    } else {
+      const newSubscription = SubscriptionSelectors.buildNewEntity(user.id, client.id)
+      subscriptionActions.saveEntity(newSubscription)
+    }
+  }
+
+  renderSubscriptionButton () {
+    const {feedSubscription} = this.props
+    const classes = feedSubscription != null
+      ? 'text-white bg-success'
+      : 'text-light'
+
+    return (
+      <Button onClick={this.toggleSubscription} className={classes}>
+        <Icon name="eye" />
+      </Button>
+    )
+  }
+
   render () {
     const {locale, client, originOptionList, organismRoleList} = this.props
     if (!client) return null
     const {selectedFormId} = this.props
     const clientName = `${client.firstName} ${client.lastName}`
+    const backTo = get(this.props, 'location.query.backTo', baseUrl)
     return (
       <div>
-        <Toolbar title={clientName} backTo={baseUrl} />
+        <Toolbar title={clientName} backTo={backTo}>
+          {this.renderSubscriptionButton()}
+        </Toolbar>
 
         <div>
           <div>
@@ -129,6 +164,9 @@ class ViewClientPage extends React.PureComponent {
 const mapStateToProps = (state) => {
   const props = {
     client: ClientSelectors.getEditedEntity(state),
+    feedSubscription: SubscriptionSelectors.getUserSubscriptiondToEditedClientFeed(state),
+    user: getUser(state),
+
     originOptionList: getOriginOptions(state),
     organismRoleList: getOrganismRoleOptions(state),
 
@@ -145,6 +183,9 @@ const mapStateToProps = (state) => {
 
 ViewClientPage.propTypes = {
   client: PropTypes.object,
+  feedSubscription: PropTypes.object,
+  user: PropTypes.object.isRequired,
+
   originOptionList: PropTypes.array.isRequired,
   organismRoleList: PropTypes.array.isRequired,
 

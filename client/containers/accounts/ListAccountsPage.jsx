@@ -62,7 +62,6 @@ class ListAccountsPage extends React.PureComponent {
           <Column name="username" label={this.message('userName')} renderer={renderLinkToDetail} />
           <Column name="lastName" label={this.message('lastName')} />
           <Column name="firstName" label={this.message('firstName')} />
-          <Column name="email" label={this.message('email')} />
         </SmartTable>
         {this.props.totalPages > 1 &&
           <div className="ui centered grid">
