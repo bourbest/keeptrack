@@ -70,9 +70,8 @@ class LoginPage extends React.PureComponent {
     const {handleSubmit, valid, submitting} = this.props
     return (
       <div>
-        <FormError error={loginError} locale={locale} />
         <Form style={style} onSubmit={handleSubmit(this.handleSubmit)}>
-
+          <FormError error={loginError} locale={locale} />
           <Field name="username" label={this.message('username')} component={FormField} InputControl={Input} locale={locale} />
           <Field name="password" label={this.message('password')} component={FormField} InputControl={Input} locale={locale} type="password" />
 
@@ -89,7 +88,7 @@ LoginPage.propTypes = {
   actions: PropTypes.object.isRequired,
   params: PropTypes.object,
   location: PropTypes.object.isRequired,
-  loginError: PropTypes.object,
+  loginError: PropTypes.string,
   locale: PropTypes.string
 }
 

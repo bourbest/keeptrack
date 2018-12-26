@@ -18,7 +18,7 @@ export const handleError = (entityName, error) => {
         return appActions.notify('commonErrors.communucationError', 'commonErrors.unexpected', data, true)
       }
       // Precondition failed on form submit
-      if (status === 412 || status === 400) {
+      if (status === 412 || status === 400 || status == 401) {
         return stopSubmit(entityName, {_error: data.message, fieldErrors: data.fieldErrors})
       }
 

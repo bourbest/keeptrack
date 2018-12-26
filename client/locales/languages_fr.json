@@ -9,7 +9,8 @@
     "createEvolutionNote": "Nouvelle note évolutive",
     "dashboard": "Tableau de bord",
     "reports": "Rapports",
-    "quit": "Se déconnecter"
+    "quit": "Me déconnecter",
+    "changePassword": "Modifier mon mot de passe"
   },
   "login": {
     "username": "Code utilisateur",
