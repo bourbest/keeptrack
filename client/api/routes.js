@@ -10,6 +10,7 @@ import registerEvolutionNotes from './controllers/EvolutionNoteController'
 import registerClientDocuments from './controllers/ClientDocumentsController'
 import registerClientFeedSubscriptions from './controllers/ClientFeedSubscriptionController'
 import registerNotifications from './controllers/NotificationsController'
+import registerMyAccount from './controllers/MyAccountController'
 
 import corser from 'corser'
 import bodyParser from 'body-parser'
@@ -49,6 +50,7 @@ function createApiRouter (config, database) {
   registerClientDocuments(apiRouter)
   registerClientFeedSubscriptions(apiRouter)
   registerNotifications(apiRouter)
+  registerMyAccount(apiRouter)
 
   // 404 on all other routes
   apiRouter.all('*', function (req, res, next) {
@@ -60,7 +62,7 @@ function createApiRouter (config, database) {
   apiRouter.use(function (err, req, res, next) {
     if (err.httpStatus) {
       res.status(err.httpStatus)
-        .json({error: err.error})
+        .json({message: err.error})
     } else if (err.code === 'EBADCSRFTOKEN') {
       res.status(403).json({error: 'Bad CSRF Token'})
     } else {

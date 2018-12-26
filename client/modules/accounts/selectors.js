@@ -2,6 +2,7 @@ import config from './config'
 import { getLocale } from '../app/selectors'
 import { createBaseSelectors, buildSortedOptionList } from '../common/selectors'
 import { createSelector } from 'reselect'
+
 const Selectors = createBaseSelectors(config.entityName)
 
 Selectors.buildNewEntity = () => {

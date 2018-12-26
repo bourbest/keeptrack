@@ -57,8 +57,6 @@ const updateAccount = (req, res, next) => {
       }
     })
     .catch(next)
-
-
 }
 
 export default (router) => {

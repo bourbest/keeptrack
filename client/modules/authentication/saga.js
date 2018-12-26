@@ -1,6 +1,9 @@
+import config from './config'
 import { browserHistory } from 'react-router'
 import { call, put, select, takeLatest } from 'redux-saga/effects'
 import { getService } from '../app/selectors'
+import { startSubmit, stopSubmit } from 'redux-form'
+import {handleError} from '../commonHandlers'
 
 import {
   Actions,
@@ -11,10 +14,11 @@ import { ActionCreators as AppActions } from '../app/actions'
 
 function * authSaga (action) {
   const svc = yield select(getService, 'auth')
-
+  let errorAction = null
   switch (action.type) {
     case Actions.LOG_IN:
       try {
+        yield put(startSubmit(config.entityName))
         const ret = yield call(svc.login, action.username, action.password)
 
         if (ret && ret.user) {
@@ -26,10 +30,10 @@ function * authSaga (action) {
           const targetLocation = action.redirect || '/'
           browserHistory.push(targetLocation)
         } else {
-          yield put(AuthActionCreators.setLoginError(ret.error))
+          errorAction = stopSubmit(config.entityName, ret.message)
         }
       } catch (error) {
-        yield put(AuthActionCreators.setLoginError(error))
+        errorAction = handleError(config.entityName, error)
       }
       break
 
@@ -46,6 +50,10 @@ function * authSaga (action) {
 
     default:
       throw new Error('Unsupported trigger action in auth saga', action)
+  }
+
+  if (errorAction) {
+    yield put(errorAction)
   }
 }
 

@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
 import { omit, filter, get, values, map, pick } from 'lodash'
-import { isSubmitting, getFormValues, getFormSubmitErrors, getFormSyncErrors, isPristine, isValid } from 'redux-form'
+import { isSubmitting, getFormValues, getFormError, getFormSyncErrors, isPristine, isValid } from 'redux-form'
 
 export const PAGE_SIZE = 25
 
@@ -81,7 +81,7 @@ export const createBaseSelectors = (entityName, defaultPagingParams = {}) => {
   }
 
   selectors.getEditedEntity = getFormValues(entityName)
-  selectors.getSubmitError = getFormSubmitErrors(entityName)
+  selectors.getSubmitError = getFormError(entityName)
   selectors.getSyncErrors = getFormSyncErrors(entityName)
   selectors.isSubmitting = isSubmitting(entityName)
   selectors.isNewEntity = (state) => {

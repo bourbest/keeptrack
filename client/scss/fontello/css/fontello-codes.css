@@ -15,6 +15,7 @@
 .icon-down-dir:before { content: '\e80d'; } /* '' */
 .icon-phone:before { content: '\e80e'; } /* '' */
 .icon-search:before { content: '\e80f'; } /* '' */
+.icon-user:before { content: '\f061'; } /* '' */
 .icon-mail-alt:before { content: '\f0e0'; } /* '' */
 .icon-star-half-alt:before { content: '\f123'; } /* '' */
 .icon-male:before { content: '\f183'; } /* '' */

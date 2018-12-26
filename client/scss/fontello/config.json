@@ -125,6 +125,12 @@
       "css": "search",
       "code": 59407,
       "src": "fontawesome"
+    },
+    {
+      "uid": "11d74f891bce30f1bdf73d3259d59ed5",
+      "css": "user",
+      "code": 61537,
+      "src": "mfglabs"
     }
   ]
 }

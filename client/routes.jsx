@@ -22,6 +22,8 @@ import EditClientDocumentPage from './containers/clients/EditClientDocumentPage'
 import DashboardPage from './containers/dashboard/DashboardPage'
 
 import DistributionListPage from './containers/reports/DistributionListPage'
+
+import ChangePasswordPage from './containers/my-account/ChangePasswordPage'
 import Layout from './containers/Layout'
 
 // checkRoles example
@@ -48,6 +50,7 @@ export default (
       <Route path='form-templates' component={FormManager(ListFormTemplatesPage)} />
       <Route path='form-templates/:id' component={FormManager(EditFormTemplatePage)} />
       <Route path='reports/distribution-list' component={ReportUser(DistributionListPage)} />
+      <Route path='change-password' component={ChangePasswordPage} />
     </Route>
   ]
 )

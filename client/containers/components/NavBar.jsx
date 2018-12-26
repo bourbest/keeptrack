@@ -3,6 +3,9 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 import { canInteractWithClient, formsManager, usersManager, statsProducer } from '../../modules/accounts/roles'
 import { createTranslate } from '../../locales/translate'
+
+import UserDropdownMenu from './behavioral/UserDropdownMenu'
+
 class NavBar extends React.PureComponent {
   constructor (props) {
     super(props)
@@ -24,10 +27,11 @@ class NavBar extends React.PureComponent {
     if (currentLocation.indexOf('/') !== 0) {
       currentLocation = '/' + currentLocation
     }
+
     return (
       <div className="navbar navbar-expand bg-dark text-light">
         <div className="container">
-          <ul className="navbar-nav">
+          <ul className="nav navbar-nav">
             {menuItems.map(
               (menuItem) => {
                 if (!menuItem.role || (user.roles && user.roles.indexOf(menuItem.role) > -1)) {
@@ -47,9 +51,9 @@ class NavBar extends React.PureComponent {
               }
             )}
           </ul>
-          <form className="form-inline clickable" onClick={this.props.onLogout}>
-            {this.message('quit')}
-          </form>
+          <ul className="nav navbar-nav navbar-right">
+            <UserDropdownMenu locale={this.props.locale} />
+          </ul>
         </div>
       </div>
     )
