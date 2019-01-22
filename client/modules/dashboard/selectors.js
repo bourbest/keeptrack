@@ -1,5 +1,8 @@
-import {values} from 'lodash'
+import {values, forEach, size} from 'lodash'
 import {compareStrings} from '../../services/string-utils'
+import {createSelector} from 'reselect'
+import {NotificationTypes} from '../notifications/schema'
+import NotificationSelectors from '../notifications/selectors'
 
 const Selectors = {}
 Selectors.getMyClients = state => state.dashboard.clientsById
@@ -13,10 +16,38 @@ const sortClientsByName = (lhs, rhs) => {
   return ret
 }
 
-Selectors.getOrderedClients = state => {
-  const clients = values(Selectors.getMyClients(state))
-  clients.sort(sortClientsByName)
-  return clients
-}
+Selectors.getOrderedClients = createSelector(
+  [Selectors.getMyClients],
+  (myClients) => {
+    const clients = values(myClients)
+    clients.sort(sortClientsByName)
+    return clients
+  })
+
+Selectors.getClientsNotifications = createSelector(
+  [NotificationSelectors.getEntities],
+  (notifications) => {
+    const ret = {}
+    forEach(notifications, notf => {
+      if (!ret[notf.clientId]) {
+        ret[notf.clientId] = {new: {}, updated: {}, notes: {}}
+      }
+      if (notf.type === NotificationTypes.ClientDocumentCreated) {
+        ret[notf.clientId].new[notf.targetId] = 1
+      } else if (notf.type === NotificationTypes.ClientDocumentModified) {
+        ret[notf.clientId].updated[notf.targetId] = 1
+      } else if (notf.type === NotificationTypes.EvolutiveNoteCreated) {
+        ret[notf.clientId].notes[notf.targetId] = 1
+      }
+    })
+    forEach(ret, client => {
+      client.notes = size(client.notes)
+      client.new = size(client.new)
+      client.updated = size(client.updated)
+    })
+
+    return ret
+  }
+)
 
 export default Selectors

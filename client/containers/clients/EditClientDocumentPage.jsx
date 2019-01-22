@@ -15,6 +15,8 @@ import { ActionCreators as AppActions } from '../../modules/app/actions'
 import { ActionCreators as DocumentActions } from '../../modules/client-documents/actions'
 import { ActionCreators as ClientActions } from '../../modules/clients/actions'
 import { ActionCreators as FormActions } from '../../modules/form-templates/actions'
+import { ActionCreators as NotfActions } from '../../modules/notifications/actions'
+
 import DocumentSelectors from '../../modules/client-documents/selectors'
 import ClientSelectors from '../../modules/clients/selectors'
 import FormSelectors from '../../modules/form-templates/selectors'
@@ -33,7 +35,8 @@ const mapDispatchToProps = (dispatch) => {
     actions: bindActionCreators(DocumentActions, dispatch),
     clientActions: bindActionCreators(ClientActions, dispatch),
     formActions: bindActionCreators(FormActions, dispatch),
-    appActions: bindActionCreators(AppActions, dispatch)
+    appActions: bindActionCreators(AppActions, dispatch),
+    notfActions: bindActionCreators(NotfActions, dispatch)
   }
 }
 
@@ -60,6 +63,13 @@ class EditClientDocumentPage extends React.PureComponent {
       this.props.clientActions.fetchEditedEntity(clientId)
       this.props.formActions.fetchEditedEntity(formId)
       this.props.actions.setEditedEntity(newDoc)
+    }
+  }
+
+  componentDidMount () {
+    const {documentNotificationIds} = this.props
+    if (documentNotificationIds.length > 0) {
+      this.props.notfActions.markAsRead(documentNotificationIds)
     }
   }
 
@@ -123,6 +133,8 @@ const mapStateToProps = (state, props) => {
     client: ClientSelectors.getEditedEntity(state),
     formTemplate: FormSelectors.getEditedEntity(state),
     formSchema: FormSelectors.getFormSchema(state),
+
+    documentNotificationIds: ClientSelectors.getNotificationIdsForClientDocument(state, props),
 
     formControlsById: FormSelectors.getControls(state),
     formControlIdsByParentId: FormSelectors.getControlIdsByParentId(state),

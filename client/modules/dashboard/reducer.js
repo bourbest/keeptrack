@@ -4,10 +4,7 @@ import {keyBy} from 'lodash'
 
 export const initialState = {
   clientsById: {},
-  isFetchingMyClients: false,
-
-  notificationsById: {},
-  isFetchingNotifications: false
+  isFetchingMyClients: false
 }
 
 const dashboardReducer = (state = initialState, action = {}) => {
@@ -17,12 +14,6 @@ const dashboardReducer = (state = initialState, action = {}) => {
 
     case Actions.SET_FETCHING_MY_CLIENTS:
       return {...state, isFetchingMyClients: action.isFetching}
-
-    case Actions.SET_NOTIFICATIONS:
-      return {...state, notificationsById: keyBy(action.notifications, 'id')}
-
-    case Actions.SET_FETCHING_NOTIFICATIONS:
-      return {...state, isFetchingNotifications: action.isFetching}
 
     default:
       return state

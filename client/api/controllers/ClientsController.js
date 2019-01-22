@@ -72,8 +72,8 @@ export default (router) => {
 
   router.route('/client-files/archive')
     .post([
-      deleteFeedSubscriptions,
-      makeHandleArchive(ClientRepository)
+      makeHandleArchive(ClientRepository),
+      deleteFeedSubscriptions
     ])
 
   router.route('/client-files/restore')

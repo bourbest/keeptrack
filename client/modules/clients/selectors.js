@@ -1,6 +1,8 @@
 import config from './config'
-import {orderBy, map} from 'lodash'
+import {orderBy, map, filter, startsWith, uniqBy, keyBy} from 'lodash'
 import { getLocale } from '../app/selectors'
+import NotificationSelectors from '../notifications/selectors'
+
 import {
   createBaseSelectors, buildSortedOptionList, EMPTY_ARRAY
 } from '../common/selectors'
@@ -49,6 +51,7 @@ Selectors.buildNewEntity = () => {
 }
 
 Selectors.getSelectedFormId = (state) => state[config.entityName].selectedFormId
+Selectors.getSelectedTabId = state => state[config.entityName].selectedTabId
 
 Selectors.getClientDocumentsOrderByDate = createSelector(
   [Selectors.getEditedEntity],
@@ -63,7 +66,7 @@ Selectors.getClientNotesOrderByDate = createSelector(
   [Selectors.getEditedEntity],
   (client) => {
     if (!client || !client.evolutionNotes) return EMPTY_ARRAY
-    const ret = orderBy(client.evolutionNotes, ['createdOn'], ['desc'])
+    const ret = orderBy(client.evolutionNotes, ['exchangeDate'], ['desc'])
     return ret
   }
 )
@@ -81,5 +84,34 @@ Selectors.getClientOptions = createSelector(
 )
 
 Selectors.isCreateNoteEnabled = (state) => Selectors.getSelectedItemIds(state).length === 1
+
+Selectors.getNotificationsByNoteId = createSelector(
+  [NotificationSelectors.getEntities],
+  (notifications) => {
+    const notes = filter(notifications, notf => {
+      return startsWith(notf.type, 'EVOLUTIVE_NOTE')
+    })
+    return keyBy(uniqBy(notes, 'targetId'), 'targetId')
+  }
+)
+
+Selectors.getNotificationsByDocumentId = createSelector(
+  [NotificationSelectors.getEntities],
+  (notifications) => {
+    const docs = filter(notifications, notf => {
+      return startsWith(notf.type, 'CLIENT_DOCUMENT')
+    })
+    return keyBy(uniqBy(docs, 'targetId'), 'targetId')
+  }
+)
+
+Selectors.getCurrentDocumentId = (state, props) => props.params.documentId || null
+Selectors.getNotificationIdsForClientDocument = createSelector(
+  [NotificationSelectors.getEntities, Selectors.getCurrentDocumentId],
+  (notifications, documentId) => {
+    const docNotf = filter(notifications, {targetId: documentId})
+    return map(docNotf, 'id')
+  }
+)
 
 export default Selectors

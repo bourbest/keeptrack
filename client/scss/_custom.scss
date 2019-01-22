@@ -58,3 +58,13 @@ Flex grow utilities
 .flex-grow-3 {
   flex-grow: 3;
 }
+
+.tabs {
+  border-width: 1px;
+  box-sizing: border-box;
+  border-left-style: solid;
+  border-right-style: solid;
+  border-bottom-style: solid;
+  border-top-style: none;
+  border-color: rgb(222, 226, 230);
+}

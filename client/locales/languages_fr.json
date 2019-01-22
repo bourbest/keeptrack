@@ -17,6 +17,18 @@
     "password": "Mot de passe",
     "authenticate": "Authentifier"
   },
+  "dashboard": {
+    "my-clients": "Mes participants suivis",
+    "lastName": "Nom",
+    "firstName": "Prénom",
+    "notifications": "Notifications",
+    "newNotes": "{{count}} nouvelle note évolutive",
+    "newNotes_plural": "{{count}} nouvelles notes évolutives",
+    "newDocuments": "{{count}} nouveau document",
+    "newDocuments_plural": "{{count}} nouveaux documents",
+    "updatedDocuments": "{{count}} document mis à jour",
+    "updatedDocuments_plural": "{{count}} documents mis à jour"
+  },
   "clients":{
     "list-title": "Liste des participants",
     "create-title": "Création d'un nouveau participant",
@@ -107,6 +119,11 @@
   },
   "distributionList": {
     "title": "Liste de distribution"
+  },
+  "notificationTypes": {
+    "EVOLUTIVE_NOTE_CREATED": "Nouvelle",
+    "CLIENT_DOCUMENT_CREATED": "Nouveau",
+    "CLIENT_DOCUMENT_MODIFIED": "Modifié"
   },
   "common": {
     "fr":"Français",

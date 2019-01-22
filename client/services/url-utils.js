@@ -13,7 +13,7 @@ export const buildQueryForUrl = (filterParams) => {
   if (filterParams) {
     for (let fieldName in filterParams) {
       const fieldValue = filterParams[fieldName]
-      if (fieldValue && fieldValue !== '') {
+      if (fieldValue !== undefined && fieldValue !== null && fieldValue !== '') {
         const param = `${fieldName}=${encodeURIComponent(fieldValue.toString())}`
         query.push(param)
       }

@@ -11,6 +11,7 @@ import {
 } from './actions'
 
 import { ActionCreators as AppActions } from '../app/actions'
+import { ActionCreators as NotfActions } from '../notifications/actions'
 
 function * authSaga (action) {
   const svc = yield select(getService, 'auth')
@@ -25,6 +26,7 @@ function * authSaga (action) {
           yield put(AppActions.setCsrfToken(ret.csrfToken))
 
           yield put(AuthActionCreators.setUser(ret.user))
+          yield put(NotfActions.startPolling())
 
           // redirect to target location if any
           const targetLocation = action.redirect || '/'
@@ -43,6 +45,7 @@ function * authSaga (action) {
       } catch (error) {
         console.log('logout error', error)
       } finally {
+        yield put(NotfActions.stopPolling())
         yield put(AuthActionCreators.setUser({}))
         browserHistory.push('/login')
       }

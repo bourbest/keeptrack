@@ -16,6 +16,7 @@ export const makeFindAllHandler = (Repository) => {
           totalCount,
           entities
         })
+        next()
       })
       .catch(next)
   }
@@ -31,6 +32,7 @@ export const makeFindById = (Repository) => {
         } else {
           res.status(404).json({error: 'entity not found'})
         }
+        next()
       })
       .catch(next)
   }
@@ -48,6 +50,7 @@ export const makeHandlePost = (Repository) => {
     return repo.insert(entity)
       .then(function () {
         res.json(entity) // return untransformed entity so id is used instead of _id
+        next()
       })
       .catch(next)
   }
@@ -63,6 +66,7 @@ export const makeHandlePut = (Repository) => {
     return repo.update(entity)
       .then(function () {
         res.json(entity) // return untransformed entity so id is used instead of _id
+        next()
       })
       .catch(next)
   }
@@ -78,6 +82,7 @@ export const makeHandleArchive = (Repository) => {
       return repo.archive(ids)
         .then(function () {
           res.status(204).send('') // no content
+          next()
         })
         .catch(next)
     }
@@ -94,6 +99,7 @@ export const makeHandleRestore = (Repository) => {
       return repo.restore(ids)
         .then(function () {
           res.status(204).send('') // no content
+          next()
         })
         .catch(next)
     }
@@ -110,6 +116,7 @@ export const makeHandleDelete = (Repository) => {
       return repo.delete(ids)
         .then(function () {
           res.status(204).send('') // no content
+          next()
         })
         .catch(next)
     }

@@ -4,13 +4,18 @@ import { Actions } from './actions'
 
 const initialState = {
   ...baseInitialState,
-  selectedFormId: null
+  selectedFormId: null,
+  selectedTabId: 'notes'
 }
 
 const specificReducer = (state, action) => {
   switch (action.type) {
     case Actions.SET_SELECTED_FORM_ID:
       return {...state, selectedFormId: action.formId}
+
+    case Actions.SET_SELECTED_TAB_ID:
+      return {...state, selectedTabId: action.tabId}
+
   }
   return state
 }

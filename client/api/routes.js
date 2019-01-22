@@ -52,23 +52,27 @@ function createApiRouter (config, database) {
   registerNotifications(apiRouter)
   registerMyAccount(apiRouter)
 
-  // 404 on all other routes
   apiRouter.all('*', function (req, res, next) {
-    res.status(404)
-    res.json({error: `route not found ${req.originalUrl}`})
+    if (!res.headersSent) {
+      res.status(404)
+      res.json({error: `route not found ${req.originalUrl}`})
+    }   
   })
 
   // error handling
   apiRouter.use(function (err, req, res, next) {
-    if (err.httpStatus) {
-      res.status(err.httpStatus)
-        .json({message: err.error})
-    } else if (err.code === 'EBADCSRFTOKEN') {
-      res.status(403).json({error: 'Bad CSRF Token'})
-    } else {
-      res.status(500)
-        .json({error: err.stack})
-    }
+    if (!res.headersSent) {
+      console.log("error handler")
+      if (err.httpStatus) {
+        res.status(err.httpStatus)
+          .json({message: err.error})
+      } else if (err.code === 'EBADCSRFTOKEN') {
+        res.status(403).json({error: 'Bad CSRF Token'})
+      } else {
+        res.status(500)
+          .json({error: err.stack})
+      }
+    } 
   })
 
   return apiRouter

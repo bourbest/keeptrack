@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {browserHistory} from 'react-router'
-import {get} from 'lodash'
+import {get, size} from 'lodash'
 
 // redux
 import { bindActionCreators } from 'redux'
@@ -12,6 +12,7 @@ import { ActionCreators as AppActions } from '../../modules/app/actions'
 import { ActionCreators as ClientActions } from '../../modules/clients/actions'
 import { ActionCreators as FormActions } from '../../modules/form-templates/actions'
 import { ActionCreators as SubscriptionActions } from '../../modules/client-feed-subscriptions/actions'
+import { ActionCreators as NotfActions } from '../../modules/notifications/actions'
 
 import ClientSelectors from '../../modules/clients/selectors'
 import SubscriptionSelectors from '../../modules/client-feed-subscriptions/selectors'
@@ -22,7 +23,7 @@ import {getUser} from '../../modules/authentication/selectors'
 // sections tabs components
 import Toolbar from '../components/Toolbar/Toolbar'
 import {createTranslate} from '../../locales/translate'
-import {Button, Icon} from '../components/controls/SemanticControls'
+import {Button, Icon, NavTab, Tabs, Tab} from '../components/controls/SemanticControls'
 
 import ClientView from './components/ClientView'
 import EvolutionNoteTile from '../evolution-note/components/EvolutionNoteTile'
@@ -37,7 +38,8 @@ const mapDispatchToProps = (dispatch) => {
     actions: bindActionCreators(ClientActions, dispatch),
     appActions: bindActionCreators(AppActions, dispatch),
     formActions: bindActionCreators(FormActions, dispatch),
-    subscriptionActions: bindActionCreators(SubscriptionActions, dispatch)
+    subscriptionActions: bindActionCreators(SubscriptionActions, dispatch),
+    notfActions: bindActionCreators(NotfActions, dispatch)
   }
 }
 
@@ -50,6 +52,8 @@ class ViewClientPage extends React.PureComponent {
     this.handleAddForm = this.handleAddForm.bind(this)
     this.toggleSubscription = this.toggleSubscription.bind(this)
     this.renderSubscriptionButton = this.renderSubscriptionButton.bind(this)
+    this.onTabSelected = this.onTabSelected.bind(this)
+    this.markNotificationAsRead = this.markNotificationAsRead.bind(this)
   }
 
   componentWillMount () {
@@ -81,6 +85,10 @@ class ViewClientPage extends React.PureComponent {
     }
   }
 
+  onTabSelected (event) {
+    this.props.actions.setSelectedTabId(event.target.name)
+  }
+
   renderSubscriptionButton () {
     const {feedSubscription} = this.props
     const classes = feedSubscription != null
@@ -94,12 +102,19 @@ class ViewClientPage extends React.PureComponent {
     )
   }
 
+  markNotificationAsRead (event) {
+    const ids = [event.target.id]
+    this.props.notfActions.markAsRead(ids)
+  }
+
   render () {
-    const {locale, client, originOptionList, organismRoleList} = this.props
+    const {locale, client, originOptionList, organismRoleList, notificationsByNoteId, notificationsByDocumentId} = this.props
     if (!client) return null
-    const {selectedFormId} = this.props
+    const {selectedFormId, selectedTabId} = this.props
     const clientName = `${client.firstName} ${client.lastName}`
     const backTo = get(this.props, 'location.query.backTo', baseUrl)
+    const notesNotificationCount = size(notificationsByNoteId)
+    const documentNotificationCount = size(notificationsByDocumentId)
     return (
       <div>
         <Toolbar title={clientName} backTo={backTo}>
@@ -115,45 +130,68 @@ class ViewClientPage extends React.PureComponent {
             />
           </div>
 
-          <div className="row mt-2">
-            <div className="col-md-6">
-              <h3>{this.message('evolutionNotes')}</h3>
-              {this.props.evolutionNotes.map(note =>
-                <EvolutionNoteTile evolutionNote={note} organismRoles={organismRoleList} key={note.id} />
-              )}
-              {this.props.evolutionNotes.length === 0 &&
-                <span>{this.message('noEvolutionNotes')}</span>
-              }
-            </div>
+          <div className="mt-2 w-100">
+            <ul className="nav nav-tabs nav-fill">
+              <NavTab active={selectedTabId === 'notes'} name="notes" onClick={this.onTabSelected}>
+                {this.message('evolutionNotes')}
+                {notesNotificationCount > 0 && <span className="ml-2 badge badge-pill badge-primary">{notesNotificationCount}</span>}
+              </NavTab>
+              <NavTab active={selectedTabId === 'documents'} name="documents" onClick={this.onTabSelected}>
+                {this.message('documents')}
+                {documentNotificationCount > 0 && <span className="ml-2 badge badge-pill badge-primary">{documentNotificationCount}</span>}
+              </NavTab>
+            </ul>
+            <Tabs>
+              <Tab active={selectedTabId === 'notes'}>
+                {this.props.evolutionNotes.map(note => {
+                  const notf = notificationsByNoteId[note.id]
+                  return (
+                    <div className="box-fifth mb-3" key={note.id}>
+                      {notf &&
+                        <div className="badge badge-primary float-right m-2 clickable" onClick={this.markNotificationAsRead} id={notf.id}>
+                          {this.message(notf.type, 'notificationTypes')}
+                        </div>
+                      }
+                      <EvolutionNoteTile evolutionNote={note} organismRoles={organismRoleList} />
+                    </div>
+                  )
+                })}
+                {this.props.evolutionNotes.length === 0 &&
+                  <span>{this.message('noEvolutionNotes')}</span>
+                }
+              </Tab>
 
-            <div className="col-md-6">
-              <h3>{this.message('documents')}</h3>
-              <div className="row mb-2">
-                <div className="col-9">
-                  <Select
-                    instanceId="selectForm"
-                    options={this.props.formOptionList}
-                    onChange={this.handleFormSelected}
-                    value={selectedFormId}
-                    name="selectedFormId"
-                    placeholder={this.message('selectForm')}
+              <Tab active={selectedTabId === 'documents'}>
+                <div className="row mb-2">
+                  <div className="col-9">
+                    <Select
+                      instanceId="selectForm"
+                      options={this.props.formOptionList}
+                      onChange={this.handleFormSelected}
+                      value={selectedFormId}
+                      name="selectedFormId"
+                      placeholder={this.message('selectForm')}
+                    />
+                  </div>
+                  <div className="col-3 p-0">
+                    <Button primary type="button" disabled={selectedFormId === null} onClick={this.handleAddForm}>
+                      {this.message('create', 'common')}
+                    </Button>
+                  </div>
+                </div>
+
+                {this.props.documents && this.props.documents.length > 0 &&
+                  <DocumentList
+                    documents={this.props.documents}
+                    formsById={this.props.formsById}
+                    message={this.message}
+                    notificationsByDocumentId={notificationsByDocumentId}
+                    locale={this.props.locale}
+                    markNotificationAsRead={this.markNotificationAsRead}
                   />
-                </div>
-                <div className="col-3 p-0">
-                  <Button primary type="button" disabled={selectedFormId === null} onClick={this.handleAddForm}>
-                    {this.message('create', 'common')}
-                  </Button>
-                </div>
-              </div>
-
-              {this.props.documents && this.props.documents.length > 0 &&
-                <DocumentList
-                  documents={this.props.documents}
-                  formsById={this.props.formsById}
-                  message={this.message}
-                />
-              }
-            </div>
+                }
+              </Tab>
+            </Tabs>
           </div>
         </div>
       </div>
@@ -176,6 +214,10 @@ const mapStateToProps = (state) => {
     documents: ClientSelectors.getClientDocumentsOrderByDate(state),
     evolutionNotes: ClientSelectors.getClientNotesOrderByDate(state),
 
+    selectedTabId: ClientSelectors.getSelectedTabId(state),
+    notificationsByNoteId: ClientSelectors.getNotificationsByNoteId(state),
+    notificationsByDocumentId: ClientSelectors.getNotificationsByDocumentId(state),
+
     locale: getLocale(state)
   }
   return props
@@ -193,6 +235,10 @@ ViewClientPage.propTypes = {
   formsById: PropTypes.object.isRequired,
   selectedFormId: PropTypes.string,
   documents: PropTypes.array.isRequired,
+
+  selectedTabId: PropTypes.string.isRequired,
+  notificationsByNoteId: PropTypes.object.isRequired,
+  notificationsByDocumentId: PropTypes.object.isRequired,
 
   locale: PropTypes.string.isRequired,
   params: PropTypes.object.isRequired

@@ -144,7 +144,6 @@ function setCookie (res, name, val, cookieOptions) {
     : Array.isArray(data) ? [prev].concat(data)
       : [prev, data]
 
-      console.log('setting cookie')
   res.setHeader('set-cookie', header)
 }
 

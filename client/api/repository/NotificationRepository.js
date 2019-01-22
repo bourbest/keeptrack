@@ -1,18 +1,14 @@
 import {omit} from 'lodash'
 import {createBaseRepository} from './MongoRepository'
-import {ObjectId} from 'mongodb'
 
 const NotificationRepository = createBaseRepository('Notification')
 
-NotificationRepository.prototype.convertFilters = (filters) => {
-  const ret = omit(filters, ['fromDate', 'fromId'])
+NotificationRepository.prototype.convertFilters = function (filters) {
+  const ret = omit(filters, ['fromDate'])
   
-  if (filters.fromDate && filters.fromId) {
+  if (filters.fromDate) {
     ret.createdOn = {
-      $gte: new ISODate(filters.fromDate)
-    }
-    ret.userId = {
-      $gte: ObjectId(filters.fromId)
+      $gt: filters.fromDate
     }
   }
   return ret

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {Link} from 'react-router'
 import {format} from 'date-fns'
 import {SmartTable, Column} from '../../components/SmartTable'
-
+import {translate} from '../../../locales/translate'
 const renderDateColumn = (entity, columnName, column, globals) => {
   const {clientId, id, createdOn} = entity
   const date = format(createdOn, 'YYYY-MM-DD')
@@ -11,7 +11,7 @@ const renderDateColumn = (entity, columnName, column, globals) => {
 }
 
 const DocumentList = (props) => {
-  const {documents, formsById, message} = props
+  const {documents, formsById, message, notificationsByDocumentId, locale} = props
 
   const renderFormName = (entity, columnName, column, globals) => {
     const {formId} = entity
@@ -19,18 +19,34 @@ const DocumentList = (props) => {
     return form.name
   }
 
+  const renderNotification = (entity, columnName, column, globals) => {
+    const {id} = entity
+    const notf = globals.notificationsByDocumentId[id]
+    if (notf) {
+      return (
+        <div className="badge badge-primary clickable" onClick={props.markNotificationAsRead} id={notf.id}>
+          {translate(`notificationTypes.${notf.type}`, locale)}
+        </div>
+      )
+    } else {
+      return ''
+    }
+  }
+
   return (
     <div style={{height: '500px'}}>
-      <SmartTable rows={documents}>
+      <SmartTable rows={documents} notificationsByDocumentId={notificationsByDocumentId}>
         <Column
           label={message('date')}
           name="createdOn"
           renderer={renderDateColumn}
         />
         <Column
-          label={message('date')}
-          name="createdOn"
+          label={message('formName')}
           renderer={renderFormName}
+        />
+        <Column
+          renderer={renderNotification}
         />
       </SmartTable>
     </div>
@@ -40,7 +56,10 @@ const DocumentList = (props) => {
 DocumentList.propTypes = {
   formsById: PropTypes.object.isRequired,
   documents: PropTypes.array.isRequired,
-  message: PropTypes.func.isRequired
+  message: PropTypes.func.isRequired,
+  notificationsByDocumentId: PropTypes.object.isRequired,
+  locale: PropTypes.string.isRequired,
+  markNotificationAsRead: PropTypes.func.isRequired
 }
 
 export default DocumentList

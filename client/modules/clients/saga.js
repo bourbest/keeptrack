@@ -12,6 +12,7 @@ const baseSaga = createBaseSaga(config.entityName, Actions, ActionCreators, getS
 function * clientSaga (action) {
   let errorAction = null
   const clientSvc = yield select(getService, 'clients')
+
   switch (action.type) {
     case Actions.LOAD_CLIENT:
       yield put(ActionCreators.setFetchingEntity(true))

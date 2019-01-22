@@ -17,7 +17,6 @@ import makeStandardToolbar from '../components/behavioral/StandardListToolbar'
 
 import {SmartTable, Column, renderLinkToDetail} from '../components/SmartTable'
 import {Pagination} from '../components/Pagination'
-import { Button } from '../components/controls/SemanticControls'
 
 const labelNamespace = 'clients'
 const StandardToolbar = makeStandardToolbar(ClientActions, ClientSelectors, labelNamespace, 'clients')
@@ -51,11 +50,7 @@ class ListClientsPage extends React.PureComponent {
     const {formError, locale} = this.props
     return (
       <div>
-        <StandardToolbar location={this.props.location}>
-          <Button type="button" onClick={this.props.actions.copyDistributionList}>
-            {this.message('copyDistributionList')}
-          </Button>
-        </StandardToolbar>
+        <StandardToolbar location={this.props.location} />
         <FormError error={formError} locale={locale} />
         <SmartTable
           rows={this.props.entities}

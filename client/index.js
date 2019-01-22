@@ -8,6 +8,8 @@ import rootSaga from './modules/root-saga'
 import configureStore from './store'
 import createI18n from './i18n'
 import {DEFAULT_LOCALE} from './config/const'
+import { getUser } from './modules/authentication/selectors'
+import { ActionCreators as NotfActions } from './modules/notifications/actions'
 
 const lng = DEFAULT_LOCALE
 
@@ -29,6 +31,12 @@ if (lng != null) {
           </I18nextProvider>,
           document.getElementById('mount')
         )
+
+        // start polling if authentifcated
+        const user = getUser(store.getState())
+        if (user && user.id) {
+          store.dispatch(NotfActions.startPolling())
+        }
       })
     })
   })

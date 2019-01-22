@@ -69,7 +69,7 @@ export default function (request, res, props, context) {
       </Provider>
     </I18nextProvider>
   )
-  const run = store.runSaga(rootSaga).done
+  const run = store.runSaga(rootSaga).toPromise()
   store.dispatch(AppActions.setRenderingApp(true))
 
   // Trigger sagas for component to run

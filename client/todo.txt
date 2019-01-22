@@ -1,4 +1,12 @@
 /*
   packager le initdb
   tester avec IE 11
+
+
+
+  Rendu à faire :
+  - afficher le nombre de notifications dans le titre de l'onglet => actuellement renvoie liste
+  - marquer les documents selon la notifications
+  - cliquer sur une notification la marque comme lue
+  - consulter un document le marque comme lu
 */
