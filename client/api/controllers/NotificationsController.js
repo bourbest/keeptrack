@@ -1,14 +1,11 @@
 import {NotificationRepository} from '../repository'
-import {makeFindAllHandler} from './StandardController'
-import {boolean, date, Schema} from 'sapin'
-import {objectId} from '../../modules/common/validate'
+import {makeFindAllHandler, makeHandleDelete} from './StandardController'
+import {boolean, Schema, date} from 'sapin'
 import {parseFilters} from '../middlewares'
 
 const filtersSchema = new Schema({
-  fromDate: date,
-  fromId: objectId,
   isRead: boolean,
-  clientId: objectId
+  fromDate: date
 })
 
 export default (router) => {
@@ -17,4 +14,5 @@ export default (router) => {
       parseFilters(filtersSchema, true),
       makeFindAllHandler(NotificationRepository)
     ])
+    .delete(makeHandleDelete(NotificationRepository))
 }

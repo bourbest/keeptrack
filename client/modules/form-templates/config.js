@@ -75,6 +75,11 @@ const CONTROL_CONFIGS = [
     type: 'grid',
     properties: ['columnCount'],
     isLayout: true
+  },
+  {
+    type: 'address',
+    properties: ['required'],
+    isInput: true
   }
 ]
 
@@ -157,6 +162,12 @@ export const FORM_CONTROLS = [
     labels: {fr: 'Paragraphe', en: 'Paragraph'},
     image: '/public/images/controls/paragraph.png',
     order: 8
+  },
+  {
+    controlType: 'address',
+    labels: {fr: 'Adresse', en: 'Address'},
+    image: '/public/images/controls/paragraph.png',
+    order: 9
   }
 ]
 

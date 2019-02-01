@@ -7,7 +7,7 @@ const EvolutionNoteView = (props) => {
   const {authorName, authorRole, exchangeDate, note, minutes} = props.evolutionNote
   const organismRole = find(props.organismRoles, {value: authorRole})
   return (
-    <div className="box-fifth mb-3">
+    <div>
       <small className="rendered-quill" dangerouslySetInnerHTML={{__html: note}} />
       <div className="foot-note">
         {formatDate(exchangeDate)} - {authorName}
@@ -20,7 +20,8 @@ const EvolutionNoteView = (props) => {
 
 EvolutionNoteView.propTypes = {
   evolutionNote: PropTypes.object.isRequired,
-  organismRoles: PropTypes.array.isRequired
+  organismRoles: PropTypes.array.isRequired,
+  notification: PropTypes.object
 }
 
 export default EvolutionNoteView

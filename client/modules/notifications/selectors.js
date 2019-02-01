@@ -1,4 +1,4 @@
-import {tail} from 'lodash'
+import {map, max} from 'lodash'
 
 const Selectors = {}
 Selectors.getEntities = state => state.notifications.notifications
@@ -6,20 +6,10 @@ Selectors.isFetchingList = state => state.notification.isFetchingList
 
 Selectors.getYoungestNotificationDate = state => {
   let ret = null
-  const notifications = Selectors.getEntities(state)
+  const dates = map(Selectors.getEntities(state), 'createdOn')
   // this array is always sorted by createdOn desc
-  if (notifications.length > 0) {
-    ret = tail(notifications).createdOn
-  }
-  return ret
-}
-
-Selectors.getYoungestNotificationId = state => {
-  let ret = null
-  const notifications = Selectors.getEntities(state)
-  // this array is always sorted by createdOn desc
-  if (notifications.length > 0) {
-    ret = tail(notifications).id
+  if (dates.length > 0) {
+    ret = max(dates)
   }
   return ret
 }

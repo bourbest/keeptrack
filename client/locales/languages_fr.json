@@ -17,6 +17,18 @@
     "password": "Mot de passe",
     "authenticate": "Authentifier"
   },
+  "dashboard": {
+    "my-clients": "Mes participants suivis",
+    "lastName": "Nom",
+    "firstName": "Prénom",
+    "notifications": "Notifications",
+    "newNotes": "{{count}} nouvelle note évolutive",
+    "newNotes_plural": "{{count}} nouvelles notes évolutives",
+    "newDocuments": "{{count}} nouveau document",
+    "newDocuments_plural": "{{count}} nouveaux documents",
+    "updatedDocuments": "{{count}} document mis à jour",
+    "updatedDocuments_plural": "{{count}} documents mis à jour"
+  },
   "clients":{
     "list-title": "Liste des participants",
     "create-title": "Création d'un nouveau participant",
@@ -25,29 +37,16 @@
       "F": "Mme",
       "M": "M."
     },
+    "firstName":"Prénom",
+    "lastName":"Nom",
     "age": "{{age}} ans ({{birthDate}})",
-    "lastName": "Nom",
-    "firstName": "Prénom",
-    "birthDate": "Date de naissance",
-    "origin": "Lieu de résidence",
-    "address": "Adresse",
-    "acceptPublipostage": "Accepte de recevoir des courriels de la part de la Maison l'Éclaircie",
-    "email": "Courriel",
     "notes": "Notes",
-    "gender": "Sexe",
     "documents": "Documents",
     "date": "Date de création",
     "formName": "Formulaire",
     "selectForm": "Sélectionner un formulaire",
-    "mainPhoneNumber": "Téléphone principal",
-    "alternatePhoneNumber": "Téléphone secondaire",
     "evolutionNotes": "Notes évolutives",
-    "noEvolutionNotes": "Aucune note évolutive au dossier",
-    "messageOptions": {
-      "noMessage": "Pas de message",
-      "fullMessage": "Message complet",
-      "nameAndPhoneOnly": "Nom et numéro seulement"
-    }
+    "noEvolutionNotes": "Aucune note évolutive au dossier"
   },
   "evolutionNote": {
     "client": "Participant",
@@ -107,6 +106,11 @@
   },
   "distributionList": {
     "title": "Liste de distribution"
+  },
+  "notificationTypes": {
+    "EVOLUTIVE_NOTE_CREATED": "Nouvelle",
+    "CLIENT_DOCUMENT_CREATED": "Nouveau",
+    "CLIENT_DOCUMENT_MODIFIED": "Modifié"
   },
   "common": {
     "fr":"Français",

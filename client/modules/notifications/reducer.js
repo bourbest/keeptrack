@@ -1,26 +1,23 @@
 import config from './config'
 import { Actions } from './actions'
-import {orderBy, findIndex} from 'lodash'
+import {keyBy, omit, size} from 'lodash'
 
 export const initialState = {
   isFetchingList: false,
-  notifications: []
+  notifications: {}
 }
 
 const notificationsReducer = (state = initialState, action = {}) => {
   switch (action.type) {
     case Actions.SET_NOTIFICATIONS:
-      const newNotifications = [...state.notifications, ...action.notifications]
-      orderBy(newNotifications, ['createdOn'], ['desc'])
-      return {...state, notifications: newNotifications}
+      if (size(action.notifications) > 0) {
+        const newNotifications = {...state.notifications, ...keyBy(action.notifications, 'id')}
+        return {...state, notifications: newNotifications}
+      }
+      return state
 
     case Actions.MARK_LOCAL_AS_READ:
-      const idx = findIndex(state.notifications, {id: action.id})
-      state.notifications[idx] = {
-        ...state.notifications[idx],
-        isRead: action.isRead
-      }
-      return {...state, notifications: [...state.notifications]}
+      return {...state, notifications: omit(state.notifications, action.id)}
 
     case Actions.SET_FETCHING_LIST:
       return {...state, isFetchingList: action.isFetching}

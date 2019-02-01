@@ -9,6 +9,7 @@ import { connect } from 'react-redux'
 // module
 import { ActionCreators as AppActions } from '../../modules/app/actions'
 import { ActionCreators as DashboardActions } from '../../modules/dashboard/actions'
+
 import DashboardSelectors from '../../modules/dashboard/selectors'
 import { getLocale } from '../../modules/app/selectors'
 
@@ -38,10 +39,41 @@ class DashboardPage extends React.PureComponent {
   constructor (props) {
     super(props)
     this.message = createTranslate(labelNamespace, this)
+    this.renderNotifications = this.renderNotifications.bind(this)
   }
 
   componentWillMount () {
     this.props.actions.fetchMyClients()
+  }
+
+  renderNotifications (entity, columnName, column, globals) {
+    const {notificationsByClientId} = this.props
+    const clientId = entity.id
+    const notifications = notificationsByClientId[clientId]
+
+    let notes = null
+    let newDocs = null
+    let updatedDocs = null
+
+    if (notifications) {
+      if (notifications.notes) {
+        notes = <span>{this.message('newNotes', {count: notifications.notes})}<br /></span>
+      }
+      if (notifications.new) {
+        newDocs = <span>{this.message('newDocuments', {count: notifications.new})}<br /></span>
+      }
+      if (notifications.updated) {
+        updatedDocs = <span>{this.message('updatedDocuments', {count: notifications.updated})}<br /></span>
+      }
+    }
+
+    return (
+      <div>
+        {notes}
+        {newDocs}
+        {updatedDocs}
+      </div>
+    )
   }
 
   render () {
@@ -54,6 +86,7 @@ class DashboardPage extends React.PureComponent {
         >
           <Column name="lastName" label={this.message('lastName')} renderer={renderLinkToClient} />
           <Column name="firstName" label={this.message('firstName')} renderer={renderLinkToClient} />
+          <Column name="notifications" label={this.message('notifications')} renderer={this.renderNotifications} />
         </SmartTable>
       </div>
     )
@@ -63,12 +96,14 @@ class DashboardPage extends React.PureComponent {
 const mapStateToProps = (state, props) => {
   return {
     clients: DashboardSelectors.getOrderedClients(state),
+    notificationsByClientId: DashboardSelectors.getClientsNotifications(state),
     locale: getLocale(state)
   }
 }
 
 DashboardPage.propTypes = {
   clients: PropTypes.array.isRequired,
+  notificationsByClientId: PropTypes.object.isRequired,
   locale: PropTypes.string.isRequired
 }
 

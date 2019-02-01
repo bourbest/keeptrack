@@ -158,3 +158,39 @@ Icon.propTypes = {
   name: PropTypes.string.isRequired,
   className: PropTypes.string
 }
+
+export const NavTab = ({active, className, children, ...otherProps}) => {
+  const navClass = active ? 'nav-link active ' : 'nav-link '
+  return (
+    <li className="nav-item clickable">
+      <a className={navClass + className} {...otherProps}>
+        {children}
+      </a>
+    </li>
+  )
+}
+
+NavTab.propTypes = {
+  active: PropTypes.bool,
+  className: PropTypes.string,
+  children: PropTypes.any.isRequired
+}
+
+export const Tab = ({active, className, children}) => {
+  return active ? <div className={className}>{children}</div> : null
+}
+
+Tab.propTypes = {
+  active: PropTypes.bool,
+  children: PropTypes.any,
+  className: PropTypes.string
+}
+
+export const Tabs = ({children, className, ...otherProps}) => (
+  <div className={'p-3 tabs ' + className} {...otherProps}>{children}</div>
+)
+
+Tabs.propTypes = {
+  children: PropTypes.any.isRequired,
+  className: PropTypes.string
+}

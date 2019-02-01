@@ -4,6 +4,7 @@ import config, {CONTROL_CONFIG_BY_TYPE} from '../../../modules/form-templates/co
 import {outputField} from '../../components/GenericForm/DynamicField'
 import {Icon, Column} from '../../components/controls/SemanticControls'
 import {reduxForm} from 'redux-form'
+import {some} from 'lodash'
 
 const DeleteHandle = (props) => (
   <label corner className="deleteHandle" data-control-id={props.controlId}>
@@ -50,12 +51,13 @@ class DynamicForm extends React.PureComponent {
     if (controlConfig.isLayout) {
       const children = controlIdsByParentId[controlId] || []
       const containerClass = field.id === this.props.selectedControlId ? 'selectedForEdit form-zone' : 'form-zone'
-      const dragClasses = !field.isSystem ? 'accept-drop drag-container d-flex flex-wrap' : 'd-flex flex-wrap'
+      const dragClasses = 'accept-drop drag-container d-flex flex-wrap'
+      const preventDeleteLayout = some(children, childId => controlsById[childId].isSystem)
       return (
         <div key={controlId} data-control-id={controlId} className={containerClass}>
           <div className="grid-toolbar">
             <span>Section</span>
-            {!field.isSystem &&
+            {!preventDeleteLayout &&
               <button type="button" name="delete" className="close deleteSectionButton float-right" data-control-id={controlId}>
                 &times;
               </button>
@@ -69,13 +71,16 @@ class DynamicForm extends React.PureComponent {
                 if (childId === this.props.selectedControlId) childClasses.push('selectedForEdit')
                 if (controlsErrorsById[childId]) childClasses.push('with-error')
 
+                const childField = controlsById[childId]
                 return (
                   <Column columns={12 / field.columnCount} className={childClasses.join(' ')} key={childId} data-control-id={childId}>
-                    <div className="top-corner-triangle deleteFieldButton" data-control-id={childId}>
-                      <button type="button" className="close deleteButton">
-                        &times;
-                      </button>
-                    </div>
+                    {!childField.isSystem &&
+                      <div className="top-corner-triangle deleteFieldButton" data-control-id={childId}>
+                        <button type="button" className="close deleteButton">
+                          &times;
+                        </button>
+                      </div>
+                    }
                     {this.renderControl(childId)}
                   </Column>
                 ) }

@@ -11,7 +11,7 @@ const getRangeValidator = (minValue, maxValue) => {
 const getValidationsForField = (field) => {
   const validations = []
 
-  if (field.isRequired) {
+  if (field.required) {
     validations.push(required)
   }
 
@@ -35,6 +35,16 @@ const getValidationsForField = (field) => {
     case 'checkbox-list':
       return arrayOf(string(validations))
 
+    case 'address':
+      const reqString = field.required ? string(required) : string()
+      return {
+        civicNumber: reqString,
+        streetName: reqString,
+        app: string,
+        city: reqString,
+        postalCode: reqString
+      }
+
     default:
       const minValue = !isNil(field.minValue) ? parseFloat(field.minValue) : null
       const maxValue = !isNil(field.maxValue) ? parseFloat(field.maxValue) : null
@@ -46,11 +56,16 @@ const getValidationsForField = (field) => {
   }
 }
 
-export const buildSchemaForFields = (fields) => {
+export const buildSchemaForFields = (fields, setAtRoot = false) => {
   const schema = {}
   forEach(fields, field => {
     const validations = getValidationsForField(field)
     schema[field.id] = validations
   })
-  return new Schema({values: schema})
+
+  if (setAtRoot) {
+    return new Schema(schema)
+  } else {
+    return new Schema({values: schema})
+  }
 }

@@ -12,8 +12,6 @@ export const getLocale = (state) => state.app.locale
 
 export const getDisplayedModalName = (state) => state.app.displayedModalName
 
-export const getOriginOptions = (state) => state.app.listOptionsByListId['Origine'] || EMPTY_ARRAY
-
 export const getOrganismRoleOptions = (state) => state.app.listOptionsByListId['OrganismRole'] || EMPTY_ARRAY
 
 export const getAppRoleOptions = (state) => state.app.listOptionsByListId['AppRole'] || EMPTY_ARRAY

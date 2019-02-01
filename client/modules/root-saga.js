@@ -23,8 +23,8 @@ export default function * rootSaga () {
     ...subscriptionSaga,
     ...formTemplateSaga,
     authenticationSaga,
-    notificationSaga,
-    dashboardSaga,
+    ...notificationSaga,
+    ...dashboardSaga,
     reportSaga
   ])
 }

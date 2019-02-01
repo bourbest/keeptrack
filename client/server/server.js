@@ -64,6 +64,7 @@ connectDatabase(dbConfig.server, dbConfig.dbName)
         } else if (renderProps) {
           renderReact(req, res, renderProps, context)
         } else {
+          console.log("not found")
           res.status(404).send('Not found')
         }
       })

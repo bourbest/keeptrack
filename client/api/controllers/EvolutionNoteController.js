@@ -6,6 +6,9 @@ import {evolutionNoteSchema} from '../../modules/evolution-notes/schema'
 import {boolean, Schema} from 'sapin'
 import {parseFilters, parsePagination} from '../middlewares'
 
+import {createClientNotifications} from './notifications/create-notifications'
+import {NotificationTypes} from '../../modules/notifications/schema'
+
 const ACCEPTED_SORT_PARAMS = ['fullName']
 
 const filtersSchema = new Schema({
@@ -40,7 +43,8 @@ export default (router) => {
     ])
     .post([
       preInsert,
-      makeHandlePost(EvolutionNoteRepository)
+      makeHandlePost(EvolutionNoteRepository),
+      createClientNotifications({type: NotificationTypes.EvolutiveNoteCreated })
     ])
   router.route('/evolution-notes/:id')
     .get(makeFindById(EvolutionNoteRepository))

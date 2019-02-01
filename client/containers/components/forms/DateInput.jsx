@@ -8,9 +8,11 @@ export default class DateInput extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleDayChanged = this.handleDayChanged.bind(this)
+    this.handleBlur = this.handleBlur.bind(this)
     this.inputProps = {
       className: 'form-control',
-      placeholder: 'AAAA-MM-JJ'
+      placeholder: 'AAAA-MM-JJ',
+      onBlur: this.handleBlur
     }
     this.classNames = {
       container: 'd-block size-10',
@@ -26,10 +28,16 @@ export default class DateInput extends React.PureComponent {
     }
   }
 
+  handleBlur (event) {
+    this.props.onChange(event.target.value)
+    this.props.onBlur()
+  }
+
   render () {
     const { value, ...otherProps } = this.props
     const dateProps = omit(otherProps, ['value', 'onChange'])
     const theDay = !isNil(value) && value !== '' ? new Date(value) : null
+
     return (
       <DayPickerInput
         onDayChange={this.handleDayChanged}

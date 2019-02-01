@@ -38,25 +38,31 @@ class FieldAttributesEditor extends React.PureComponent {
         <FormError error={error} locale={locale} />
         <Form>
           {properties.has('labels') && editedField.controlType !== 'paragraph' &&
-            <Field name="labels.fr" label={this.message('labelFr')} required component={FieldWrapper} InputControl={Input} locale={locale} />
+            <Field name="labels.fr" label={this.message('labelFr')} required component={FieldWrapper}
+              InputControl={Input} locale={locale} readOnly={editedField.lockLabels} />
           }
           {properties.has('labels') && editedField.controlType !== 'paragraph' &&
-            <Field name="labels.en" label={this.message('labelEn')} required component={FieldWrapper} InputControl={Input} locale={locale} />
+            <Field name="labels.en" label={this.message('labelEn')} required component={FieldWrapper}
+              InputControl={Input} locale={locale} readOnly={editedField.lockLabels} />
           }
 
           {properties.has('labels') && editedField.controlType === 'paragraph' &&
-            <Field name="labels.fr" label={this.message('labelFr')} required component={FieldWrapper} InputControl={FormHtmlEditor} locale={locale} />
+            <Field name="labels.fr" label={this.message('labelFr')} required component={FieldWrapper}
+              InputControl={FormHtmlEditor} locale={locale} readOnly={editedField.lockLabels} />
           }
           {properties.has('labels') && editedField.controlType === 'paragraph' &&
-            <Field name="labels.en" label={this.message('labelEn')} required component={FieldWrapper} InputControl={FormHtmlEditor} locale={locale} />
+            <Field name="labels.en" label={this.message('labelEn')} required component={FieldWrapper}
+              InputControl={FormHtmlEditor} locale={locale} readOnly={editedField.lockLabels} />
           }
 
-          {properties.has('isRequired') &&
-            <Field name="isRequired" label={this.message('isRequired')} component={FieldWrapper} InputControl={Checkbox} locale={locale} />
+          {properties.has('required') &&
+            <Field name="required" label={this.message('isRequired')} component={FieldWrapper}
+              InputControl={Checkbox} locale={locale} disabled={editedField.lockRequired} />
           }
 
           {properties.has('maxLength') &&
-            <Field name="maxLength" label={this.message('maxLength')} component={FieldWrapper} InputControl={Input} locale={locale} />
+            <Field name="maxLength" label={this.message('maxLength')} component={FieldWrapper}
+              InputControl={Input} locale={locale} readOnly={editedField.lockMaxLength} />
           }
 
           {properties.has('columnCount') &&
@@ -72,23 +78,28 @@ class FieldAttributesEditor extends React.PureComponent {
           }
 
           {editedField.controlType === 'date' &&
-            <Field name="useCurrentDateAsDefaultValue" label={this.message('useCurrentDateAsDefaultValue')} component={FieldWrapper} InputControl={Checkbox} locale={locale} />
+            <Field name="useCurrentDateAsDefaultValue" label={this.message('useCurrentDateAsDefaultValue')}
+              component={FieldWrapper} InputControl={Checkbox} locale={locale} />
           }
 
           {editedField.controlType === 'date' &&
-            <Field name="minValue" label={this.message('minValue')} component={FieldWrapper} InputControl={DateInput} locale={locale} />
+            <Field name="minValue" label={this.message('minValue')} component={FieldWrapper}
+              InputControl={DateInput} locale={locale} readOnly={editedField.lockMinValue} />
           }
 
           {editedField.controlType === 'date' &&
-            <Field name="maxValue" label={this.message('maxValue')} component={FieldWrapper} InputControl={DateInput} locale={locale} />
+            <Field name="maxValue" label={this.message('maxValue')} component={FieldWrapper}
+              InputControl={DateInput} locale={locale} readOnly={editedField.lockMaxValue} />
           }
 
           {editedField.controlType !== 'date' && properties.has('minValue') &&
-            <Field name="minValue" label={this.message('minValue')} component={FieldWrapper} InputControl={Input} locale={locale} />
+            <Field name="minValue" label={this.message('minValue')} component={FieldWrapper}
+              InputControl={Input} locale={locale} readOnly={editedField.lockMinValue} />
           }
 
           {editedField.controlType !== 'date' && properties.has('maxValue') &&
-            <Field name="maxValue" label={this.message('maxValue')} component={FieldWrapper} InputControl={Input} locale={locale} />
+            <Field name="maxValue" label={this.message('maxValue')} component={FieldWrapper}
+              InputControl={Input} locale={locale} readOnly={editedField.lockMaxValue} />
           }
 
           {properties.has('choices') &&
@@ -99,6 +110,7 @@ class FieldAttributesEditor extends React.PureComponent {
               choices={editedField.choices}
               onChoiceDeleted={this.props.onChoiceDeleted}
               onAddChoice={this.props.onAddChoice}
+              lockChoiceValues={editedField.lockChoiceValues}
             />
           }
         </Form>

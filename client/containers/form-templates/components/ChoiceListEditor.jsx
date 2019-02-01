@@ -24,7 +24,7 @@ class ChoiceListEditor extends React.PureComponent {
   }
 
   render () {
-    const {choices, meta: {error}, locale} = this.props
+    const {choices, meta: {error}, locale, lockChoiceValues} = this.props
     return (
       <div>
         <h4>{this.message('choices')}</h4>
@@ -55,22 +55,25 @@ class ChoiceListEditor extends React.PureComponent {
                   </td>
                   <td>
                     <div className="d-flex justify-content-start">
-                      <Field component={FieldWrapper} InputControl={Input} style={{width: '50px'}} name={`${baseFieldName}.value`} locale={locale} autoComplete="off" />
+                      <Field component={FieldWrapper} InputControl={Input} style={{width: '50px'}} name={`${baseFieldName}.value`}
+                        locale={locale} autoComplete="off" readOnly={lockChoiceValues} />
                     </div>
                   </td>
                   <td>
-                    <div className="d-flex justify-content-start mb-3">
-                      <Button type='button' data-index={index} onClick={this.handleChoiceDeleted}>
-                        X
-                      </Button>
-                    </div>
+                    {!lockChoiceValues &&
+                      <div className="d-flex justify-content-start mb-3">
+                        <Button type='button' data-index={index} onClick={this.handleChoiceDeleted}>
+                          X
+                        </Button>
+                      </div>
+                    }
                   </td>
                 </tr>
               )
             })}
           </tbody>
         </table>
-        <a href="#" onClick={this.handleAddChoice}>{this.message('addChoice')}</a>
+        {!lockChoiceValues && <a href="#" onClick={this.handleAddChoice}>{this.message('addChoice')}</a>}
       </div>
     )
   }
@@ -80,7 +83,8 @@ ChoiceListEditor.propTypes = {
   choices: PropTypes.array.isRequired,
   locale: PropTypes.string.isRequired,
   onChoiceDeleted: PropTypes.func.isRequired,
-  onAddChoice: PropTypes.func.isRequired
+  onAddChoice: PropTypes.func.isRequired,
+  lockChoiceValues: PropTypes.bool
 }
 
 export default ChoiceListEditor

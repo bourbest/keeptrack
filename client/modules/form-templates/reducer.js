@@ -1,29 +1,15 @@
 import config from './config'
-import {omit, without, keyBy, forEach, map, sortBy, groupBy} from 'lodash'
+import {omit, without} from 'lodash'
 import { baseInitialState, baseActionsHandler, inheritReducer } from '../common/reducers'
 import { Actions } from './actions'
 import { validateNode, validateNodes } from './validate'
+import {getNodesById, getOrderedNodesByParentId} from './form-node-utils'
 
 const initialState = {...baseInitialState,
   // edited entity
   editedFormNodesById: {},
   editedFormNodesByParentId: {'c0': []},
   editedFormNodesErrors: {}
-}
-
-const getNodesById = (fields) => {
-  const strippedNodes = map(fields, field => omit(field, 'parentId'))
-  return keyBy(strippedNodes, 'id')
-}
-
-const getOrderedNodesByParentId = (fields) => {
-  const groupedNodes = groupBy(fields, 'parentId')
-  const ret = {}
-  forEach(groupedNodes, (nodes, parentId) => {
-    const orderedNodes = sortBy(nodes, 'order')
-    ret[parentId] = map(orderedNodes, 'id')
-  })
-  return ret
 }
 
 const setNodeInTree = (tree, parentId, beforeSiblingId, node) => {

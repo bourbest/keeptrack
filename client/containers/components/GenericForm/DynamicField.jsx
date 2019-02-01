@@ -1,8 +1,8 @@
 import React from 'react'
 import {pick} from 'lodash'
-import {Field} from 'redux-form'
+import {Field, FormSection} from 'redux-form'
 
-import {Input, DateInput, Checkbox, TextArea, CheckboxList, RadioButtons, Select, FieldWrapper} from '../forms'
+import {Input, DateInput, Checkbox, TextArea, CheckboxList, RadioButtons, Select, AddressField, FieldWrapper} from '../forms'
 import FormHeader from './FormHeader'
 import { Grid } from '../controls/SemanticControls'
 import FormParagraph from './FormParagraph'
@@ -15,6 +15,10 @@ const INPUT_CONTROL_MAP = {
   'checkbox-list': CheckboxList,
   'combobox': Select,
   'date': DateInput
+}
+
+const INPUT_GROUP_CONTROL_MAP = {
+  'address': AddressField
 }
 
 const LAYOUT_CONTROLS_MAP = {
@@ -32,6 +36,8 @@ const getInputControl = (controlType) => INPUT_CONTROL_MAP[controlType] || null
 const getFieldComponent = (controlType) => {
   return LAYOUT_CONTROLS_MAP[controlType] || FieldWrapper
 }
+
+const getInputGroupComponent = (controlType) => INPUT_GROUP_CONTROL_MAP[controlType] || null
 
 const buildOptions = (field, locale) => {
   const options = pick(field, DOM_FIELD_OPTIONS)
@@ -58,12 +64,15 @@ const buildOptions = (field, locale) => {
     options.label = field.labels[locale]
   }
 
+  options.locale = locale
   return options
 }
 
 export const outputField = (field, locale) => {
   const InputControl = getInputControl(field.controlType)
   const Component = getFieldComponent(field.controlType)
+  const InputGroup = getInputGroupComponent(field.controlType)
+
   const controlId = field.id
   const options = buildOptions(field, locale)
 
@@ -79,6 +88,12 @@ export const outputField = (field, locale) => {
         component={Component}
         InputControl={InputControl}
       />)
+  } else if (InputGroup) {
+    return (
+      <FormSection name={field.id}>
+        <InputGroup key={controlId} id={controlId} {...options} />
+      </FormSection>
+    )
   }
 
   return <Component key={controlId} id={controlId} {...options} />

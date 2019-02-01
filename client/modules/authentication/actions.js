@@ -1,12 +1,15 @@
 import config from './config'
 import { stopSubmit } from 'redux-form'
-const actionPrefix = 'AUTH/'
+import { createActions } from '../common/actions'
+const prefix = 'AUTH/'
 
-export const Actions = {
-  LOG_IN: `${actionPrefix}LOG_IN`,
-  SET_USER: `${actionPrefix}SET_USER`,
-  LOG_OUT: `${actionPrefix}LOG_OUT`
-}
+const actions = [
+  'LOG_IN',
+  'SET_USER',
+  'LOG_OUT'
+]
+
+export const Actions = createActions(prefix, actions)
 
 export const ActionCreators = {
   loginUser: (username, password, redirect) => ({ type: Actions.LOG_IN, username, password, redirect }),
