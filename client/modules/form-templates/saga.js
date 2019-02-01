@@ -1,5 +1,5 @@
 import config from './config'
-import {call, put, select, takeEvery} from 'redux-saga/effects'
+import {call, put, select, takeEvery, all} from 'redux-saga/effects'
 import {omit} from 'lodash'
 
 import { Actions, ActionCreators } from './actions'
@@ -22,9 +22,11 @@ const specificFormSaga = function * baseSaga (action) {
         const svc = yield select(getService, config.entityName)
         const entity = yield call(svc.get, action.id)
         const formData = omit(entity, 'fields')
-        yield put(ActionCreators.setEditedEntity(formData))
-        yield put(ActionCreators.setEditedFormFields(entity.fields))
-        yield put(ActionCreators.resetEditedEntity())
+        yield all([
+          put(ActionCreators.setEditedEntity(formData)),
+          put(ActionCreators.setEditedFormFields(entity.fields)),
+          put(ActionCreators.resetEditedEntity())
+        ])
       } catch (error) {
         errorAction = handleError(config.entityName, error)
       }

@@ -1,14 +1,15 @@
-import {ClientRepository, EvolutionNoteRepository, ClientFeedSubcriptionRepository} from '../repository'
+import {ClientRepository, EvolutionNoteRepository, ClientFeedSubcriptionRepository, FormTemplateRepository} from '../repository'
 import {
   makeFindAllHandler, makeFindById, makeHandleArchive, makeHandlePost, makeHandlePut,
   makeHandleRestore
 } from './StandardController'
-import {entityFromBody, parsePagination, parseFilters} from '../middlewares'
-import {clientSchema} from '../../modules/clients/schema'
+import {parsePagination, parseFilters} from '../middlewares'
+import {buildSchemaForFields} from '../../modules/form-templates/dynamic-form-validation'
 
-import {string, boolean, Schema} from 'sapin'
+import {string, boolean, Schema, validate, transform} from 'sapin'
 import {isArray} from 'lodash'
 import {ObjectId} from 'mongodb'
+import { CLIENT_FORM_ID } from '../../modules/const'
 
 const filtersSchema = new Schema({
   contains: string,
@@ -58,17 +59,34 @@ function getEmailDistributionList (req, res, next) {
     .catch(next)
 }
 
+function validateClient (req, res, next) {
+  const formsRepo = new FormTemplateRepository(req.database)
+  formsRepo.findById(CLIENT_FORM_ID)
+    .then(formTemplate => {
+      if (!formTemplate) {
+        return next({httpStatus: 500, message: 'System Client Form Template not found'})
+      }
+      const schema = buildSchemaForFields(formTemplate.fields, true)
+      const errors = validate(req.body, schema)
+      if (errors) {
+        return next({httpStatus: 400, message: 'Document does does not respect Form Schema', errors})
+      }
+      req.entity = transform(req.body, schema)
+      next()
+    })
+    .catch(next)
+}
+
 const ACCEPTED_SORT_PARAMS = ['fullName']
 
 export default (router) => {
-  const validateSchema = entityFromBody(clientSchema)
   router.route('/client-files')
     .get([
       parsePagination(ACCEPTED_SORT_PARAMS),
       parseFilters(filtersSchema),
       makeFindAllHandler(ClientRepository)
     ])
-    .post([validateSchema, makeHandlePost(ClientRepository)])
+    .post([validateClient, makeHandlePost(ClientRepository)])
 
   router.route('/client-files/archive')
     .post([
@@ -84,7 +102,7 @@ export default (router) => {
 
   router.route('/client-files/:id')
     .get(makeFindById(ClientRepository))
-    .put([validateSchema, makeHandlePut(ClientRepository)])
+    .put([validateClient, makeHandlePut(ClientRepository)])
 
   router.route('/client-files/:id/evolution-notes')
     .get(getDocumentsByClientId(EvolutionNoteRepository))

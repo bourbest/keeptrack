@@ -1,6 +1,6 @@
 const AppRoles = require('../modules/accounts/roles')
 const {values} = require('lodash')
-const {MongoClient} = require('mongodb')
+const {MongoClient, ObjectId} = require('mongodb')
 
 const bcrypt = require('bcryptjs')
 const path = require('path')
@@ -21,6 +21,9 @@ const LIST_OPTIONS = [
   {_id: 303, value: AppRoles.statsProducer, listId: 'AppRole', name: 'Consulter les rapports'},
   {_id: 304, value: AppRoles.usersManager, listId: 'AppRole', name: 'Administrer les comptes utilisateurs'}
 ]
+
+const clientFormData = require('./client-form-data')
+const {CLIENT_FORM_ID} = require('../modules/const')
 
 const initializeListOptions = (db) => {
   console.log('init option list')
@@ -121,6 +124,22 @@ getDbConfig = function (argv) {
   return config.db
 }
 
+const createSystemForms = (db) => {
+  console.log('create system forms')
+  const formRepo = db.collection('FormTemplate')
+  const promises = []
+  const options = {upsert: true}
+
+  const clientForm = {...clientFormData, _id: new ObjectId(CLIENT_FORM_ID)}
+  promises.push(formRepo.replaceOne({_id: clientForm._id}, clientForm, options))
+
+  return Promise.all(promises)
+    .then(() => {
+      console.log('forms inserted')
+      return db
+    })
+}
+
 const dbConfig = getDbConfig(process.argv);
 
 (async () => {
@@ -133,6 +152,7 @@ const dbConfig = getDbConfig(process.argv);
     .then(createIndexes)
     .then(initializeListOptions)
     .then(initializeAdminUser)
+    .then(createSystemForms)
     .then(() => {
       console.log('initdb complete')
     })

@@ -5,8 +5,22 @@
 
 
   Rendu à faire :
+    - Validations standard sur les input (nombre, téléphone, courriel)
   - afficher le nombre de notifications dans le titre de l'onglet => actuellement renvoie liste
   - marquer les documents selon la notifications
   - cliquer sur une notification la marque comme lue
-  - consulter un document le marque comme lu
+  
+  - Propriété de formulaires : 
+    - lien client : aucun, possible, obligatoire
+    - date document : creation, champ manuel
+    - libellés date document
+    - statut brouillon ?
+
+  - Groupe de sécurité
+  - Archiver les valeur dans le listes de formulaire et permettre l'affichage même archivé
+  - Moteur de rapport simple
+  - Administrer les menus pour création formulaire direct + droits dans les groupes
+  - Panneau d'administration avec des explications pour chaque setting
+  
+  - Sécurité sur les calls API  
 */

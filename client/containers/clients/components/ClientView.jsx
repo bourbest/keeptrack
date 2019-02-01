@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {Link} from 'react-router'
-import {find} from 'lodash'
 import {Icon} from '../../components/controls/SemanticControls'
 
 // Components
@@ -39,9 +38,9 @@ class ClientView extends React.PureComponent {
     return null
   }
 
-  renderPhone (phone) {
+  renderPhone (phone, messageOptionsById) {
     if (phone && phone.value) {
-      const messageOptionText = this.message(`messageOptions.${phone.messageOption}`)
+      const messageOptionText = messageOptionsById[phone.messageOption]
       return (
         <span>
           <Icon name="phone" className="mr-2" />
@@ -54,8 +53,8 @@ class ClientView extends React.PureComponent {
   }
 
   render () {
-    const {client, originOptionList, locale} = this.props
-    const origin = find(originOptionList, {value: client.originId})
+    const {client, originOptionsById, messageOptionsById, locale} = this.props
+    const origin = originOptionsById[client.originId]
     return (
       <div>
         <div className="row">
@@ -70,10 +69,10 @@ class ClientView extends React.PureComponent {
                 <Icon name="mail-alt" className="mr-2" />{client.email}<br />
               </span>
             }
-            {this.renderPhone(client.mainPhoneNumber)}
-            {this.renderPhone(client.alternatePhoneNumber)}
+            {this.renderPhone(client.mainPhoneNumber, messageOptionsById)}
+            {this.renderPhone(client.alternatePhoneNumber, messageOptionsById)}
             <span>
-              <Icon name="home" className="mr-2" />{origin.label}
+              <Icon name="home" className="mr-2" />{origin}
             </span>
             <AddressTile address={client.address} />
           </div>
@@ -94,7 +93,8 @@ class ClientView extends React.PureComponent {
 
 ClientView.propTypes = {
   locale: PropTypes.string.isRequired,
-  originOptionList: PropTypes.array.isRequired
+  originOptionsById: PropTypes.object.isRequired,
+  messageOptionsById: PropTypes.object.isRequired
 }
 
 export default ClientView

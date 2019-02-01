@@ -5,7 +5,9 @@ import { Actions } from './actions'
 const initialState = {
   ...baseInitialState,
   selectedFormId: null,
-  selectedTabId: 'notes'
+  selectedTabId: 'notes',
+  isFetchingClientForm: false,
+  clientForm: null
 }
 
 const specificReducer = (state, action) => {
@@ -16,6 +18,11 @@ const specificReducer = (state, action) => {
     case Actions.SET_SELECTED_TAB_ID:
       return {...state, selectedTabId: action.tabId}
 
+    case Actions.SET_FETCHING_CLIENT_FORM:
+      return {...state, isFetchingClientForm: action.isFetching}
+
+    case Actions.SET_CLIENT_FORM:
+      return {...state, clientForm: action.form}
   }
   return state
 }

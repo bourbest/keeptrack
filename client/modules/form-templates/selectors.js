@@ -2,7 +2,6 @@ import config, {CONTROL_CONFIG_BY_TYPE, DEFAULT_CONTROL_OPTIONS} from './config'
 import {isEmpty, max, map, pick, size, filter} from 'lodash'
 import { getFormValues } from 'redux-form'
 import { createSelector } from 'reselect'
-
 import {
   EMPTY_ARRAY,
   createBaseSelectors,

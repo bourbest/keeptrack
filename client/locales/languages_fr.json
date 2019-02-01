@@ -37,29 +37,16 @@
       "F": "Mme",
       "M": "M."
     },
+    "firstName":"Prénom",
+    "lastName":"Nom",
     "age": "{{age}} ans ({{birthDate}})",
-    "lastName": "Nom",
-    "firstName": "Prénom",
-    "birthDate": "Date de naissance",
-    "origin": "Lieu de résidence",
-    "address": "Adresse",
-    "acceptPublipostage": "Accepte de recevoir des courriels de la part de la Maison l'Éclaircie",
-    "email": "Courriel",
     "notes": "Notes",
-    "gender": "Sexe",
     "documents": "Documents",
     "date": "Date de création",
     "formName": "Formulaire",
     "selectForm": "Sélectionner un formulaire",
-    "mainPhoneNumber": "Téléphone principal",
-    "alternatePhoneNumber": "Téléphone secondaire",
     "evolutionNotes": "Notes évolutives",
-    "noEvolutionNotes": "Aucune note évolutive au dossier",
-    "messageOptions": {
-      "noMessage": "Pas de message",
-      "fullMessage": "Message complet",
-      "nameAndPhoneOnly": "Nom et numéro seulement"
-    }
+    "noEvolutionNotes": "Aucune note évolutive au dossier"
   },
   "evolutionNote": {
     "client": "Participant",

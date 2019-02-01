@@ -41,13 +41,16 @@ export class SmartTable extends React.PureComponent {
 
   renderRow (row, rowIndex) {
     const cells = []
-
     if (this.props.selectable) {
-      cells.push((
-        <td key="check" className="selectRowCell">
-          <input type="checkbox" className="ui checkbox" checked={this.selectedItemIds.has(row.id)} onChange={this.handleRowSelected} value={row.id} />
-        </td>)
-      )
+      if (!this.props.canSelectRow || this.props.canSelectRow(row)) {
+        cells.push((
+          <td key="check" className="selectRowCell">
+            <input type="checkbox" className="ui checkbox" checked={this.selectedItemIds.has(row.id)} onChange={this.handleRowSelected} value={row.id} />
+          </td>)
+        )
+      } else {
+        cells.push(<td key="check" />)
+      }
     }
 
     for (let columnIdx = 0; columnIdx < this.columns.length; columnIdx++) {
@@ -89,6 +92,7 @@ SmartTable.propTypes = {
   selectedItemIds: PropTypes.array,
   selectable: PropTypes.bool,
   onRowSelected: PropTypes.func,
+  canSelectRow: PropTypes.func,
   globals: PropTypes.any
 }
 

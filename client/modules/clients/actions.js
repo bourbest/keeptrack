@@ -8,7 +8,11 @@ const BaseActions = createActions(prefix, standardActions)
 const SpecificActions = createActions(prefix, [
   'LOAD_CLIENT',
   'SET_SELECTED_FORM_ID',
-  'SET_SELECTED_TAB_ID'
+  'SET_SELECTED_TAB_ID',
+
+  'FETCH_CLIENT_FORM',
+  'SET_FETCHING_CLIENT_FORM',
+  'SET_CLIENT_FORM'
 ])
 
 const BaseActionCreators = createBaseActionCreators(BaseActions, config.entityName)
@@ -17,7 +21,11 @@ const BaseActionCreators = createBaseActionCreators(BaseActions, config.entityNa
 BaseActionCreators.fetchEditedEntity = (clientId) => ({type: SpecificActions.LOAD_CLIENT, clientId})
 const SpecificActionCreators = {
   setSelectedFormId: (formId) => ({type: SpecificActions.SET_SELECTED_FORM_ID, formId}),
-  setSelectedTabId: tabId => ({type: SpecificActions.SET_SELECTED_TAB_ID, tabId})
+  setSelectedTabId: tabId => ({type: SpecificActions.SET_SELECTED_TAB_ID, tabId}),
+
+  fetchClientForm: () => ({type: SpecificActions.FETCH_CLIENT_FORM}),
+  setFetchingClientForm: (isFetching) => ({type: SpecificActions.SET_FETCHING_CLIENT_FORM, isFetching}),
+  setClientForm: (form) => ({type: SpecificActions.SET_CLIENT_FORM, form})
 }
 
 export const Actions = {...BaseActions, ...SpecificActions}

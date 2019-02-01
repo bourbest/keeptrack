@@ -46,6 +46,10 @@ class ListFormsPage extends React.PureComponent {
     }
   }
 
+  canSelectRow (row) {
+    return !row.isSystem
+  }
+
   render () {
     const {formError, locale} = this.props
     return (
@@ -58,6 +62,7 @@ class ListFormsPage extends React.PureComponent {
           selectedItemIds={this.props.selectedItemIds}
           onRowSelected={this.props.actions.toggleSelectedItem}
           location={this.props.location}
+          canSelectRow={this.canSelectRow}
         >
           <Column name="name" label={this.message('name')} renderer={renderLinkToDetail} />
         </SmartTable>

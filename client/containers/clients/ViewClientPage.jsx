@@ -15,9 +15,10 @@ import { ActionCreators as SubscriptionActions } from '../../modules/client-feed
 import { ActionCreators as NotfActions } from '../../modules/notifications/actions'
 
 import ClientSelectors from '../../modules/clients/selectors'
+import ClientFormSelectors from '../../modules/clients/client-form-selectors'
 import SubscriptionSelectors from '../../modules/client-feed-subscriptions/selectors'
 import FormSelectors from '../../modules/form-templates/selectors'
-import {getLocale, getOrganismRoleOptions, getOriginOptions} from '../../modules/app/selectors'
+import {getLocale, getOrganismRoleOptions} from '../../modules/app/selectors'
 import {getUser} from '../../modules/authentication/selectors'
 
 // sections tabs components
@@ -63,6 +64,7 @@ class ViewClientPage extends React.PureComponent {
     this.props.subscriptionActions.fetchList({userId: this.props.user.id})
     this.props.actions.clearEditedEntity()
     this.props.actions.fetchEditedEntity(id)
+    this.props.actions.fetchClientForm()
   }
 
   handleFormSelected (event) {
@@ -108,7 +110,7 @@ class ViewClientPage extends React.PureComponent {
   }
 
   render () {
-    const {locale, client, originOptionList, organismRoleList, notificationsByNoteId, notificationsByDocumentId} = this.props
+    const {locale, client, originOptionsById, messageOptionsById, organismRoleList, notificationsByNoteId, notificationsByDocumentId} = this.props
     if (!client) return null
     const {selectedFormId, selectedTabId} = this.props
     const clientName = `${client.firstName} ${client.lastName}`
@@ -126,7 +128,8 @@ class ViewClientPage extends React.PureComponent {
             <ClientView
               locale={locale}
               client={client}
-              originOptionList={originOptionList}
+              originOptionsById={originOptionsById}
+              messageOptionsById={messageOptionsById}
             />
           </div>
 
@@ -205,7 +208,8 @@ const mapStateToProps = (state) => {
     feedSubscription: SubscriptionSelectors.getUserSubscriptiondToEditedClientFeed(state),
     user: getUser(state),
 
-    originOptionList: getOriginOptions(state),
+    originOptionsById: ClientFormSelectors.getClientFormOriginOptions(state),
+    messageOptionsById: ClientFormSelectors.getClientFormMessageOptions(state),
     organismRoleList: getOrganismRoleOptions(state),
 
     formsById: FormSelectors.getEntities(state),
@@ -228,7 +232,8 @@ ViewClientPage.propTypes = {
   feedSubscription: PropTypes.object,
   user: PropTypes.object.isRequired,
 
-  originOptionList: PropTypes.array.isRequired,
+  originOptionsById: PropTypes.object.isRequired,
+  messageOptionsById: PropTypes.object.isRequired,
   organismRoleList: PropTypes.array.isRequired,
 
   formOptionList: PropTypes.array.isRequired,

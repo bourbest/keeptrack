@@ -5,16 +5,16 @@ import {getService} from '../app/selectors'
 import Selectors from './selectors'
 import { handleError } from '../commonHandlers'
 import {select, put, call, takeEvery} from 'redux-saga/effects'
+import { CLIENT_FORM_ID } from '../const'
 // Saga
 const baseSaga = createBaseSaga(config.entityName, Actions, ActionCreators, getService, Selectors, handleError)
 
 // Saga
 function * clientSaga (action) {
   let errorAction = null
-  const clientSvc = yield select(getService, 'clients')
-
   switch (action.type) {
     case Actions.LOAD_CLIENT:
+      const clientSvc = yield select(getService, 'clients')
       yield put(ActionCreators.setFetchingEntity(true))
       try {
         const promises = [
@@ -33,6 +33,18 @@ function * clientSaga (action) {
       yield put(ActionCreators.setFetchingEntity(false))
       break
 
+    case Actions.FETCH_CLIENT_FORM:
+      const formSvc = yield select(getService, 'form-templates')
+      yield put(ActionCreators.setFetchingClientForm(true))
+      try {
+        const form = yield call(formSvc.get, CLIENT_FORM_ID)
+        yield put(ActionCreators.setClientForm(form))
+      } catch (error) {
+        errorAction = handleError(config.entityName, error)
+      }
+      yield put(ActionCreators.setFetchingClientForm(false))
+      break
+
     default:
       throw new Error('Unexpected action in clientSaga')
   }
@@ -44,5 +56,5 @@ function * clientSaga (action) {
 
 export default [
   createBaseSagaWatcher(Actions, baseSaga),
-  takeEvery(Actions.LOAD_CLIENT, clientSaga)
+  takeEvery([Actions.LOAD_CLIENT, Actions.FETCH_CLIENT_FORM], clientSaga)
 ]
