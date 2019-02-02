@@ -132,4 +132,6 @@ Selectors.getFormSchema = createSelector(
   }
 )
 
+Selectors.getShowArchivedChoices = state => state[config.entityName].showArchivedChoices
+
 export default Selectors

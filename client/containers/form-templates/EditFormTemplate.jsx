@@ -196,9 +196,10 @@ class EditFormTemplate extends React.PureComponent {
               <FieldAttributesEditor
                 locale={locale}
                 editedField={editedField}
+                showArchivedChoices={this.props.showArchivedChoices}
                 onPropertiesChanged={this.props.actions.updateFieldProperties}
-                onChoiceDeleted={this.props.actions.deleteChoice}
                 onAddChoice={this.handleAddChoice}
+                onToggleShowArchived={this.props.actions.toggleShowArchivedChoices}
               />
             </div>
           </div>
@@ -216,6 +217,7 @@ const mapStateToProps = (state) => {
     controlsById: FormsSelectors.getControls(state),
     controlsErrorsById: FormsSelectors.getNodeErrors(state),
     editedField: FormsSelectors.getEditedField(state),
+    showArchivedChoices: FormsSelectors.getShowArchivedChoices(state),
     nextFieldId: FormsSelectors.getNextNodeId(state),
     nextChoiceId: FormsSelectors.getNextChoiceId(state),
     locale: getLocale(state),
@@ -231,6 +233,7 @@ EditFormTemplate.propTypes = {
   controlsById: PropTypes.object.isRequired,
   controlsErrorsById: PropTypes.object.isRequired,
   editedField: PropTypes.object,
+  showArchivedChoices: PropTypes.bool.isRequired,
   nextFieldId: PropTypes.string.isRequired,
   nextChoiceId: PropTypes.number.isRequired,
   locale: PropTypes.string.isRequired,

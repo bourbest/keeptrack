@@ -1,6 +1,6 @@
 import React from 'react'
 import { object, string, arrayOf, oneOfType, array, bool } from 'prop-types'
-import { map, get, orderBy, omit } from 'lodash'
+import { map, get, orderBy, omit, filter } from 'lodash'
 
 class Select extends React.PureComponent {
 
@@ -24,8 +24,9 @@ class Select extends React.PureComponent {
     const filteredValues = omit(props.options, props.omit)
     let options = map(filteredValues, (pk) => {
       return {
-        id: get(pk, idKey),
-        text: get(pk, textKey)
+        id: get(pk, idKey).toString(),
+        text: get(pk, textKey),
+        isArchived: pk.isArchived
       }
     })
 
@@ -62,7 +63,7 @@ class Select extends React.PureComponent {
 
   render () {
     const selectProps = omit(this.props, ['options', 'locale', 'className', 'idProperty', 'textProperty', 'textPropertyByLocale', 'noSelectionValue', 'noSelectionText', 'omit'])
-    const options = this.state.options
+    const options = filter(this.state.options, option => !option.isArchived || option.id === selectProps.value)
     const classes = 'form-control ' + this.props.className || ''
     return (
       <select {...selectProps} className={classes}>

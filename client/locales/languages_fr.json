@@ -95,7 +95,10 @@
     "level": "Niveau",
     "maxFileSize": "Taille maximale de fichier (en Ko)",
     "addExtension": "Ajouter un type de fichier",
-    "choices": "Choix"
+    "choices": "Choix",
+    "showArchived": "Afficher les options archivées",
+    "hideArchived": "Masquer les options archivées",
+    "archived": "archivé"
   },
   "addressControl": {
     "civicNumber": "No civique",
