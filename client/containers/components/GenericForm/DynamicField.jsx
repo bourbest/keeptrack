@@ -51,7 +51,8 @@ const buildOptions = (field, locale) => {
       return {
         value: c.value,
         label: c.labels[locale],
-        id: c.id
+        id: c.id,
+        isArchived: c.isArchived
       }
     })
   }

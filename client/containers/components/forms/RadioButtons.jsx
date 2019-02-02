@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import {filter} from 'lodash'
 
 class RadioButtons extends React.PureComponent {
   constructor (props) {
@@ -14,16 +15,19 @@ class RadioButtons extends React.PureComponent {
   render () {
     const {value, options, disabled, onChange, name} = this.props
 
+    // remove from the list archived options that are not already checked
+    const validOptions = filter(options, option => !option.isArchived || value === option.value)
+
     return (
       <div>
-        {options.map((option) => {
+        {validOptions.map((option) => {
           const key = option.value
           const checked = option.value === value ? 'checked' : ''
           return (
             <div className={'form-check'} key={key}>
               <input
                 className="form-check-input"
-                type="radio" tabIndex="0" checked={checked} disabled={disabled}
+                type="radio" tabIndex="0" checked={checked} disabled={disabled || option.isArchived}
                 onChange={onChange}
                 value={option.value}
                 name={name}

@@ -9,7 +9,8 @@ const initialState = {...baseInitialState,
   // edited entity
   editedFormNodesById: {},
   editedFormNodesByParentId: {'c0': []},
-  editedFormNodesErrors: {}
+  editedFormNodesErrors: {},
+  showArchivedChoices: false
 }
 
 const setNodeInTree = (tree, parentId, beforeSiblingId, node) => {
@@ -131,6 +132,9 @@ const specificReducer = (state, action) => {
         editedFormNodesErrors = omit(state.editedFormNodesErrors, node.id)
       }
       return {...state, editedFormNodesById, editedFormNodesErrors}
+
+    case Actions.TOGGLE_SHOW_ARCHIVED_CHOICES:
+      return {...state, showArchivedChoices: !state.showArchivedChoices}
   }
   return state
 }

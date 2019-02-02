@@ -1,21 +1,16 @@
 import React from 'react'
+import {some} from 'lodash'
 import PropTypes from 'prop-types'
-import { Button } from '../../components/controls/SemanticControls'
 import { Field } from 'redux-form'
-import {FieldError, Input, FieldWrapper} from '../../components/forms'
+import {FieldError, Input, FieldWrapper, Checkbox} from '../../components/forms'
 import {createTranslate} from '../../../locales/translate'
 
 class ChoiceListEditor extends React.PureComponent {
   constructor (props) {
     super(props)
     this.message = createTranslate('form-field-editor', this)
-    this.handleChoiceDeleted = this.handleChoiceDeleted.bind(this)
+    this.handleToggleShowArchived = this.handleToggleShowArchived.bind(this)
     this.handleAddChoice = this.handleAddChoice.bind(this)
-  }
-
-  handleChoiceDeleted (event) {
-    const indexToRemove = event.target.attributes.getNamedItem('data-index').value
-    this.props.onChoiceDeleted(parseInt(indexToRemove))
   }
 
   handleAddChoice (event) {
@@ -23,8 +18,14 @@ class ChoiceListEditor extends React.PureComponent {
     this.props.onAddChoice()
   }
 
+  handleToggleShowArchived (event) {
+    event.preventDefault()
+    this.props.onToggleShowArchived()
+  }
+
   render () {
-    const {choices, meta: {error}, locale, lockChoiceValues} = this.props
+    const {choices, meta: {error}, locale, lockChoiceValues, showArchivedChoices} = this.props
+
     return (
       <div>
         <h4>{this.message('choices')}</h4>
@@ -35,11 +36,14 @@ class ChoiceListEditor extends React.PureComponent {
               <td>{this.message('fr', 'common')}</td>
               <td>{this.message('en', 'common')}</td>
               <td>{this.message('export-value')}</td>
-              <td />
+              <td>{lockChoiceValues ? '' : this.message('archived')}</td>
             </tr>
           </thead>
           <tbody>
             {choices.map((choice, index) => {
+              // skip rendering of archived choices. Cannot filter list since redux form uses the index in the array for the update mapping
+              if (choice.isArchived && !showArchivedChoices) return null
+
               const baseFieldName = `choices[${index}]`
               return (
                 <tr key={index}>
@@ -61,11 +65,8 @@ class ChoiceListEditor extends React.PureComponent {
                   </td>
                   <td>
                     {!lockChoiceValues &&
-                      <div className="d-flex justify-content-start mb-3">
-                        <Button type='button' data-index={index} onClick={this.handleChoiceDeleted}>
-                          X
-                        </Button>
-                      </div>
+                      <Field component={FieldWrapper} InputControl={Checkbox} style={{width: '50px'}} name={`${baseFieldName}.isArchived`}
+                        locale={locale} />
                     }
                   </td>
                 </tr>
@@ -74,6 +75,12 @@ class ChoiceListEditor extends React.PureComponent {
           </tbody>
         </table>
         {!lockChoiceValues && <a href="#" onClick={this.handleAddChoice}>{this.message('addChoice')}</a>}
+        <br />
+        {some(choices, {isArchived: true}) &&
+          <a href="#" onClick={this.handleToggleShowArchived}>
+            {showArchivedChoices ? this.message('hideArchived') : this.message('showArchived')}
+          </a>
+        }
       </div>
     )
   }
@@ -82,9 +89,10 @@ class ChoiceListEditor extends React.PureComponent {
 ChoiceListEditor.propTypes = {
   choices: PropTypes.array.isRequired,
   locale: PropTypes.string.isRequired,
-  onChoiceDeleted: PropTypes.func.isRequired,
   onAddChoice: PropTypes.func.isRequired,
-  lockChoiceValues: PropTypes.bool
+  onToggleShowArchived: PropTypes.func.isRequired,
+  lockChoiceValues: PropTypes.bool,
+  showArchivedChoices: PropTypes.bool
 }
 
 export default ChoiceListEditor

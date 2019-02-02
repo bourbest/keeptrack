@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Checkbox from './Checkbox'
-import {isArray} from 'lodash'
+import {isArray, filter} from 'lodash'
 
 class CheckboxList extends React.PureComponent {
   constructor (props) {
@@ -28,16 +28,18 @@ class CheckboxList extends React.PureComponent {
     const currentValue = isArray(value) ? value : []
     const checkedValues = new Set(currentValue)
 
+    // remove from the list archived options that are not already checked
+    const validOptions = filter(options, option => !option.isArchived || checkedValues.has(option.value))
     return (
       <div>
-        {options.map(option => (
+        {validOptions.map(option => (
           <Checkbox
             key={option.value}
             name={option.value}
             value={checkedValues.has(option.value)}
             text={option.label}
             onChange={this.handleChange}
-            disabled={disabled}
+            disabled={disabled || option.isArchived}
           />)
         )}
       </div>

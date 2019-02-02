@@ -32,7 +32,8 @@ const CHOICES_REQUIRED = {
     labels: {
       fr: string(required),
       en: string(required)
-    }
+    },
+    isArchived: boolean
   }, [hasMinRows(2), choicesAreUniq])
 }
 

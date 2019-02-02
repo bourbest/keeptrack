@@ -108,8 +108,9 @@ class FieldAttributesEditor extends React.PureComponent {
               locale={locale}
               formName={config.fieldEditorFormName}
               choices={editedField.choices}
-              onChoiceDeleted={this.props.onChoiceDeleted}
+              showArchivedChoices={this.props.showArchivedChoices}
               onAddChoice={this.props.onAddChoice}
+              onToggleShowArchived={this.props.onToggleShowArchived}
               lockChoiceValues={editedField.lockChoiceValues}
             />
           }
@@ -134,8 +135,9 @@ const FormFieldEditor = reduxForm({
 FieldAttributesEditor.propTypes = {
   editedField: PropTypes.object,
   locale: PropTypes.string.isRequired,
+  showArchivedChoices: PropTypes.bool.isRequired,
+  onToggleShowArchived: PropTypes.func.isRequired,
   onPropertiesChanged: PropTypes.func.isRequired,
-  onChoiceDeleted: PropTypes.func.isRequired,
   onAddChoice: PropTypes.func.isRequired,
   pristine: PropTypes.bool,
   error: PropTypes.string,
