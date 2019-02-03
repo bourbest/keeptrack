@@ -37,15 +37,22 @@ class FormHtmlEditor extends Component {
   render () {
     if (!this.state.isLoaded) return null
     const Quill = this.quill
-
+    const style = {
+      height: parseInt(this.props.minHeight) || 300
+    }
     return (
-      <Quill
-        modules={QUILL_MODULES}
-        formats={QUILL_FORMATS}
-        theme="snow"
-        className="bg-white"
-        {...omit(this.props, 'onBlur')}
-      />
+      <div className="pb-4">
+        <div className="pb-4">
+          <Quill
+            modules={QUILL_MODULES}
+            formats={QUILL_FORMATS}
+            theme="snow"
+            className="bg-white"
+            style={style}
+            {...omit(this.props, ['onBlur', 'minHeight'])}
+          />
+        </div>
+      </div>
     )
   }
 }

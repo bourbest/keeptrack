@@ -65,6 +65,11 @@ class FieldAttributesEditor extends React.PureComponent {
               InputControl={Input} locale={locale} readOnly={editedField.lockMaxLength} />
           }
 
+          {properties.has('minHeight') &&
+            <Field name="minHeight" label={this.message('minHeight')} component={FieldWrapper}
+              InputControl={Input} locale={locale} />
+          }
+
           {properties.has('columnCount') &&
             <Field name="columnCount" label={this.message('columnCount')} component={FieldWrapper} InputControl={Select} locale={locale}
               options={COLUMN_OPTIONS} textPropertyByLocale={false} textProperty="text" noSelectionValue={null}

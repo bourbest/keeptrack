@@ -19,8 +19,19 @@ export const ALL_CONTROLS_PROPERTIES = [
   'maxValue',
   'choices',
   'maxFileSize',
-  'maxLength'
+  'maxLength',
+  'minHeight'
 ]
+
+export const ClientLinkOptions = {
+  NO_LINK: 'NO_LINK',
+  MANDATORY: 'MANDATORY'
+}
+
+export const DocumentDateOptions = {
+  USE_CREATION_DATE: 'USE_CREATION_DATE',
+  SET_BY_USER: 'SET_BY_USER'
+}
 
 const CONTROL_CONFIGS = [
   {
@@ -55,7 +66,12 @@ const CONTROL_CONFIGS = [
   },
   {
     type: 'textarea',
-    properties: [...BASE_INPUT_PROPERTIES, 'maxLength'],
+    properties: [...BASE_INPUT_PROPERTIES, 'maxLength', 'minHeight'],
+    isInput: true
+  },
+  {
+    type: 'rich-text',
+    properties: [...BASE_INPUT_PROPERTIES, 'minHeight'],
     isInput: true
   },
   {
@@ -105,7 +121,8 @@ export const DEFAULT_CONTROL_OPTIONS = {
 //  maxFileSize: 1024, // contrôle fichier seulement, taille en Ko, max 1024
   columnCount: 1,
   headerLevel: 1,
-  required: false
+  required: false,
+  minHeight: 200
 }
 
 export const FORM_CONTROLS = [
@@ -124,6 +141,12 @@ export const FORM_CONTROLS = [
   {
     controlType: 'textarea',
     labels: {fr: 'Zone de texte', en: 'Text area'},
+    image: '/public/images/controls/text-area.png',
+    order: 2
+  },
+  {
+    controlType: 'rich-text',
+    labels: {fr: 'Texte riche', en: 'Rich text'},
     image: '/public/images/controls/text-area.png',
     order: 2
   },
@@ -166,7 +189,7 @@ export const FORM_CONTROLS = [
   {
     controlType: 'address',
     labels: {fr: 'Adresse', en: 'Address'},
-    image: '/public/images/controls/paragraph.png',
+    image: '/public/images/controls/address.png',
     order: 9
   }
 ]

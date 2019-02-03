@@ -28,6 +28,7 @@ const {entityName} = entityConfig
 import FieldSelector from './components/FieldSelector'
 import FieldAttributesEditor from './components/FieldAttributesEditor'
 import DynamicForm from './components/DynamicForm'
+import TemplatePropertiesForm from './components/TemplatePropertiesForm'
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -148,7 +149,7 @@ class EditFormTemplate extends React.PureComponent {
   }
 
   render () {
-    const {error, locale, rootControlIds, controlIdsByParentId, controlsById, controlsErrorsById, editedField} = this.props
+    const {error, locale, rootControlIds, controlIdsByParentId, controlsById, controlsErrorsById, editedField, showTemplateProperties} = this.props
     const {canSaveEditedEntity, submitting} = this.props
 
     if (!this.props.rootControlIds) return null
@@ -166,13 +167,21 @@ class EditFormTemplate extends React.PureComponent {
     return (
       <div>
         <Toolbar title={title} backTo="/form-templates">
-          <Button id="saveButton" onClick={this.handleSubmit} disabled={!canSaveEditedEntity}>
+          <Button id="toggleShowProperties" onClick={this.props.actions.toggleShowTemplateProperties}>
+            {showTemplateProperties && this.message('showTemplate')}
+            {!showTemplateProperties && this.message('showProperties')}
+          </Button>
+          <Button id="saveButton" onClick={this.handleSubmit} disabled={!canSaveEditedEntity} primary>
             {this.message('save', 'common')}
           </Button>
         </Toolbar>
         <FormError error={error} locale={locale} />
 
-        <div>
+        <div className={showTemplateProperties ? '' : 'd-none'}>
+          <TemplatePropertiesForm locale={locale} />
+        </div>
+
+        <div className={showTemplateProperties ? 'd-none' : ''}>
           <div className="formEditor d-flex">
             <div className="left formPanel overflow-y">
               <FieldSelector />
@@ -218,6 +227,7 @@ const mapStateToProps = (state) => {
     controlsErrorsById: FormsSelectors.getNodeErrors(state),
     editedField: FormsSelectors.getEditedField(state),
     showArchivedChoices: FormsSelectors.getShowArchivedChoices(state),
+    showTemplateProperties: FormsSelectors.getShowTemplateProperties(state),
     nextFieldId: FormsSelectors.getNextNodeId(state),
     nextChoiceId: FormsSelectors.getNextChoiceId(state),
     locale: getLocale(state),
@@ -234,6 +244,7 @@ EditFormTemplate.propTypes = {
   controlsErrorsById: PropTypes.object.isRequired,
   editedField: PropTypes.object,
   showArchivedChoices: PropTypes.bool.isRequired,
+  showTemplateProperties: PropTypes.bool.isRequired,
   nextFieldId: PropTypes.string.isRequired,
   nextChoiceId: PropTypes.number.isRequired,
   locale: PropTypes.string.isRequired,

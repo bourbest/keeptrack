@@ -5,15 +5,7 @@
 
 
   Rendu à faire :
-- Archiver les valeur dans le listes de formulaire et permettre l'affichage même archivé
-
-
-  - Propriété de formulaires : 
-    - lien client : aucun, possible, obligatoire
-    - date document : creation, champ manuel
-    - libellés date document
-    - statut brouillon ?
-
+   - ajouter texte riche dans les contrôles, voir comment minHeight fonctionne dans EvolutiveNote
 
   - Validations standard sur les input (nombre, téléphone, courriel)
   - afficher le nombre de notifications dans le titre de l'onglet => actuellement renvoie liste

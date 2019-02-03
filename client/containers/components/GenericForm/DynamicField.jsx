@@ -2,7 +2,7 @@ import React from 'react'
 import {pick} from 'lodash'
 import {Field, FormSection} from 'redux-form'
 
-import {Input, DateInput, Checkbox, TextArea, CheckboxList, RadioButtons, Select, AddressField, FieldWrapper} from '../forms'
+import {Input, DateInput, Checkbox, TextArea, CheckboxList, RadioButtons, Select, AddressField, RichText, FieldWrapper} from '../forms'
 import FormHeader from './FormHeader'
 import { Grid } from '../controls/SemanticControls'
 import FormParagraph from './FormParagraph'
@@ -14,7 +14,8 @@ const INPUT_CONTROL_MAP = {
   'radio-list': RadioButtons,
   'checkbox-list': CheckboxList,
   'combobox': Select,
-  'date': DateInput
+  'date': DateInput,
+  'rich-text': RichText
 }
 
 const INPUT_GROUP_CONTROL_MAP = {
@@ -29,7 +30,7 @@ const LAYOUT_CONTROLS_MAP = {
 
 // liste des attributs qui peuvent être passés à un DOM Node
 const DOM_FIELD_OPTIONS = [
-  'minValue', 'maxValue', 'maxLength', 'required', 'headerLevel'
+  'minValue', 'maxValue', 'maxLength', 'required', 'headerLevel', 'minHeight'
 ]
 
 const getInputControl = (controlType) => INPUT_CONTROL_MAP[controlType] || null

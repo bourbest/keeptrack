@@ -41,6 +41,10 @@ const VALID_MAX_LENGTH = {
   'maxLength': number([isInteger, withinRange(1, 4096)])
 }
 
+const VALID_MIN_HEIGHT = {
+  'minHeight': number([isInteger, withinRange(100, 1024)])
+}
+
 const VALID_DATE_MIN_MAX = {
   'minValue': date,
   'maxValue': date(isGteToField('minValue'))
@@ -56,7 +60,7 @@ const BASE_FIELD = {
 const VALIDATIONS_BY_CONTROL_TYPE = {
   'input': new Schema({...BASE_FIELD, ...LABELS_REQUIRED, ...VALID_MAX_LENGTH}),
   'checkbox': new Schema({...BASE_FIELD, ...LABELS_REQUIRED}),
-  'textarea': new Schema({...BASE_FIELD, ...LABELS_REQUIRED, ...VALID_MAX_LENGTH}),
+  'textarea': new Schema({...BASE_FIELD, ...LABELS_REQUIRED, ...VALID_MAX_LENGTH, ...VALID_MIN_HEIGHT}),
   'radio-list': new Schema({...BASE_FIELD, ...LABELS_REQUIRED, ...CHOICES_REQUIRED}),
   'checkbox-list': new Schema({...BASE_FIELD, ...LABELS_REQUIRED, ...CHOICES_REQUIRED}),
   'combobox': new Schema({...BASE_FIELD, ...LABELS_REQUIRED, ...CHOICES_REQUIRED}),
