@@ -1,4 +1,4 @@
-import config, {CONTROL_CONFIG_BY_TYPE, DEFAULT_CONTROL_OPTIONS} from './config'
+import config, {CONTROL_CONFIG_BY_TYPE, DEFAULT_CONTROL_OPTIONS, ClientLinkOptions, DocumentDateOptions} from './config'
 import {isEmpty, max, map, pick, size, filter} from 'lodash'
 import { getFormValues } from 'redux-form'
 import { createSelector } from 'reselect'
@@ -89,6 +89,13 @@ Selectors.buildNewEntity = () => {
   let newEntity = {
     name: 'Nouveau formulaire',
     isArchived: false,
+    isSystem: false,
+    clientLink: ClientLinkOptions.MANDATORY,
+    documentDate: DocumentDateOptions.SET_BY_USER,
+    documentDateLabels: {
+      fr: 'Date de création',
+      en: 'Create date'
+    },
     fields: [
       {id: 'c1', controlType: 'grid', columnCount: 1, order: 0, parentId: 'c0'}
     ]
@@ -133,5 +140,6 @@ Selectors.getFormSchema = createSelector(
 )
 
 Selectors.getShowArchivedChoices = state => state[config.entityName].showArchivedChoices
+Selectors.getShowTemplateProperties = state => state[config.entityName].showTemplateProperties
 
 export default Selectors

@@ -10,7 +10,8 @@ const initialState = {...baseInitialState,
   editedFormNodesById: {},
   editedFormNodesByParentId: {'c0': []},
   editedFormNodesErrors: {},
-  showArchivedChoices: false
+  showArchivedChoices: false,
+  showTemplateProperties: false
 }
 
 const setNodeInTree = (tree, parentId, beforeSiblingId, node) => {
@@ -135,6 +136,9 @@ const specificReducer = (state, action) => {
 
     case Actions.TOGGLE_SHOW_ARCHIVED_CHOICES:
       return {...state, showArchivedChoices: !state.showArchivedChoices}
+
+    case Actions.TOGGLE_SHOW_TEMPLATE_PROPERTIES:
+      return {...state, showTemplateProperties: !state.showTemplateProperties}
   }
   return state
 }

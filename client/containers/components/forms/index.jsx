@@ -9,6 +9,7 @@ export {default as DateInput} from './DateInput'
 export {default as RadioButtons} from './RadioButtons'
 export {default as TextArea} from './TextArea'
 export {default as Select} from './SelectField'
+export {default as RichText} from './FormHtmlEditor'
 
 export {default as SearchableSelect} from './SearchableSelect'
 

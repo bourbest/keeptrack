@@ -77,7 +77,20 @@
     "addZone": "Ajouter une section",
     "duplicateEnglishLabel": "Deux choix possèdent le même libellé anglais",
     "duplicateFrenchLabel": "Deux choix possèdent le même libellé français",
-    "duplicateValue": "Deux choix possèdent la même valeur"
+    "duplicateValue": "Deux choix possèdent la même valeur",
+    "showTemplate": "Étidion des champs",
+    "showProperties": "Édition des propriétés",
+    "clientLink": "Lien avec un dossier participant",
+    "clientLinkOptions": {
+      "mandatory": "Lié à un dossier de participant",
+      "noLink": "Aucun"
+    },
+    "documentDate": "Date du document",
+    "documentDateOptions": {
+      "useCreationDate": "Utiliser la date au moment de la création",
+      "setByUser": "Définie manuellement par l'utilisateur"
+    },
+    "documentDateLabel": "Libellés pour la date du document"
   },
   "form-field-editor": {
     "labelFr": "Libellé (fr)",

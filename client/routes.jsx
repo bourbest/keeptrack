@@ -16,7 +16,7 @@ import ListAccountsPage from './containers/accounts/ListAccountsPage'
 import EditAccountsPage from './containers/accounts/EditAccountPage'
 
 import ListFormTemplatesPage from './containers/form-templates/ListFormTemplatesPage'
-import EditFormTemplatePage from './containers/form-templates/EditFormTemplate'
+import EditFormTemplatePage from './containers/form-templates/EditFormTemplatePage'
 import EditClientDocumentPage from './containers/clients/EditClientDocumentPage'
 
 import DashboardPage from './containers/dashboard/DashboardPage'
