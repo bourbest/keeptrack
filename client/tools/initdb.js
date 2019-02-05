@@ -3,14 +3,10 @@ const {values} = require('lodash')
 const {MongoClient, ObjectId} = require('mongodb')
 
 const bcrypt = require('bcryptjs')
-const path = require('path')
 const fs = require('fs')
 const bluebird = require('bluebird')
 
 const LIST_OPTIONS = [
- {_id: 101, value: '03', listId: 'Origine', name: '03 - Capitale Nationale'},
- {_id: 102, value: '06', listId: 'Origine', name: '12 - Chaudière-Appalaches'},
-
   {_id: 201, value: 'INTER', listId: 'OrganismRole', name: 'Intervenante'},
   {_id: 202, value: 'BENEV', listId: 'OrganismRole', name: 'Bénévole'},
   {_id: 203, value: 'ADJ.ADM', listId: 'OrganismRole', name: 'Adjointe administrative'},
@@ -104,21 +100,8 @@ const createIndexes = (db) => {
     })
 }
 
-getDbConfig = function (argv) {
-  const KNOWN_ENV = ['prod', 'dev']
-  // the first 2 parameters are node and build.js, so skip them
-  let env = 'dev'
-  for (let i = 2; i < argv.length; i++) {
-    const param = argv[i]
-    if (KNOWN_ENV.indexOf(param) > -1) {
-      env = param
-    } else {
-      const knownEnvs = KNOWN_ENV.join(', ')
-      throw new Error(`unknown parameter "${param}". Known env are : [${knownEnvs}].`)
-    }
-  }
-
-  const configPath = path.join('./config', `config.${env}.json`)
+getDbConfig = function () {
+  const configPath = './config.json'
   const config = JSON.parse(fs.readFileSync(configPath, 'utf8'))
   console.log('db config', config.db)
   return config.db
@@ -140,7 +123,7 @@ const createSystemForms = (db) => {
     })
 }
 
-const dbConfig = getDbConfig(process.argv);
+const dbConfig = getDbConfig();
 
 (async () => {
   let client
