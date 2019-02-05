@@ -24,13 +24,14 @@ const HTMLDocument = (props) => (
     </head>
     <body>
       <div id="mount" dangerouslySetInnerHTML={{__html: props.html}} />
+
+      <script dangerouslySetInnerHTML={{__html: `window.__INITIAL_STATE__ = ${serialize(props.state, {isJSON: true})}`}} />
+      <script src="/public/javascript/dragula.js" async />
+      <script dangerouslySetInnerHTML={{__html: props.runtime}} />
+      {props.scripts.map(scriptPath => (
+        <script key={scriptPath} type="module" src={scriptPath} />
+      ))}
     </body>
-    <script dangerouslySetInnerHTML={{__html: `window.__INITIAL_STATE__ = ${serialize(props.state, {isJSON: true})}`}} />
-    <script src="/public/javascript/dragula.js" async />
-    <script dangerouslySetInnerHTML={{__html: props.runtime}} />
-    {props.scripts.map(scriptPath => (
-      <script key={scriptPath} type="module" src={scriptPath} />
-    ))}
   </html>
 )
 

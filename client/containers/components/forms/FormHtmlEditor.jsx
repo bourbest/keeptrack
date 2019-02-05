@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import {omit} from 'lodash'
 const QUILL_MODULES = {
   toolbar: [
@@ -55,6 +56,10 @@ class FormHtmlEditor extends Component {
       </div>
     )
   }
+}
+
+FormHtmlEditor.propTypes = {
+  minHeight: PropTypes.number
 }
 
 export default FormHtmlEditor

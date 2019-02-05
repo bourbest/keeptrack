@@ -5,20 +5,15 @@
 
 
   Rendu à faire :
-   - ajouter texte riche dans les contrôles, voir comment minHeight fonctionne dans EvolutiveNote
+  - Administrer les menus pour création formulaire direct + droits dans les groupes
 
   - Validations standard sur les input (nombre, téléphone, courriel)
   - afficher le nombre de notifications dans le titre de l'onglet => actuellement renvoie liste
   - marquer les documents selon la notifications
   - cliquer sur une notification la marque comme lue
   
-
-
   - Groupe de sécurité
-  
   - Moteur de rapport simple
-  - Administrer les menus pour création formulaire direct + droits dans les groupes
   - Panneau d'administration avec des explications pour chaque setting
-  
   - Sécurité sur les calls API  
 */
