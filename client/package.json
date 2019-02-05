@@ -33,7 +33,7 @@
     "prop-types": "15.6.0",
     "react": "16.2.0",
     "react-day-picker": "^7.1.9",
-    "react-dom": "16.2.0",
+    "react-dom": "16.2.1",
     "react-i18next": "^7.4.0",
     "react-quill": "1.2.3",
     "react-redux": "^5.0.7",
