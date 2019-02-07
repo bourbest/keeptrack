@@ -90,7 +90,7 @@ class EditClientDocumentPage extends React.PureComponent {
 
   formatTitle (client, document, form) {
     if (client && document && form) {
-      const day = format(form.createdOn, 'YYYY-MM-DD')
+      const day = format(document.createdOn, 'YYYY-MM-DD')
       return `${client.firstName} ${client.lastName} - ${form.name} (${day})`
     }
     return ''

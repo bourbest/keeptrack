@@ -52,17 +52,19 @@ class FillFormPage extends React.PureComponent {
     const formId = this.props.params.formId
     this.props.formActions.fetchEditedEntity(formId)
     this.props.actions.setClient(null)
-    this.props.actions.setEditedEntity(DocumentSelectors.buildNewEntity())
+    this.props.actions.setEditedEntity(DocumentSelectors.buildNewEntity(null, formId))
   }
 
   handleSubmit () {
-    const actions = this.props
+    const actions = this.props.actions
     const notify = this.props.appActions.notify
+    const formId = this.props.params.formId
 
     actions.save(this.props.document, (entity) => {
       notify('common.save', 'common.saved')
       actions.setClient(null)
-      actions.setEditedEntity(DocumentSelectors.buildNewEntity())
+      actions.setEditedEntity(DocumentSelectors.buildNewEntity(null, formId))
+      window.scrollTo(0, 0)
     })
   }
 
