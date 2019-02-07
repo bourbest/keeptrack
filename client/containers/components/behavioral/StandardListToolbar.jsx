@@ -60,14 +60,21 @@ const makeStandardListToolbar = (entityActions, entitySelectors, labelNamespace,
       })
     }
 
-    handleDeleteConfirmed () {
+    handleDeleteConfirmed (event) {
       const {actions, appActions, selectedItemIds} = this.props
       const count = selectedItemIds.length
       appActions.hideModal()
-      actions.archiveEntities(selectedItemIds, () => {
-        actions.clearSelectedItems()
-        appActions.notify('common.delete', 'common.deleted', {count})
-      })
+      if (event.target.value === 'archive') {
+        actions.archiveEntities(selectedItemIds, () => {
+          actions.clearSelectedItems()
+          appActions.notify('common.archive', 'common.archived', {count})
+        })
+      } else {
+        actions.deleteEntities(selectedItemIds, () => {
+          actions.clearSelectedItems()
+          appActions.notify('common.delete', 'common.deleted', {count})
+        })
+      }
     }
 
     handleSearchChanged (newValue) {
@@ -89,18 +96,20 @@ const makeStandardListToolbar = (entityActions, entitySelectors, labelNamespace,
     }
 
     render () {
-      const {noAdd, noDelete, noSearch, children, isDisplayingArchived, locale} = this.props
+      const {noAdd, noDelete, useDelete, noSearch, children, isDisplayingArchived, locale} = this.props
       const {isCreateEnabled, isDeleteEnabled, isRestoreEnabled} = this.props
       const handleCreate = this.props.overrideCreateClicked || this.handleCreate
       const searchFilter = this.props.urlParams.contains || ''
 
       return (
         <Toolbar title={this.message('list-title')}>
-          <Dropdown
-            options={this.filterOptions}
-            value={isDisplayingArchived ? 'archived' : 'active'}
-            onChange={this.handleViewChanged}
-          />
+          {!useDelete &&
+            <Dropdown
+              options={this.filterOptions}
+              value={isDisplayingArchived ? 'archived' : 'active'}
+              onChange={this.handleViewChanged}
+            />
+          }
           {!noSearch &&
             <SearchBox placeholder={this.message('filterSearch', 'common')}
               value={searchFilter}
@@ -113,8 +122,9 @@ const makeStandardListToolbar = (entityActions, entitySelectors, labelNamespace,
             </Button>
           }
           {!noDelete && !isDisplayingArchived &&
-            <ConfirmButton locale={locale} onClick={this.handleDeleteConfirmed} disabled={!isDeleteEnabled}>
-              {this.message('delete', 'common')}
+            <ConfirmButton locale={locale} onClick={this.handleDeleteConfirmed} value={useDelete ? 'delete' : 'archive'} disabled={!isDeleteEnabled}>
+              {useDelete && this.message('delete', 'common')}
+              {!useDelete && this.message('archive', 'common')}
             </ConfirmButton>
           }
           {!noDelete && isDisplayingArchived &&
@@ -135,6 +145,7 @@ const makeStandardListToolbar = (entityActions, entitySelectors, labelNamespace,
     selectedItemIds: PropTypes.array.isRequired,
     locale: PropTypes.string.isRequired,
 
+    useDelete: PropTypes.bool.isRequired,
     isCreateEnabled: PropTypes.bool.isRequired,
     isDeleteEnabled: PropTypes.bool.isRequired,
     isRestoreEnabled: PropTypes.bool.isRequired,
@@ -158,6 +169,7 @@ const makeStandardListToolbar = (entityActions, entitySelectors, labelNamespace,
   }
 
   StandardListToolbar.defaultProps = {
+    useDelete: false,
     noSearch: false,
     noDelete: false,
     noAdd: false,

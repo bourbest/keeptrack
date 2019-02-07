@@ -18,9 +18,12 @@ import EditAccountsPage from './containers/accounts/EditAccountPage'
 import ListFormTemplatesPage from './containers/form-templates/ListFormTemplatesPage'
 import EditFormTemplatePage from './containers/form-templates/EditFormTemplatePage'
 import EditClientDocumentPage from './containers/clients/EditClientDocumentPage'
+import FillFormDocumentPage from './containers/fill-form/FillFormPage'
 
 import DashboardPage from './containers/dashboard/DashboardPage'
 
+import ListFormShortcutPage from './containers/admin/ListFormShortcutPage'
+import EditFormShortcutPage from './containers/admin/EditFormShortcutPage'
 import DistributionListPage from './containers/reports/DistributionListPage'
 
 import ChangePasswordPage from './containers/my-account/ChangePasswordPage'
@@ -51,6 +54,9 @@ export default (
       <Route path='form-templates/:id' component={FormManager(EditFormTemplatePage)} />
       <Route path='reports/distribution-list' component={ReportUser(DistributionListPage)} />
       <Route path='change-password' component={ChangePasswordPage} />
+      <Route path='form-shortcuts' component={AccountManager(ListFormShortcutPage)} />
+      <Route path='form-shortcuts/:id' component={AccountManager(EditFormShortcutPage)} />
+      <Route path='fill-form/:formId' component={FillFormDocumentPage} />
     </Route>
   ]
 )

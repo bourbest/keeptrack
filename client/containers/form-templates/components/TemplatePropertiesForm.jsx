@@ -32,10 +32,10 @@ class TemplatePropertiesForm extends React.PureComponent {
     return (
       <Form>
         <Field name="clientLink" label={this.message('clientLink')} required component={FieldWrapper} InputControl={Select}
-          locale={locale} options={this.clientLinkOptions} noSelectionValue={null}
+          locale={locale} options={this.clientLinkOptions} hasNoSelectionValue={false}
         />
         <Field name="documentDate" label={this.message('documentDate')} required component={FieldWrapper} InputControl={Select}
-          locale={locale} options={this.documentDateOptions} noSelectionValue={null}
+          locale={locale} options={this.documentDateOptions} hasNoSelectionValue={false}
         />
         <label>{this.message('documentDateLabel')}</label>
         <div className="row">

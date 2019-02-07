@@ -20,6 +20,7 @@ import { getLocale } from '../../modules/app/selectors'
 
 // sections tabs components
 import { FormError } from '../components/forms/FormError'
+import {Form} from '../components/controls/SemanticControls'
 import {createTranslate} from '../../locales/translate'
 import StandardEditToolbar from '../components/behavioral/StandardEditToolbar'
 import DocumentDynamicForm from './components/DocumentDynamicForm'
@@ -85,13 +86,14 @@ class EditClientPage extends React.PureComponent {
           canSave={canSave} />
 
         <FormError error={error} locale={locale} />
-
-        <DocumentDynamicForm
-          controlsById={this.props.formControlsById}
-          controlIdsByParentId={this.props.formControlIdsByParentId}
-          locale={locale}
-          handlers={this.handlers}
-        />
+        <Form>
+          <DocumentDynamicForm
+            controlsById={this.props.formControlsById}
+            controlIdsByParentId={this.props.formControlIdsByParentId}
+            locale={locale}
+            handlers={this.handlers}
+          />
+        </Form>
       </div>
     )
   }

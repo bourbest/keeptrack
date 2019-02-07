@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {Link} from 'react-router'
-import {map, isArray, endsWith} from 'lodash'
+import {map, isArray, endsWith, get} from 'lodash'
 
 import {buildUrl} from '../../services/url-utils'
 export class Column extends React.PureComponent {
@@ -101,5 +101,5 @@ export const renderLinkToDetail = (entity, columnName, column, globals) => {
   const backTo = encodeURIComponent(buildUrl(location.pathname, location.query))
   let to = endsWith(location.pathname, '/') ? location.pathname : location.pathname + '/'
   to = `${to}${entity.id}?backTo=${backTo}`
-  return <Link to={to}>{entity[columnName]}</Link>
+  return <Link to={to}>{get(entity, columnName)}</Link>
 }

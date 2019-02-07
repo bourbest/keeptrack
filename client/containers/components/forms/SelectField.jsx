@@ -32,7 +32,7 @@ class Select extends React.PureComponent {
 
     options = orderBy(options, 'text')
 
-    if (props.noSelectionValue) {
+    if (props.hasNoSelectionValue) {
       options.unshift({
         id: props.noSelectionValue,
         text: props.noSelectionText
@@ -62,7 +62,7 @@ class Select extends React.PureComponent {
   }
 
   render () {
-    const selectProps = omit(this.props, ['options', 'locale', 'className', 'idProperty', 'textProperty', 'textPropertyByLocale', 'noSelectionValue', 'noSelectionText', 'omit'])
+    const selectProps = omit(this.props, ['options', 'locale', 'className', 'idProperty', 'textProperty', 'textPropertyByLocale', 'noSelectionValue', 'noSelectionText', 'omit', 'hasNoSelectionValue'])
     const options = filter(this.state.options, option => !option.isArchived || option.id === selectProps.value)
     const classes = 'form-control ' + this.props.className || ''
     return (
@@ -81,6 +81,7 @@ Select.propTypes = {
   idProperty: string,
   textProperty: string,
   textPropertyByLocale: bool,
+  hasNoSelectionValue: bool,
   noSelectionValue: string,
   noSelectionText: string,
   omit: array
@@ -90,7 +91,8 @@ Select.defaultProps = {
   idProperty: 'id',
   textProperty: 'label',
   textPropertyByLocale: false,
-  noSelectionValue: ' ',
+  hasNoSelectionValue: true,
+  noSelectionValue: '',
   noSelectionText: '',
   omit: []
 }
