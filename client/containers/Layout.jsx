@@ -6,23 +6,29 @@ import { createTranslate } from '../locales/translate'
 
 import ReduxToastr from 'react-redux-toastr'
 import { ActionCreators as AuthActions } from '../modules/authentication/actions'
+import { ActionCreators as FormShortcutActions } from '../modules/form-shortcut/actions'
 import { getUser } from '../modules/authentication/selectors'
 import { getLocale } from '../modules/app/selectors'
+import FormShortcutSelectors from '../modules/form-shortcut/selectors'
 
 import NavBar from './components/NavBar'
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    actions: bindActionCreators(AuthActions, dispatch)
+    actions: bindActionCreators(AuthActions, dispatch),
+    formShortcutActions: bindActionCreators(FormShortcutActions, dispatch)
   }
 }
 
 class Layout extends React.PureComponent {
-
   constructor (props) {
     super(props)
     this.message = createTranslate(null, this)
     this.handleLogout = this.handleLogout.bind(this)
+  }
+
+  componentWillMount () {
+    this.props.formShortcutActions.fetchList()
   }
 
   handleLogout () {
@@ -32,7 +38,13 @@ class Layout extends React.PureComponent {
   render () {
     return (
       <div className="page-content">
-        <NavBar location={this.context.router.location.pathname} locale={this.props.locale} user={this.props.user} onLogout={this.handleLogout} />
+        <NavBar
+          location={this.context.router.location.pathname}
+          locale={this.props.locale}
+          user={this.props.user}
+          onLogout={this.handleLogout}
+          formShortcuts={this.props.formShortcuts}
+        />
         <div className="container">
           {this.props.children}
         </div>
@@ -51,7 +63,8 @@ class Layout extends React.PureComponent {
 function mapStateToProps (state) {
   return {
     user: getUser(state),
-    locale: getLocale(state)
+    locale: getLocale(state),
+    formShortcuts: FormShortcutSelectors.getEntitiesPage(state)
   }
 }
 

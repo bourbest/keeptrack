@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router'
+import {forEach} from 'lodash'
 import { canInteractWithClient, formsManager, usersManager, statsProducer } from '../../modules/accounts/roles'
 import { createTranslate } from '../../locales/translate'
 
@@ -13,15 +14,24 @@ class NavBar extends React.PureComponent {
   }
 
   render () {
-    const user = this.props.user
+    const {user, locale} = this.props
     const menuItems = [
       { name: 'dashboard', link: '/dashboard', labelKey: 'dashboard', role: canInteractWithClient },
       { name: 'clients', link: '/clients', labelKey: 'clients', role: canInteractWithClient },
       { name: 'formTemplates', link: '/form-templates', labelKey: 'formTemplates', role: formsManager },
       { name: 'accounts', link: '/accounts', labelKey: 'accounts', role: usersManager },
       { name: 'createEvolutionNote', link: '/new-evolution-note', labelKey: 'createEvolutionNote' },
-      { name: 'reports', link: '/reports/distribution-list', labelKey: 'reports', role: statsProducer }
+      { name: 'reports', link: '/reports/distribution-list', labelKey: 'reports', role: statsProducer },
+      { name: 'formShortcuts', link: '/form-shortcuts', labelKey: 'administration', role: usersManager }
     ]
+
+    forEach(this.props.formShortcuts, shortcut => {
+      menuItems.push({
+        name: shortcut.id,
+        link: `/fill-form/${shortcut.formTemplateId}`,
+        label: shortcut.labels[locale]
+      })
+    })
 
     let currentLocation = this.props.location
     if (currentLocation.indexOf('/') !== 0) {
@@ -43,7 +53,8 @@ class NavBar extends React.PureComponent {
                         to={menuItem.link}
                         className="nav-link text-light"
                       >
-                        {this.message(menuItem.labelKey)}
+                        {menuItem.labelKey && this.message(menuItem.labelKey)}
+                        {menuItem.label}
                       </Link>
                     </li>)
                 }
@@ -62,6 +73,7 @@ class NavBar extends React.PureComponent {
 
 NavBar.propTypes = {
   location: PropTypes.string,
+  formShortcuts: PropTypes.array.isRequired,
   locale: PropTypes.string.isRequired,
   user: PropTypes.object.isRequired,
   onLogout: PropTypes.func.isRequired

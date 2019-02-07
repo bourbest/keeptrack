@@ -36,6 +36,9 @@ export const createService = (serviceName, apiConfig) => {
     case 'notifications':
       return new RestService('notifications', apiClient)
 
+    case 'form-shortcut':
+      return new RestService('form-shortcuts', apiClient)
+
     default:
       throw new Error('Invalid service name', serviceName)
   }

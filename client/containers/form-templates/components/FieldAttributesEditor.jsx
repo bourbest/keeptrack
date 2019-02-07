@@ -72,13 +72,13 @@ class FieldAttributesEditor extends React.PureComponent {
 
           {properties.has('columnCount') &&
             <Field name="columnCount" label={this.message('columnCount')} component={FieldWrapper} InputControl={Select} locale={locale}
-              options={COLUMN_OPTIONS} textPropertyByLocale={false} textProperty="text" noSelectionValue={null}
+              options={COLUMN_OPTIONS} textPropertyByLocale={false} textProperty="text" hasNoSelectionValue={false}
             />
           }
 
           {properties.has('headerLevel') &&
             <Field name="headerLevel" label={this.message('level')} component={FieldWrapper} InputControl={Select} locale={locale}
-              options={HEADER_LEVELS} textPropertyByLocale={false} textProperty="text" noSelectionValue={null}
+              options={HEADER_LEVELS} textPropertyByLocale={false} textProperty="text" hasNoSelectionValue={false}
           />
           }
 

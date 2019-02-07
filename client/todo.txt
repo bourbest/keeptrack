@@ -1,12 +1,8 @@
 /*
-  packager le initdb
   tester avec IE 11
 
-
-
   Rendu à faire :
-  - Administrer les menus pour création formulaire direct + droits dans les groupes
-
+  - Gérer statut des documents
   - Validations standard sur les input (nombre, téléphone, courriel)
   - afficher le nombre de notifications dans le titre de l'onglet => actuellement renvoie liste
   - marquer les documents selon la notifications
@@ -15,5 +11,6 @@
   - Groupe de sécurité
   - Moteur de rapport simple
   - Panneau d'administration avec des explications pour chaque setting
+
   - Sécurité sur les calls API  
 */

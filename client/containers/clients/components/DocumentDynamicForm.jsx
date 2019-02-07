@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {chunk} from 'lodash'
-import {Form} from '../../components/controls/SemanticControls'
 import {outputField} from '../../components/GenericForm/DynamicField'
 
 class DocumentDynamicForm extends React.PureComponent {
@@ -38,9 +37,9 @@ class DocumentDynamicForm extends React.PureComponent {
     if (!rootControls) return null
 
     return (
-      <Form>
+      <div>
         {rootControls.map(this.renderControl)}
-      </Form>
+      </div>
     )
   }
 }
