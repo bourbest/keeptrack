@@ -3,6 +3,10 @@
 
   Rendu à faire :
   - Gérer statut des documents
+  - remplir un formulaire à partir d'un shortcut.
+  - ajouter une action dans ClientDocument pour setter le client
+
+  Rendu à faire :
   - Validations standard sur les input (nombre, téléphone, courriel)
   - afficher le nombre de notifications dans le titre de l'onglet => actuellement renvoie liste
   - marquer les documents selon la notifications
