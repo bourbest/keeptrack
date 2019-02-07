@@ -9,6 +9,7 @@
     "createEvolutionNote": "Nouvelle note évolutive",
     "dashboard": "Tableau de bord",
     "reports": "Rapports",
+    "administration": "Administration",
     "quit": "Me déconnecter",
     "changePassword": "Modifier mon mot de passe"
   },
@@ -28,6 +29,11 @@
     "newDocuments_plural": "{{count}} nouveaux documents",
     "updatedDocuments": "{{count}} document mis à jour",
     "updatedDocuments_plural": "{{count}} documents mis à jour"
+  },
+  "form-shortcut": {
+    "list-title": "Liste des raccourçis",
+    "formTemplate": "Formulaire",
+    "label": "Libellé"
   },
   "clients":{
     "list-title": "Liste des participants",
@@ -133,7 +139,8 @@
     "en":"Anglais",
     "save": "Sauvegarder",
     "cancel": "Annuler",
-    "delete": "Archiver",
+    "delete": "Effacer",
+    "archive": "Archiver",
     "restore": "Récupérer",
     "reset": "Réinitialiser",
     "confirm": "Confirmer",
@@ -144,8 +151,10 @@
     "confirm-delete_plural":"Les {{count}} éléments sélectionnés seront déplacés dans la vue Éléments archivés. Poursuivre ?",
     "filterSearch": "Recherche",
     "saved": "Les données ont été enregistrées avec succès",
-    "deleted": "{{count}} enregistrement déplacé dans les éléments archivés",
-    "deleted_plural": "{{count}} enregistrements déplacés dans les éléments archivés",
+    "archived": "{{count}} enregistrement déplacé dans les éléments archivés",
+    "archived_plural": "{{count}} enregistrements déplacés dans les éléments archivés",
+    "deleted": "{{count}} enregistrement effacé",
+    "deleted_plural": "{{count}} enregistrements effacés",
     "restored": "{{count}} enregistrement récupéré et déplacé dans les éléments actifs",
     "restored_plural": "{{count}} enregistrements récupérés et déplacés dans les éléments actifs",
     "back": "Retour",

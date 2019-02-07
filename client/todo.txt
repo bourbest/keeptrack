@@ -1,12 +1,12 @@
 /*
-  packager le initdb
   tester avec IE 11
 
-
+  Rendu à faire :
+  - Gérer statut des documents
+  - remplir un formulaire à partir d'un shortcut.
+  - ajouter une action dans ClientDocument pour setter le client
 
   Rendu à faire :
-  - Administrer les menus pour création formulaire direct + droits dans les groupes
-
   - Validations standard sur les input (nombre, téléphone, courriel)
   - afficher le nombre de notifications dans le titre de l'onglet => actuellement renvoie liste
   - marquer les documents selon la notifications
@@ -15,5 +15,6 @@
   - Groupe de sécurité
   - Moteur de rapport simple
   - Panneau d'administration avec des explications pour chaque setting
+
   - Sécurité sur les calls API  
 */

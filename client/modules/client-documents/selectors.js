@@ -19,6 +19,8 @@ Selectors.buildNewEntity = (clientId, formId) => {
   return newEntity
 }
 
+Selectors.getClient = state => state[entityName].client
+
 Selectors.getSubmitError = getFormSubmitErrors(entityName)
 Selectors.getSyncErrors = getFormSyncErrors(entityName)
 Selectors.isSubmitting = isSubmitting(entityName)

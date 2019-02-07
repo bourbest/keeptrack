@@ -25,6 +25,7 @@ import { getLocale } from '../../modules/app/selectors'
 // sections tabs components
 import DocumentDynamicForm from './components/DocumentDynamicForm'
 import { FormError } from '../components/forms/FormError'
+import {Form} from '../components/controls/SemanticControls'
 import {createTranslate} from '../../locales/translate'
 import StandardEditToolbar from '../components/behavioral/StandardEditToolbar'
 
@@ -89,7 +90,7 @@ class EditClientDocumentPage extends React.PureComponent {
 
   formatTitle (client, document, form) {
     if (client && document && form) {
-      const day = format(form.createdOn, 'YYYY-MM-DD')
+      const day = format(document.createdOn, 'YYYY-MM-DD')
       return `${client.firstName} ${client.lastName} - ${form.name} (${day})`
     }
     return ''
@@ -111,7 +112,7 @@ class EditClientDocumentPage extends React.PureComponent {
 
         <FormError error={error} locale={locale} />
 
-        <div>
+        <Form>
           <FormSection name="values">
             <DocumentDynamicForm
               controlsById={this.props.formControlsById}
@@ -120,7 +121,7 @@ class EditClientDocumentPage extends React.PureComponent {
               handlers={this.handlers}
             />
           </FormSection>
-        </div>
+        </Form>
       </div>
     )
   }

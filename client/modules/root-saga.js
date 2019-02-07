@@ -11,6 +11,7 @@ import subscriptionSaga from './client-feed-subscriptions/saga'
 import notificationSaga from './notifications/saga'
 import dashboardSaga from './dashboard/saga'
 import reportSaga from './reports/saga'
+import formShortcutSaga from './form-shortcut/saga'
 
 export default function * rootSaga () {
   yield all([
@@ -25,6 +26,7 @@ export default function * rootSaga () {
     authenticationSaga,
     ...notificationSaga,
     ...dashboardSaga,
-    reportSaga
+    reportSaga,
+    formShortcutSaga
   ])
 }
