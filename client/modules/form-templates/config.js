@@ -33,6 +33,11 @@ export const DocumentDateOptions = {
   SET_BY_USER: 'SET_BY_USER'
 }
 
+export const DocumentStatusOptions = {
+  NO_DRAFT: 'NO_DRAFT',
+  USE_DRAFT: 'USE_DRAFT'
+}
+
 const CONTROL_CONFIGS = [
   {
     type: 'date',

@@ -6,11 +6,14 @@ import {format} from 'date-fns'
 // redux
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { reduxForm, FormSection } from 'redux-form'
+import { reduxForm, FormSection, Field } from 'redux-form'
 import {validate} from 'sapin'
 
-// actions and selectors
+// const
 import config from '../../modules/client-documents/config'
+import {DocumentStatusOptions} from '../../modules/form-templates/config'
+
+// actions and selectors
 import { ActionCreators as AppActions } from '../../modules/app/actions'
 import { ActionCreators as DocumentActions } from '../../modules/client-documents/actions'
 import { ActionCreators as ClientActions } from '../../modules/clients/actions'
@@ -24,7 +27,7 @@ import { getLocale } from '../../modules/app/selectors'
 
 // sections tabs components
 import DocumentDynamicForm from './components/DocumentDynamicForm'
-import { FormError } from '../components/forms/FormError'
+import { FormError, FieldWrapper, Select } from '../components/forms'
 import {Form} from '../components/controls/SemanticControls'
 import {createTranslate} from '../../locales/translate'
 import StandardEditToolbar from '../components/behavioral/StandardEditToolbar'
@@ -90,11 +93,12 @@ class EditClientDocumentPage extends React.PureComponent {
 
   formatTitle (client, document, form) {
     if (client && document && form) {
-      const day = format(document.createdOn, 'YYYY-MM-DD')
+      const day = format(document.documentDate, 'YYYY-MM-DD')
       return `${client.firstName} ${client.lastName} - ${form.name} (${day})`
     }
     return ''
   }
+
   render () {
     const {canSave, error, locale, isLoading} = this.props
     const {client, document, formTemplate} = this.props
@@ -113,6 +117,18 @@ class EditClientDocumentPage extends React.PureComponent {
         <FormError error={error} locale={locale} />
 
         <Form>
+          {formTemplate.documentStatus === DocumentStatusOptions.USE_DRAFT &&
+            <Field
+              label={this.message('status')}
+              name="status"
+              component={FieldWrapper}
+              InputControl={Select}
+              required
+              locale={locale}
+              options={this.statusOptions}
+            />
+          }
+
           <FormSection name="values">
             <DocumentDynamicForm
               controlsById={this.props.formControlsById}

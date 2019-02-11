@@ -1,5 +1,8 @@
-import {isNil, forEach} from 'lodash'
-import {Schema, maxLength, date, string, boolean, required, withinRange, arrayOf, isGte, isLte} from 'sapin'
+import {isNil, forEach, map} from 'lodash'
+import {DocumentStatus} from './config'
+import {ClientLinkOptions} from '../form-templates/config'
+import {Schema, maxLength, date, string, boolean, required, withinRange, arrayOf, isGte, isLte, oneOf} from 'sapin'
+import {objectId} from '../common/validate'
 
 const getRangeValidator = (minValue, maxValue) => {
   if (!isNil(minValue) && !isNil(maxValue)) return withinRange(minValue, maxValue)
@@ -17,6 +20,11 @@ const getValidationsForField = (field) => {
 
   if (field.maxLength) {
     validations.push(maxLength(field.maxLength))
+  }
+
+  if (field.choices) {
+    const validChoices = map(field.choices, 'value')
+    validations.push(oneOf(validChoices))
   }
 
   switch (field.controlType) {
@@ -56,16 +64,31 @@ const getValidationsForField = (field) => {
   }
 }
 
-export const buildSchemaForFields = (fields, setAtRoot = false) => {
+export const buildSchemaForFields = (fields) => {
   const schema = {}
   forEach(fields, field => {
     const validations = getValidationsForField(field)
     schema[field.id] = validations
   })
 
-  if (setAtRoot) {
-    return new Schema(schema)
-  } else {
-    return new Schema({values: schema})
+  return new Schema(schema)
+}
+
+export const buildSchemaForDocument = template => {
+  const baseDocSchema = {
+    id: objectId,
+    values: buildSchemaForFields(template.fields),
+    formId: objectId(required),
+    status: string([required, oneOf([DocumentStatus.DRAFT, DocumentStatus.COMPLETE])]),
+    createdOn: date,
+    modifiedOn: date,
+    documentDate: date(required),
+    isArchived: boolean
   }
+
+  if (template.clientLink === ClientLinkOptions.MANDATORY) {
+    baseDocSchema.clientId = objectId(required)
+  }
+
+  return new Schema(baseDocSchema)
 }

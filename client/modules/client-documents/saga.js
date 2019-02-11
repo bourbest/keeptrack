@@ -2,17 +2,21 @@ import config from './config'
 const entityName = config.entityName
 import {Actions, ActionCreators as DocumentActions} from './actions'
 import {ActionCreators as ClientActions} from '../clients/actions'
-import {ActionCreators as FormActions} from '../form-templates/actions'
+import {ActionCreators as FormActionCreators, Actions as FormActions} from '../form-templates/actions'
 import {getService} from '../app/selectors'
+import DocumentSelectors from '../client-documents/selectors'
+import FormSelectors from '../form-templates/selectors'
 import { handleError } from '../commonHandlers'
-import {call, put, select, takeEvery} from 'redux-saga/effects'
+import {call, put, select, takeEvery, all, take} from 'redux-saga/effects'
 import {startSubmit, stopSubmit} from 'redux-form'
 
 // Saga
 function * clientDocumentSaga (action) {
   let errorAction = null
-  const clientSvc = yield select(getService, 'clients')
-  const docSvc = yield select(getService, 'client-documents')
+  const [clientSvc, docSvc] = yield all([
+    select(getService, 'clients'),
+    select(getService, 'client-documents')
+  ])
 
   switch (action.type) {
     case Actions.LOAD_DOCUMENT:
@@ -26,7 +30,7 @@ function * clientDocumentSaga (action) {
         const client = results[0]
         const document = results[1]
         if (document) {
-          yield put(FormActions.fetchEditedEntity(document.formId))
+          yield put(FormActionCreators.fetchEditedEntity(document.formId))
         }
 
         yield put(ClientActions.setEditedEntity(client))
@@ -50,6 +54,24 @@ function * clientDocumentSaga (action) {
       }
       break
 
+    case Actions.INITIALIZE_NEW_DOCUMENT:
+      yield all([
+        put(FormActionCreators.fetchEditedEntity(action.formTemplateId)),
+        take(action => action.type === FormActions.SET_FETCHING_ENTITY && action.isFetching === false)
+      ])
+
+      yield put(DocumentActions.resetForm())
+      break
+
+    case Actions.RESET_FORM:
+      const template = yield select(FormSelectors.getEditedEntity)
+      const newDoc = DocumentSelectors.buildNewEntity(template, null)
+      yield all([
+        put(DocumentActions.setClient(null)),
+        put(DocumentActions.setEditedEntity(newDoc))
+      ])
+      break
+
     default:
       throw new Error('Unsupported trigger action client saga', action)
   }
@@ -61,5 +83,7 @@ function * clientDocumentSaga (action) {
 
 export default takeEvery([
   Actions.LOAD_DOCUMENT,
-  Actions.SAVE_DOCUMENT
+  Actions.SAVE_DOCUMENT,
+  Actions.INITIALIZE_NEW_DOCUMENT,
+  Actions.RESET_FORM
 ], clientDocumentSaga)

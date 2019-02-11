@@ -54,10 +54,20 @@
     "evolutionNotes": "Notes évolutives",
     "noEvolutionNotes": "Aucune note évolutive au dossier"
   },
+  "client-document": {
+    "statusOptions" : {
+      "draft": "À compléter",
+      "complete": "Complété"
+    },
+    "client": "Participant",
+    "status": "Statut",
+    "newTitle": "Nouveau formulaire - {{formName}}"
+  },
   "evolutionNote": {
     "client": "Participant",
     "duration": "Durée (minutes)",
-    "exchangeDate": "Date de l'échange"
+    "exchangeDate": "Date de l'échange",
+    "newTitle": "Nouvelle note évolutive"
   },
   "accounts":{
     "list-title": "Liste des comptes utilisateurs",
@@ -95,6 +105,11 @@
     "documentDateOptions": {
       "useCreationDate": "Utiliser la date au moment de la création",
       "setByUser": "Définie manuellement par l'utilisateur"
+    },
+    "documentStatus": "Statut pour les documents créés à partir de ce formulaire",
+    "documentStatusOptions": {
+      "noDraft": "Est marqué comme étant complété automatiquement lors de l'enregistrement",
+      "useDraft": "Peut être marqué 'non complété' lors de la sauvegarde pour être visible dans le tableau de bord"
     },
     "documentDateLabel": "Libellés pour la date du document"
   },

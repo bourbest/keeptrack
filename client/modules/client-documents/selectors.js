@@ -1,21 +1,27 @@
-import config from './config'
+import config, {DocumentStatus} from './config'
 const entityName = config.entityName
 
 import {getFormSubmitErrors, getFormSyncErrors, getFormValues, isPristine, isSubmitting, isValid} from 'redux-form'
+import {createSelector} from 'reselect'
 import {EMPTY_OBJECT} from '../common/selectors'
-
+import {getLocale} from '../app/selectors'
+import { DocumentStatusOptions } from '../form-templates/config'
+import {translate} from '../../locales/translate'
 const Selectors = {}
 
 Selectors.getEditedEntity = getFormValues(entityName)
-Selectors.buildNewEntity = (clientId, formId) => {
+Selectors.buildNewEntity = (template, clientId) => {
   let newEntity = {
     clientId,
-    formId,
+    status: template.documentStatus === DocumentStatusOptions.USE_DRAFT ? DocumentStatus.DRAFT : DocumentStatus.COMPLETE,
+    formId: template.id,
     values: {},
     createdOn: new Date(),
     modifiedOn: new Date(),
+    documentDate: new Date(),
     isArchived: false
   }
+
   return newEntity
 }
 
@@ -36,5 +42,15 @@ Selectors.canSaveEditedEntity = (state) => {
     Selectors.isValid(state) &&
     !Selectors.isSubmitting(state)
 }
+
+Selectors.getStatusOptions = createSelector(
+  [getLocale],
+  (locale) => {
+    return [
+      {id: DocumentStatus.DRAFT, label: translate('client-document.statusOptions.draft', locale)},
+      {id: DocumentStatus.COMPLETE, label: translate('client-document.statusOptions.complete', locale)}
+    ]
+  }
+)
 
 export default Selectors

@@ -4,7 +4,7 @@ import {
   makeHandleRestore
 } from './StandardController'
 import {parsePagination, parseFilters} from '../middlewares'
-import {buildSchemaForFields} from '../../modules/form-templates/dynamic-form-validation'
+import {buildSchemaForFields} from '../../modules/client-documents/client-document-validation'
 
 import {string, boolean, Schema, validate, transform} from 'sapin'
 import {isArray} from 'lodash'
@@ -66,7 +66,7 @@ function validateClient (req, res, next) {
       if (!formTemplate) {
         return next({httpStatus: 500, message: 'System Client Form Template not found'})
       }
-      const schema = buildSchemaForFields(formTemplate.fields, true)
+      const schema = buildSchemaForFields(formTemplate.fields)
       const errors = validate(req.body, schema)
       if (errors) {
         return next({httpStatus: 400, message: 'Document does does not respect Form Schema', errors})

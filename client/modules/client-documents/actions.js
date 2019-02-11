@@ -6,12 +6,16 @@ const prefix = config.entityName.toUpperCase()
 
 export const Actions = createActions(prefix, [
   'LOAD_DOCUMENT',
+  'INITIALIZE_NEW_DOCUMENT',
+  'RESET_FORM',
   'SAVE_DOCUMENT',
   'SET_CLIENT'
 ])
 
 export const ActionCreators = {
   loadDocument: (clientId, documentId) => ({type: Actions.LOAD_DOCUMENT, clientId, documentId}),
+  initializeNewDocument: (formTemplateId) => ({type: Actions.INITIALIZE_NEW_DOCUMENT, formTemplateId}),
+  resetForm: () => ({type: Actions.RESET_FORM}),
   setEditedEntity: (entity) => initialize(config.entityName, entity),
   setClient: (client) => ({type: Actions.SET_CLIENT, client}),
 

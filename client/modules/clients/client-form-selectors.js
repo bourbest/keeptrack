@@ -3,7 +3,7 @@ import { createSelector } from 'reselect'
 import { getLocale } from '../app/selectors'
 import { EMPTY_ARRAY, EMPTY_OBJECT
 } from '../common/selectors'
-import {buildSchemaForFields} from '../form-templates/dynamic-form-validation'
+import {buildSchemaForFields} from '../client-documents/client-document-validation'
 import {getNodesById, getOrderedNodesByParentId} from '../form-templates/form-node-utils'
 
 const Selectors = {}
@@ -34,7 +34,7 @@ Selectors.getControls = createSelector(
 Selectors.getClientSchema = createSelector(
   [Selectors.getControls],
   (fields) => {
-    return buildSchemaForFields(fields, true)
+    return buildSchemaForFields(fields)
   }
 )
 

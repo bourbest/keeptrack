@@ -1,6 +1,6 @@
 import {ObjectId} from 'mongodb'
 import {EvolutionNoteRepository, ClientRepository} from '../repository'
-import {makeFindAllHandler, makeFindById, makeHandlePost} from './StandardController'
+import {makeFindAllHandler, makeFindById, makeHandlePost, setAuthor} from './StandardController'
 import {entityFromBody} from '../middlewares/entityFromBody'
 import {evolutionNoteSchema} from '../../modules/evolution-notes/schema'
 import {boolean, Schema} from 'sapin'
@@ -15,20 +15,15 @@ const filtersSchema = new Schema({
   isArchived: boolean
 })
 
-function preInsert (req, res, next) {
+function ensureClientExists (req, res, next) {
   // ensure client file exists
   const clientRepo = new ClientRepository(req.database)
   clientRepo.findById(req.entity.clientId)
     .then(client => {
       if (!client) {
-        res.status(404).json({error: 'client does not exist'})
-      } else {
-        const {entity, user} = req
-        entity.ownerId = ObjectId(user.id)
-        entity.authorName = user.firstName + ' ' + user.lastName
-        entity.authorRole = user.organismRole
-        next()
+        res.status(400).json({error: 'client does not exist'})
       }
+      next()
     })
     .catch(next)
 }
@@ -42,7 +37,8 @@ export default (router) => {
       makeFindAllHandler(EvolutionNoteRepository)
     ])
     .post([
-      preInsert,
+      ensureClientExists,
+      setAuthor,
       makeHandlePost(EvolutionNoteRepository),
       createClientNotifications({type: NotificationTypes.EvolutiveNoteCreated })
     ])

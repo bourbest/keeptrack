@@ -1,5 +1,6 @@
 import {ObjectId} from 'mongodb'
-import {isArray} from 'lodash'
+import {isArray, size} from 'lodash'
+import { get } from 'https';
 
 export const makeFindAllHandler = (Repository) => {
   return function (req, res, next) {
@@ -56,11 +57,25 @@ export const makeHandlePost = (Repository) => {
   }
 }
 
-export const makeHandlePut = (Repository) => {
+/*
+export const validateImmutables = (update, original, immutableFieldNames) => {
+  const fieldNames = ['id', ...immutableFieldNames]
+  const errors = {}
+  forEach(fieldNames, field => {
+    if (get(update, field) !== get(original, field)) {
+      errors[field] = 'Cannot update this property'
+    }
+  })
+  return size(errors) ? errors : null
+}
+*/
+
+export const makeHandlePut = (Repository, immutableFieldNames) => {
   return function (req, res, next) {
     const repo = new Repository(req.database)
     const entity = req.entity
-    entity.id = ObjectId(req.params.id)
+
+    entity.id = 
     entity.modifiedOn = new Date()
 
     return repo.update(entity)
@@ -121,4 +136,12 @@ export const makeHandleDelete = (Repository) => {
         .catch(next)
     }
   }
+}
+
+export function setAuthor (req, res, next) {
+  const {entity, user} = req
+  entity.ownerId = ObjectId(user.id)
+  entity.authorName = user.firstName + ' ' + user.lastName
+  entity.authorRole = user.organismRole
+  next()
 }
