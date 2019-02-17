@@ -6,8 +6,8 @@ import {COOKIE_NAMES} from '../../config/const'
 
 const omitSensitiveUserData = (user) => omit(user, ['passwordHash'])
 
-const UNAUTH_EX = {httpStatus: 401, error: 'Code utilisateur ou mot de passe invalide'}
-const ACCOUNT_DISABLED_EX = {httpStatus: 401, error: 'Le compte a été désactivé'}
+const UNAUTH_EX = {httpStatus: 401, message: 'Code utilisateur ou mot de passe invalide'}
+const ACCOUNT_DISABLED_EX = {httpStatus: 401, message: 'Le compte a été désactivé'}
 
 function ensureAcccountExists (user) {
   if (!user) {

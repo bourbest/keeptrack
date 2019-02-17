@@ -11,7 +11,7 @@ import {string, boolean, Schema, validate, transform, date} from 'sapin'
 import {isArray} from 'lodash'
 import {ObjectId} from 'mongodb'
 import { CLIENT_FORM_ID } from '../../modules/const'
-import { objectId } from '../../modules/common/validate';
+import { objectId } from '../../modules/common/validate'
 
 const filtersSchema = new Schema({
   contains: string,
@@ -31,16 +31,15 @@ function getDocumentsByClientId (Repository) {
 
 function deleteFeedSubscriptions (req, res, next) {
   if (!isArray(req.body) || req.body.length === 0) {
-    res.status(400).json({error: 'no ids provided in the body'})
-  } else {
-    const repo = new ClientFeedSubcriptionRepository(req.database)
-    const ids = req.body.map(ObjectId)
-    return repo.deleteByClientIds(ids)
-      .then(function () {
-        next()
-      })
-      .catch(next)
+    throw {httpStatus: 400, message: 'no ids provided in the body'}
   }
+  const repo = new ClientFeedSubcriptionRepository(req.database)
+  const ids = req.body.map(ObjectId)
+  return repo.deleteByClientIds(ids)
+    .then(function () {
+      next()
+    })
+    .catch(next)
 }
 
 function getUserSubscribedClients (req, res, next) {
@@ -66,8 +65,7 @@ function validateClient (req, res, next) {
   formsRepo.findById(CLIENT_FORM_ID)
     .then(formTemplate => {
       if (!formTemplate) {
-        res.status(500).json({message: 'System Client Form Template not found'})
-        return
+        throw {httpStatus: 500, message: 'System Client Form Template not found'}
       }
       const baseSchema = {
         id: objectId,
@@ -85,11 +83,9 @@ function validateClient (req, res, next) {
       const errors = validate(req.body, clientSchema, null, true)
 
       if (size(errors)) {
-        res.status(400).json({message: 'Provided Client does not respect Schema', errors})
-        return
+        throw {httpStatus: 400, message: 'Provided Client does not respect Schema', errors}
       }
       req.entity = transform(req.body, clientSchema)
-      console.log('gender', req.entity.gender)
       next()
     })
     .catch(next)

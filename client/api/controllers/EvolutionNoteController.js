@@ -21,7 +21,7 @@ function ensureClientExists (req, res, next) {
   clientRepo.findById(req.entity.clientId)
     .then(client => {
       if (!client) {
-        res.status(400).json({error: 'client does not exist'})
+        throw {httpStatus: 400, message: 'client does not exist'}
       }
       next()
     })

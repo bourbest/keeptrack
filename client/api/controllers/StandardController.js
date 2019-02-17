@@ -35,7 +35,7 @@ export const makeFindById = (Repository, omitFields = []) => {
           const ret = removeFieldsFromEntity(entity, omitFields)
           res.json(ret)
         } else {
-          res.status(404).json({error: 'entity not found'})
+          throw {httpStatus: 404, message: 'entity not found'}
         }
         next()
       })
@@ -81,7 +81,7 @@ export const makeHandleArchive = (Repository) => {
   return function (req, res, next) {
     const repo = new Repository(req.database)
     if (!isArray(req.body) || req.body.length === 0) {
-      res.status(400).json({error: 'no ids provided in the body'})
+      throw {httpStatus: 400, message: 'no ids provided in the body'}
     } else {
       const ids = req.body.map(ObjectId)
       return repo.archive(ids)
@@ -98,7 +98,7 @@ export const makeHandleRestore = (Repository) => {
   return function (req, res, next) {
     const repo = new Repository(req.database)
     if (!isArray(req.body) || req.body.length === 0) {
-      res.status(400).json({error: 'no ids provided in the body'})
+      throw {httpStatus: 400, message: 'no ids provided in the body'}
     } else {
       const ids = req.body.map(ObjectId)
       return repo.restore(ids)
@@ -115,7 +115,7 @@ export const makeHandleDelete = (Repository) => {
   return function (req, res, next) {
     const repo = new Repository(req.database)
     if (!isArray(req.body) || req.body.length === 0) {
-      res.status(400).json({error: 'no ids provided in the body'})
+      throw {httpStatus: 400, message: 'no ids provided in the body'}
     } else {
       const ids = req.body.map(ObjectId)
       return repo.delete(ids)
