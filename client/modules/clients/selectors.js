@@ -1,25 +1,10 @@
 import config from './config'
 import {orderBy, map, filter, startsWith, uniqBy, keyBy} from 'lodash'
-import { getLocale } from '../app/selectors'
 import NotificationSelectors from '../notifications/selectors'
 
-import {
-  createBaseSelectors, buildSortedOptionList, EMPTY_ARRAY
-} from '../common/selectors'
+import {createBaseSelectors} from '../common/selectors'
 import { createSelector } from 'reselect'
 const Selectors = createBaseSelectors(config.entityName)
-
-const genders = [
-  {en: 'Male', fr: 'Homme', id: 'M'},
-  {en: 'Female', fr: 'Femme', id: 'F'}
-]
-
-Selectors.getGenderOptionList = createSelector(
-  [getLocale],
-  (locale) => {
-    return buildSortedOptionList(genders, locale)
-  }
-)
 
 Selectors.buildNewEntity = () => {
   let newEntity = {
@@ -50,23 +35,23 @@ Selectors.buildNewEntity = () => {
   return newEntity
 }
 
+Selectors.getClientDocuments = state => state[config.entityName].clientDocuments
+Selectors.getClientEvolutiveNotes = state => state[config.entityName].clientEvolutiveNotes
 Selectors.getSelectedFormId = (state) => state[config.entityName].selectedFormId
 Selectors.getSelectedTabId = state => state[config.entityName].selectedTabId
 
 Selectors.getClientDocumentsOrderByDate = createSelector(
-  [Selectors.getEditedEntity],
-  (client) => {
-    if (!client) return EMPTY_ARRAY
-    const ret = orderBy(client.documents, ['createdOn'], ['desc'])
+  [Selectors.getClientDocuments],
+  (documents) => {
+    const ret = orderBy(documents, ['documentDate'], ['desc'])
     return ret
   }
 )
 
 Selectors.getClientNotesOrderByDate = createSelector(
-  [Selectors.getEditedEntity],
-  (client) => {
-    if (!client || !client.evolutionNotes) return EMPTY_ARRAY
-    const ret = orderBy(client.evolutionNotes, ['exchangeDate'], ['desc'])
+  [Selectors.getClientEvolutiveNotes],
+  (notes) => {
+    const ret = orderBy(notes, ['documentDate'], ['desc'])
     return ret
   }
 )

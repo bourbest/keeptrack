@@ -8,7 +8,8 @@ import {clientFeedSubscriptionSchema} from '../../modules/client-feed-subscripti
 const ACCEPTED_SORT_PARAMS = ['createdOn']
 
 const filtersSchema = new Schema({
-  clientId: objectId
+  clientId: objectId,
+  userId: objectId
 })
 
 export default (router) => {

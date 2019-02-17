@@ -11,7 +11,7 @@ const baseSchema = {
   password: string,
   confirmPassword: string([isEqualToField('password'), requiredIfOtherFieldIsGiven('password')]),
   roles: arrayOf(string),
-  createOn: date,
+  createdOn: date,
   modifiedOn: date
 }
 

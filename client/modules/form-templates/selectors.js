@@ -1,4 +1,4 @@
-import config, {CONTROL_CONFIG_BY_TYPE, DEFAULT_CONTROL_OPTIONS, ClientLinkOptions, DocumentDateOptions} from './config'
+import config, {CONTROL_CONFIG_BY_TYPE, DEFAULT_CONTROL_OPTIONS, ClientLinkOptions, DocumentDateOptions, DocumentStatusOptions} from './config'
 import {isEmpty, max, map, pick, size, filter} from 'lodash'
 import { getFormValues } from 'redux-form'
 import { createSelector } from 'reselect'
@@ -7,7 +7,9 @@ import {
   createBaseSelectors,
   buildSortedOptionList, EMPTY_OBJECT
 } from '../common/selectors'
-import {buildSchemaForFields} from './dynamic-form-validation'
+import {buildSchemaForFields} from '../client-documents/client-document-utils'
+import {string, date, Schema, required} from 'sapin'
+import {objectId} from '../common/validate'
 
 const Selectors = createBaseSelectors(config.entityName)
 
@@ -67,9 +69,9 @@ Selectors.getNextChoiceId = createSelector(
   (choices) => {
     if (choices === null) return 0
 
-    const ids = map(choices, 'id')
-    if (ids.length === 0) return 1
-    return max(ids) + 1
+    const ids = map(choices, choice => parseInt(choice.id, 10))
+    if (ids.length === 0) return '1'
+    return (max(ids) + 1).toString()
   }
 )
 
@@ -91,6 +93,7 @@ Selectors.buildNewEntity = () => {
     isArchived: false,
     isSystem: false,
     clientLink: ClientLinkOptions.MANDATORY,
+    documentStatus: DocumentStatusOptions.NO_DRAFT,
     documentDate: DocumentDateOptions.SET_BY_USER,
     documentDateLabels: {
       fr: 'Date de création',
@@ -133,9 +136,19 @@ Selectors.canSaveEditedEntity = (state) => {
 }
 
 Selectors.getFormSchema = createSelector(
-  [Selectors.getControls],
-  (fields) => {
-    return buildSchemaForFields(fields)
+  [Selectors.getControls, Selectors.getEditedEntity],
+  (fields, formTemplate) => {
+    const baseDocSchema = {
+      values: buildSchemaForFields(fields),
+      status: string(required),
+      createdOn: date,
+      modifiedOn: date
+    }
+
+    if (formTemplate && formTemplate.clientLink === ClientLinkOptions.MANDATORY) {
+      baseDocSchema.clientId = objectId(required)
+    }
+    return new Schema(baseDocSchema)
   }
 )
 

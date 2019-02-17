@@ -6,25 +6,25 @@ import {format} from 'date-fns'
 // redux
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { reduxForm, FormSection } from 'redux-form'
+import { reduxForm, FormSection, Field } from 'redux-form'
 import {validate} from 'sapin'
 
-// actions and selectors
+// const
 import config from '../../modules/client-documents/config'
+import {DocumentStatusOptions} from '../../modules/form-templates/config'
+
+// actions and selectors
 import { ActionCreators as AppActions } from '../../modules/app/actions'
 import { ActionCreators as DocumentActions } from '../../modules/client-documents/actions'
-import { ActionCreators as ClientActions } from '../../modules/clients/actions'
-import { ActionCreators as FormActions } from '../../modules/form-templates/actions'
 import { ActionCreators as NotfActions } from '../../modules/notifications/actions'
 
 import DocumentSelectors from '../../modules/client-documents/selectors'
 import ClientSelectors from '../../modules/clients/selectors'
-import FormSelectors from '../../modules/form-templates/selectors'
 import { getLocale } from '../../modules/app/selectors'
 
 // sections tabs components
 import DocumentDynamicForm from './components/DocumentDynamicForm'
-import { FormError } from '../components/forms/FormError'
+import { FormError, FieldWrapper, Select } from '../components/forms'
 import {Form} from '../components/controls/SemanticControls'
 import {createTranslate} from '../../locales/translate'
 import StandardEditToolbar from '../components/behavioral/StandardEditToolbar'
@@ -34,8 +34,6 @@ const labelNamespace = 'client-document'
 const mapDispatchToProps = (dispatch) => {
   return {
     actions: bindActionCreators(DocumentActions, dispatch),
-    clientActions: bindActionCreators(ClientActions, dispatch),
-    formActions: bindActionCreators(FormActions, dispatch),
     appActions: bindActionCreators(AppActions, dispatch),
     notfActions: bindActionCreators(NotfActions, dispatch)
   }
@@ -56,14 +54,12 @@ class EditClientDocumentPage extends React.PureComponent {
     const formId = this.props.params.formId
     const clientId = this.props.params.clientId
 
+    this.props.actions.setClient(null)
+    this.props.actions.setTemplate(null)
     if (docId) {
-      this.props.actions.loadDocument(clientId, docId)
+      this.props.actions.loadDocument(docId)
     } else {
-      const newDoc = DocumentSelectors.buildNewEntity(clientId, formId)
-      this.props.actions.setEditedEntity(newDoc)
-      this.props.clientActions.fetchEditedEntity(clientId)
-      this.props.formActions.fetchEditedEntity(formId)
-      this.props.actions.setEditedEntity(newDoc)
+      this.props.actions.initializeNewDocument(formId, clientId)
     }
   }
 
@@ -90,16 +86,17 @@ class EditClientDocumentPage extends React.PureComponent {
 
   formatTitle (client, document, form) {
     if (client && document && form) {
-      const day = format(document.createdOn, 'YYYY-MM-DD')
+      const day = format(document.documentDate, 'YYYY-MM-DD')
       return `${client.firstName} ${client.lastName} - ${form.name} (${day})`
     }
     return ''
   }
+
   render () {
     const {canSave, error, locale, isLoading} = this.props
     const {client, document, formTemplate} = this.props
 
-    if (isLoading) return null
+    if (isLoading || !formTemplate || !document) return null
     return (
       <div>
         <StandardEditToolbar
@@ -113,6 +110,18 @@ class EditClientDocumentPage extends React.PureComponent {
         <FormError error={error} locale={locale} />
 
         <Form>
+          {formTemplate.documentStatus === DocumentStatusOptions.USE_DRAFT &&
+            <Field
+              label={this.message('status')}
+              name="status"
+              component={FieldWrapper}
+              InputControl={Select}
+              required
+              locale={locale}
+              options={this.props.statusOptions}
+            />
+          }
+
           <FormSection name="values">
             <DocumentDynamicForm
               controlsById={this.props.formControlsById}
@@ -129,16 +138,17 @@ class EditClientDocumentPage extends React.PureComponent {
 
 const mapStateToProps = (state, props) => {
   const ret = {
-    isLoading: FormSelectors.isFetchingList(state) || ClientSelectors.isFetchingEntity(state),
+    isLoading: DocumentSelectors.isFetching(state),
     document: DocumentSelectors.getEditedEntity(state),
-    client: ClientSelectors.getEditedEntity(state),
-    formTemplate: FormSelectors.getEditedEntity(state),
-    formSchema: FormSelectors.getFormSchema(state),
+    statusOptions: DocumentSelectors.getStatusOptions(state),
+    client: DocumentSelectors.getClient(state),
+    formTemplate: DocumentSelectors.getTemplate(state),
+    formSchema: DocumentSelectors.getFormSchema(state),
 
     documentNotificationIds: ClientSelectors.getNotificationIdsForClientDocument(state, props),
 
-    formControlsById: FormSelectors.getControls(state),
-    formControlIdsByParentId: FormSelectors.getControlIdsByParentId(state),
+    formControlsById: DocumentSelectors.getControls(state),
+    formControlIdsByParentId: DocumentSelectors.getControlIdsByParentId(state),
 
     isNew: DocumentSelectors.isNewEntity(state),
     canSave: DocumentSelectors.canSaveEditedEntity(state),
@@ -152,6 +162,7 @@ const mapStateToProps = (state, props) => {
 EditClientDocumentPage.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   document: PropTypes.object,
+  statusOptions: PropTypes.array.isRequired,
   client: PropTypes.object,
   formTemplate: PropTypes.object,
   formSchema: PropTypes.object.isRequired,

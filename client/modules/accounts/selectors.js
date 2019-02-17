@@ -10,7 +10,6 @@ Selectors.buildNewEntity = () => {
     firstName: '',
     lastName: '',
     username: '',
-    email: '',
     organismRole: '',
     roles: [],
     isArchived: false

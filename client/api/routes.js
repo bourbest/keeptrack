@@ -67,12 +67,12 @@ function createApiRouter (config, database) {
       console.log("error handler")
       if (err.httpStatus) {
         res.status(err.httpStatus)
-          .json({message: err.error})
+          .json({message: err.message, errors: err.errors})
       } else if (err.code === 'EBADCSRFTOKEN') {
-        res.status(403).json({error: 'Bad CSRF Token'})
+        res.status(403).json({message: 'Bad CSRF Token'})
       } else {
         res.status(500)
-          .json({error: err.stack})
+          .json({message: 'Internal server error', stack: err.stack})
       }
     } 
   })

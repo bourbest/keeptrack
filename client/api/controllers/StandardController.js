@@ -1,7 +1,11 @@
 import {ObjectId} from 'mongodb'
-import {isArray} from 'lodash'
+import {isArray, omit, map} from 'lodash'
 
-export const makeFindAllHandler = (Repository) => {
+const removeFieldsFromEntity = (entity, omitFields) => {
+  return  omit(entity, omitFields)
+}
+
+export const makeFindAllHandler = (Repository, omitFields = []) => {
   return function (req, res, next) {
     const repo = new Repository(req.database)
     const promises = [
@@ -10,7 +14,7 @@ export const makeFindAllHandler = (Repository) => {
     ]
     return Promise.all(promises)
       .then(function (data) {
-        const entities = data[0]
+        const entities = map(data[0], entity => removeFieldsFromEntity(entity, omitFields))
         const totalCount = data[1]
         res.json({
           totalCount,
@@ -22,15 +26,16 @@ export const makeFindAllHandler = (Repository) => {
   }
 }
 
-export const makeFindById = (Repository) => {
+export const makeFindById = (Repository, omitFields = []) => {
   return function (req, res, next) {
     const repo = new Repository(req.database)
     return repo.findById(req.params.id)
       .then(function (entity) {
         if (entity) {
-          res.json(entity)
+          const ret = removeFieldsFromEntity(entity, omitFields)
+          res.json(ret)
         } else {
-          res.status(404).json({error: 'entity not found'})
+          throw {httpStatus: 404, message: 'entity not found'}
         }
         next()
       })
@@ -60,11 +65,11 @@ export const makeHandlePut = (Repository) => {
   return function (req, res, next) {
     const repo = new Repository(req.database)
     const entity = req.entity
-    entity.id = ObjectId(req.params.id)
+
     entity.modifiedOn = new Date()
 
     return repo.update(entity)
-      .then(function () {
+      .then(function (writeResult) {
         res.json(entity) // return untransformed entity so id is used instead of _id
         next()
       })
@@ -76,7 +81,7 @@ export const makeHandleArchive = (Repository) => {
   return function (req, res, next) {
     const repo = new Repository(req.database)
     if (!isArray(req.body) || req.body.length === 0) {
-      res.status(400).json({error: 'no ids provided in the body'})
+      throw {httpStatus: 400, message: 'no ids provided in the body'}
     } else {
       const ids = req.body.map(ObjectId)
       return repo.archive(ids)
@@ -93,7 +98,7 @@ export const makeHandleRestore = (Repository) => {
   return function (req, res, next) {
     const repo = new Repository(req.database)
     if (!isArray(req.body) || req.body.length === 0) {
-      res.status(400).json({error: 'no ids provided in the body'})
+      throw {httpStatus: 400, message: 'no ids provided in the body'}
     } else {
       const ids = req.body.map(ObjectId)
       return repo.restore(ids)
@@ -110,7 +115,7 @@ export const makeHandleDelete = (Repository) => {
   return function (req, res, next) {
     const repo = new Repository(req.database)
     if (!isArray(req.body) || req.body.length === 0) {
-      res.status(400).json({error: 'no ids provided in the body'})
+      throw {httpStatus: 400, message: 'no ids provided in the body'}
     } else {
       const ids = req.body.map(ObjectId)
       return repo.delete(ids)
@@ -121,4 +126,12 @@ export const makeHandleDelete = (Repository) => {
         .catch(next)
     }
   }
+}
+
+export function setAuthor (req, res, next) {
+  const {entity, user} = req
+  entity.ownerId = ObjectId(user.id)
+  entity.authorName = user.firstName + ' ' + user.lastName
+  entity.authorRole = user.organismRole
+  next()
 }

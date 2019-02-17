@@ -15,6 +15,7 @@ import validateNote from '../../modules/evolution-notes/schema'
 import {createTranslate} from '../../locales/translate'
 import FormHtmlEditor from '../components/forms/FormHtmlEditor'
 import {Input, FieldWrapper, DateInput} from '../components/forms'
+import Toolbar from '../components/Toolbar/Toolbar'
 import SelectClient from '../components/behavioral/SelectClient'
 import {Form, Button} from '../components/controls/SemanticControls'
 import {Field, reduxForm} from 'redux-form'
@@ -52,6 +53,13 @@ class CreateEvolutionNotePage extends React.PureComponent {
     const {locale, client} = this.props
     return (
       <div className="mt-2">
+        <Toolbar title={this.t('newTitle')}>
+          <Button onClick={this.props.actions.resetForm}>{this.t('reset', 'common')}</Button>
+          <Button primary onClick={this.handleSave} disabled={!this.props.canSave}>
+            {this.t('save', 'common')}
+          </Button>
+        </Toolbar>
+
         <Form>
           <Field
             label={this.t('client')}
@@ -73,7 +81,7 @@ class CreateEvolutionNotePage extends React.PureComponent {
           }
           <Field
             label={this.t('exchangeDate')}
-            name="exchangeDate"
+            name="documentDate"
             component={FieldWrapper}
             InputControl={DateInput}
             locale={locale}
@@ -94,9 +102,12 @@ class CreateEvolutionNotePage extends React.PureComponent {
             locale={locale}
             required />
         </Form>
-        <br /><br /><br />
-        <Button primary className="mr-2" onClick={this.handleSave} disabled={!this.props.canSave}>{this.t('save', 'common')}</Button>
-        <Button onClick={this.props.actions.resetForm}>{this.t('reset', 'common')}</Button>
+        <Toolbar>
+          <Button onClick={this.props.actions.resetForm}>{this.t('reset', 'common')}</Button>
+          <Button primary onClick={this.handleSave} disabled={!this.props.canSave}>
+            {this.t('save', 'common')}
+          </Button>
+        </Toolbar>
       </div>
     )
   }

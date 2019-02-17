@@ -6,7 +6,8 @@ export const evolutionNoteSchema = new Schema({
   minutes: number([required, isInteger, withinRange(1, 500)]),
   isArchived: boolean,
   createdOn: date,
-  modifiedOn: date
+  modifiedOn: date,
+  documentDate: date(required)
 })
 
 export default (entity, props) => {

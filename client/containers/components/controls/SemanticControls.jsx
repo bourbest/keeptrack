@@ -27,6 +27,10 @@ export const Button = ({className, primary, secondary, children, ...otherProps})
   )
 }
 
+Button.defaultProps = {
+  type: 'button'
+}
+
 Button.propTypes = {
   children: PropTypes.any,
   className: PropTypes.string,

@@ -1,15 +1,17 @@
+import {size, set, forEach} from 'lodash'
 import {ClientRepository, EvolutionNoteRepository, ClientFeedSubcriptionRepository, FormTemplateRepository} from '../repository'
 import {
   makeFindAllHandler, makeFindById, makeHandleArchive, makeHandlePost, makeHandlePut,
   makeHandleRestore
 } from './StandardController'
 import {parsePagination, parseFilters} from '../middlewares'
-import {buildSchemaForFields} from '../../modules/form-templates/dynamic-form-validation'
+import {getValidationsForField} from '../../modules/client-documents/client-document-utils'
 
-import {string, boolean, Schema, validate, transform} from 'sapin'
+import {string, boolean, Schema, validate, transform, date} from 'sapin'
 import {isArray} from 'lodash'
 import {ObjectId} from 'mongodb'
 import { CLIENT_FORM_ID } from '../../modules/const'
+import { objectId } from '../../modules/common/validate'
 
 const filtersSchema = new Schema({
   contains: string,
@@ -29,16 +31,15 @@ function getDocumentsByClientId (Repository) {
 
 function deleteFeedSubscriptions (req, res, next) {
   if (!isArray(req.body) || req.body.length === 0) {
-    res.status(400).json({error: 'no ids provided in the body'})
-  } else {
-    const repo = new ClientFeedSubcriptionRepository(req.database)
-    const ids = req.body.map(ObjectId)
-    return repo.deleteByClientIds(ids)
-      .then(function () {
-        next()
-      })
-      .catch(next)
+    throw {httpStatus: 400, message: 'no ids provided in the body'}
   }
+  const repo = new ClientFeedSubcriptionRepository(req.database)
+  const ids = req.body.map(ObjectId)
+  return repo.deleteByClientIds(ids)
+    .then(function () {
+      next()
+    })
+    .catch(next)
 }
 
 function getUserSubscribedClients (req, res, next) {
@@ -64,14 +65,27 @@ function validateClient (req, res, next) {
   formsRepo.findById(CLIENT_FORM_ID)
     .then(formTemplate => {
       if (!formTemplate) {
-        return next({httpStatus: 500, message: 'System Client Form Template not found'})
+        throw {httpStatus: 500, message: 'System Client Form Template not found'}
       }
-      const schema = buildSchemaForFields(formTemplate.fields, true)
-      const errors = validate(req.body, schema)
-      if (errors) {
-        return next({httpStatus: 400, message: 'Document does does not respect Form Schema', errors})
+      const baseSchema = {
+        id: objectId,
+        isArchived: boolean,
+        createdOn: date,
+        modifiedOn: date
       }
-      req.entity = transform(req.body, schema)
+
+      forEach(formTemplate.fields, field => {
+        const validations = getValidationsForField(field)
+        set(baseSchema, field.id, validations)
+      })
+    
+      const clientSchema = new Schema(baseSchema)
+      const errors = validate(req.body, clientSchema, null, true)
+
+      if (size(errors)) {
+        throw {httpStatus: 400, message: 'Provided Client does not respect Schema', errors}
+      }
+      req.entity = transform(req.body, clientSchema)
       next()
     })
     .catch(next)

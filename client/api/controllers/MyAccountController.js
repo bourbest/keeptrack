@@ -22,7 +22,7 @@ function ensurePasswordMatch (password) {
         if (isValid) {
           return user
         }
-        throw {httpStatus: 400, error: 'Mot de passe invalide'}
+        throw {httpStatus: 400, message: 'Mot de passe invalide'}
       })
   }
 }
@@ -42,7 +42,7 @@ export default (router) => {
             if (cmdResult.result.nModified === 1 && cmdResult.result.ok === 1) {
               res.status(200).json({})
             } else {
-              res.status(500).json({error: 'database error', result: cmdResult.result })
+              throw {httpStatus: 500, message: 'database error', errors: cmdResult.result}
             }
           })
           .catch(next)
