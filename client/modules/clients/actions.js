@@ -9,6 +9,8 @@ const SpecificActions = createActions(prefix, [
   'LOAD_CLIENT',
   'SET_SELECTED_FORM_ID',
   'SET_SELECTED_TAB_ID',
+  'SET_CLIENT_DOCUMENTS',
+  'SET_CLIENT_EVOLUTIVE_NOTES',
 
   'FETCH_CLIENT_FORM',
   'SET_FETCHING_CLIENT_FORM',
@@ -22,6 +24,8 @@ BaseActionCreators.fetchEditedEntity = (clientId) => ({type: SpecificActions.LOA
 const SpecificActionCreators = {
   setSelectedFormId: (formId) => ({type: SpecificActions.SET_SELECTED_FORM_ID, formId}),
   setSelectedTabId: tabId => ({type: SpecificActions.SET_SELECTED_TAB_ID, tabId}),
+  setClientDocuments: documents => ({type: SpecificActions.SET_CLIENT_DOCUMENTS, documents}),
+  setClientEvolutiveNotes: notes => ({type: SpecificActions.SET_CLIENT_EVOLUTIVE_NOTES, notes}),
 
   fetchClientForm: () => ({type: SpecificActions.FETCH_CLIENT_FORM}),
   setFetchingClientForm: (isFetching) => ({type: SpecificActions.SET_FETCHING_CLIENT_FORM, isFetching}),

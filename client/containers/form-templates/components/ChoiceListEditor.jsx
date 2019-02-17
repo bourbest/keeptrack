@@ -35,7 +35,6 @@ class ChoiceListEditor extends React.PureComponent {
             <tr>
               <td>{this.message('fr', 'common')}</td>
               <td>{this.message('en', 'common')}</td>
-              <td>{this.message('export-value')}</td>
               <td>{lockChoiceValues ? '' : this.message('archived')}</td>
             </tr>
           </thead>
@@ -57,13 +56,7 @@ class ChoiceListEditor extends React.PureComponent {
                       <Field component={FieldWrapper} InputControl={Input} style={{width: '100px'}} name={`${baseFieldName}.labels.en`} locale={locale} autoComplete="off" />
                     </div>
                   </td>
-                  <td>
-                    <div className="d-flex justify-content-start">
-                      <Field component={FieldWrapper} InputControl={Input} style={{width: '50px'}} name={`${baseFieldName}.value`}
-                        locale={locale} autoComplete="off" readOnly={lockChoiceValues} />
-                    </div>
-                  </td>
-                  <td>
+                  <td className="d-flex justify-content-end">
                     {!lockChoiceValues &&
                       <Field component={FieldWrapper} InputControl={Checkbox} style={{width: '50px'}} name={`${baseFieldName}.isArchived`}
                         locale={locale} />

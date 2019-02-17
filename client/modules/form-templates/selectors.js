@@ -7,7 +7,7 @@ import {
   createBaseSelectors,
   buildSortedOptionList, EMPTY_OBJECT
 } from '../common/selectors'
-import {buildSchemaForFields} from '../client-documents/client-document-validation'
+import {buildSchemaForFields} from '../client-documents/client-document-utils'
 import {string, date, Schema, required} from 'sapin'
 import {objectId} from '../common/validate'
 
@@ -69,9 +69,9 @@ Selectors.getNextChoiceId = createSelector(
   (choices) => {
     if (choices === null) return 0
 
-    const ids = map(choices, 'id')
-    if (ids.length === 0) return 1
-    return max(ids) + 1
+    const ids = map(choices, choice => parseInt(choice.id, 10))
+    if (ids.length === 0) return '1'
+    return (max(ids) + 1).toString()
   }
 )
 

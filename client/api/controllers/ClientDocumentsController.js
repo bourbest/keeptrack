@@ -4,7 +4,7 @@ import {ClientDocumentRespository, ClientRepository, FormTemplateRepository} fro
 import {makeFindAllHandler, makeFindById, makeHandleArchive, makeHandlePost, makeHandlePut, setAuthor} from './StandardController'
 import {entityFromBody, parsePagination, parseFilters} from '../middlewares'
 import {BaseClientDocumentSchema} from '../../modules/client-documents/schema'
-import {buildSchemaForDocument} from '../../modules/client-documents/client-document-validation'
+import {buildSchemaForDocument} from '../../modules/client-documents/client-document-utils'
 import {createClientNotifications} from './notifications/create-notifications'
 
 import {boolean, Schema, validate, transform} from 'sapin'
@@ -43,7 +43,9 @@ function validateDocument (req, res, next) {
       }
 
       const schema = buildSchemaForDocument(form)
-      const errors = validate(req.body, schema)
+      console.log('before validate')
+      const errors = validate(req.body, schema, null, true)
+      console.log('after validate', errors)
       if (size(errors)) {
         return next({httpStatus: 400, message: 'Document does not respect Form Schema', errors})
       } else if (form.clientLink === ClientLinkOptions.MANDATORY && !client) {

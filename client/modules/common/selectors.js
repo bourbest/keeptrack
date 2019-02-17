@@ -106,6 +106,7 @@ export const buildSortedOptionList = (entities, nameProperty, idProperty = 'id')
     const label = get(entity, nameProperty, '')
 
     return {
+      id: entity[idProperty],
       value: entity[idProperty],
       label
     }

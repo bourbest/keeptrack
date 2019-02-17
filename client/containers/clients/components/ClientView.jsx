@@ -22,7 +22,7 @@ class ClientView extends React.PureComponent {
       const today = new Date()
       const dob = new Date(birthDate)
       const diff = (today.getTime() - dob.getTime()) / (60 * 60 * 24 * 1000)
-      const age = Math.abs(Math.round(diff / 365.25))
+      const age = Math.abs(Math.floor(diff / 365.25))
 
       const params = {
         age,

@@ -1,9 +1,8 @@
 import config from './config'
 import { createSelector } from 'reselect'
 import { getLocale } from '../app/selectors'
-import { EMPTY_ARRAY, EMPTY_OBJECT
-} from '../common/selectors'
-import {buildSchemaForFields} from '../client-documents/client-document-validation'
+import {EMPTY_ARRAY, EMPTY_OBJECT} from '../common/selectors'
+import {buildSchemaForFields} from '../client-documents/client-document-utils'
 import {getNodesById, getOrderedNodesByParentId} from '../form-templates/form-node-utils'
 
 const Selectors = {}

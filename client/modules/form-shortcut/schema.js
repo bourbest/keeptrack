@@ -9,7 +9,7 @@ export const formShortcutSchema = new Schema({
     en: string(required)
   },
   isArchived: boolean,
-  createOn: date,
+  createdOn: date,
   modifiedOn: date
 })
 

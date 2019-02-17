@@ -81,7 +81,7 @@ class CreateEvolutionNotePage extends React.PureComponent {
           }
           <Field
             label={this.t('exchangeDate')}
-            name="exchangeDate"
+            name="documentDate"
             component={FieldWrapper}
             InputControl={DateInput}
             locale={locale}

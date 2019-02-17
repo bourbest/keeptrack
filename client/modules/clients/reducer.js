@@ -7,7 +7,9 @@ const initialState = {
   selectedFormId: null,
   selectedTabId: 'notes',
   isFetchingClientForm: false,
-  clientForm: null
+  clientForm: null,
+  clientDocuments: [],
+  clientEvolutiveNotes: []
 }
 
 const specificReducer = (state, action) => {
@@ -23,6 +25,12 @@ const specificReducer = (state, action) => {
 
     case Actions.SET_CLIENT_FORM:
       return {...state, clientForm: action.form}
+
+    case Actions.SET_CLIENT_DOCUMENTS:
+      return {...state, clientDocuments: action.documents}
+
+    case Actions.SET_CLIENT_EVOLUTIVE_NOTES:
+      return {...state, clientEvolutiveNotes: action.notes}
   }
   return state
 }

@@ -29,14 +29,14 @@ class CheckboxList extends React.PureComponent {
     const checkedValues = new Set(currentValue)
 
     // remove from the list archived options that are not already checked
-    const validOptions = filter(options, option => !option.isArchived || checkedValues.has(option.value))
+    const validOptions = filter(options, option => !option.isArchived || checkedValues.has(option.id))
     return (
       <div>
         {validOptions.map(option => (
           <Checkbox
-            key={option.value}
-            name={option.value}
-            value={checkedValues.has(option.value)}
+            key={option.id}
+            name={option.id}
+            value={checkedValues.has(option.id)}
             text={option.label}
             onChange={this.handleChange}
             disabled={disabled || option.isArchived}

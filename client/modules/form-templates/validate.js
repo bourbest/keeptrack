@@ -1,13 +1,13 @@
 import {size, map, uniq, trim} from 'lodash'
 import { Schema, object, string, date, boolean, arrayOf, number, required, isInteger, withinRange, validate, isGteToField, oneOf } from 'sapin'
 import { objectId, hasMinRows } from '../common/validate'
-import {CONTROL_TYPES} from './config'
+import {CONTROL_TYPES, ClientLinkOptions, DocumentDateOptions, DocumentStatusOptions} from './config'
 
 const choicesAreUniq = ({value}) => {
   const choices = value
   const en = map(choices, 'labels.en').map(trim)
   const fr = map(choices, 'labels.fr').map(trim)
-  const values = map(choices, 'value').map(trim)
+  const values = map(choices, 'id').map(trim)
   let error = null
   if (uniq(en).length !== en.length) {
     error = {error: 'formTemplates.duplicateEnglishLabel'}
@@ -28,7 +28,7 @@ const LABELS_REQUIRED = {
 
 const CHOICES_REQUIRED = {
   'choices': arrayOf({
-    value: string(required),
+    id: string(required),
     labels: {
       fr: string(required),
       en: string(required)
@@ -98,9 +98,21 @@ export const validateNodes = (nodes) => {
 
 export const formSchema = new Schema({
   id: objectId,
-  name: string(required),
   isArchived: boolean,
+  isSystem: boolean,
+  name: string(required),
+  clientLink: string([required, oneOf([ClientLinkOptions.MANDATORY, ClientLinkOptions.NO_LINK])]),
+  documentDate: string([required, oneOf([DocumentDateOptions.SET_BY_USER, DocumentDateOptions.USE_CREATION_DATE])]),
+  documentStatus: string([required, oneOf([DocumentStatusOptions.NO_DRAFT, DocumentStatusOptions.USE_DRAFT])]),
+  documentDateLabels: {
+    fr: string(required),
+    en: string(required)
+  },
   createdOn: date,
   modifiedOn: date,
   fields: arrayOf(object(nodeSchema))
 })
+
+export default (entity) => {
+  return validate(entity, formSchema)
+}

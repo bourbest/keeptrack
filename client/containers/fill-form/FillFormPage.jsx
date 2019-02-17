@@ -16,7 +16,6 @@ import { ActionCreators as DocumentActions } from '../../modules/client-document
 import { ActionCreators as FormActions } from '../../modules/form-templates/actions'
 
 import DocumentSelectors from '../../modules/client-documents/selectors'
-import FormSelectors from '../../modules/form-templates/selectors'
 import { getLocale } from '../../modules/app/selectors'
 
 // sections tabs components
@@ -51,6 +50,7 @@ class FillFormPage extends React.PureComponent {
 
   componentWillMount () {
     const formId = this.props.params.formId
+    this.props.actions.setTemplate(null)
     this.props.actions.initializeNewDocument(formId)
   }
 
@@ -71,9 +71,9 @@ class FillFormPage extends React.PureComponent {
 
   render () {
     const {canSave, error, locale, isLoading} = this.props
-    const {client, formTemplate} = this.props
+    const {client, formTemplate, document} = this.props
 
-    if (isLoading || !formTemplate) return null
+    if (isLoading || !formTemplate || !document) return null
     return (
       <div>
         <Toolbar title={this.message('newTitle', {formName: formTemplate.name})}>
@@ -157,14 +157,14 @@ class FillFormPage extends React.PureComponent {
 const mapStateToProps = (state, props) => {
   const ret = {
     client: DocumentSelectors.getClient(state),
-    isLoading: FormSelectors.isFetchingEntity(state),
+    isLoading: DocumentSelectors.isFetching(state),
     document: DocumentSelectors.getEditedEntity(state),
     statusOptions: DocumentSelectors.getStatusOptions(state),
-    formTemplate: FormSelectors.getEditedEntity(state),
-    formSchema: FormSelectors.getFormSchema(state),
+    formTemplate: DocumentSelectors.getTemplate(state),
+    formSchema: DocumentSelectors.getFormSchema(state),
 
-    formControlsById: FormSelectors.getControls(state),
-    formControlIdsByParentId: FormSelectors.getControlIdsByParentId(state),
+    formControlsById: DocumentSelectors.getControls(state),
+    formControlIdsByParentId: DocumentSelectors.getControlIdsByParentId(state),
 
     canSave: DocumentSelectors.canSaveEditedEntity(state),
     error: DocumentSelectors.getSubmitError(state),

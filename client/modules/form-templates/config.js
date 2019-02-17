@@ -118,9 +118,9 @@ export const DEFAULT_CONTROL_OPTIONS = {
   minValue: null,
   maxValue: null,
   choices: [
-    {value: '1', labels: {fr: 'Pommes', en: 'Apples'}, id: 1},
-    {value: '2', labels: {fr: 'Bananes', en: 'Bananas'}, id: 2},
-    {value: '3', labels: {fr: 'Oranges', en: 'Oranges'}, id: 3}
+    {labels: {fr: 'Pommes', en: 'Apples'}, id: '1'},
+    {labels: {fr: 'Bananes', en: 'Bananas'}, id: '2'},
+    {labels: {fr: 'Oranges', en: 'Oranges'}, id: '3'}
   ], // choix possibles
   maxLength: null, // maxlenght des input / textarea
 //  maxFileSize: 1024, // contrôle fichier seulement, taille en Ko, max 1024

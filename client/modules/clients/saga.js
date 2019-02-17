@@ -4,7 +4,7 @@ import { createBaseSaga, createBaseSagaWatcher } from '../common/sagas'
 import {getService} from '../app/selectors'
 import Selectors from './selectors'
 import { handleError } from '../commonHandlers'
-import {select, put, call, takeEvery} from 'redux-saga/effects'
+import {select, put, call, takeEvery, all} from 'redux-saga/effects'
 import { CLIENT_FORM_ID } from '../const'
 // Saga
 const baseSaga = createBaseSaga(config.entityName, Actions, ActionCreators, getService, Selectors, handleError)
@@ -23,10 +23,12 @@ function * clientSaga (action) {
           clientSvc.getEvolutionNotesByClientId(action.clientId)
         ]
         const results = yield call([Promise, Promise.all], promises)
-        const client = results[0]
-        client.documents = results[1].entities
-        client.evolutionNotes = results[2]
-        yield put(ActionCreators.setEditedEntity(client))
+
+        yield all([
+          put(ActionCreators.setEditedEntity(results[0])),
+          put(ActionCreators.setClientDocuments(results[1].entities)),
+          put(ActionCreators.setClientEvolutiveNotes(results[2]))
+        ])
       } catch (error) {
         errorAction = handleError(config.entityName, error)
       }

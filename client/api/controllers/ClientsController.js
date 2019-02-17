@@ -1,15 +1,17 @@
+import {size, set, forEach} from 'lodash'
 import {ClientRepository, EvolutionNoteRepository, ClientFeedSubcriptionRepository, FormTemplateRepository} from '../repository'
 import {
   makeFindAllHandler, makeFindById, makeHandleArchive, makeHandlePost, makeHandlePut,
   makeHandleRestore
 } from './StandardController'
 import {parsePagination, parseFilters} from '../middlewares'
-import {buildSchemaForFields} from '../../modules/client-documents/client-document-validation'
+import {getValidationsForField} from '../../modules/client-documents/client-document-utils'
 
-import {string, boolean, Schema, validate, transform} from 'sapin'
+import {string, boolean, Schema, validate, transform, date} from 'sapin'
 import {isArray} from 'lodash'
 import {ObjectId} from 'mongodb'
 import { CLIENT_FORM_ID } from '../../modules/const'
+import { objectId } from '../../modules/common/validate';
 
 const filtersSchema = new Schema({
   contains: string,
@@ -64,14 +66,30 @@ function validateClient (req, res, next) {
   formsRepo.findById(CLIENT_FORM_ID)
     .then(formTemplate => {
       if (!formTemplate) {
-        return next({httpStatus: 500, message: 'System Client Form Template not found'})
+        res.status(500).json({message: 'System Client Form Template not found'})
+        return
       }
-      const schema = buildSchemaForFields(formTemplate.fields)
-      const errors = validate(req.body, schema)
-      if (errors) {
-        return next({httpStatus: 400, message: 'Document does does not respect Form Schema', errors})
+      const baseSchema = {
+        id: objectId,
+        isArchived: boolean,
+        createdOn: date,
+        modifiedOn: date
       }
-      req.entity = transform(req.body, schema)
+
+      forEach(formTemplate.fields, field => {
+        const validations = getValidationsForField(field)
+        set(baseSchema, field.id, validations)
+      })
+    
+      const clientSchema = new Schema(baseSchema)
+      const errors = validate(req.body, clientSchema, null, true)
+
+      if (size(errors)) {
+        res.status(400).json({message: 'Provided Client does not respect Schema', errors})
+        return
+      }
+      req.entity = transform(req.body, clientSchema)
+      console.log('gender', req.entity.gender)
       next()
     })
     .catch(next)

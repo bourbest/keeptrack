@@ -2,8 +2,8 @@
   tester avec IE 11
 
   Rendu à faire :
-  - Gérer statut des documents
-  - remplir un formulaire à partir d'un shortcut.
+  - faire ménage du payload de client lors d'un put (ca inclut les documents et les evolutive notes)
+  
   - ajouter une action dans ClientDocument pour setter le client
 
   Rendu à faire :

@@ -9,7 +9,7 @@ import {Form} from '../../components/controls/SemanticControls'
 // module stuff
 import config, {ClientLinkOptions, DocumentDateOptions, DocumentStatusOptions} from '../../../modules/form-templates/config'
 
-import validateTemplateProperties from '../../../modules/form-templates/schema'
+import validateTemplateProperties from '../../../modules/form-templates/validate'
 
 class TemplatePropertiesForm extends React.PureComponent {
   constructor (props) {

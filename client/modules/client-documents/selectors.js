@@ -3,29 +3,22 @@ const entityName = config.entityName
 
 import {getFormSubmitErrors, getFormSyncErrors, getFormValues, isPristine, isSubmitting, isValid} from 'redux-form'
 import {createSelector} from 'reselect'
-import {EMPTY_OBJECT} from '../common/selectors'
+import {EMPTY_ARRAY, EMPTY_OBJECT} from '../common/selectors'
 import {getLocale} from '../app/selectors'
-import { DocumentStatusOptions } from '../form-templates/config'
 import {translate} from '../../locales/translate'
+import {buildSchemaForDocument, buildDocumentWithDefaultValues} from './client-document-utils'
+import {getNodesById, getOrderedNodesByParentId} from '../form-templates/form-node-utils'
+
 const Selectors = {}
 
 Selectors.getEditedEntity = getFormValues(entityName)
 Selectors.buildNewEntity = (template, clientId) => {
-  let newEntity = {
-    clientId,
-    status: template.documentStatus === DocumentStatusOptions.USE_DRAFT ? DocumentStatus.DRAFT : DocumentStatus.COMPLETE,
-    formId: template.id,
-    values: {},
-    createdOn: new Date(),
-    modifiedOn: new Date(),
-    documentDate: new Date(),
-    isArchived: false
-  }
-
-  return newEntity
+  return buildDocumentWithDefaultValues(template, clientId)
 }
 
 Selectors.getClient = state => state[entityName].client
+Selectors.getTemplate = state => state[entityName].formTemplate
+Selectors.isFetching = state => state[entityName].isFetching
 
 Selectors.getSubmitError = getFormSubmitErrors(entityName)
 Selectors.getSyncErrors = getFormSyncErrors(entityName)
@@ -50,6 +43,35 @@ Selectors.getStatusOptions = createSelector(
       {id: DocumentStatus.DRAFT, label: translate('client-document.statusOptions.draft', locale)},
       {id: DocumentStatus.COMPLETE, label: translate('client-document.statusOptions.complete', locale)}
     ]
+  }
+)
+
+Selectors.getControlIdsByParentId = createSelector(
+  [Selectors.getTemplate],
+  (template) => {
+    return template ? getOrderedNodesByParentId(template.fields) : EMPTY_OBJECT
+  }
+)
+
+Selectors.getOrderedRootControlIds = createSelector(
+  [Selectors.getControlIdsByParentId],
+  (nodesByParentId) => {
+    return nodesByParentId['c0'] || EMPTY_ARRAY
+  }
+)
+
+Selectors.getControls = createSelector(
+  [Selectors.getTemplate],
+  (template) => {
+    return template ? getNodesById(template.fields) : EMPTY_OBJECT
+  }
+)
+
+Selectors.getFormSchema = createSelector(
+  [Selectors.getTemplate],
+  (template) => {
+    if (template) return buildSchemaForDocument(template)
+    return EMPTY_OBJECT
   }
 )
 

@@ -1,6 +1,6 @@
-import {isNil, forEach, map} from 'lodash'
+import {isNil, forEach, map, set} from 'lodash'
 import {DocumentStatus} from './config'
-import {ClientLinkOptions} from '../form-templates/config'
+import {ClientLinkOptions, DocumentStatusOptions} from '../form-templates/config'
 import {Schema, maxLength, date, string, boolean, required, withinRange, arrayOf, isGte, isLte, oneOf} from 'sapin'
 import {objectId} from '../common/validate'
 
@@ -11,7 +11,7 @@ const getRangeValidator = (minValue, maxValue) => {
   return null
 }
 
-const getValidationsForField = (field) => {
+export const getValidationsForField = (field) => {
   const validations = []
 
   if (field.required) {
@@ -23,7 +23,7 @@ const getValidationsForField = (field) => {
   }
 
   if (field.choices) {
-    const validChoices = map(field.choices, 'value')
+    const validChoices = map(field.choices, choice => choice.id.toString())
     validations.push(oneOf(validChoices))
   }
 
@@ -68,7 +68,7 @@ export const buildSchemaForFields = (fields) => {
   const schema = {}
   forEach(fields, field => {
     const validations = getValidationsForField(field)
-    schema[field.id] = validations
+    set(schema, field.id, validations)
   })
 
   return new Schema(schema)
@@ -83,7 +83,10 @@ export const buildSchemaForDocument = template => {
     createdOn: date,
     modifiedOn: date,
     documentDate: date(required),
-    isArchived: boolean
+    isArchived: boolean,
+    ownerId: objectId,
+    authorName: string,
+    authorRole: string
   }
 
   if (template.clientLink === ClientLinkOptions.MANDATORY) {
@@ -91,4 +94,63 @@ export const buildSchemaForDocument = template => {
   }
 
   return new Schema(baseDocSchema)
+}
+
+export const getDefaultValueForField = field => {
+  switch (field.controlType) {
+    case 'date':
+      if (field.useCurrentDateAsDefaultValue) {
+        return (new Date()).toString()
+      } else {
+        return ''
+      }
+
+    case 'checkbox':
+      return false
+
+    case 'address':
+      return {
+        civicNumber: '',
+        streetName: '',
+        app: '',
+        city: '',
+        postalCode: ''
+      }
+
+    case 'checkbox-list':
+      return []
+
+    case 'combobox':
+    case 'input':
+    case 'textarea':
+    case 'rich-text':
+    case 'radio-list':
+    case 'title':
+    case 'paragraph':
+      return ''
+
+    default:
+      throw new Error('Unexpected control type in getDefaultValueForField: ' + field.controlType)
+  }
+}
+export const buildDocumentWithDefaultValues = (template, clientId) => {
+  const newEntity = {
+    clientId,
+    status: template.documentStatus === DocumentStatusOptions.USE_DRAFT ? DocumentStatus.DRAFT : DocumentStatus.COMPLETE,
+    formId: template.id,
+    values: {},
+    createdOn: new Date(),
+    modifiedOn: new Date(),
+    documentDate: new Date(),
+    isArchived: false
+  }
+
+  forEach(template.fields, field => {
+    if (field.controlType !== 'grid') {
+      const value = getDefaultValueForField(field)
+      set(newEntity.values, field.id, value)
+    }
+  })
+
+  return newEntity
 }

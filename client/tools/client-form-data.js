@@ -42,21 +42,19 @@ module.exports = {
       lockRequired: true,
       choices: [
         {
-          value: 'M',
           labels: {
             fr: 'Homme',
             en: 'Male'
           },
-          id: 1,
+          id: 'M',
           isSystem: true
         },
         {
-          value: 'F',
           labels: {
             fr: 'Femme',
             en: 'Female'
           },
-          id: 2,
+          id: 'F',
           isSystem: true
         }
       ],
@@ -89,20 +87,18 @@ module.exports = {
       required: false,
       choices: [
         {
-          value: '03',
           labels: {
             fr: '03 - Capitale Nationale',
             en: '03 - Capitale Nationale'
           },
-          id: 1
+          id: '1'
         },
         {
-          value: '12',
           labels: {
             fr: '12 - Chaudière-Appalaches',
             en: '12 - Chaudière-Appalaches'
           },
-          id: 2
+          id: '2'
         }
       ],
       id: 'originId',

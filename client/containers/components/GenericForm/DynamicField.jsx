@@ -50,7 +50,6 @@ const buildOptions = (field, locale) => {
   if (field.choices) {
     options.options = field.choices.map(c => {
       return {
-        value: c.value,
         label: c.labels[locale],
         id: c.id,
         isArchived: c.isArchived

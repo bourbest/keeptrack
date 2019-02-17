@@ -8,6 +8,7 @@ import {boolean, Schema, string} from 'sapin'
 import {parseFilters, parsePagination} from '../middlewares'
 
 const ACCEPTED_SORT_PARAMS = ['fullName']
+const OMITED_FIELDS = ['passwordHash']
 
 const filtersSchema = new Schema({
   contains: string,
@@ -64,7 +65,7 @@ export default (router) => {
     .get([
       parsePagination(ACCEPTED_SORT_PARAMS),
       parseFilters(filtersSchema),
-      makeFindAllHandler(UserAccountRepository)
+      makeFindAllHandler(UserAccountRepository, OMITED_FIELDS)
     ])
     .post([
       entityFromBody(newAccountSchema),
@@ -78,7 +79,7 @@ export default (router) => {
     .post(makeHandleRestore(UserAccountRepository))
 
   router.route('/accounts/:id')
-    .get(makeFindById(UserAccountRepository))
+    .get(makeFindById(UserAccountRepository, OMITED_FIELDS))
     .put([
       entityFromBody(accountSchema),
       hashPassword,

@@ -21,15 +21,15 @@ class RadioButtons extends React.PureComponent {
     return (
       <div>
         {validOptions.map((option) => {
-          const key = option.value
-          const checked = option.value === value ? 'checked' : ''
+          const key = option.id
+          const checked = option.id === value ? 'checked' : ''
           return (
             <div className={'form-check'} key={key}>
               <input
                 className="form-check-input"
                 type="radio" tabIndex="0" checked={checked} disabled={disabled || option.isArchived}
                 onChange={onChange}
-                value={option.value}
+                value={option.id}
                 name={name}
               />
               <label className="form-check-label" onClick={this.handleChange}>

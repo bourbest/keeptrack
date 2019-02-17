@@ -9,15 +9,19 @@ export const Actions = createActions(prefix, [
   'INITIALIZE_NEW_DOCUMENT',
   'RESET_FORM',
   'SAVE_DOCUMENT',
-  'SET_CLIENT'
+  'SET_CLIENT',
+  'SET_FETCHING_ENTITY',
+  'SET_TEMPLATE'
 ])
 
 export const ActionCreators = {
-  loadDocument: (clientId, documentId) => ({type: Actions.LOAD_DOCUMENT, clientId, documentId}),
-  initializeNewDocument: (formTemplateId) => ({type: Actions.INITIALIZE_NEW_DOCUMENT, formTemplateId}),
+  loadDocument: (documentId) => ({type: Actions.LOAD_DOCUMENT, documentId}),
+  initializeNewDocument: (formTemplateId, clientId) => ({type: Actions.INITIALIZE_NEW_DOCUMENT, formTemplateId, clientId}),
   resetForm: () => ({type: Actions.RESET_FORM}),
-  setEditedEntity: (entity) => initialize(config.entityName, entity),
+  save: (entity, callback = null) => ({ type: Actions.SAVE_DOCUMENT, entity, callback }),
   setClient: (client) => ({type: Actions.SET_CLIENT, client}),
+  setFetchingEntity: isFetching => ({type: Actions.SET_FETCHING_ENTITY, isFetching}),
+  setTemplate: template => ({type: Actions.SET_TEMPLATE, template}),
 
-  save: (entity, callback = null) => ({ type: Actions.SAVE_DOCUMENT, entity, callback })
+  setEditedEntity: (entity) => initialize(config.entityName, entity)
 }

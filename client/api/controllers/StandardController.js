@@ -1,8 +1,11 @@
 import {ObjectId} from 'mongodb'
-import {isArray, size} from 'lodash'
-import { get } from 'https';
+import {isArray, omit, map} from 'lodash'
 
-export const makeFindAllHandler = (Repository) => {
+const removeFieldsFromEntity = (entity, omitFields) => {
+  return  omit(entity, omitFields)
+}
+
+export const makeFindAllHandler = (Repository, omitFields = []) => {
   return function (req, res, next) {
     const repo = new Repository(req.database)
     const promises = [
@@ -11,7 +14,7 @@ export const makeFindAllHandler = (Repository) => {
     ]
     return Promise.all(promises)
       .then(function (data) {
-        const entities = data[0]
+        const entities = map(data[0], entity => removeFieldsFromEntity(entity, omitFields))
         const totalCount = data[1]
         res.json({
           totalCount,
@@ -23,13 +26,14 @@ export const makeFindAllHandler = (Repository) => {
   }
 }
 
-export const makeFindById = (Repository) => {
+export const makeFindById = (Repository, omitFields = []) => {
   return function (req, res, next) {
     const repo = new Repository(req.database)
     return repo.findById(req.params.id)
       .then(function (entity) {
         if (entity) {
-          res.json(entity)
+          const ret = removeFieldsFromEntity(entity, omitFields)
+          res.json(ret)
         } else {
           res.status(404).json({error: 'entity not found'})
         }
@@ -57,29 +61,15 @@ export const makeHandlePost = (Repository) => {
   }
 }
 
-/*
-export const validateImmutables = (update, original, immutableFieldNames) => {
-  const fieldNames = ['id', ...immutableFieldNames]
-  const errors = {}
-  forEach(fieldNames, field => {
-    if (get(update, field) !== get(original, field)) {
-      errors[field] = 'Cannot update this property'
-    }
-  })
-  return size(errors) ? errors : null
-}
-*/
-
-export const makeHandlePut = (Repository, immutableFieldNames) => {
+export const makeHandlePut = (Repository) => {
   return function (req, res, next) {
     const repo = new Repository(req.database)
     const entity = req.entity
 
-    entity.id = 
     entity.modifiedOn = new Date()
 
     return repo.update(entity)
-      .then(function () {
+      .then(function (writeResult) {
         res.json(entity) // return untransformed entity so id is used instead of _id
         next()
       })

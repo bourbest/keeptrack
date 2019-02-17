@@ -7,7 +7,7 @@ import {ObjectId} from 'mongodb'
 export function parseFilters (filtersSchema, useLoggedUserAsFilter = false) {
   return (req, res, next) => {
     if (req.query) {
-      const error = validate(req.query, filtersSchema, true)
+      const error = validate(req.query, filtersSchema, null, true)
 
       if (error) {
         return next({httpStatus: 400, message: 'Invalid filters parameters', error})
