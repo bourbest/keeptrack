@@ -6,7 +6,6 @@ import clients from './clients/reducer'
 import clientDocuments from './client-documents/reducer'
 import accounts from './accounts/reducer'
 import formTemplates from './form-templates/reducer'
-import evolutionNote from './evolution-notes/reducer'
 import clientFeedSubscriptions from './client-feed-subscriptions/reducer'
 import notifications from './notifications/reducer'
 import dashboard from './dashboard/reducer'
@@ -22,7 +21,6 @@ export default combineReducers({
   ...clientDocuments,
   ...accounts,
   ...formTemplates,
-  ...evolutionNote,
   ...clientFeedSubscriptions,
   ...notifications,
   ...dashboard,

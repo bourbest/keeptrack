@@ -6,7 +6,6 @@ import accountSaga from './accounts/saga'
 import myAccountSaga from './my-account/saga'
 import authenticationSaga from './authentication/saga'
 import formTemplateSaga from './form-templates/saga'
-import evolutionNoteSaga from './evolution-notes/saga'
 import subscriptionSaga from './client-feed-subscriptions/saga'
 import notificationSaga from './notifications/saga'
 import dashboardSaga from './dashboard/saga'
@@ -17,7 +16,6 @@ export default function * rootSaga () {
   yield all([
     ...appSaga,
     ...clientSaga,
-    evolutionNoteSaga,
     clientDocumentSaga,
     accountSaga,
     myAccountSaga,

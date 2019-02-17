@@ -6,7 +6,6 @@
     "clients" : "Participants",
     "formTemplates": "Formulaires",
     "accounts" : "Comptes utilisateurs",
-    "createEvolutionNote": "Nouvelle note évolutive",
     "dashboard": "Tableau de bord",
     "reports": "Rapports",
     "administration": "Administration",
@@ -62,12 +61,6 @@
     "client": "Participant",
     "status": "Statut",
     "newTitle": "Nouveau formulaire - {{formName}}"
-  },
-  "evolutionNote": {
-    "client": "Participant",
-    "duration": "Durée (minutes)",
-    "exchangeDate": "Date de l'échange",
-    "newTitle": "Nouvelle note évolutive"
   },
   "accounts":{
     "list-title": "Liste des comptes utilisateurs",
@@ -176,7 +169,10 @@
     "apply": "Appliquer",
     "selectViewHeader": "Éléments à afficher",
     "archivedElements": "Archivés",
-    "activeElements": "Actifs"
+    "activeElements": "Actifs",
+    "details": "Détails",
+    "expand": "Agrandir",
+    "collapse": "Réduire"
   },
   "error-page" : {
     "title" : "Oops!",

@@ -4,6 +4,7 @@ import {Link} from 'react-router'
 import {format} from 'date-fns'
 import {SmartTable, Column} from '../../components/SmartTable'
 import {translate} from '../../../locales/translate'
+import { DocumentStatus } from '../../../modules/client-documents/config'
 const renderDateColumn = (entity, columnName, column, globals) => {
   const {clientId, id, createdOn} = entity
   const date = format(createdOn, 'YYYY-MM-DD')
@@ -20,17 +21,26 @@ const DocumentList = (props) => {
   }
 
   const renderNotification = (entity, columnName, column, globals) => {
-    const {id} = entity
+    const {id, status} = entity
     const notf = globals.notificationsByDocumentId[id]
+    const ret = []
+
+    if (status === DocumentStatus.DRAFT) {
+      ret.push(
+        <div className="badge badge-danger" key="status">
+          {translate('client-document.statusOptions.draft')}
+        </div>
+      )
+    }
     if (notf) {
-      return (
-        <div className="badge badge-primary clickable" onClick={props.markNotificationAsRead} id={notf.id}>
+      ret.push(
+        <div className="badge badge-primary clickable" onClick={props.markNotificationAsRead} id={notf.id} key="notf">
           {translate(`notificationTypes.${notf.type}`, locale)}
         </div>
       )
-    } else {
-      return ''
     }
+
+    return ret
   }
 
   return (
@@ -38,12 +48,16 @@ const DocumentList = (props) => {
       <SmartTable rows={documents} notificationsByDocumentId={notificationsByDocumentId}>
         <Column
           label={message('date')}
-          name="createdOn"
+          name="documentDate"
           renderer={renderDateColumn}
         />
         <Column
           label={message('formName')}
           renderer={renderFormName}
+        />
+        <Column
+          label={message('author')}
+          name="authorName"
         />
         <Column
           renderer={renderNotification}

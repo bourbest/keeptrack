@@ -27,9 +27,6 @@ export const createService = (serviceName, apiConfig) => {
     case 'list-options':
       return new RestService('list-options', apiClient)
 
-    case 'evolution-notes':
-      return new RestService('evolution-notes', apiClient)
-
     case 'client-feed-subscriptions':
       return new RestService('client-feed-subscriptions', apiClient)
 

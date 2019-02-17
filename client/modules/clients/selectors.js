@@ -4,6 +4,8 @@ import NotificationSelectors from '../notifications/selectors'
 
 import {createBaseSelectors} from '../common/selectors'
 import { createSelector } from 'reselect'
+import { EVOLUTIVE_NOTE_FORM_ID } from '../const'
+
 const Selectors = createBaseSelectors(config.entityName)
 
 Selectors.buildNewEntity = () => {
@@ -35,8 +37,17 @@ Selectors.buildNewEntity = () => {
   return newEntity
 }
 
-Selectors.getClientDocuments = state => state[config.entityName].clientDocuments
-Selectors.getClientEvolutiveNotes = state => state[config.entityName].clientEvolutiveNotes
+Selectors.getAllClientDocuments = state => state[config.entityName].clientDocuments
+Selectors.getClientDocuments = createSelector(
+  [Selectors.getAllClientDocuments],
+  documents => filter(documents, document => document.formId !== EVOLUTIVE_NOTE_FORM_ID)
+)
+
+Selectors.getClientEvolutiveNotes = createSelector(
+  [Selectors.getAllClientDocuments],
+  documents => filter(documents, document => document.formId === EVOLUTIVE_NOTE_FORM_ID)
+)
+
 Selectors.getSelectedFormId = (state) => state[config.entityName].selectedFormId
 Selectors.getSelectedTabId = state => state[config.entityName].selectedTabId
 
@@ -74,7 +85,7 @@ Selectors.getNotificationsByNoteId = createSelector(
   [NotificationSelectors.getEntities],
   (notifications) => {
     const notes = filter(notifications, notf => {
-      return startsWith(notf.type, 'EVOLUTIVE_NOTE')
+      return startsWith(notf.type, 'CLIENT_DOCUMENT') && notf.formId === EVOLUTIVE_NOTE_FORM_ID
     })
     return keyBy(uniqBy(notes, 'targetId'), 'targetId')
   }
@@ -84,7 +95,7 @@ Selectors.getNotificationsByDocumentId = createSelector(
   [NotificationSelectors.getEntities],
   (notifications) => {
     const docs = filter(notifications, notf => {
-      return startsWith(notf.type, 'CLIENT_DOCUMENT')
+      return startsWith(notf.type, 'CLIENT_DOCUMENT') && notf.formId !== EVOLUTIVE_NOTE_FORM_ID
     })
     return keyBy(uniqBy(docs, 'targetId'), 'targetId')
   }

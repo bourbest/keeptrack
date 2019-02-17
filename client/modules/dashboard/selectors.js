@@ -3,7 +3,7 @@ import {compareStrings} from '../../services/string-utils'
 import {createSelector} from 'reselect'
 import {NotificationTypes} from '../notifications/schema'
 import NotificationSelectors from '../notifications/selectors'
-
+import {EVOLUTIVE_NOTE_FORM_ID} from '../const'
 const Selectors = {}
 Selectors.getMyClients = state => state.dashboard.clientsById
 Selectors.isFetchingMyClients = state => state.dashboard.isFetchingMyClients
@@ -35,9 +35,11 @@ Selectors.getClientsNotifications = createSelector(
       if (notf.type === NotificationTypes.ClientDocumentCreated) {
         ret[notf.clientId].new[notf.targetId] = 1
       } else if (notf.type === NotificationTypes.ClientDocumentModified) {
-        ret[notf.clientId].updated[notf.targetId] = 1
-      } else if (notf.type === NotificationTypes.EvolutiveNoteCreated) {
-        ret[notf.clientId].notes[notf.targetId] = 1
+        if (notf.formId === EVOLUTIVE_NOTE_FORM_ID) {
+          ret[notf.clientId].notes[notf.targetId] = 1
+        } else {
+          ret[notf.clientId].updated[notf.targetId] = 1
+        }
       }
     })
     forEach(ret, client => {

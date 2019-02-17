@@ -247,12 +247,6 @@ div.error {
   overflow-x: auto;
 }
 
-.foot-note {
-  padding-top: 1em;
-  color: gray;
-  font-size: x-small;
-}
-
 .overflow-hidden {
   overflow: hidden;
 }
@@ -264,3 +258,6 @@ div.error {
   display: flex;
 }
 
+.max-height-300 {
+  max-height: 300px;
+}

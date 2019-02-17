@@ -18,11 +18,6 @@ export default class ClientService extends RestService {
     return this.apiClient.get(documentsUrl)
   }
 
-  getEvolutionNotesByClientId (clientId) {
-    const documentsUrl = `${url}/${clientId}/evolution-notes`
-    return this.apiClient.get(documentsUrl)
-  }
-
   getDocument (id) {
     return this.apiClient.get(docUrl, id)
   }

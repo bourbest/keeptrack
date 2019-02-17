@@ -2,6 +2,7 @@ module.exports = {
    name: 'Participant',
    isArchived:false,
    isSystem: true,
+   preventShortcut: true,
    fields:[{
       labels: {
         fr: 'Prénom',

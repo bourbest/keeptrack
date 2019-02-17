@@ -8,8 +8,7 @@ const initialState = {
   selectedTabId: 'notes',
   isFetchingClientForm: false,
   clientForm: null,
-  clientDocuments: [],
-  clientEvolutiveNotes: []
+  clientDocuments: []
 }
 
 const specificReducer = (state, action) => {
@@ -28,9 +27,6 @@ const specificReducer = (state, action) => {
 
     case Actions.SET_CLIENT_DOCUMENTS:
       return {...state, clientDocuments: action.documents}
-
-    case Actions.SET_CLIENT_EVOLUTIVE_NOTES:
-      return {...state, clientEvolutiveNotes: action.notes}
   }
   return state
 }

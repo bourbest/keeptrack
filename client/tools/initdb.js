@@ -19,7 +19,8 @@ const LIST_OPTIONS = [
 ]
 
 const clientFormData = require('./client-form-data')
-const {CLIENT_FORM_ID} = require('../modules/const')
+const evolutiveNoteFormData = require('./evolutive-note-data')
+const {CLIENT_FORM_ID, EVOLUTIVE_NOTE_FORM_ID} = require('../modules/const')
 
 const initializeListOptions = (db) => {
   console.log('init option list')
@@ -83,8 +84,6 @@ const createIndexes = (db) => {
     db.ensureIndex('ClientDocument', 'clientId'),
     db.ensureIndex('ClientDocument', 'intervenantId'),
 
-    db.ensureIndex('EvolutionNote', 'clientId'),
-
     db.ensureIndex('UserAccount', 'username', {unique: true}),
     db.ensureIndex('UserAccount', 'fullName'),
 
@@ -115,6 +114,9 @@ const createSystemForms = (db) => {
 
   const clientForm = {...clientFormData, _id: new ObjectId(CLIENT_FORM_ID)}
   promises.push(formRepo.replaceOne({_id: clientForm._id}, clientForm, options))
+
+  const evolutiveNoteForm = {...evolutiveNoteFormData, _id: new ObjectId(EVOLUTIVE_NOTE_FORM_ID)}
+  promises.push(formRepo.replaceOne({_id: evolutiveNoteForm._id}, evolutiveNoteForm, options))
 
   return Promise.all(promises)
     .then(() => {
