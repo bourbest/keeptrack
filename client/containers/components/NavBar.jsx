@@ -20,7 +20,6 @@ class NavBar extends React.PureComponent {
       { name: 'clients', link: '/clients', labelKey: 'clients', role: canInteractWithClient },
       { name: 'formTemplates', link: '/form-templates', labelKey: 'formTemplates', role: formsManager },
       { name: 'accounts', link: '/accounts', labelKey: 'accounts', role: usersManager },
-      { name: 'createEvolutionNote', link: '/new-evolution-note', labelKey: 'createEvolutionNote' },
       { name: 'reports', link: '/reports/distribution-list', labelKey: 'reports', role: statsProducer },
       { name: 'formShortcuts', link: '/form-shortcuts', labelKey: 'administration', role: usersManager }
     ]

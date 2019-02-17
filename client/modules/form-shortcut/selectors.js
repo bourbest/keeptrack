@@ -24,7 +24,7 @@ Selectors.getFormTemplateOptions = createSelector(
     const usedShortcuts = omit(formShortcuts, currentId)
     const formIds = new Set(map(usedShortcuts, 'formTemplateId'))
     const validFormTemplates = filter(formTemplates, template => {
-      return !formIds.has(template.id) && !template.isSystem
+      return !formIds.has(template.id) && !template.preventShortcut
     })
 
     return buildSortedOptionList(validFormTemplates, 'name')

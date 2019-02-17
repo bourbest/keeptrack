@@ -1,5 +1,5 @@
 import {size, set, forEach} from 'lodash'
-import {ClientRepository, EvolutionNoteRepository, ClientFeedSubcriptionRepository, FormTemplateRepository} from '../repository'
+import {ClientRepository, ClientFeedSubcriptionRepository, FormTemplateRepository} from '../repository'
 import {
   makeFindAllHandler, makeFindById, makeHandleArchive, makeHandlePost, makeHandlePut,
   makeHandleRestore
@@ -118,10 +118,7 @@ export default (router) => {
     .get(makeFindById(ClientRepository))
     .put([validateClient, makeHandlePut(ClientRepository)])
 
-  router.route('/client-files/:id/evolution-notes')
-    .get(getDocumentsByClientId(EvolutionNoteRepository))
-
-  router.route('/my-clients')
+    router.route('/my-clients')
     .get(getUserSubscribedClients)
 
 }

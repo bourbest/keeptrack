@@ -20,6 +20,7 @@ export function createClientNotifications (notificationTemplate) {
           if (!subscription.userId.equals(currentUserId)) {
             const notification = {...notificationTemplate}
             notification.clientId = req.entity.clientId
+            notification.formId = req.entity.formId
             notification.userId = subscription.userId
             notification.targetId = req.entity.id
             notification.isRead = false

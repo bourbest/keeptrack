@@ -6,7 +6,6 @@ import registerAuthentication from './controllers/AuthenticationController'
 import registerListOptions from './controllers/ListOptionsController'
 import registerFormTemplates from './controllers/FormTemplateController'
 import registerAccounts from './controllers/AccountsController'
-import registerEvolutionNotes from './controllers/EvolutionNoteController'
 import registerClientDocuments from './controllers/ClientDocumentsController'
 import registerClientFeedSubscriptions from './controllers/ClientFeedSubscriptionController'
 import registerNotifications from './controllers/NotificationsController'
@@ -47,7 +46,6 @@ function createApiRouter (config, database) {
   registerListOptions(apiRouter)
   registerFormTemplates(apiRouter)
   registerAccounts(apiRouter)
-  registerEvolutionNotes(apiRouter)
   registerClientDocuments(apiRouter)
   registerClientFeedSubscriptions(apiRouter)
   registerNotifications(apiRouter)

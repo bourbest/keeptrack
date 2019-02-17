@@ -27,7 +27,7 @@ import {createTranslate} from '../../locales/translate'
 import {Button, Icon, NavTab, Tabs, Tab} from '../components/controls/SemanticControls'
 
 import ClientView from './components/ClientView'
-import EvolutionNoteTile from '../evolution-note/components/EvolutionNoteTile'
+import EvolutionNoteTile from './components/EvolutionNoteTile'
 import DocumentList from './components/DocumentList'
 import Select from 'react-select'
 

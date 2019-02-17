@@ -19,15 +19,13 @@ function * clientSaga (action) {
       try {
         const promises = [
           clientSvc.get(action.clientId),
-          clientSvc.getDocumentsByClientId(action.clientId),
-          clientSvc.getEvolutionNotesByClientId(action.clientId)
+          clientSvc.getDocumentsByClientId(action.clientId)
         ]
         const results = yield call([Promise, Promise.all], promises)
 
         yield all([
           put(ActionCreators.setEditedEntity(results[0])),
-          put(ActionCreators.setClientDocuments(results[1].entities)),
-          put(ActionCreators.setClientEvolutiveNotes(results[2]))
+          put(ActionCreators.setClientDocuments(results[1].entities))
         ])
       } catch (error) {
         errorAction = handleError(config.entityName, error)
