@@ -1,9 +1,10 @@
-import {values, forEach, size} from 'lodash'
+import {values, forEach, size, sortBy} from 'lodash'
 import {compareStrings} from '../../services/string-utils'
 import {createSelector} from 'reselect'
 import {NotificationTypes} from '../notifications/schema'
 import NotificationSelectors from '../notifications/selectors'
 import {EVOLUTIVE_NOTE_FORM_ID} from '../const'
+
 const Selectors = {}
 Selectors.getMyClients = state => state.dashboard.clientsById
 Selectors.isFetchingMyClients = state => state.dashboard.isFetchingMyClients
@@ -49,6 +50,15 @@ Selectors.getClientsNotifications = createSelector(
     })
 
     return ret
+  }
+)
+
+Selectors.getIncompleteDocumentsById = state => state['dashboard'].incompleteDocumentsById
+
+Selectors.getSortedIncompleteDocuments = createSelector(
+  [Selectors.getIncompleteDocumentsById],
+  (docsById) => {
+    return sortBy(docsById, 'createdOn')
   }
 )
 

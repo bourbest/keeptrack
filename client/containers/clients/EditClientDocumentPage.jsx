@@ -45,7 +45,6 @@ class EditClientDocumentPage extends React.PureComponent {
 
     this.handleSubmit = this.handleSubmit.bind(this)
     this.message = createTranslate(labelNamespace, this)
-    this.clientUrl = `/clients/${props.params.clientId}`
     this.handlers = {}
   }
 
@@ -71,38 +70,43 @@ class EditClientDocumentPage extends React.PureComponent {
   }
 
   handleSubmit () {
-    const {isNew} = this.props
+    const {isNew, location} = this.props
     const save = this.props.actions.save
     const notify = this.props.appActions.notify
 
     save(this.props.document, (entity) => {
       if (isNew) {
-        browserHistory.replace(`${this.clientUrl}/documents/${entity.id}`)
+        browserHistory.replace(`/client-documents/${entity.id}`)
       }
-      browserHistory.push(this.clientUrl)
+      const url = location.query && location.query.backTo
+        ? location.query.backTo
+        : '/dashboard'
+
+      browserHistory.push(url)
       notify('common.save', 'common.saved')
     })
   }
 
   formatTitle (client, document, form) {
-    if (client && document && form) {
+    if (document && form) {
+      const clientName = client && `- ${client.firstName} ${client.lastName}` || ''
       const day = format(document.documentDate, 'YYYY-MM-DD')
-      return `${client.firstName} ${client.lastName} - ${form.name} (${day})`
+      return `${form.name} - ${day} ${clientName}`
     }
     return ''
   }
 
   render () {
-    const {canSave, error, locale, isLoading} = this.props
+    const {canSave, error, locale, isLoading, location} = this.props
     const {client, document, formTemplate} = this.props
-
+    const backTo = location.query && location.query.backTo
     if (isLoading || !formTemplate || !document) return null
     return (
       <div>
         <StandardEditToolbar
           location={this.props.location}
           title={this.formatTitle(client, document, formTemplate)}
-          backTo={this.clientUrl}
+          backTo={backTo}
           onSaveClicked={this.handleSubmit}
           locale={locale}
           canSave={canSave} />

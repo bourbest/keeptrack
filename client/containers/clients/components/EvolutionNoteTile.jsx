@@ -5,6 +5,7 @@ import {formatDate} from '../../../services/string-utils'
 import {find} from 'lodash'
 import {translate} from '../../../locales/translate'
 import { DocumentStatus } from '../../../modules/client-documents/config'
+import {getLinkToEditDocument} from './DocumentList'
 
 class EvolutionNoteView extends React.Component {
   constructor (props) {
@@ -21,7 +22,7 @@ class EvolutionNoteView extends React.Component {
   }
 
   render () {
-    const {authorName, authorRole, documentDate, clientId, id, status} = this.props.evolutionNote
+    const {authorName, authorRole, documentDate, status} = this.props.evolutionNote
     const {note, minutes} = this.props.evolutionNote.values
     const organismRole = find(this.props.organismRoles, {value: authorRole})
     const noteClasses = this.state.expanded ? 'rendered-quill' : 'rendered-quill max-height-300 overflow-hidden'
@@ -38,7 +39,7 @@ class EvolutionNoteView extends React.Component {
               {translate('client-document.statusOptions.draft')}
             </span>
           }
-          <span className="float-right mr-4"><Link to={`/clients/${clientId}/documents/${id}`}>{translate('common.details')}</Link></span>
+          <span className="float-right mr-4"><Link to={getLinkToEditDocument(this.props.evolutionNote, this.props.location)}>{translate('common.details')}</Link></span>
           <span className="float-right pr-4"><a href="#" onClick={this.toggleExpand}>
             {!this.state.expanded && translate('common.expand')}
             {this.state.expanded && translate('common.collapse')}
@@ -52,7 +53,8 @@ class EvolutionNoteView extends React.Component {
 EvolutionNoteView.propTypes = {
   evolutionNote: PropTypes.object.isRequired,
   organismRoles: PropTypes.array.isRequired,
-  notification: PropTypes.object
+  notification: PropTypes.object,
+  location: PropTypes.object.isRequired
 }
 
 export default EvolutionNoteView

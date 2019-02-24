@@ -1,4 +1,4 @@
-import {DocumentStatus} from './config'
+import {AllDocumentStatus} from './config'
 import {Schema,  date, object, string, boolean, required, oneOf} from 'sapin'
 import {objectId} from '../common/validate'
 
@@ -6,7 +6,7 @@ export const BaseClientDocumentSchema = new Schema({
   id: objectId,
   formId: objectId(required),
   clientId: objectId,
-  status: string([required, oneOf([DocumentStatus.DRAFT, DocumentStatus.COMPLETE])]),
+  status: string([required, oneOf(AllDocumentStatus)]),
   createdOn: date,
   modifiedOn: date,
   isArchived: boolean,

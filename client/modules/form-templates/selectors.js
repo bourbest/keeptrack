@@ -20,10 +20,10 @@ Selectors.getOptionList = createSelector(
   }
 )
 
-Selectors.getCreatableFormOptionList = createSelector(
+Selectors.getClientCreatableFormOptionList = createSelector(
   [Selectors.getEntities],
   (entities) => {
-    const active = filter(entities, {isArchived: false})
+    const active = filter(entities, {isArchived: false, clientLink: ClientLinkOptions.MANDATORY})
     return buildSortedOptionList(active, 'name')
   }
 )
@@ -67,7 +67,7 @@ Selectors.buildFormReadyForSave = (formEntity, nodesById, nodesByParentId) => {
 Selectors.getNextChoiceId = createSelector(
   [getEditedFieldChoices],
   (choices) => {
-    if (choices === null) return 0
+    if (choices === null) return '1'
 
     const ids = map(choices, choice => parseInt(choice.id, 10))
     if (ids.length === 0) return '1'

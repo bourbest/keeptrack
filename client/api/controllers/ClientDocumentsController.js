@@ -1,13 +1,13 @@
 import {size} from 'lodash'
-import {ObjectId} from 'mongodb'
 import {ClientDocumentRespository, ClientRepository, FormTemplateRepository} from '../repository'
 import {makeFindAllHandler, makeFindById, makeHandleArchive, makeHandlePost, makeHandlePut, setAuthor} from './StandardController'
 import {entityFromBody, parsePagination, parseFilters} from '../middlewares'
 import {BaseClientDocumentSchema} from '../../modules/client-documents/schema'
 import {buildSchemaForDocument} from '../../modules/client-documents/client-document-utils'
+import {AllDocumentStatus} from '../../modules/client-documents/config'
 import {createClientNotifications} from './notifications/create-notifications'
 
-import {boolean, Schema, validate, transform} from 'sapin'
+import {boolean, Schema, validate, transform, oneOf, string} from 'sapin'
 import {objectId} from '../../modules/common/validate'
 import {NotificationTypes} from '../../modules/notifications/schema'
 import { ClientLinkOptions } from '../../modules/form-templates/config'
@@ -15,10 +15,12 @@ import { ClientLinkOptions } from '../../modules/form-templates/config'
 const filtersSchema = new Schema({
   clientId: objectId,
   intervenantId: objectId,
-  isArchived: boolean
+  isArchived: boolean,
+  ownerId: objectId,
+  status: string(oneOf(AllDocumentStatus))
 })
 
-const ACCEPTED_SORT_PARAMS = ['createdOn']
+const ACCEPTED_SORT_PARAMS = ['createdOn', 'documentDate']
 
 
 function validateDocument (req, res, next) {
@@ -56,6 +58,17 @@ function validateDocument (req, res, next) {
     .catch(next)
 }
 
+
+const getUserIncompleteDocumentList = function (req, res, next) {
+  const repo = new ClientDocumentRespository(req.database)
+  repo.getIncompleteDocumentListForUser(req.user.id)
+    .then(function (data) {
+      res.json(data)
+      next()
+    })
+    .catch(next)
+}
+
 export default (router) => {
   router.use('/client-documents', entityFromBody(BaseClientDocumentSchema))
   router.route('/client-documents')
@@ -75,6 +88,9 @@ export default (router) => {
       createClientNotifications({type: NotificationTypes.ClientDocumentArchived })
     ])
 
+  router.route('/client-documents/my-incomplete')
+    .get(getUserIncompleteDocumentList)
+
   router.route('/client-documents/:id')
     .get(makeFindById(ClientDocumentRespository))
     .put([
@@ -82,4 +98,6 @@ export default (router) => {
       makeHandlePut(ClientDocumentRespository),
       createClientNotifications({type: NotificationTypes.ClientDocumentModified })
     ])
+
+
 }

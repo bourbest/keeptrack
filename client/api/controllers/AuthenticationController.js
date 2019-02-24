@@ -47,7 +47,7 @@ export default (router, secret) => {
           const token = jwt.sign(user, secret, {
             expiresIn: '1d' // expires in 24 hours
           })
-          res.cookie(COOKIE_NAMES.auth, token, { maxAge: 900000, httpOnly: true })
+          res.cookie(COOKIE_NAMES.auth, token, { httpOnly: true })
           const csrfToken = req.csrf.generateToken(req, res)
           res.json({success: true, user, csrfToken})
         })

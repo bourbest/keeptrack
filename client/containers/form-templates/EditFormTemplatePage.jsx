@@ -246,7 +246,7 @@ EditFormTemplate.propTypes = {
   showArchivedChoices: PropTypes.bool.isRequired,
   showTemplateProperties: PropTypes.bool.isRequired,
   nextFieldId: PropTypes.string.isRequired,
-  nextChoiceId: PropTypes.number.isRequired,
+  nextChoiceId: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
   isNew: PropTypes.bool.isRequired,
   canSaveEditedEntity: PropTypes.bool.isRequired,

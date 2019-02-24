@@ -44,7 +44,7 @@ export default (
       <Route path='clients/:id' component={InteractWithClient(ViewClientPage)} />
       <Route path='clients/:id/edit' component={InteractWithClient(EditClientPage)} />
       <Route path='clients/:clientId/documents/create/:formId' component={InteractWithClient(EditClientDocumentPage)} />
-      <Route path='clients/:clientId/documents/:documentId' component={InteractWithClient(EditClientDocumentPage)} />
+      <Route path='client-documents/:documentId' component={EditClientDocumentPage} />
       <Route path='accounts' component={AccountManager(ListAccountsPage)} />
       <Route path='accounts/:id' component={AccountManager(EditAccountsPage)} />
       <Route path='form-templates' component={FormManager(ListFormTemplatesPage)} />

@@ -4,7 +4,6 @@ import { handleError } from '../commonHandlers'
 
 import { call, put, select, takeLatest } from 'redux-saga/effects'
 
-// handleError(entityName, error) : must be a global error handler that returns null or an action to perform
 function * myClientsSaga (action) {
   let errorAction = null
   try {
@@ -22,6 +21,24 @@ function * myClientsSaga (action) {
   yield put(ActionCreators.setFetchingMyClients(false))
 }
 
+function * myIncompleteDocumentsSaga (action) {
+  let errorAction = null
+  try {
+    const clientDocSvc = yield select(getService, 'client-documents')
+    yield put(ActionCreators.setFetchingMyIncompleteDocuments(true))
+    const response = yield call(clientDocSvc.getMyIncompleteDocuments)
+
+    yield put(ActionCreators.setMyIncompleteDocuments(response))
+  } catch (ex) {
+    errorAction = handleError('dashboard', ex)
+    if (errorAction) {
+      yield put(errorAction)
+    }
+  }
+  yield put(ActionCreators.setFetchingMyIncompleteDocuments(false))
+}
+
 export default [
-  takeLatest(Actions.FETCH_MY_CLIENTS, myClientsSaga)
+  takeLatest(Actions.FETCH_MY_CLIENTS, myClientsSaga),
+  takeLatest(Actions.FETCH_MY_INCOMPLETE_DOCUMENTS, myIncompleteDocumentsSaga)
 ]

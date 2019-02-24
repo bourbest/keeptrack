@@ -3,6 +3,7 @@ import ApiClient from './base/api-client'
 import RestService from './base/rest-service'
 
 import ClientService from './client-service'
+import ClientDocumentService from './client-document-service'
 import AuthService from './authentication-service'
 import AccountService from './account-service'
 
@@ -19,7 +20,7 @@ export const createService = (serviceName, apiConfig) => {
       return new ClientService(apiClient)
 
     case 'client-documents':
-      return new RestService('client-documents', apiClient)
+      return new ClientDocumentService(apiClient)
 
     case 'form-templates':
       return new RestService('form-templates', apiClient)
