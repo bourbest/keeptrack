@@ -4,7 +4,9 @@ import {keyBy} from 'lodash'
 
 export const initialState = {
   clientsById: {},
-  isFetchingMyClients: false
+  isFetchingMyClients: false,
+  isFetchingMyIncompleteDocuments: false,
+  incompleteDocumentsById: {}
 }
 
 const dashboardReducer = (state = initialState, action = {}) => {
@@ -14,6 +16,12 @@ const dashboardReducer = (state = initialState, action = {}) => {
 
     case Actions.SET_FETCHING_MY_CLIENTS:
       return {...state, isFetchingMyClients: action.isFetching}
+
+    case Actions.SET_MY_INCOMPLETE_DOCUMENTS:
+      return {...state, incompleteDocumentsById: keyBy(action.documents, 'id')}
+
+    case Actions.SET_FETCHING_MY_INCOMPLETE_DOCUMENTS:
+      return {...state, isFetchingMyIncompleteDocuments: action.isFetching}
 
     default:
       return state

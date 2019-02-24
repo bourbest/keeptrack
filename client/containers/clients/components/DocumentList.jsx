@@ -1,24 +1,43 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {Link} from 'react-router'
-import {format} from 'date-fns'
 import {SmartTable, Column} from '../../components/SmartTable'
 import {translate} from '../../../locales/translate'
 import { DocumentStatus } from '../../../modules/client-documents/config'
-const renderDateColumn = (entity, columnName, column, globals) => {
-  const {clientId, id, createdOn} = entity
-  const date = format(createdOn, 'YYYY-MM-DD')
-  return <Link to={`/clients/${clientId}/documents/${id}`}>{date}</Link>
+import {buildUrl} from '../../../services/url-utils'
+import {formatDate} from '../../../services/string-utils'
+
+export const getLinkToEditDocument = (document, location) => {
+  const backTo = encodeURIComponent(buildUrl(location.pathname, location.query))
+  return `/client-documents/${document.id}?backTo=${backTo}`
+}
+
+export const renderDateColumn = (entity, columnName, column, globals) => {
+  const location = globals.location
+  const to = getLinkToEditDocument(entity, location)
+  const date = formatDate(entity[columnName])
+  return <Link to={to}>{date}</Link>
+}
+
+export const renderClientNameColumn = (entity, columnName, column, globals) => {
+  if (entity.client) {
+    const location = globals.location
+    const to = getLinkToEditDocument(entity, location)
+    return <Link to={to}>{entity.client.firstName} {entity.client.lastName}</Link>
+  }
+  return ''
+}
+
+export const renderFormNameColumn = (entity, columnName, column, globals) => {
+  const {formId} = entity
+  const form = globals.formsById[formId] || {name: ''}
+  const location = globals.location
+  const to = getLinkToEditDocument(entity, location)
+  return <Link to={to}>{form.name}</Link>
 }
 
 const DocumentList = (props) => {
-  const {documents, formsById, message, notificationsByDocumentId, locale} = props
-
-  const renderFormName = (entity, columnName, column, globals) => {
-    const {formId} = entity
-    const form = formsById[formId] || {name: ''}
-    return form.name
-  }
+  const {documents, message, notificationsByDocumentId, locale, formsById, location} = props
 
   const renderNotification = (entity, columnName, column, globals) => {
     const {id, status} = entity
@@ -45,7 +64,7 @@ const DocumentList = (props) => {
 
   return (
     <div style={{height: '500px'}}>
-      <SmartTable rows={documents} notificationsByDocumentId={notificationsByDocumentId}>
+      <SmartTable rows={documents} notificationsByDocumentId={notificationsByDocumentId} location={location} formsById={formsById}>
         <Column
           label={message('date')}
           name="documentDate"
@@ -53,7 +72,7 @@ const DocumentList = (props) => {
         />
         <Column
           label={message('formName')}
-          renderer={renderFormName}
+          renderer={renderFormNameColumn}
         />
         <Column
           label={message('author')}
@@ -68,6 +87,7 @@ const DocumentList = (props) => {
 }
 
 DocumentList.propTypes = {
+  location: PropTypes.object.isRequired,
   formsById: PropTypes.object.isRequired,
   documents: PropTypes.array.isRequired,
   message: PropTypes.func.isRequired,

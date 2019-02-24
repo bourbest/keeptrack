@@ -80,6 +80,13 @@ export class SmartTable extends React.PureComponent {
         </thead>
         <tbody>
         {map(rows, this.renderRow)}
+        {(!rows || rows.length === 0) && 
+          <tr>
+            <td colSpan={this.columns.length}>
+              {this.props.messageWhenEmpty}
+            </td>
+          </tr>
+        }
         </tbody>
       </table>
     )
@@ -93,6 +100,7 @@ SmartTable.propTypes = {
   selectable: PropTypes.bool,
   onRowSelected: PropTypes.func,
   canSelectRow: PropTypes.func,
+  messageWhenEmpty: PropTypes.string,
   globals: PropTypes.any
 }
 

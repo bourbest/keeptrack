@@ -74,7 +74,8 @@ class ViewClientPage extends React.PureComponent {
   handleAddForm () {
     const id = this.props.params.id
     const formId = this.props.selectedFormId
-    browserHistory.push(`/clients/${id}/documents/create/${formId}`)
+    const backTo = encodeURIComponent(`/clients/${id}`)
+    browserHistory.push(`/clients/${id}/documents/create/${formId}?backTo=${backTo}`)
   }
 
   toggleSubscription () {
@@ -155,7 +156,7 @@ class ViewClientPage extends React.PureComponent {
                           {this.message(notf.type, 'notificationTypes')}
                         </div>
                       }
-                      <EvolutionNoteTile evolutionNote={note} organismRoles={organismRoleList} />
+                      <EvolutionNoteTile evolutionNote={note} organismRoles={organismRoleList} location={this.props.location} />
                     </div>
                   )
                 })}
@@ -185,6 +186,7 @@ class ViewClientPage extends React.PureComponent {
 
                 {this.props.documents && this.props.documents.length > 0 &&
                   <DocumentList
+                    location={this.props.location}
                     documents={this.props.documents}
                     formsById={this.props.formsById}
                     message={this.message}
@@ -213,7 +215,7 @@ const mapStateToProps = (state) => {
     organismRoleList: getOrganismRoleOptions(state),
 
     formsById: FormSelectors.getEntities(state),
-    formOptionList: FormSelectors.getCreatableFormOptionList(state),
+    formOptionList: FormSelectors.getClientCreatableFormOptionList(state),
     selectedFormId: ClientSelectors.getSelectedFormId(state),
     documents: ClientSelectors.getClientDocumentsOrderByDate(state),
     evolutionNotes: ClientSelectors.getClientNotesOrderByDate(state),

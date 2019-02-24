@@ -27,7 +27,12 @@
     "newDocuments": "{{count}} nouveau document",
     "newDocuments_plural": "{{count}} nouveaux documents",
     "updatedDocuments": "{{count}} document mis à jour",
-    "updatedDocuments_plural": "{{count}} documents mis à jour"
+    "updatedDocuments_plural": "{{count}} documents mis à jour",
+    "incompleteDocuments": "Documents à compléter",
+    "formName": "Formulaire",
+    "clientName": "Participant",
+    "createdOn": "Date de création",
+    "documentDate": "Date du document"
   },
   "form-shortcut": {
     "list-title": "Liste des raccourçis",

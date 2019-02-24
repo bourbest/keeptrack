@@ -9,8 +9,10 @@ import { connect } from 'react-redux'
 // module
 import { ActionCreators as AppActions } from '../../modules/app/actions'
 import { ActionCreators as DashboardActions } from '../../modules/dashboard/actions'
+import { ActionCreators as FormTemplateActions } from '../../modules/form-templates/actions'
 
 import DashboardSelectors from '../../modules/dashboard/selectors'
+import FormTemplateSelectors from '../../modules/form-templates/selectors'
 import { getLocale } from '../../modules/app/selectors'
 
 // components
@@ -18,21 +20,16 @@ import {createTranslate} from '../../locales/translate'
 import {SmartTable, Column} from '../components/SmartTable'
 import Toolbar from '../components/Toolbar/Toolbar'
 import {buildUrl} from '../../services/url-utils'
+import {renderFormNameColumn, renderDateColumn, renderClientNameColumn} from '../clients/components/DocumentList'
 
 const labelNamespace = 'dashboard'
 
 const mapDispatchToProps = (dispatch) => {
   return {
     actions: bindActionCreators(DashboardActions, dispatch),
-    appActions: bindActionCreators(AppActions, dispatch)
+    appActions: bindActionCreators(AppActions, dispatch),
+    formTemplateActions: bindActionCreators(FormTemplateActions, dispatch)
   }
-}
-
-const renderLinkToClient = (entity, columnName, column, globals) => {
-  const location = globals.location
-  const backTo = encodeURIComponent(buildUrl(location.pathname, location.query))
-  const to = `/clients/${entity.id}?backTo=${backTo}`
-  return <Link to={to}>{entity[columnName]}</Link>
 }
 
 class DashboardPage extends React.PureComponent {
@@ -44,6 +41,8 @@ class DashboardPage extends React.PureComponent {
 
   componentWillMount () {
     this.props.actions.fetchMyClients()
+    this.props.actions.fetchMyIncompleteDocuments()
+    this.props.formTemplateActions.fetchList()
   }
 
   renderNotifications (entity, columnName, column, globals) {
@@ -76,6 +75,13 @@ class DashboardPage extends React.PureComponent {
     )
   }
 
+  renderLinkToClient (entity, columnName, column, globals) {
+    const location = globals.location
+    const backTo = encodeURIComponent(buildUrl(location.pathname, location.query))
+    const to = `/clients/${entity.id}?backTo=${backTo}`
+    return <Link to={to}>{entity[columnName]}</Link>
+  }
+
   render () {
     return (
       <div>
@@ -83,10 +89,24 @@ class DashboardPage extends React.PureComponent {
         <SmartTable
           rows={this.props.clients}
           location={this.props.location}
+          messageWhenEmpty={this.message('notFollowingAnyClient')}
         >
-          <Column name="lastName" label={this.message('lastName')} renderer={renderLinkToClient} />
-          <Column name="firstName" label={this.message('firstName')} renderer={renderLinkToClient} />
+          <Column name="lastName" label={this.message('lastName')} renderer={this.renderLinkToClient} />
+          <Column name="firstName" label={this.message('firstName')} renderer={this.renderLinkToClient} />
           <Column name="notifications" label={this.message('notifications')} renderer={this.renderNotifications} />
+        </SmartTable>
+
+        <h4>{this.message('incompleteDocuments')}</h4>
+        <SmartTable
+          rows={this.props.incompleteDocuments}
+          location={this.props.location}
+          formsById={this.props.formsById}
+          messageWhenEmpty={this.message('noDocumentToComplete')}
+        >
+          <Column name="formName" label={this.message('formName')} renderer={renderFormNameColumn} />
+          <Column name="client" label={this.message('clientName')} renderer={renderClientNameColumn} />
+          <Column name="createdOn" label={this.message('createdOn')} renderer={renderDateColumn} />
+          <Column name="documentDate" label={this.message('documentDate')} renderer={renderDateColumn} />
         </SmartTable>
       </div>
     )
@@ -97,6 +117,8 @@ const mapStateToProps = (state, props) => {
   return {
     clients: DashboardSelectors.getOrderedClients(state),
     notificationsByClientId: DashboardSelectors.getClientsNotifications(state),
+    incompleteDocuments: DashboardSelectors.getSortedIncompleteDocuments(state),
+    formsById: FormTemplateSelectors.getEntities(state),
     locale: getLocale(state)
   }
 }
@@ -104,6 +126,8 @@ const mapStateToProps = (state, props) => {
 DashboardPage.propTypes = {
   clients: PropTypes.array.isRequired,
   notificationsByClientId: PropTypes.object.isRequired,
+  incompleteDocuments: PropTypes.array.isRequired,
+  formsById: PropTypes.object.isRequired,
   locale: PropTypes.string.isRequired
 }
 

@@ -46,12 +46,23 @@ class FillFormPage extends React.PureComponent {
     this.handleClientSelected = this.handleClientSelected.bind(this)
     this.message = createTranslate(labelNamespace, this)
     this.handlers = {}
+    this.loadTemplate = this.loadTemplate.bind(this)
   }
 
   componentWillMount () {
-    const formId = this.props.params.formId
-    this.props.actions.setTemplate(null)
-    this.props.actions.initializeNewDocument(formId)
+    this.loadTemplate(this.props)
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (this.props.params.formId !== nextProps.params.formId) {
+      this.loadTemplate(nextProps)
+    }
+  }
+
+  loadTemplate (props) {
+    const formId = props.params.formId
+    props.actions.setTemplate(null)
+    props.actions.initializeNewDocument(formId)
   }
 
   handleSubmit () {
