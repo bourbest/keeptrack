@@ -26,6 +26,9 @@ export const translateError = (error, locale) => {
   let errMsg = ''
   if (isObject(error)) {
     const params = {lng: locale, ...error.params}
+    if (params.otherFieldLabel) {
+      params.otherFieldLabel = i18next.t(params.otherFieldLabel, params)
+    }
     errMsg = i18next.t(error.error, params)
   } else {
     errMsg = error.indexOf(' ') >= 0 ? error : i18next.t(error, {lng: locale})

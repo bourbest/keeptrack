@@ -11,6 +11,7 @@ import registerClientFeedSubscriptions from './controllers/ClientFeedSubscriptio
 import registerNotifications from './controllers/NotificationsController'
 import registerMyAccount from './controllers/MyAccountController'
 import registerFormShortcut from './controllers/FormShortcutController'
+import registerReports from './controllers/ReportController'
 
 import corser from 'corser'
 import bodyParser from 'body-parser'
@@ -51,6 +52,7 @@ function createApiRouter (config, database) {
   registerNotifications(apiRouter)
   registerMyAccount(apiRouter)
   registerFormShortcut(apiRouter)
+  registerReports(apiRouter)
 
   apiRouter.all('*', function (req, res, next) {
     if (!res.headersSent) {

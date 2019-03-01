@@ -1,3 +1,5 @@
+import {initialize} from 'redux-form'
+import config from './config'
 const actionPrefix = 'REPORTS/'
 
 export const Actions = {
@@ -9,5 +11,7 @@ export const Actions = {
 export const ActionCreators = {
   fetchDistributionList: () => ({ type: Actions.FETCH_DISTRIBUTION_LIST }),
   setFetchingDistributionList: (isFetching) => ({ type: Actions.SET_FETCHING_DISTRIBUTION_LIST, isFetching }),
-  setDistributionList: (distributionList) => ({ type: Actions.SET_DISTRIBUTION_LIST, distributionList })
+  setDistributionList: (distributionList) => ({ type: Actions.SET_DISTRIBUTION_LIST, distributionList }),
+
+  setReportParameters: (entity) => initialize(config.entityName, entity)
 }

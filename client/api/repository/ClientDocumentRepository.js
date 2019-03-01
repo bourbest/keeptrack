@@ -44,4 +44,32 @@ ClientDocumentRepository.prototype.getIncompleteDocumentListForUser = function (
     .then(getClientsFromAggregateResponse)
 }
 
+ClientDocumentRepository.prototype.getDocumentsForReportCursor = function (formTemplateId, fromDate, toDate, excludeIncompleteDocuments) {
+  const match = {
+    $match : { 
+      formId : formTemplateId,
+      isArchived: false,
+      documentDate: {
+        $gte: fromDate,
+        $lte: toDate
+      }
+    }
+  }
+
+  if (excludeIncompleteDocuments) {
+    match.$match.status = DocumentStatus.COMPLETE
+  }
+
+  const lookup = {
+    $lookup: {
+      from: 'ClientFile',
+      localField: 'clientId',
+      foreignField: '_id',
+      as: 'client'
+  }}
+
+  return this.collection
+    .aggregate([match, lookup])
+}
+
 export default ClientDocumentRepository
