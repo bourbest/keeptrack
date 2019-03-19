@@ -11,7 +11,10 @@
     "administration": "Administration",
     "quit": "Me déconnecter",
     "changePassword": "Modifier mon mot de passe",
-    "generateReport": "Rapports"
+    "generateReport": "Rapports",
+    "admin": "Administration",
+    "distributionList": "Liste de distribution",
+    "formShortcuts": "Menus"
   },
   "login": {
     "username": "Code utilisateur",

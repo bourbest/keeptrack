@@ -1,16 +1,35 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router'
-import {forEach} from 'lodash'
+import {forEach, map, compact} from 'lodash'
 import { canInteractWithClient, formsManager, usersManager, statsProducer } from '../../modules/accounts/roles'
 import { createTranslate } from '../../locales/translate'
 
+import {DropdownMenu} from '../components/controls/DropdownMenu'
 import UserDropdownMenu from './behavioral/UserDropdownMenu'
 
 class NavBar extends React.PureComponent {
   constructor (props) {
     super(props)
     this.message = createTranslate('navigation', this)
+    this.renderChildItem = this.renderChildItem.bind(this)
+  }
+
+  renderChildItem (menuItem) {
+    const user = this.props.user
+    if (!menuItem.role || (user.roles && user.roles.indexOf(menuItem.role) > -1)) {
+      return (
+        <Link
+          key={menuItem.name}
+          to={menuItem.link}
+          className="dropdown-item"
+        >
+          {menuItem.labelKey && this.message(menuItem.labelKey)}
+          {menuItem.label}
+        </Link>
+      )
+    }
+    return null
   }
 
   render () {
@@ -18,11 +37,15 @@ class NavBar extends React.PureComponent {
     const menuItems = [
       { name: 'dashboard', link: '/dashboard', labelKey: 'dashboard', role: canInteractWithClient },
       { name: 'clients', link: '/clients', labelKey: 'clients', role: canInteractWithClient },
-      { name: 'formTemplates', link: '/form-templates', labelKey: 'formTemplates', role: formsManager },
-      { name: 'accounts', link: '/accounts', labelKey: 'accounts', role: usersManager },
-      { name: 'reports', link: '/reports/distribution-list', labelKey: 'reports', role: statsProducer },
-      { name: 'formShortcuts', link: '/form-shortcuts', labelKey: 'administration', role: usersManager },
-      { name: 'generateReport', link: '/reports/generate', labelKey: 'generateReport', role: statsProducer }
+      { name: 'admin', labelKey: 'admin', menus: [
+        { name: 'formTemplates', link: '/form-templates', labelKey: 'formTemplates', role: formsManager },
+        { name: 'accounts', link: '/accounts', labelKey: 'accounts', role: usersManager },
+        { name: 'formShortcuts', link: '/form-shortcuts', labelKey: 'formShortcuts', role: usersManager }
+      ] },
+      { name: 'reports', labelKey: 'reports', menus: [
+        { name: 'distributionList', link: '/reports/distribution-list', labelKey: 'distributionList', role: statsProducer },
+        { name: 'generateReport', link: '/reports/generate', labelKey: 'generateReport', role: statsProducer }
+      ] }
     ]
 
     forEach(this.props.formShortcuts, shortcut => {
@@ -46,17 +69,29 @@ class NavBar extends React.PureComponent {
               (menuItem) => {
                 if (!menuItem.role || (user.roles && user.roles.indexOf(menuItem.role) > -1)) {
                   const isActive = currentLocation.indexOf(menuItem.link) !== -1
-                  const className = isActive ? 'active nav-item' : 'nav-item'
-                  return (
-                    <li className={className} key={menuItem.name}>
-                      <Link
-                        to={menuItem.link}
-                        className="nav-link text-light"
-                      >
-                        {menuItem.labelKey && this.message(menuItem.labelKey)}
-                        {menuItem.label}
-                      </Link>
-                    </li>)
+                  const className = isActive ? 'active' : ''
+                  const subMenus = compact(map(menuItem.menus, this.renderChildItem))
+
+                  if (subMenus.length) {
+                    return (
+                      <DropdownMenu className={`${className}`} key={menuItem.name} label={this.message(menuItem.labelKey)}>
+                        {subMenus}
+                      </DropdownMenu>
+                    )
+                  } else if (!menuItem.menus) {
+                    return (
+                      <li className={className} key={menuItem.name}>
+                        <Link
+                          to={menuItem.link}
+                          className="nav-link text-light"
+                        >
+                          {menuItem.labelKey && this.message(menuItem.labelKey)}
+                          {menuItem.label}
+                        </Link>
+                      </li>)
+                  } else {
+                    return null
+                  }
                 }
                 return null
               }
