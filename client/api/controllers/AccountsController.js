@@ -5,7 +5,8 @@ import {entityFromBody} from '../middlewares/entityFromBody'
 import {accountSchema, newAccountSchema} from '../../modules/accounts/schema'
 import bcrypt from 'bcryptjs'
 import {boolean, Schema, string} from 'sapin'
-import {parseFilters, parsePagination} from '../middlewares'
+import {parseFilters, parsePagination, requiresRole} from '../middlewares'
+import ROLES from '../../modules/accounts/roles'
 
 const ACCEPTED_SORT_PARAMS = ['fullName']
 const OMITED_FIELDS = ['passwordHash']
@@ -61,6 +62,7 @@ const updateAccount = (req, res, next) => {
 }
 
 export default (router) => {
+  router.use('/accounts', requiresRole(ROLES.usersManager, false))
   router.route('/accounts')
     .get([
       parsePagination(ACCEPTED_SORT_PARAMS),

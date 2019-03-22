@@ -3,6 +3,7 @@ module.exports = {
    isArchived:false,
    isSystem: true,
    preventShortcut: true,
+   preventReport: true,
    fields:[{
       labels: {
         fr: 'Prénom',

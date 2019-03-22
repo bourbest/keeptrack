@@ -81,6 +81,9 @@
     "email": "Courriel",
     "password": "Mot de passe",
     "confirmPassword": "Confirmez le mot de passe",
+    "oldPassword": "Ancien mot de passe",
+    "newPassword": "Nouveau mot de passe",
+    "changePassword": "Modifier le mot de passe",
     "roles": "Rôles dans le système",
     "organismRole": "Rôle dans l'organisme",
     "errors": {

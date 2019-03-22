@@ -18,17 +18,6 @@ const filtersSchema = new Schema({
   isArchived: boolean
 })
 
-function getDocumentsByClientId (Repository) {
-  return function (req, res, next) {
-    const repo = new Repository(req.database)
-    return repo.findByClientId(req.params.id)
-      .then(function (entity) {
-        res.json(entity)
-      })
-      .catch(next)
-  }
-}
-
 function deleteFeedSubscriptions (req, res, next) {
   if (!isArray(req.body) || req.body.length === 0) {
     throw {httpStatus: 400, message: 'no ids provided in the body'}

@@ -1,5 +1,5 @@
 import express from 'express'
-import {loadUser} from './middlewares/security'
+import {loadUser, mustBeAuthenticated} from './middlewares/security'
 import {injectGlobals} from './middlewares/injectGlobals'
 import registerClients from './controllers/ClientsController'
 import registerAuthentication from './controllers/AuthenticationController'
@@ -43,6 +43,8 @@ function createApiRouter (config, database) {
     next() // make sure we go to the next routes and don't stop here
   })
 
+  // apiRouter.use(mustBeAuthenticated)
+
   registerClients(apiRouter)
   registerListOptions(apiRouter)
   registerFormTemplates(apiRouter)
@@ -64,10 +66,9 @@ function createApiRouter (config, database) {
   // error handling
   apiRouter.use(function (err, req, res, next) {
     if (!res.headersSent) {
-      console.log("error handler")
+      console.log("error handler", err)
       if (err.httpStatus) {
-        res.status(err.httpStatus)
-          .json({message: err.message, errors: err.errors})
+        res.status(err.httpStatus).json({message: err.message, errors: err.errors})
       } else if (err.code === 'EBADCSRFTOKEN') {
         res.status(403).json({message: 'Bad CSRF Token'})
       } else {

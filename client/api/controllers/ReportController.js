@@ -1,11 +1,12 @@
 import {get, find, forEach} from 'lodash'
-import {parseFilters} from '../middlewares'
+import {parseFilters, requiresRole} from '../middlewares'
 import {FormTemplateRepository, ClientDocumentRespository} from '../repository'
 import {convertFromDatabase} from '../repository/MongoRepository'
 import {reportParametersSchema} from '../../modules/reports/schema'
 import {CLIENT_FORM_ID} from '../../modules/const'
 import {ClientLinkOptions} from '../../modules/form-templates/config'
 import Excel from 'exceljs'
+import ROLES from '../../modules/accounts/roles'
 
 const getReportFields = (docTemplate, clientTemplate) => {
   const REPORTABLE_CONTROL_TYPES = ['date', 'checkbox', 'checkbox-list', 'radio-list', 'combobox', 'input', 'textarea', 'rich-text', 'address']
@@ -153,6 +154,7 @@ const generateReport = function (req, res, next) {
 export default (router) => {
   router.route('/reports/generate')
     .get([
+      requiresRole(ROLES.statsProducer, false),
       parseFilters(reportParametersSchema),
       generateReport
     ])
