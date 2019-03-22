@@ -1,5 +1,5 @@
 import express from 'express'
-import {loadUser, mustBeAuthenticated} from './middlewares/security'
+import {mustBeAuthenticated} from './middlewares/security'
 import {injectGlobals} from './middlewares/injectGlobals'
 import registerClients from './controllers/ClientsController'
 import registerAuthentication from './controllers/AuthenticationController'
@@ -34,8 +34,6 @@ function createApiRouter (config, database) {
   // CSRF protection on all non idempotent request
   apiRouter.use(checkCsrf)
 
-  apiRouter.use(loadUser(config.secret))
-
   // middleware pour loguer dans la console tous les calls recus
   apiRouter.use(function (req, res, next) {
     // do logging
@@ -43,7 +41,7 @@ function createApiRouter (config, database) {
     next() // make sure we go to the next routes and don't stop here
   })
 
-  // apiRouter.use(mustBeAuthenticated)
+  apiRouter.use(mustBeAuthenticated)
 
   registerClients(apiRouter)
   registerListOptions(apiRouter)

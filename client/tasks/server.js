@@ -61,7 +61,7 @@ module.exports = (params) => {
     context: config.sourcePath,
     devtool: config.devTools,
     target: 'node',
-    externals:  params.isProd ? null : nodeModules,
+    externals:  baseConfig.isProd ? undefined : nodeModules,
     output: {
       path: config.outputPath,
       filename: 'backend.js'
