@@ -43,7 +43,7 @@ export default function (request, res, props, context) {
   const csrfToken = request.cookies[COOKIE_NAMES.csrfToken] || ''
 
   // redirects to /login if user is not authenticated
-  if (!request.url.startsWith('/login') && (authCookie === '' || csrfToken === '')) {
+  if (!request.url.startsWith('/login') && (!request.user || csrfToken === '')) {
     let redir = '/login'
     if (request.url !== '/login') {
       const target = encodeURIComponent(request.url)
@@ -52,6 +52,7 @@ export default function (request, res, props, context) {
     res.redirect(redir)
     return
   }
+
   const cookies = `${COOKIE_NAMES.auth}=${authCookie}; ${COOKIE_NAMES.csrfToken}=${csrfToken};`
 
   // prepare state

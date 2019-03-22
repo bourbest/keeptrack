@@ -4,7 +4,7 @@ import {
   makeFindAllHandler, makeFindById, makeHandleArchive, makeHandlePost, makeHandlePut,
   makeHandleRestore
 } from './StandardController'
-import {parsePagination, parseFilters} from '../middlewares'
+import {parsePagination, parseFilters, requiresRole} from '../middlewares'
 import {getValidationsForField} from '../../modules/client-documents/client-document-utils'
 
 import {string, boolean, Schema, validate, transform, date} from 'sapin'
@@ -12,6 +12,7 @@ import {isArray} from 'lodash'
 import {ObjectId} from 'mongodb'
 import { CLIENT_FORM_ID } from '../../modules/const'
 import { objectId } from '../../modules/common/validate'
+import ROLES from '../../modules/accounts/roles'
 
 const filtersSchema = new Schema({
   contains: string,
@@ -83,6 +84,7 @@ function validateClient (req, res, next) {
 const ACCEPTED_SORT_PARAMS = ['fullName']
 
 export default (router) => {
+  router.use('/client-files', requiresRole(ROLES.canInteractWithClient))
   router.route('/client-files')
     .get([
       parsePagination(ACCEPTED_SORT_PARAMS),
@@ -101,7 +103,10 @@ export default (router) => {
     .post(makeHandleRestore(ClientRepository))
 
   router.route('/client-files/emailDistributionList')
-    .get(getEmailDistributionList)
+    .get([
+      requiresRole(ROLES.statsProducer, false),
+      getEmailDistributionList
+    ])
 
   router.route('/client-files/:id')
     .get(makeFindById(ClientRepository))

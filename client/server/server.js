@@ -13,6 +13,7 @@ import {COOKIE_NAMES} from '../config/const'
 import {CsrfTokenLayer} from '../api/middlewares/csrf'
 import {injectGlobals} from '../api/middlewares/injectGlobals'
 import {loadCache} from './cache'
+import {loadUser} from '../api/middlewares/security'
 
 const app = express()
 
@@ -26,6 +27,7 @@ app.get('/public/favicon.ico', function (req, res) {
 })
 
 app.use(cookieParser())
+app.use(loadUser(context.configuration.secret))
 
 const csrf = new CsrfTokenLayer({
   cookie: {
