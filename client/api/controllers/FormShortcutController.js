@@ -1,7 +1,8 @@
 import {FormTemplateRepository, FormShortcutRepository} from '../repository'
 import {makeFindAllHandler, makeFindById, makeHandlePost, makeHandlePut, makeHandleDelete} from './StandardController'
-import {entityFromBody} from '../middlewares/entityFromBody'
+import {entityFromBody, requiresRole} from '../middlewares'
 import {formShortcutSchema} from '../../modules/form-shortcut/schema'
+import ROLES from '../../modules/accounts/roles'
 
 function preInsert (req, res, next) {
   // ensure form template file exists
@@ -20,16 +21,23 @@ function preInsert (req, res, next) {
 }
 
 export default (router) => {
-  router.use('/form-shortcuts', entityFromBody(formShortcutSchema))
+  router.use('/form-shortcuts', [
+    entityFromBody(formShortcutSchema),
+    requiresRole(ROLES.formsManager)
+  ])
   router.route('/form-shortcuts')
     .get(makeFindAllHandler(FormShortcutRepository))
     .post([
       preInsert,
       makeHandlePost(FormShortcutRepository)
     ])
-    .delete(makeHandleDelete(FormShortcutRepository))
+    .delete([
+      makeHandleDelete(FormShortcutRepository)
+    ])
 
   router.route('/form-shortcuts/:id')
     .get(makeFindById(FormShortcutRepository))
-    .put(makeHandlePut(FormShortcutRepository))
+    .put([
+      makeHandlePut(FormShortcutRepository)
+    ])
 }

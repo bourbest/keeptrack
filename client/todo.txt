@@ -2,16 +2,8 @@
   tester avec IE 11
 
   Rendu à faire :
-    - Afficher les documents incomplets dans le dashboard
-
-  Rendu à faire :
   - Validations standard sur les input (nombre, téléphone, courriel) + modifier les formulaires systèmes
-  - afficher le nombre de notifications dans le titre de l'onglet => actuellement renvoie liste
-  - marquer les documents selon la notifications
   
   - Groupe de sécurité
-  - Moteur de rapport simple
   - Panneau d'administration avec des explications pour chaque setting
-
-  - Sécurité sur les calls API  
 */

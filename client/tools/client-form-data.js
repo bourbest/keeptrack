@@ -3,6 +3,7 @@ module.exports = {
    isArchived:false,
    isSystem: true,
    preventShortcut: true,
+   preventReport: true,
    fields:[{
       labels: {
         fr: 'Prénom',
@@ -188,28 +189,25 @@ module.exports = {
       required: false,
       choices: [
         {
-          value: 'noMessage',
           labels: {
             fr: 'Pas de message',
             en: 'No message'
           },
-          id: 1
+          id: '1'
         },
         {
-          value: 'nameAndPhoneOnly',
           labels: {
             fr: 'Nom et numéro seulement',
             en: 'Name and phone only'
           },
-          id: 2
+          id: '2'
         },
         {
-          value: 'fullMessage',
           labels: {
             fr: 'Message complet',
             en: 'Full message'
           },
-          id: 3
+          id: '3'
         }
       ],
       id: 'mainPhoneNumber.messageOption',
@@ -239,28 +237,25 @@ module.exports = {
       required: false,
       choices: [
         {
-          value: 'noMessage',
           labels: {
             fr: 'Pas de message',
             en: 'No message'
           },
-          id: 1
+          id: '1'
         },
         {
-          value: 'nameAndPhoneOnly',
           labels: {
             fr: 'Nom et numéro seulement',
             en: 'Name and phone only'
           },
-          id: 2
+          id: '2'
         },
         {
-          value: 'fullMessage',
           labels: {
             fr: 'Message complet',
             en: 'Full message'
           },
-          id: 3
+          id: '3'
         }
       ],
       id: 'alternatePhoneNumber.messageOption',
@@ -325,6 +320,10 @@ module.exports = {
       parentId: 'c17'
     },
     {
+      labels: {
+        fr: 'Adresse',
+        en: 'Address'
+      },
       required: true,
       id: 'address',
       controlType: 'address',

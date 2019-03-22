@@ -18,7 +18,7 @@ import { ActionCreators as MyAccountActions } from '../../modules/my-account/act
 import MyAccountSelectors from '../../modules/my-account/selectors'
 import {getLocale} from '../../modules/app/selectors'
 
-const labelNamespace = 'changePassword'
+const labelNamespace = 'accounts'
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -53,14 +53,14 @@ class ChangePasswordPage extends React.PureComponent {
 
     return (
       <div>
-        <h1>{this.message('title')}</h1>
+        <h1>{this.message('changePassword')}</h1>
         <FormError error={error} locale={locale} />
         <ChangePasswordForm locale={locale} />
         <Button disabled={!canSave} onClick={this.handleSubmit} primary className="mr-2">
-          {this.message('common.save')}
+          {this.message('save', 'common')}
         </Button>
         <Button onClick={this.handleCancel}>
-          {this.message('common.cancel')}
+          {this.message('cancel', 'common')}
         </Button>
       </div>
     )

@@ -10,7 +10,11 @@
     "reports": "Rapports",
     "administration": "Administration",
     "quit": "Me déconnecter",
-    "changePassword": "Modifier mon mot de passe"
+    "changePassword": "Modifier mon mot de passe",
+    "generateReport": "Rapports",
+    "admin": "Administration",
+    "distributionList": "Liste de distribution",
+    "formShortcuts": "Menus"
   },
   "login": {
     "username": "Code utilisateur",
@@ -77,6 +81,9 @@
     "email": "Courriel",
     "password": "Mot de passe",
     "confirmPassword": "Confirmez le mot de passe",
+    "oldPassword": "Ancien mot de passe",
+    "newPassword": "Nouveau mot de passe",
+    "changePassword": "Modifier le mot de passe",
     "roles": "Rôles dans le système",
     "organismRole": "Rôle dans l'organisme",
     "errors": {
@@ -142,6 +149,13 @@
   "distributionList": {
     "title": "Liste de distribution"
   },
+  "generateReport": {
+    "title": "Génération de rapport",
+    "fromDate": "De",
+    "toDate": "À",
+    "formName": "Formulaire",
+    "generate": "Produire"
+  },
   "notificationTypes": {
     "EVOLUTIVE_NOTE_CREATED": "Nouvelle",
     "CLIENT_DOCUMENT_CREATED": "Nouveau",
@@ -197,6 +211,7 @@
     "valueNotInRange": "La valeur doit être comprise entre {{minValue}} et {{maxValue}}",
     "invalidEmail": "Courriel invalide",
     "invalidDate" : "Date invalide",
-    "valueShouldEqualField": "Les valeurs ne sont pas égales"
+    "valueShouldEqualField": "Les valeurs ne sont pas égales",
+    "valueShouldBeGteField": "Doit être supérieur ou égale à {{otherFieldLabel}}"
   }
 }

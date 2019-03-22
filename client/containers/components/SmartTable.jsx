@@ -80,7 +80,7 @@ export class SmartTable extends React.PureComponent {
         </thead>
         <tbody>
         {map(rows, this.renderRow)}
-        {(!rows || rows.length === 0) && 
+        {(!rows || rows.length === 0) &&
           <tr>
             <td colSpan={this.columns.length}>
               {this.props.messageWhenEmpty}

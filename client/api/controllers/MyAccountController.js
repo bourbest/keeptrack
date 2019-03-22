@@ -1,9 +1,7 @@
-import {omit} from 'lodash'
 import {UserAccountRepository} from '../repository'
 import {entityFromBody} from '../middlewares/entityFromBody'
 import {changePasswordSchema} from '../../modules/my-account/schema'
 import bcrypt from 'bcryptjs'
-import {ObjectId} from 'mongodb'
 
 const updateUserPassword = (newPassword) => {
   return function (user) {
