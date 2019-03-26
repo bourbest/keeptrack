@@ -10,6 +10,7 @@
     "kt-server-watch": "webpack --watch --env.server=dev --config ./tasks/server.js",
     "serve": "nodemon ./dist-kt/backend.js --watch dist-kt/backend.js",
     "kt": "node ./tasks/build dev && npm-run-all --parallel kt-watch kt-server-watch serve",
+    "build": "node ./tasks/build dev",
     "release": "node ./tasks/build prod",
     "initdb": "node ./tasks/initdb dev"
   },

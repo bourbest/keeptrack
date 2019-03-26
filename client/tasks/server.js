@@ -36,7 +36,7 @@ const getNodeServerPlugins = ({sourcePath, outputPath, isProd, appConfig}) => {
 
   if (isProd) {
     console.log('------------------------------------ OPTIMIZATIONS -----------------------------------')
-    addOptimizationPlugins(plugins)
+    // addOptimizationPlugins(plugins)
   }
 
   return plugins
@@ -61,7 +61,7 @@ module.exports = (params) => {
     context: config.sourcePath,
     devtool: config.devTools,
     target: 'node',
-    externals:  baseConfig.isProd ? undefined : nodeModules,
+//    externals:  baseConfig.isProd ? undefined : nodeModules,
     output: {
       path: config.outputPath,
       filename: 'backend.js'

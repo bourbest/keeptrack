@@ -28,6 +28,8 @@
     "notifications": "Notifications",
     "newNotes": "{{count}} nouvelle note évolutive",
     "newNotes_plural": "{{count}} nouvelles notes évolutives",
+    "updatedNotes": "{{count}} note évolutive modifiée",
+    "updatedNotes_plural": "{{count}} notes évolutives modifiées",
     "newDocuments": "{{count}} nouveau document",
     "newDocuments_plural": "{{count}} nouveaux documents",
     "updatedDocuments": "{{count}} document mis à jour",
@@ -36,7 +38,9 @@
     "formName": "Formulaire",
     "clientName": "Participant",
     "createdOn": "Date de création",
-    "documentDate": "Date du document"
+    "documentDate": "Date du document",
+    "notFollowingAnyClient": "Aucun dossier client n'est suivi",
+    "noDocumentToComplete": "Aucun document à compléter"
   },
   "form-shortcut": {
     "list-title": "Liste des raccourçis",

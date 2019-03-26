@@ -106,7 +106,8 @@ class ViewClientPage extends React.PureComponent {
   }
 
   markNotificationAsRead (event) {
-    const ids = [event.target.id]
+    const targetId = [event.target.id]
+    const ids = this.props.notificationsByTargetId[targetId]
     this.props.notfActions.markAsRead(ids)
   }
 
@@ -152,7 +153,7 @@ class ViewClientPage extends React.PureComponent {
                   return (
                     <div className="box-fifth mb-3" key={note.id}>
                       {notf &&
-                        <div className="badge badge-primary float-right m-2 clickable" onClick={this.markNotificationAsRead} id={notf.id}>
+                        <div className="badge badge-primary float-right m-2 clickable" onClick={this.markNotificationAsRead} id={notf.targetId}>
                           {this.message(notf.type, 'notificationTypes')}
                         </div>
                       }
@@ -223,7 +224,7 @@ const mapStateToProps = (state) => {
     selectedTabId: ClientSelectors.getSelectedTabId(state),
     notificationsByNoteId: ClientSelectors.getNotificationsByNoteId(state),
     notificationsByDocumentId: ClientSelectors.getNotificationsByDocumentId(state),
-
+    notificationsByTargetId: ClientSelectors.getNotificationsByTargetId(state),
     locale: getLocale(state)
   }
   return props

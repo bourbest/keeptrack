@@ -1,5 +1,5 @@
 import config from './config'
-import {orderBy, map, filter, startsWith, uniqBy, keyBy} from 'lodash'
+import {orderBy, map, filter, startsWith, forEach} from 'lodash'
 import NotificationSelectors from '../notifications/selectors'
 
 import {createBaseSelectors} from '../common/selectors'
@@ -81,13 +81,23 @@ Selectors.getClientOptions = createSelector(
 
 Selectors.isCreateNoteEnabled = (state) => Selectors.getSelectedItemIds(state).length === 1
 
+const prioritizeNewDocumentNotifications = notifications => {
+  const ret = {}
+  forEach(notifications, notf => {
+    if (!ret[notf.targetId] || notf.type === 'CLIENT_DOCUMENT_CREATED') {
+      ret[notf.targetId] = notf
+    }
+  })
+  return ret
+}
+
 Selectors.getNotificationsByNoteId = createSelector(
   [NotificationSelectors.getEntities],
   (notifications) => {
     const notes = filter(notifications, notf => {
       return startsWith(notf.type, 'CLIENT_DOCUMENT') && notf.formId === EVOLUTIVE_NOTE_FORM_ID
     })
-    return keyBy(uniqBy(notes, 'targetId'), 'targetId')
+    return prioritizeNewDocumentNotifications(notes)
   }
 )
 
@@ -97,7 +107,21 @@ Selectors.getNotificationsByDocumentId = createSelector(
     const docs = filter(notifications, notf => {
       return startsWith(notf.type, 'CLIENT_DOCUMENT') && notf.formId !== EVOLUTIVE_NOTE_FORM_ID
     })
-    return keyBy(uniqBy(docs, 'targetId'), 'targetId')
+    return prioritizeNewDocumentNotifications(docs)
+  }
+)
+
+Selectors.getNotificationsByTargetId = createSelector(
+  [NotificationSelectors.getEntities],
+  (notifications) => {
+    const ret = {}
+    forEach(notifications, notf => {
+      if (!ret[notf.targetId]) {
+        ret[notf.targetId] = []
+      }
+      ret[notf.targetId].push(notf.id)
+    })
+    return ret
   }
 )
 
