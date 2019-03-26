@@ -50,25 +50,30 @@ class DashboardPage extends React.PureComponent {
     const clientId = entity.id
     const notifications = notificationsByClientId[clientId]
 
-    let notes = null
+    let newNotes = null
+    let updatedNotes = null
     let newDocs = null
     let updatedDocs = null
 
     if (notifications) {
-      if (notifications.notes) {
-        notes = <span>{this.message('newNotes', {count: notifications.notes})}<br /></span>
+      if (notifications.newNotes) {
+        newNotes = <span>{this.message('newNotes', {count: notifications.newNotes})}<br /></span>
       }
-      if (notifications.new) {
-        newDocs = <span>{this.message('newDocuments', {count: notifications.new})}<br /></span>
+      if (notifications.updatedNotes) {
+        updatedNotes = <span>{this.message('updatedNotes', {count: notifications.updatedNotes})}<br /></span>
       }
-      if (notifications.updated) {
-        updatedDocs = <span>{this.message('updatedDocuments', {count: notifications.updated})}<br /></span>
+      if (notifications.newDocuments) {
+        newDocs = <span>{this.message('newDocuments', {count: notifications.newDocuments})}<br /></span>
+      }
+      if (notifications.updatedDocuments) {
+        updatedDocs = <span>{this.message('updatedDocuments', {count: notifications.updatedDocuments})}<br /></span>
       }
     }
 
     return (
       <div>
-        {notes}
+        {newNotes}
+        {updatedNotes}
         {newDocs}
         {updatedDocs}
       </div>

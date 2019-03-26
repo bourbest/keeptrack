@@ -132,7 +132,6 @@ const generateReport = function (req, res, next) {
       const reportFields = getReportFields(docTemplate, clientTemplate)
 
       worksheet.addRow(getHeaderNames(reportFields, 'fr')).commit()
-
       docCursor.each(function (err, document) {
         if (document) {
           if (document.client && document.client.length) {
@@ -148,7 +147,7 @@ const generateReport = function (req, res, next) {
         }
       })
     }
-  )
+  ).catch(next)
 }
 
 export default (router) => {

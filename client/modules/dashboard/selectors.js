@@ -1,4 +1,4 @@
-import {values, forEach, size, sortBy} from 'lodash'
+import {values, forEach, size, sortBy, keys, omit} from 'lodash'
 import {compareStrings} from '../../services/string-utils'
 import {createSelector} from 'reselect'
 import {NotificationTypes} from '../notifications/schema'
@@ -31,26 +31,27 @@ Selectors.getClientsNotifications = createSelector(
     const ret = {}
     forEach(notifications, notf => {
       if (!ret[notf.clientId]) {
-        ret[notf.clientId] = {new: {}, updated: {}, notes: {}}
+        ret[notf.clientId] = {newDocuments: {}, updatedDocuments: {}, newNotes: {}, updatedNotes: {}}
       }
       if (notf.type === NotificationTypes.ClientDocumentCreated) {
         if (notf.formId === EVOLUTIVE_NOTE_FORM_ID) {
-          ret[notf.clientId].notes[notf.targetId] = 1
+          ret[notf.clientId].newNotes[notf.targetId] = 1
         } else {
-          ret[notf.clientId].new[notf.targetId] = 1
+          ret[notf.clientId].newDocuments[notf.targetId] = 1
         }
       } else if (notf.type === NotificationTypes.ClientDocumentModified) {
         if (notf.formId === EVOLUTIVE_NOTE_FORM_ID) {
-          ret[notf.clientId].notes[notf.targetId] = 1
+          ret[notf.clientId].updatedNotes[notf.targetId] = 1
         } else {
-          ret[notf.clientId].updated[notf.targetId] = 1
+          ret[notf.clientId].updatedDocuments[notf.targetId] = 1
         }
       }
     })
     forEach(ret, client => {
-      client.notes = size(client.notes)
-      client.new = size(client.new)
-      client.updated = size(client.updated)
+      client.updatedNotes = size(omit(client.updatedNotes, keys(client.newNotes)))
+      client.newNotes = size(client.newNotes)
+      client.updatedDocuments = size(omit(client.updatedDocuments, keys(client.newDocuments)))
+      client.newDocuments = size(client.newDocuments)
     })
 
     return ret
