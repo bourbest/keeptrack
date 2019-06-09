@@ -89,7 +89,9 @@ const createIndexes = (db) => {
 
     db.ensureIndex('ClientFeedSubscription', {userId: 1, clientId: 1}, {unique: true}),
 
-    db.ensureIndex('Notification', {userId: 1, createdOn: -1, type: 1})
+    db.ensureIndex('Notification', {userId: 1, createdOn: -1, type: 1}),
+
+    db.ensureIndex('UploadedFile', {clientId: 1})
   ]
 
   return Promise.all(promises)

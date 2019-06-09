@@ -13,6 +13,7 @@ import { ActionCreators as ClientActions } from '../../modules/clients/actions'
 import { ActionCreators as FormActions } from '../../modules/form-templates/actions'
 import { ActionCreators as SubscriptionActions } from '../../modules/client-feed-subscriptions/actions'
 import { ActionCreators as NotfActions } from '../../modules/notifications/actions'
+import { ActionCreators as FileActions } from '../../modules/uploaded-files/actions'
 
 import ClientSelectors from '../../modules/clients/selectors'
 import ClientFormSelectors from '../../modules/clients/client-form-selectors'
@@ -40,7 +41,8 @@ const mapDispatchToProps = (dispatch) => {
     appActions: bindActionCreators(AppActions, dispatch),
     formActions: bindActionCreators(FormActions, dispatch),
     subscriptionActions: bindActionCreators(SubscriptionActions, dispatch),
-    notfActions: bindActionCreators(NotfActions, dispatch)
+    notfActions: bindActionCreators(NotfActions, dispatch),
+    fileActions: bindActionCreators(FileActions, dispatch)
   }
 }
 
@@ -55,6 +57,8 @@ class ViewClientPage extends React.PureComponent {
     this.renderSubscriptionButton = this.renderSubscriptionButton.bind(this)
     this.onTabSelected = this.onTabSelected.bind(this)
     this.markNotificationAsRead = this.markNotificationAsRead.bind(this)
+    this.handleAddFile = this.handleAddFile.bind(this)
+    this.handleFilesSelected = this.handleFilesSelected.bind(this)
   }
 
   componentWillMount () {
@@ -76,6 +80,20 @@ class ViewClientPage extends React.PureComponent {
     const formId = this.props.selectedFormId
     const backTo = encodeURIComponent(`/clients/${id}`)
     browserHistory.push(`/clients/${id}/documents/create/${formId}?backTo=${backTo}`)
+  }
+
+  handleAddFile () {
+    this.refs && this.refs.fileInput.click()
+  }
+
+  handleFilesSelected (event) {
+    const fileInput = event.target
+    const metadata = {
+      clientId: this.props.client.id
+    }
+  	for (let i = 0; i < 1; i++) {
+      this.props.fileActions.uploadFile(fileInput.files[i], metadata)
+    }
   }
 
   toggleSubscription () {
@@ -182,6 +200,10 @@ class ViewClientPage extends React.PureComponent {
                     <Button primary type="button" disabled={selectedFormId === null} onClick={this.handleAddForm}>
                       {this.message('create', 'common')}
                     </Button>
+                    <Button primary type="button" className="ml-2" onClick={this.handleAddFile}>
+                      {this.message('import-files')}
+                    </Button>
+                    <input type="file" className="d-none" id="inputfile" ref="fileInput" multiple onChange={this.handleFilesSelected} />
                   </div>
                 </div>
 

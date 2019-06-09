@@ -12,12 +12,13 @@ import registerNotifications from './controllers/NotificationsController'
 import registerMyAccount from './controllers/MyAccountController'
 import registerFormShortcut from './controllers/FormShortcutController'
 import registerReports from './controllers/ReportController'
+import registerUploadedFiles from './controllers/UploadedFileController'
 
 import corser from 'corser'
 import bodyParser from 'body-parser'
 import {checkCsrf} from './middlewares/csrf'
 
-function createApiRouter (config, database) {
+function createApiRouter (context, config, database) {
   const apiRouter = express.Router()
 
   const globals = {
@@ -53,7 +54,8 @@ function createApiRouter (config, database) {
   registerMyAccount(apiRouter)
   registerFormShortcut(apiRouter)
   registerReports(apiRouter)
-
+  registerUploadedFiles(apiRouter, context)
+  
   apiRouter.all('*', function (req, res, next) {
     if (!res.headersSent) {
       res.status(404)

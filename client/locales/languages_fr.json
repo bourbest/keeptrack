@@ -64,7 +64,8 @@
     "formName": "Formulaire",
     "selectForm": "Sélectionner un formulaire",
     "evolutionNotes": "Notes évolutives",
-    "noEvolutionNotes": "Aucune note évolutive au dossier"
+    "noEvolutionNotes": "Aucune note évolutive au dossier",
+    "author": "Créé par"
   },
   "client-document": {
     "statusOptions" : {

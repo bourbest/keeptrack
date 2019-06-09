@@ -47,7 +47,9 @@ export const makeHandlePost = (Repository) => {
   return function (req, res, next) {
     const repo = new Repository(req.database)
     const entity = req.entity
-    entity.id = new ObjectId()
+    if (!entity.id) {
+      entity.id = new ObjectId()
+    }
     const now = new Date()
     entity.createdOn = now
     entity.modifiedOn = now

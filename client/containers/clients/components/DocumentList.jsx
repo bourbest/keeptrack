@@ -13,10 +13,15 @@ export const getLinkToEditDocument = (document, location) => {
 }
 
 export const renderDateColumn = (entity, columnName, column, globals) => {
-  const location = globals.location
-  const to = getLinkToEditDocument(entity, location)
+  const {formId} = entity
   const date = formatDate(entity[columnName])
-  return <Link to={to}>{date}</Link>
+  if (formId) {
+    const location = globals.location
+    const to = getLinkToEditDocument(entity, location)
+    return <Link to={to}>{date}</Link>
+  } else {
+    return <a href={entity.uri} target="_blank">{date}</a>
+  }
 }
 
 export const renderClientNameColumn = (entity, columnName, column, globals) => {
@@ -29,11 +34,15 @@ export const renderClientNameColumn = (entity, columnName, column, globals) => {
 }
 
 export const renderFormNameColumn = (entity, columnName, column, globals) => {
-  const {formId} = entity
-  const form = globals.formsById[formId] || {name: ''}
-  const location = globals.location
-  const to = getLinkToEditDocument(entity, location)
-  return <Link to={to}>{form.name}</Link>
+  const {formId, name} = entity
+  if (formId) {
+    const form = globals.formsById[formId] || {name: ''}
+    const location = globals.location
+    const to = getLinkToEditDocument(entity, location)
+    return <Link to={to}>{form.name}</Link>
+  } else {
+    return <a href={entity.uri} target="_blank">{name}</a>
+  }
 }
 
 const DocumentList = (props) => {

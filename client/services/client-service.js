@@ -1,4 +1,5 @@
 import RestService from './base/rest-service'
+import {formatDate} from './string-utils'
 const url = 'client-files'
 const docUrl = 'client-documents'
 
@@ -11,6 +12,7 @@ export default class ClientService extends RestService {
     this.findByNameStartingWith = this.findByNameStartingWith.bind(this)
     this.getMyClients = this.getMyClients.bind(this)
     this.getDistributionList = this.getDistributionList.bind(this)
+    this.uploadFile = this.uploadFile.bind(this)
   }
 
   getDocumentsByClientId (clientId) {
@@ -42,5 +44,14 @@ export default class ClientService extends RestService {
   getDistributionList () {
     return this.apiClient.get('/client-files/emailDistributionList')
   }
-}
 
+  uploadFile (clientId, file) {
+    const formData = new FormData()
+    formData.set('filename', file.name)
+    formData.set('modifiedOn', formatDate(new Date(file.lastModified)))
+    formData.set('file', file)
+    return this.apiClient.post(`/clients/${clientId}/files`, formData, {
+      'Content-Type': 'multipart/form-data'
+    })
+  }
+}

@@ -36,6 +36,7 @@ Selectors.buildNewEntity = () => {
   }
   return newEntity
 }
+Selectors.getFiles = state => state[config.entityName].files
 
 Selectors.getAllClientDocuments = state => state[config.entityName].clientDocuments
 Selectors.getClientDocuments = createSelector(
@@ -52,9 +53,10 @@ Selectors.getSelectedFormId = (state) => state[config.entityName].selectedFormId
 Selectors.getSelectedTabId = state => state[config.entityName].selectedTabId
 
 Selectors.getClientDocumentsOrderByDate = createSelector(
-  [Selectors.getClientDocuments],
-  (documents) => {
-    const ret = orderBy(documents, ['documentDate'], ['desc'])
+  [Selectors.getClientDocuments, Selectors.getFiles],
+  (documents, files) => {
+    const allDocs = [...documents, ...files]
+    const ret = orderBy(allDocs, ['documentDate'], ['desc'])
     return ret
   }
 )
