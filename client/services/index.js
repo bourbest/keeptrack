@@ -6,6 +6,7 @@ import ClientService from './client-service'
 import ClientDocumentService from './client-document-service'
 import AuthService from './authentication-service'
 import AccountService from './account-service'
+import UploadedFileService from './uploaded-file-service'
 
 export const createService = (serviceName, apiConfig) => {
   const apiClient = new ApiClient(apiConfig)
@@ -36,6 +37,9 @@ export const createService = (serviceName, apiConfig) => {
 
     case 'form-shortcut':
       return new RestService('form-shortcuts', apiClient)
+
+    case 'uploaded-files':
+      return new UploadedFileService(apiClient)
 
     default:
       throw new Error('Invalid service name', serviceName)

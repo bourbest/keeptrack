@@ -11,6 +11,7 @@ import notifications from './notifications/reducer'
 import dashboard from './dashboard/reducer'
 import reports from './reports/reducer'
 import formShortcuts from './form-shortcut/reducer'
+import fileReducer from './uploaded-files/reducer'
 import { reducer as formReducer } from 'redux-form'
 import {reducer as toastrReducer} from 'react-redux-toastr'
 
@@ -26,6 +27,7 @@ export default combineReducers({
   ...dashboard,
   ...reports,
   ...formShortcuts,
+  ...fileReducer,
   toastr: toastrReducer,
   form: formReducer
 })

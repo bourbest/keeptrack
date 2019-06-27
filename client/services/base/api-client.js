@@ -38,7 +38,7 @@ function callAxios (config, errorCenter) {
 
 function serialize (obj) {
   let ret = obj
-  if (isObject(obj)) {
+  if (isObject(obj) && !(obj instanceof FormData)) {
     ret = JSON.stringify(ret)
   }
 
@@ -76,6 +76,7 @@ export default class ApiClient {
     this.post = this.post.bind(this)
     this.patch = this.patch.bind(this)
     this.delete = this.delete.bind(this)
+    this.putFile = this.putFile.bind(this)
   }
 
   setCsrfToken (token) {
@@ -135,6 +136,22 @@ export default class ApiClient {
     if (callHeaders) {
       config.headers = {...config.headers, ...callHeaders}
     }
+    return callAxios(config)
+  }
+
+  putFile (url, filePointer, onProgressCallback) {
+    const formData = new FormData()
+    formData.append('file', filePointer)
+
+    const config = {
+      ...this.axiosConfig,
+      method: 'put',
+      url,
+      data: formData,
+      transformRequest: null,
+      onUploadProgress: onProgressCallback
+    }
+    config.headers['Content-Type'] = 'multipart/form-data'
     return callAxios(config)
   }
 }

@@ -54,7 +54,7 @@ connectDatabase(dbConfig.server, dbConfig.dbName)
   })
   .then(database => {
     // api related
-    app.use('/api', createApiRouter(context.configuration, database))
+    app.use('/api', createApiRouter(context, context.configuration, database))
 
     // react related
     app.use((req, res) => {

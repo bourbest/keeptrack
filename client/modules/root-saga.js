@@ -11,7 +11,7 @@ import notificationSaga from './notifications/saga'
 import dashboardSaga from './dashboard/saga'
 import reportSaga from './reports/saga'
 import formShortcutSaga from './form-shortcut/saga'
-
+import uploadedFileSaga from './uploaded-files/saga'
 export default function * rootSaga () {
   yield all([
     ...appSaga,
@@ -25,6 +25,7 @@ export default function * rootSaga () {
     ...notificationSaga,
     ...dashboardSaga,
     reportSaga,
-    formShortcutSaga
+    formShortcutSaga,
+    uploadedFileSaga
   ])
 }

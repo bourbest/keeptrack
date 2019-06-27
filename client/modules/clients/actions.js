@@ -13,7 +13,11 @@ const SpecificActions = createActions(prefix, [
 
   'FETCH_CLIENT_FORM',
   'SET_FETCHING_CLIENT_FORM',
-  'SET_CLIENT_FORM'
+  'SET_CLIENT_FORM',
+
+  'SET_FILES',
+  'TOGGLE_SELECTED_FILE',
+  'CLEAR_SELECTED_FILES',
 ])
 
 const BaseActionCreators = createBaseActionCreators(BaseActions, config.entityName)
@@ -27,7 +31,11 @@ const SpecificActionCreators = {
 
   fetchClientForm: () => ({type: SpecificActions.FETCH_CLIENT_FORM}),
   setFetchingClientForm: (isFetching) => ({type: SpecificActions.SET_FETCHING_CLIENT_FORM, isFetching}),
-  setClientForm: (form) => ({type: SpecificActions.SET_CLIENT_FORM, form})
+  setClientForm: (form) => ({type: SpecificActions.SET_CLIENT_FORM, form}),
+
+  setFiles: (files, reset = false) => ({type: SpecificActions.SET_FILES, files, reset}),
+  toggleSelectedFile: (id) => ({type: SpecificActions.TOGGLE_SELECTED_FILE, id}),
+  clearSelectedFiles: () => ({type: SpecificActions.CLEAR_SELECTED_FILES})
 }
 
 export const Actions = {...BaseActions, ...SpecificActions}

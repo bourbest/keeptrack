@@ -1,4 +1,5 @@
 import config from './config'
+import {indexOf, concat, without} from 'lodash'
 import { baseInitialState, baseActionsHandler, inheritReducer } from '../common/reducers'
 import { Actions } from './actions'
 
@@ -8,7 +9,9 @@ const initialState = {
   selectedTabId: 'notes',
   isFetchingClientForm: false,
   clientForm: null,
-  clientDocuments: []
+  clientDocuments: [],
+  files: [],
+  selectedFileIds: []
 }
 
 const specificReducer = (state, action) => {
@@ -27,6 +30,24 @@ const specificReducer = (state, action) => {
 
     case Actions.SET_CLIENT_DOCUMENTS:
       return {...state, clientDocuments: action.documents}
+
+    case Actions.SET_FILES:
+      const baseFiles = action.reset ? action.files : [...state.files, ...action.files]
+      return {...state, files: baseFiles}
+
+    case Actions.TOGGLE_SELECTED_FILE:
+      let selectedFileIds
+      const idx = indexOf(state.selectedFileIds, action.id)
+      if (idx >= 0) {
+        selectedFileIds = without(state.selectedFileIds, action.id)
+      } else {
+        selectedFileIds = concat(state.selectedFileIds, action.id)
+      }
+
+      return {...state, selectedFileIds}
+  
+    case Actions.CLEAR_SELECTED_FILES:
+      return {...state, selectedFileIds: []}
   }
   return state
 }

@@ -14,18 +14,24 @@ function * clientSaga (action) {
   let errorAction = null
   switch (action.type) {
     case Actions.LOAD_CLIENT:
-      const clientSvc = yield select(getService, 'clients')
+      const [clientSvc, fileSvc] = yield all([
+        select(getService, 'clients'),
+        select(getService, 'uploaded-files')
+      ])
+
       yield put(ActionCreators.setFetchingEntity(true))
       try {
         const promises = [
           clientSvc.get(action.clientId),
-          clientSvc.getDocumentsByClientId(action.clientId)
+          clientSvc.getDocumentsByClientId(action.clientId),
+          fileSvc.list({clientId: action.clientId})
         ]
         const results = yield call([Promise, Promise.all], promises)
 
         yield all([
           put(ActionCreators.setEditedEntity(results[0])),
-          put(ActionCreators.setClientDocuments(results[1].entities))
+          put(ActionCreators.setClientDocuments(results[1].entities)),
+          put(ActionCreators.setFiles(results[2].entities, true))
         ])
       } catch (error) {
         errorAction = handleError(config.entityName, error)

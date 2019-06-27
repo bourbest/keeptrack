@@ -1,4 +1,8 @@
 /*
+Rendu à trouver pourquoi les notifications documents n'affichent pas "nouveau" et pourquoi pas capable de marquer lue une notifications
+bonus: lorsqu'on clique sur un lien de "file", marquer la notification comme lue
+*/
+
   tester avec IE 11
 
   Rendu à faire :

@@ -22,8 +22,8 @@ CsrfTokenLayer.prototype.generateToken = function (req, res) {
 CsrfTokenLayer.prototype.checkCsrf = function (req) {
   // verify the incoming token
   if (!this.ignoreMethod[req.method]) {
-    var secret = getSecret(req, this.cookieOptions)
-    var token = this.getTokenFromRequest(req)
+    const secret = getSecret(req, this.cookieOptions)
+    const token = this.getTokenFromRequest(req)
 
     return this.tokens.verify(secret, token)
   }

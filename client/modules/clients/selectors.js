@@ -1,5 +1,5 @@
 import config from './config'
-import {orderBy, map, filter, startsWith, forEach} from 'lodash'
+import {orderBy, map, filter, startsWith, forEach, indexOf} from 'lodash'
 import NotificationSelectors from '../notifications/selectors'
 
 import {createBaseSelectors} from '../common/selectors'
@@ -36,6 +36,29 @@ Selectors.buildNewEntity = () => {
   }
   return newEntity
 }
+Selectors.getFiles = state => state[config.entityName].files
+Selectors.getClientFilesOrderedByDate = createSelector(
+  [Selectors.getFiles],
+  (files) => {
+    const ret = orderBy(files, ['documentDate'], ['desc'])
+    return ret
+  }
+)
+Selectors.getSelectedFileIds = state => state[config.entityName].selectedFileIds
+Selectors.getSelectedFiles = createSelector(
+  [Selectors.getFiles, Selectors.getSelectedFileIds],
+  (files, fileIds) => {
+    return filter(files, file => indexOf(fileIds, file.id) >= 0)
+  }
+)
+Selectors.canEditFiles = createSelector(
+  [Selectors.getSelectedFileIds, Selectors.getSelectedFiles],
+  (selectedIds, selectedFiles) => {
+    return selectedIds.length > 0 && selectedIds.length === selectedFiles.length
+  }
+)
+
+Selectors.canDeleteFiles = state => getSelectedFileIds(state).length > 0
 
 Selectors.getAllClientDocuments = state => state[config.entityName].clientDocuments
 Selectors.getClientDocuments = createSelector(
@@ -84,7 +107,7 @@ Selectors.isCreateNoteEnabled = (state) => Selectors.getSelectedItemIds(state).l
 const prioritizeNewDocumentNotifications = notifications => {
   const ret = {}
   forEach(notifications, notf => {
-    if (!ret[notf.targetId] || notf.type === 'CLIENT_DOCUMENT_CREATED') {
+    if (!ret[notf.targetId] || notf.type === 'CLIENT_DOCUMENT_CREATED' || notf.type === 'CLIENT_FILE_CREATED') {
       ret[notf.targetId] = notf
     }
   })
@@ -106,6 +129,16 @@ Selectors.getNotificationsByDocumentId = createSelector(
   (notifications) => {
     const docs = filter(notifications, notf => {
       return startsWith(notf.type, 'CLIENT_DOCUMENT') && notf.formId !== EVOLUTIVE_NOTE_FORM_ID
+    })
+    return prioritizeNewDocumentNotifications(docs)
+  }
+)
+
+Selectors.getNotificationsByFileId = createSelector(
+  [NotificationSelectors.getEntities],
+  (notifications) => {
+    const docs = filter(notifications, notf => {
+      return startsWith(notf.type, 'CLIENT_FILE')
     })
     return prioritizeNewDocumentNotifications(docs)
   }
