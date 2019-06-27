@@ -33,7 +33,7 @@ Selectors.getClientsNotifications = createSelector(
       if (!ret[notf.clientId]) {
         ret[notf.clientId] = {newDocuments: {}, updatedDocuments: {}, newNotes: {}, updatedNotes: {}}
       }
-      if (notf.type === NotificationTypes.ClientDocumentCreated) {
+      if (notf.type === NotificationTypes.ClientDocumentCreated || notf.type === NotificationTypes.ClientFileCreated) {
         if (notf.formId === EVOLUTIVE_NOTE_FORM_ID) {
           ret[notf.clientId].newNotes[notf.targetId] = 1
         } else {

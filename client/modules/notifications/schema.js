@@ -6,7 +6,8 @@ export const NotificationTypes = {
   ClientDocumentCreated: 'CLIENT_DOCUMENT_CREATED',
   ClientDocumentModified: 'CLIENT_DOCUMENT_MODIFIED',
   ClientDocumentArchived: 'CLIENT_DOCUMENT_ARCHIVED',
-  ClientArchived: 'CLIENT_ARCHIVED'
+  ClientArchived: 'CLIENT_ARCHIVED',
+  ClientFileCreated: 'CLIENT_FILE_CREATED'
 }
 
 export const notificationSchema = new Schema({

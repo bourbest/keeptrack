@@ -30,6 +30,7 @@ import {Button, Icon, NavTab, Tabs, Tab} from '../components/controls/SemanticCo
 import ClientView from './components/ClientView'
 import EvolutionNoteTile from './components/EvolutionNoteTile'
 import DocumentList from './components/DocumentList'
+import FileList from './components/FileList'
 import Select from 'react-select'
 
 const labelNamespace = 'clients'
@@ -59,6 +60,7 @@ class ViewClientPage extends React.PureComponent {
     this.markNotificationAsRead = this.markNotificationAsRead.bind(this)
     this.handleAddFile = this.handleAddFile.bind(this)
     this.handleFilesSelected = this.handleFilesSelected.bind(this)
+    this.handleEditFiles = this.handleEditFiles.bind(this)
   }
 
   componentWillMount () {
@@ -69,6 +71,13 @@ class ViewClientPage extends React.PureComponent {
     this.props.actions.clearEditedEntity()
     this.props.actions.fetchEditedEntity(id)
     this.props.actions.fetchClientForm()
+  }
+
+  handleEditFiles () {
+    this.props.fileActions.initializeReviewFilesForm({files: this.props.selectedFiles})
+    this.props.fileActions.initializeUploadProgresses(0)
+    this.props.actions.clearSelectedFiles()
+    browserHistory.push('/uploaded-files/review')
   }
 
   handleFormSelected (event) {
@@ -83,6 +92,9 @@ class ViewClientPage extends React.PureComponent {
   }
 
   handleAddFile () {
+    this.props.fileActions.resetReviewFilesForm()
+    this.props.fileActions.clearFileToUploadList()
+
     this.refs && this.refs.fileInput.click()
   }
 
@@ -91,9 +103,8 @@ class ViewClientPage extends React.PureComponent {
     const metadata = {
       clientId: this.props.client.id
     }
-  	for (let i = 0; i < 1; i++) {
-      this.props.fileActions.uploadFile(fileInput.files[i], metadata)
-    }
+    this.props.fileActions.uploadFiles(fileInput.files, metadata)
+    browserHistory.push('/uploaded-files/review')
   }
 
   toggleSubscription () {
@@ -107,7 +118,15 @@ class ViewClientPage extends React.PureComponent {
   }
 
   onTabSelected (event) {
-    this.props.actions.setSelectedTabId(event.target.name)
+    let name = event.target.name
+    let node = event.target
+    while (node && !name) {
+      node = node.parentNode
+      name = node && node.name
+    }
+    if (name) {
+      this.props.actions.setSelectedTabId(name)
+    }
   }
 
   renderSubscriptionButton () {
@@ -130,13 +149,14 @@ class ViewClientPage extends React.PureComponent {
   }
 
   render () {
-    const {locale, client, originOptionsById, messageOptionsById, organismRoleList, notificationsByNoteId, notificationsByDocumentId} = this.props
+    const {locale, client, originOptionsById, messageOptionsById, organismRoleList, notificationsByNoteId, notificationsByDocumentId, notificationsByFileId} = this.props
     if (!client) return null
     const {selectedFormId, selectedTabId} = this.props
     const clientName = `${client.firstName} ${client.lastName}`
     const backTo = get(this.props, 'location.query.backTo', baseUrl)
     const notesNotificationCount = size(notificationsByNoteId)
-    const documentNotificationCount = size(notificationsByDocumentId)
+    const documentsNotificationCount = size(notificationsByDocumentId)
+    const filesNotificationCount = size(notificationsByFileId)
     return (
       <div>
         <Toolbar title={clientName} backTo={backTo}>
@@ -161,7 +181,11 @@ class ViewClientPage extends React.PureComponent {
               </NavTab>
               <NavTab active={selectedTabId === 'documents'} name="documents" onClick={this.onTabSelected}>
                 {this.message('documents')}
-                {documentNotificationCount > 0 && <span className="ml-2 badge badge-pill badge-primary">{documentNotificationCount}</span>}
+                {documentsNotificationCount > 0 && <span className="ml-2 badge badge-pill badge-primary">{documentsNotificationCount}</span>}
+              </NavTab>
+              <NavTab active={selectedTabId === 'files'} name="files" onClick={this.onTabSelected}>
+                {this.message('files')}
+                {filesNotificationCount > 0 && <span className="ml-2 badge badge-pill badge-primary">{filesNotificationCount}</span>}
               </NavTab>
             </ul>
             <Tabs>
@@ -200,10 +224,6 @@ class ViewClientPage extends React.PureComponent {
                     <Button primary type="button" disabled={selectedFormId === null} onClick={this.handleAddForm}>
                       {this.message('create', 'common')}
                     </Button>
-                    <Button primary type="button" className="ml-2" onClick={this.handleAddFile}>
-                      {this.message('import-files')}
-                    </Button>
-                    <input type="file" className="d-none" id="inputfile" ref="fileInput" multiple onChange={this.handleFilesSelected} />
                   </div>
                 </div>
 
@@ -216,6 +236,31 @@ class ViewClientPage extends React.PureComponent {
                     notificationsByDocumentId={notificationsByDocumentId}
                     locale={this.props.locale}
                     markNotificationAsRead={this.markNotificationAsRead}
+                    selectedDocumentIds={this.props.selectedDocumentIds}
+                    onDocumentSelected={this.props.actions.toggleSelectedDocument}
+                  />
+                }
+              </Tab>
+              <Tab active={selectedTabId === 'files'}>
+                <div className="row mb-2">
+                  <Button primary type="button" className="ml-2" onClick={this.handleAddFile}>
+                    {this.message('import-files')}
+                  </Button>
+                  <Button primary type="button" disabled={!this.props.canEditFiles} className="ml-2" onClick={this.handleEditFiles}>
+                    {this.message('edit', 'common')}
+                  </Button>
+                  <input type="file" className="d-none" id="inputfile" ref="fileInput" multiple onChange={this.handleFilesSelected} />
+                </div>
+
+                {this.props.documents && this.props.documents.length > 0 &&
+                  <FileList
+                    files={this.props.files}
+                    message={this.message}
+                    notificationsByFileId={notificationsByFileId}
+                    locale={this.props.locale}
+                    markNotificationAsRead={this.markNotificationAsRead}
+                    selectedFileIds={this.props.selectedFileIds}
+                    onFileSelected={this.props.actions.toggleSelectedFile}
                   />
                 }
               </Tab>
@@ -240,12 +285,20 @@ const mapStateToProps = (state) => {
     formsById: FormSelectors.getEntities(state),
     formOptionList: FormSelectors.getClientCreatableFormOptionList(state),
     selectedFormId: ClientSelectors.getSelectedFormId(state),
+
     documents: ClientSelectors.getClientDocumentsOrderByDate(state),
+
+    files: ClientSelectors.getClientFilesOrderedByDate(state),
+    selectedFileIds: ClientSelectors.getSelectedFileIds(state),
+    selectedFiles: ClientSelectors.getSelectedFiles(state),
+    canEditFiles: ClientSelectors.canEditFiles(state),
+
     evolutionNotes: ClientSelectors.getClientNotesOrderByDate(state),
 
     selectedTabId: ClientSelectors.getSelectedTabId(state),
     notificationsByNoteId: ClientSelectors.getNotificationsByNoteId(state),
     notificationsByDocumentId: ClientSelectors.getNotificationsByDocumentId(state),
+    notificationsByFileId: ClientSelectors.getNotificationsByFileId(state),
     notificationsByTargetId: ClientSelectors.getNotificationsByTargetId(state),
     locale: getLocale(state)
   }
@@ -264,11 +317,21 @@ ViewClientPage.propTypes = {
   formOptionList: PropTypes.array.isRequired,
   formsById: PropTypes.object.isRequired,
   selectedFormId: PropTypes.string,
+
   documents: PropTypes.array.isRequired,
+
+  files: PropTypes.array.isRequired,
+  selectedFileIds: PropTypes.array.isRequired,
+  selectedFiles: PropTypes.array.isRequired,
+  canEditFiles: PropTypes.bool.isRequired,
+
+  evolutionNotes: PropTypes.array.isRequired,
 
   selectedTabId: PropTypes.string.isRequired,
   notificationsByNoteId: PropTypes.object.isRequired,
   notificationsByDocumentId: PropTypes.object.isRequired,
+  notificationsByFileId: PropTypes.object.isRequired,
+  notificationsByTargetId: PropTypes.object.isRequired,
 
   locale: PropTypes.string.isRequired,
   params: PropTypes.object.isRequired

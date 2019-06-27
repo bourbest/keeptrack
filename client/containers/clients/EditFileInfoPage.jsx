@@ -38,7 +38,7 @@ class EditFileInfoPage extends React.PureComponent {
   handleSubmit () {
     const notify = this.props.appActions.notify
 
-    this.props.actions.updateFileInfo(this.props.fileInfo, (entity) => {
+    this.props.actions.updateFilesInfo(this.props.filesForm.files, (files) => {
       browserHistory.goBack()
       notify('common.save', 'common.saved')
     })
@@ -49,18 +49,19 @@ class EditFileInfoPage extends React.PureComponent {
   }
 
   render () {
-    const {canSave, error, locale} = this.props
+    const {canSave, error, locale, filesForm, progresses} = this.props
 
     return (
       <div>
         <h1>{this.message('title')}</h1>
         <FormError error={error} locale={locale} />
-        <EditFileInfoForm locale={locale} />
+        <EditFileInfoForm
+          locale={locale}
+          progresses={progresses}
+          files={filesForm.files}
+        />
         <Button disabled={!canSave} onClick={this.handleSubmit} primary className="mr-2">
           {this.message('save', 'common')}
-        </Button>
-        <Button onClick={this.handleCancel}>
-          {this.message('cancel', 'common')}
         </Button>
       </div>
     )
@@ -69,7 +70,8 @@ class EditFileInfoPage extends React.PureComponent {
 
 const mapStateToProps = (state) => {
   const props = {
-    fileInfo: UploadedFileSelectors.getFileInfoForm(state),
+    filesForm: UploadedFileSelectors.getFilesForm(state),
+    progresses: UploadedFileSelectors.getUploadProgresses(state),
     canSave: UploadedFileSelectors.canSaveFileInfo(state),
     error: UploadedFileSelectors.getFileInfoError(state),
     locale: getLocale(state)
@@ -77,8 +79,9 @@ const mapStateToProps = (state) => {
   return props
 }
 
-ChangePasswordPage.propTypes = {
-  fileInfo: PropTypes.object,
+EditFileInfoPage.propTypes = {
+  filesForm: PropTypes.object.isRequired,
+  progresses: PropTypes.array.isRequired,
   canSave: PropTypes.bool.isRequired,
   error: PropTypes.object,
   locale: PropTypes.string.isRequired

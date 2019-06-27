@@ -139,16 +139,19 @@ export default class ApiClient {
     return callAxios(config)
   }
 
-  putFile (url, data, onProgressCallback) {
+  putFile (url, filePointer, onProgressCallback) {
+    const formData = new FormData()
+    formData.append('file', filePointer)
+
     const config = {
       ...this.axiosConfig,
       method: 'put',
       url,
-      data,
+      data: formData,
       transformRequest: null,
       onUploadProgress: onProgressCallback
     }
-    config.headers['Content-Type'] = 'text/octet-stream'
+    config.headers['Content-Type'] = 'multipart/form-data'
     return callAxios(config)
   }
 }

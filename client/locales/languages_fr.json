@@ -65,7 +65,11 @@
     "selectForm": "Sélectionner un formulaire",
     "evolutionNotes": "Notes évolutives",
     "noEvolutionNotes": "Aucune note évolutive au dossier",
-    "author": "Créé par"
+    "author": "Créé par",
+    "import-files": "Importer",
+    "files": "Fichiers importés",
+    "documentType": "Type de document",
+    "importedBy": "Importé par"
   },
   "client-document": {
     "statusOptions" : {
@@ -164,7 +168,13 @@
   "notificationTypes": {
     "EVOLUTIVE_NOTE_CREATED": "Nouvelle",
     "CLIENT_DOCUMENT_CREATED": "Nouveau",
-    "CLIENT_DOCUMENT_MODIFIED": "Modifié"
+    "CLIENT_DOCUMENT_MODIFIED": "Modifié",
+    "CLIENT_FILE_CREATED": "Nouveau"
+  },
+  "editFileInfo": {
+    "title": "Réviser téléchargement",
+    "documentTitle": "Titre du document",
+    "documentDate": "Date du document"
   },
   "common": {
     "fr":"Français",
@@ -174,6 +184,7 @@
     "delete": "Effacer",
     "archive": "Archiver",
     "restore": "Récupérer",
+    "edit": "Modifier",
     "reset": "Réinitialiser",
     "confirm": "Confirmer",
     "yes":"Oui",

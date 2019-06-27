@@ -32,6 +32,7 @@
     "jwt-decode": "2.1.0",
     "lodash": "^4.17.11",
     "mongodb": "^3.0.7",
+    "multiparty": "^4.2.1",
     "prop-types": "15.6.0",
     "react": "16.2.0",
     "react-day-picker": "^7.1.9",

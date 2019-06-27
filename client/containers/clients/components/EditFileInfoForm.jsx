@@ -10,7 +10,7 @@ import {Form} from '../../components/controls/SemanticControls'
 // module stuff
 import config from '../../../modules/uploaded-files/config'
 
-import validateFileInfo from '../../../modules/uploaded-files/schema'
+import {validateReviewFilesForm} from '../../../modules/uploaded-files/schema'
 
 class EditFileInfoForm extends React.PureComponent {
   constructor (props) {
@@ -19,23 +19,61 @@ class EditFileInfoForm extends React.PureComponent {
   }
 
   render () {
-    const {locale} = this.props
+    const {locale, files, progresses} = this.props
     return (
       <Form>
-        <Field name="name" label={this.message('name')} required component={FieldWrapper} InputControl={Input} locale={locale} />
-        <Field name="documentDate" label={this.message('documentDate')} required component={FieldWrapper} InputControl={DateInput} locale={locale} />
+        <table>
+          <thead>
+            <tr>
+              <td className="w-50">{this.message('documentTitle')}</td>
+              <td className="w-25">{this.message('documentDate')}</td>
+              <td className="w-25"/>
+            </tr>
+          </thead>
+          <tbody>
+            {files.map((file, index) => {
+
+              const baseFieldName = `files[${index}]`
+              return (
+                <tr key={index}>
+                  <td>
+                    <div className="d-flex justify-content-start">
+                      <Field component={FieldWrapper} InputControl={Input} name={`${baseFieldName}.name`} locale={locale} autoComplete="off" />
+                    </div>
+                  </td>
+                  <td>
+                    <div className="d-flex justify-content-start">
+                      <Field component={FieldWrapper} InputControl={DateInput} name={`${baseFieldName}.documentDate`} locale={locale} />
+                    </div>
+                  </td>
+                  <td className="d-flex justify-content-end" className="w-25">
+                    {progresses.length > index && (
+                    <div className="progress">
+                      <div className="progress-bar" style={{width: `${progresses[index]}%`}}>
+                        {progresses[index]}%
+                      </div>
+                    </div>
+                    )}
+                  </td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
       </Form>
-    )
+      )
   }
 }
 
-ChangePasswordForm.propTypes = {
-  locale: PropTypes.string.isRequired
+EditFileInfoForm.propTypes = {
+  locale: PropTypes.string.isRequired,
+  progresses: PropTypes.array.isRequired,
+  files: PropTypes.array.isRequired
 }
 
-const ConnectedChangePasswordForm = reduxForm({
+const ConnectedEditFileInfoForm = reduxForm({
   form: config.entityName,
-  validate: validateFileInfo
-})(ChangePasswordForm)
+  validate: validateReviewFilesForm
+})(EditFileInfoForm)
 
-export default ConnectedChangePasswordForm
+export default ConnectedEditFileInfoForm

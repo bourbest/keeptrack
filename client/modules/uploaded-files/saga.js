@@ -2,42 +2,76 @@ import config from './config'
 import { Actions, ActionCreators } from './actions'
 import {getService} from '../app/selectors'
 import { handleError } from '../commonHandlers'
-import {select, put, call, takeEvery} from 'redux-saga/effects'
-import { formatDate } from '../../services/string-utils';
-
+import {select, put, call, takeEvery, all} from 'redux-saga/effects'
+import { formatDate } from '../../services/string-utils'
+import {getStore} from '../../store'
 // Saga
 function * fileSaga (action) {
   let errorAction = null
   const fileSvc = yield select(getService, config.entityName)
-
+  let promises = []
   switch (action.type) {
-    case Actions.UPLOAD_FILE:
-    try {
-        let fileMeta = {
-          isArchived: false,
-          name: action.filePointer.name,
-          documentDate: formatDate(new Date(action.filePointer.lastModified)),
-          ...action.fileMetadata
+    case Actions.UPLOAD_FILES:
+      try {
+        const files = action.filePointers
+        const reviewFilesForm = {
+          files: []
         }
-        
-        fileMeta = yield call(fileSvc.save, fileMeta)
 
-        yield call(fileSvc.uploadFile, fileMeta.id, action.filePointer, action.onProgressCallback)
+        // prepare file info
+        for (let i = 0; i < files.length; i++) {
+          reviewFilesForm.files.push({
+            isArchived: false,
+            name: files[i].name,
+            documentDate: formatDate(new Date(files[i].lastModified)),
+            ...action.metadata
+          })
+        }
+
+        // create remote files
+        for (let i = 0; i < reviewFilesForm.files.length; i++) {
+          promises.push(fileSvc.save(reviewFilesForm.files[i]))
+        }
+
+        // initialize review form
+        reviewFilesForm.files = yield call([Promise, Promise.all], promises)
+        yield all([
+          put(ActionCreators.initializeUploadProgresses(files.length)),
+          put(ActionCreators.initializeReviewFilesForm(reviewFilesForm))
+        ])
+
+        // upload
+        const actions = []
+        let cb = null
+        for (let i = 0; i < files.length; i++) {
+          // create progress callback
+          cb = function (progressEvent) {
+            const store = getStore()
+            const progress = Math.round(progressEvent.loaded * 100 / progressEvent.total)
+            store.dispatch(ActionCreators.updateUploadProgress(i, progress))
+          }
+
+          // start upload of file
+          actions.push(call(fileSvc.uploadFile, reviewFilesForm.files[i].id, files[i], cb))
+        }
+        yield all(actions)
       } catch (error) {
         errorAction = handleError(config.entityName, error)
       }
-
       break
 
     case Actions.DELETE_FILE:
-      yield call(svc.deleteFile, action.file)
+      yield call(fileSvc.deleteFile, action.file)
       break
 
-    case Actions.UPDATE_FILE_INFO:
+    case Actions.UPDATE_FILES_INFO:
       try {
-        const updatedFileInfo = yield call(fileSvc.save, action.fileInfo)
+        for (let i = 0; i < action.files.length; i++) {
+          promises.push(fileSvc.save(action.files[i]))
+        }
+        const cbParam = yield call([Promise, Promise.all], promises)
         if (action.cb) {
-          yield call(action.cb, updatedFileInfo)
+          yield call(action.cb, cbParam)
         }
       } catch (ex) {
         errorAction = handleError(config.entityName, ex)
@@ -53,7 +87,7 @@ function * fileSaga (action) {
 }
 
 export default takeEvery([
-  Actions.UPLOAD_FILE,
+  Actions.UPLOAD_FILES,
   Actions.DELETE_FILE,
-  Actions.UPDATE_FILE_INFO
+  Actions.UPDATE_FILES_INFO
 ], fileSaga)

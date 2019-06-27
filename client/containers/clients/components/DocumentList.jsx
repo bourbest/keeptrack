@@ -13,15 +13,10 @@ export const getLinkToEditDocument = (document, location) => {
 }
 
 export const renderDateColumn = (entity, columnName, column, globals) => {
-  const {formId} = entity
   const date = formatDate(entity[columnName])
-  if (formId) {
-    const location = globals.location
-    const to = getLinkToEditDocument(entity, location)
-    return <Link to={to}>{date}</Link>
-  } else {
-    return <a href={entity.uri} target="_blank">{date}</a>
-  }
+  const location = globals.location
+  const to = getLinkToEditDocument(entity, location)
+  return <Link to={to}>{date}</Link>
 }
 
 export const renderClientNameColumn = (entity, columnName, column, globals) => {
@@ -35,21 +30,17 @@ export const renderClientNameColumn = (entity, columnName, column, globals) => {
 
 export const renderFormNameColumn = (entity, columnName, column, globals) => {
   const {formId, name} = entity
-  if (formId) {
-    const form = globals.formsById[formId] || {name: ''}
-    const location = globals.location
-    const to = getLinkToEditDocument(entity, location)
-    return <Link to={to}>{form.name}</Link>
-  } else {
-    return <a href={entity.uri} target="_blank">{name}</a>
-  }
+  const form = globals.formsById[formId] || {name: ''}
+  const location = globals.location
+  const to = getLinkToEditDocument(entity, location)
+  return <Link to={to}>{form.name}</Link>
 }
 
 const DocumentList = (props) => {
   const {documents, message, notificationsByDocumentId, locale, formsById, location} = props
 
   const renderNotification = (entity, columnName, column, globals) => {
-    const {id, status} = entity
+    const {id, status, formId} = entity
     const notf = globals.notificationsByDocumentId[id]
     const ret = []
 
@@ -62,7 +53,7 @@ const DocumentList = (props) => {
     }
     if (notf) {
       ret.push(
-        <div className="badge badge-primary clickable" onClick={props.markNotificationAsRead} id={notf.id} key="notf">
+        <div className="badge badge-primary clickable" onClick={props.markNotificationAsRead} id={notf.targetId} key="notf">
           {translate(`notificationTypes.${notf.type}`, locale)}
         </div>
       )
@@ -73,7 +64,12 @@ const DocumentList = (props) => {
 
   return (
     <div style={{height: '500px'}}>
-      <SmartTable rows={documents} notificationsByDocumentId={notificationsByDocumentId} location={location} formsById={formsById}>
+      <SmartTable
+        rows={documents}
+        notificationsByDocumentId={notificationsByDocumentId}
+        location={location}
+        formsById={formsById}
+      >
         <Column
           label={message('date')}
           name="documentDate"

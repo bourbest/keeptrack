@@ -1,13 +1,16 @@
 import {ObjectId} from 'mongodb'
 import {UploadedFileRepository} from '../repository'
-import {makeFindAllHandler, makeFindById, makeHandlePost, makeHandleDelete, makeHandlePut} from './StandardController'
+import {makeFindAllHandler, makeFindById, makeHandlePost, makeHandleDelete, makeHandlePut, setAuthor} from './StandardController'
 import {requiresRole, parseFilters, entityFromBody} from '../middlewares'
 import {uploadedFileSchema} from '../../modules/uploaded-files/schema'
+import {NotificationTypes} from '../../modules/notifications/schema'
+import {createClientNotifications} from './notifications/create-notifications'
 import ROLES from '../../modules/accounts/roles'
 import {Schema} from 'sapin'
 import {objectId} from '../../modules/common/validate'
 import fs from 'fs'
 import path from 'path'
+import multiparty  from 'multiparty'
 
 const filtersSchema = new Schema({
   clientId: objectId
@@ -44,12 +47,40 @@ function saveFile (appPath) {
         return fs.promises.mkdir(subDirPath, { recursive: true })
           .then(() => {
             const outputStream = fs.createWriteStream(fullPath)
-            req.pipe(outputStream)
             outputStream.on('finish', () => {
               outputStream.close()
               res.json({success: true})
               next()
             })
+
+            const form = new multiparty.Form();
+
+            // Errors may be emitted
+            form.on('error', function(err) {
+              next({httpStatus: 500, message: err})
+            })
+
+            // Parts are emitted when parsing the form
+            form.on('part', function(part) {
+              // You *must* act on the part by reading it
+              // NOTE: if you want to ignore it, just call "part.resume()"
+              if (!part.filename) {
+                part.resume()
+              }
+
+              if (part.filename) {
+                part.pipe(outputStream)
+                part.resume()
+              }
+
+              part.on('error', function(err) {
+                console.log('Error on stream: ', err) 
+                next({httpStatus: 500, message: err})
+              })
+            });
+
+            // Parse req
+            form.parse(req);
           })
       })
       .catch(next)
@@ -83,7 +114,9 @@ export default (router, context) => {
     .post([
       entityFromBody(uploadedFileSchema),
       setFileUri,
-      makeHandlePost(UploadedFileRepository)
+      setAuthor,
+      makeHandlePost(UploadedFileRepository),
+      createClientNotifications({type: NotificationTypes.ClientFileCreated })
     ])
 
   router.route('/uploaded-files/:id')
