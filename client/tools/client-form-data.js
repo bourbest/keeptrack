@@ -4,6 +4,10 @@ module.exports = {
    isSystem: true,
    preventShortcut: true,
    preventReport: true,
+   clientLink: 'NO_LINK',
+   documentDate: 'USE_CREATION_DATE',
+   documentDateLabels: {fr: 'Date de création', en: 'Creation date'},
+   documentStatus: 'NO_DRAFT',
    fields:[{
       labels: {
         fr: 'Prénom',
