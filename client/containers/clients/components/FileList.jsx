@@ -19,7 +19,7 @@ const renderFormNameColumn = (entity, columnName, column, globals) => {
 }
 
 const FileList = (props) => {
-  const {files, message, notificationsByFileId, locale, location, selectedFileIds, onFileSelected} = props
+  const {files, message, notificationsByFileId, locale, selectedFileIds, onFileSelected} = props
 
   const renderNotification = (entity, columnName, column, globals) => {
     const {id} = entity

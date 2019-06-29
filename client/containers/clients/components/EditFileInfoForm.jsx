@@ -27,12 +27,11 @@ class EditFileInfoForm extends React.PureComponent {
             <tr>
               <td className="w-50">{this.message('documentTitle')}</td>
               <td className="w-25">{this.message('documentDate')}</td>
-              <td className="w-25"/>
+              <td className="w-25" />
             </tr>
           </thead>
           <tbody>
             {files.map((file, index) => {
-
               const baseFieldName = `files[${index}]`
               return (
                 <tr key={index}>
@@ -46,13 +45,13 @@ class EditFileInfoForm extends React.PureComponent {
                       <Field component={FieldWrapper} InputControl={DateInput} name={`${baseFieldName}.documentDate`} locale={locale} />
                     </div>
                   </td>
-                  <td className="d-flex justify-content-end" className="w-25">
+                  <td className="d-flex justify-content-end w-25">
                     {progresses.length > index && (
-                    <div className="progress">
-                      <div className="progress-bar" style={{width: `${progresses[index]}%`}}>
-                        {progresses[index]}%
+                      <div className="progress">
+                        <div className="progress-bar" style={{width: `${progresses[index]}%`}}>
+                          {progresses[index]}%
+                        </div>
                       </div>
-                    </div>
                     )}
                   </td>
                 </tr>

@@ -45,7 +45,7 @@ const specificReducer = (state, action) => {
       }
 
       return {...state, selectedFileIds}
-  
+
     case Actions.CLEAR_SELECTED_FILES:
       return {...state, selectedFileIds: []}
   }

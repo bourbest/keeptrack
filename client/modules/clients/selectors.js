@@ -58,7 +58,7 @@ Selectors.canEditFiles = createSelector(
   }
 )
 
-Selectors.canDeleteFiles = state => getSelectedFileIds(state).length > 0
+Selectors.canDeleteFiles = state => Selectors.getSelectedFileIds(state).length > 0
 
 Selectors.getAllClientDocuments = state => state[config.entityName].clientDocuments
 Selectors.getClientDocuments = createSelector(
