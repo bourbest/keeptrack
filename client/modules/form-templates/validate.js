@@ -110,6 +110,7 @@ export const formSchema = new Schema({
   },
   createdOn: date,
   modifiedOn: date,
+  preventShortcut: boolean,
   fields: arrayOf(object(nodeSchema))
 })
 

@@ -99,7 +99,7 @@ const CONTROL_CONFIGS = [
   },
   {
     type: 'address',
-    properties: ['required'],
+    properties: BASE_INPUT_PROPERTIES,
     isInput: true
   }
 ]
