@@ -60,7 +60,7 @@
     "age": "{{age}} ans ({{birthDate}})",
     "notes": "Notes",
     "documents": "Documents",
-    "date": "Date de création",
+    "date": "Date du document",
     "formName": "Formulaire",
     "selectForm": "Sélectionner un formulaire",
     "evolutionNotes": "Notes évolutives",
