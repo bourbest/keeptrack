@@ -22,5 +22,5 @@ export const ActionCreators = {
   clearFileToUploadList: () => ({type: Actions.CLEAR_FILE_TO_UPLOAD_LIST}),
   updateUploadProgress: (index, progress) => ({type: Actions.UPDATE_UPLOAD_PROGRESS, index, progress}),
   initializeReviewFilesForm: (fileInfos) => initialize(config.entityName, fileInfos),
-  resetReviewFilesForm: () => initialize(config.entityName, {files:[]})
+  resetReviewFilesForm: () => initialize(config.entityName, {files: []})
 }

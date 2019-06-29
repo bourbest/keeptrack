@@ -17,7 +17,7 @@ const SpecificActions = createActions(prefix, [
 
   'SET_FILES',
   'TOGGLE_SELECTED_FILE',
-  'CLEAR_SELECTED_FILES',
+  'CLEAR_SELECTED_FILES'
 ])
 
 const BaseActionCreators = createBaseActionCreators(BaseActions, config.entityName)

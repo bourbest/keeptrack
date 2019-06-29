@@ -29,7 +29,7 @@ export const renderClientNameColumn = (entity, columnName, column, globals) => {
 }
 
 export const renderFormNameColumn = (entity, columnName, column, globals) => {
-  const {formId, name} = entity
+  const {formId} = entity
   const form = globals.formsById[formId] || {name: ''}
   const location = globals.location
   const to = getLinkToEditDocument(entity, location)
@@ -40,7 +40,7 @@ const DocumentList = (props) => {
   const {documents, message, notificationsByDocumentId, locale, formsById, location} = props
 
   const renderNotification = (entity, columnName, column, globals) => {
-    const {id, status, formId} = entity
+    const {id, status} = entity
     const notf = globals.notificationsByDocumentId[id]
     const ret = []
 
