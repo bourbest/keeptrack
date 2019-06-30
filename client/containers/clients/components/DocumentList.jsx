@@ -65,10 +65,14 @@ const DocumentList = (props) => {
   return (
     <div style={{height: '500px'}}>
       <SmartTable
+        selectable
         rows={documents}
         notificationsByDocumentId={notificationsByDocumentId}
         location={location}
         formsById={formsById}
+        messageWhenEmpty={message('noDocument')}
+        selectedItemIds={props.selectedDocumentIds}
+        onRowSelected={props.onDocumentSelected}
       >
         <Column
           label={message('date')}
@@ -98,7 +102,9 @@ DocumentList.propTypes = {
   message: PropTypes.func.isRequired,
   notificationsByDocumentId: PropTypes.object.isRequired,
   locale: PropTypes.string.isRequired,
-  markNotificationAsRead: PropTypes.func.isRequired
+  markNotificationAsRead: PropTypes.func.isRequired,
+  selectedDocumentIds: PropTypes.array.isRequired,
+  onDocumentSelected: PropTypes.func.isRequired
 }
 
 export default DocumentList

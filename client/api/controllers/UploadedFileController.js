@@ -1,3 +1,4 @@
+import {isArray} from 'lodash'
 import {ObjectId} from 'mongodb'
 import {UploadedFileRepository} from '../repository'
 import {makeFindAllHandler, makeFindById, makeHandlePost, makeHandleDelete, makeHandlePut, setAuthor} from './StandardController'
@@ -87,21 +88,27 @@ function saveFile (appPath) {
     }
 }
 
-function deleteLocalFile (appPath) {
+function deleteLocalFiles (appPath) {
   return function (req, res, next) {
     const fileRepo = new UploadedFileRepository(req.database)
 
-    fileRepo.findById(req.params.id)
-      .then(file => {
-        if (!file) {
-          return next({httpStatus: 400, message: 'File does not exist'})
-        }
-        const fullPath = path.join(appPath, file.uri) 
-        return fs.promises.unlink(fullPath)
-          .then(() => next())
-      })
-      .catch(next)
+    if (!isArray(req.body) || req.body.length === 0) {
+      throw {httpStatus: 400, message: 'no ids provided in the body'}
+    } else {
+      const ids = req.body.map(ObjectId)
+      fileRepo.findByIds(ids)
+        .then(files => {
+          const promises = []
+          for (let i = 0; i < files.length; i++) {
+            let fullPath = path.join(appPath, files[i].uri) 
+            promises.push(fs.promises.unlink(fullPath))
+          }
+          return Promise.all(promises)
+        })
+        .then(() => next())
+        .catch(next)
     }
+  }
 }
 
 export default (router, context) => {
@@ -118,16 +125,16 @@ export default (router, context) => {
       makeHandlePost(UploadedFileRepository),
       createClientNotifications({type: NotificationTypes.ClientFileCreated })
     ])
+    .delete([
+      deleteLocalFiles(context.appPath),
+      makeHandleDelete(UploadedFileRepository)
+    ])
 
   router.route('/uploaded-files/:id')
     .get(makeFindById(UploadedFileRepository))
     .put([entityFromBody(uploadedFileSchema), makeHandlePut(UploadedFileRepository)])
-    .delete([
-      deleteLocalFile(context.appPath),
-      makeHandleDelete(UploadedFileRepository)
-    ])
+    
 
   router.route('/uploaded-files/:id/content')
     .put(saveFile(context.appPath))
-
 }

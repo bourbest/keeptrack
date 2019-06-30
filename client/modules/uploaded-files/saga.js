@@ -60,8 +60,15 @@ function * fileSaga (action) {
       }
       break
 
-    case Actions.DELETE_FILE:
-      yield call(fileSvc.deleteFile, action.file)
+    case Actions.DELETE_FILES:
+      try {
+        yield call(fileSvc.delete, action.fileIds)
+        if (action.cb) {
+          yield call(action.cb, action.fileIds.length)
+        }
+      } catch (ex) {
+        errorAction = handleError(config.entityName, ex)
+      }
       break
 
     case Actions.UPDATE_FILES_INFO:
@@ -88,6 +95,6 @@ function * fileSaga (action) {
 
 export default takeEvery([
   Actions.UPLOAD_FILES,
-  Actions.DELETE_FILE,
+  Actions.DELETE_FILES,
   Actions.UPDATE_FILES_INFO
 ], fileSaga)

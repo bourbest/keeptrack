@@ -1,5 +1,5 @@
 import config from './config'
-import {indexOf, concat, without} from 'lodash'
+import {indexOf, concat, without, filter} from 'lodash'
 import { baseInitialState, baseActionsHandler, inheritReducer } from '../common/reducers'
 import { Actions } from './actions'
 
@@ -11,7 +11,8 @@ const initialState = {
   clientForm: null,
   clientDocuments: [],
   files: [],
-  selectedFileIds: []
+  selectedFileIds: [],
+  selectedDocumentIds: []
 }
 
 const specificReducer = (state, action) => {
@@ -31,23 +32,33 @@ const specificReducer = (state, action) => {
     case Actions.SET_CLIENT_DOCUMENTS:
       return {...state, clientDocuments: action.documents}
 
+    case Actions.REMOVE_LOCAL_DOCUMENTS:
+      return {...state,
+        clientDocuments: filter(state.clientDocuments, doc => action.documentIds.indexOf(doc.id) < 0)
+      }
+
     case Actions.SET_FILES:
       const baseFiles = action.reset ? action.files : [...state.files, ...action.files]
       return {...state, files: baseFiles}
 
-    case Actions.TOGGLE_SELECTED_FILE:
-      let selectedFileIds
-      const idx = indexOf(state.selectedFileIds, action.id)
-      if (idx >= 0) {
-        selectedFileIds = without(state.selectedFileIds, action.id)
-      } else {
-        selectedFileIds = concat(state.selectedFileIds, action.id)
+    case Actions.REMOVE_LOCAL_FILES:
+      return {...state,
+        files: filter(state.files, file => action.fileIds.indexOf(file.id) < 0)
       }
 
-      return {...state, selectedFileIds}
+    case Actions.TOGGLE_SELECTED_ITEM:
+      let selectedIds = state[action.itemType]
+      const idx = indexOf(selectedIds, action.id)
+      if (idx >= 0) {
+        selectedIds = without(selectedIds, action.id)
+      } else {
+        selectedIds = concat(selectedIds, action.id)
+      }
+
+      return {...state, [action.itemType]: selectedIds}
 
     case Actions.CLEAR_SELECTED_FILES:
-      return {...state, selectedFileIds: []}
+      return {...state, [action.itemType]: []}
   }
   return state
 }

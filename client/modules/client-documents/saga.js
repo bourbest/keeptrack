@@ -93,6 +93,17 @@ function * clientDocumentSaga (action) {
       ])
       break
 
+    case Actions.DELETE_DOCUMENTS:
+      try {
+        yield call(docSvc.delete, action.ids)
+        if (action.cb) {
+          yield call(action.cb, action.ids.length)
+        }
+      } catch (error) {
+        errorAction = handleError(entityName, error)
+      }
+      break
+
     default:
       throw new Error('Unsupported trigger action client saga', action)
   }
@@ -106,5 +117,6 @@ export default takeEvery([
   Actions.LOAD_DOCUMENT,
   Actions.SAVE_DOCUMENT,
   Actions.INITIALIZE_NEW_DOCUMENT,
-  Actions.RESET_FORM
+  Actions.RESET_FORM,
+  Actions.DELETE_DOCUMENTS
 ], clientDocumentSaga)
