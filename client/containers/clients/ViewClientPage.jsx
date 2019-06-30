@@ -10,6 +10,7 @@ import { connect } from 'react-redux'
 // actions and selectors
 import { ActionCreators as AppActions } from '../../modules/app/actions'
 import { ActionCreators as ClientActions } from '../../modules/clients/actions'
+import { ActionCreators as DocActions } from '../../modules/client-documents/actions'
 import { ActionCreators as FormActions } from '../../modules/form-templates/actions'
 import { ActionCreators as SubscriptionActions } from '../../modules/client-feed-subscriptions/actions'
 import { ActionCreators as NotfActions } from '../../modules/notifications/actions'
@@ -25,7 +26,7 @@ import {getUser} from '../../modules/authentication/selectors'
 // sections tabs components
 import Toolbar from '../components/Toolbar/Toolbar'
 import {createTranslate} from '../../locales/translate'
-import {Button, Icon, NavTab, Tabs, Tab} from '../components/controls/SemanticControls'
+import {Button, Icon, NavTab, Tabs, Tab, ConfirmButton} from '../components/controls/SemanticControls'
 
 import ClientView from './components/ClientView'
 import EvolutionNoteTile from './components/EvolutionNoteTile'
@@ -43,7 +44,8 @@ const mapDispatchToProps = (dispatch) => {
     formActions: bindActionCreators(FormActions, dispatch),
     subscriptionActions: bindActionCreators(SubscriptionActions, dispatch),
     notfActions: bindActionCreators(NotfActions, dispatch),
-    fileActions: bindActionCreators(FileActions, dispatch)
+    fileActions: bindActionCreators(FileActions, dispatch),
+    docActions: bindActionCreators(DocActions, dispatch)
   }
 }
 
@@ -61,6 +63,9 @@ class ViewClientPage extends React.PureComponent {
     this.handleAddFile = this.handleAddFile.bind(this)
     this.handleFilesSelected = this.handleFilesSelected.bind(this)
     this.handleEditFiles = this.handleEditFiles.bind(this)
+    this.handleDeleteFiles = this.handleDeleteFiles.bind(this)
+    this.handleDeleteNote = this.handleDeleteNote.bind(this)
+    this.handleDeleteDocuments = this.handleDeleteDocuments.bind(this)
   }
 
   componentWillMount () {
@@ -78,6 +83,38 @@ class ViewClientPage extends React.PureComponent {
     this.props.fileActions.initializeUploadProgresses(0)
     this.props.actions.clearSelectedFiles()
     browserHistory.push('/uploaded-files/review')
+  }
+
+  handleDeleteFiles () {
+    const fileIds = this.props.selectedFileIds
+    const actions = this.props.actions
+    const appActions = this.props.appActions
+    this.props.fileActions.deleteFiles(fileIds, (count) => {
+      actions.removeLocalFiles(fileIds)
+      actions.clearSelectedFiles()
+      appActions.notify('common.delete', 'clients.filesDeleted', {count})
+    })
+  }
+
+  handleDeleteNote (documentId) {
+    const {docActions, appActions, actions} = this.props
+    const ids = [documentId]
+
+    docActions.deleteDocuments(ids, (count) => {
+      actions.removeLocalDocuments(ids)
+      appActions.notify('common.delete', 'clients.noteDeleted', {count})
+    })
+  }
+
+  handleDeleteDocuments () {
+    const {docActions, appActions, actions} = this.props
+    const ids = this.props.selectedDocumentIds
+
+    docActions.deleteDocuments(ids, (count) => {
+      actions.removeLocalDocuments(ids)
+      actions.clearSelectedDocuments()
+      appActions.notify('common.delete', 'clients.documentsDeleted', {count})
+    })
   }
 
   handleFormSelected (event) {
@@ -150,6 +187,7 @@ class ViewClientPage extends React.PureComponent {
 
   render () {
     const {locale, client, originOptionsById, messageOptionsById, organismRoleList, notificationsByNoteId, notificationsByDocumentId, notificationsByFileId} = this.props
+    const {canDeleteFiles} = this.props
     if (!client) return null
     const {selectedFormId, selectedTabId} = this.props
     const clientName = `${client.firstName} ${client.lastName}`
@@ -190,22 +228,30 @@ class ViewClientPage extends React.PureComponent {
             </ul>
             <Tabs>
               <Tab active={selectedTabId === 'notes'}>
-                {this.props.evolutionNotes.map(note => {
-                  const notf = notificationsByNoteId[note.id]
-                  return (
-                    <div className="box-fifth mb-3" key={note.id}>
-                      {notf &&
-                        <div className="badge badge-primary float-right m-2 clickable" onClick={this.markNotificationAsRead} id={notf.targetId}>
-                          {this.message(notf.type, 'notificationTypes')}
-                        </div>
-                      }
-                      <EvolutionNoteTile evolutionNote={note} organismRoles={organismRoleList} location={this.props.location} />
-                    </div>
-                  )
-                })}
-                {this.props.evolutionNotes.length === 0 &&
-                  <span>{this.message('noEvolutionNotes')}</span>
-                }
+                <div>
+                  {this.props.evolutionNotes.map(note => {
+                    const notf = notificationsByNoteId[note.id]
+                    return (
+                      <div className="box-fifth mb-3" key={note.id}>
+                        {notf &&
+                          <div className="badge badge-primary float-right m-2 clickable" onClick={this.markNotificationAsRead} id={notf.targetId}>
+                            {this.message(notf.type, 'notificationTypes')}
+                          </div>
+                        }
+                        <EvolutionNoteTile
+                          evolutionNote={note}
+                          organismRoles={organismRoleList}
+                          location={this.props.location}
+                          onDeleteNote={this.handleDeleteNote}
+                          locale={locale}
+                        />
+                      </div>
+                    )
+                  })}
+                  {this.props.evolutionNotes.length === 0 &&
+                    <span>{this.message('noEvolutionNotes')}</span>
+                  }
+                </div>
               </Tab>
 
               <Tab active={selectedTabId === 'documents'}>
@@ -221,9 +267,12 @@ class ViewClientPage extends React.PureComponent {
                     />
                   </div>
                   <div className="col-3 p-0">
-                    <Button primary type="button" disabled={selectedFormId === null} onClick={this.handleAddForm}>
+                    <Button className="mr-2" primary type="button" disabled={selectedFormId === null} onClick={this.handleAddForm}>
                       {this.message('create', 'common')}
                     </Button>
+                    <ConfirmButton disabled={!this.props.canDeleteDocuments} onClick={this.handleDeleteDocuments} locale={locale}>
+                      {this.message('delete', 'common')}
+                    </ConfirmButton>
                   </div>
                 </div>
 
@@ -246,9 +295,12 @@ class ViewClientPage extends React.PureComponent {
                   <Button primary type="button" className="ml-2" onClick={this.handleAddFile}>
                     {this.message('import-files')}
                   </Button>
-                  <Button primary type="button" disabled={!this.props.canEditFiles} className="ml-2" onClick={this.handleEditFiles}>
+                  <Button primary type="button" disabled={!this.props.canEditFiles} className="ml-2 mr-2" onClick={this.handleEditFiles}>
                     {this.message('edit', 'common')}
                   </Button>
+                  <ConfirmButton disabled={!canDeleteFiles} onClick={this.handleDeleteFiles} locale={locale}>
+                    {this.message('delete', 'common')}
+                  </ConfirmButton>
                   <input type="file" className="d-none" id="inputfile" ref="fileInput" multiple onChange={this.handleFilesSelected} />
                 </div>
 
@@ -287,11 +339,14 @@ const mapStateToProps = (state) => {
     selectedFormId: ClientSelectors.getSelectedFormId(state),
 
     documents: ClientSelectors.getClientDocumentsOrderByDate(state),
+    selectedDocumentIds: ClientSelectors.getSelectedDocumentIds(state),
+    canDeleteDocuments: ClientSelectors.canDeleteDocuments(state),
 
     files: ClientSelectors.getClientFilesOrderedByDate(state),
     selectedFileIds: ClientSelectors.getSelectedFileIds(state),
     selectedFiles: ClientSelectors.getSelectedFiles(state),
     canEditFiles: ClientSelectors.canEditFiles(state),
+    canDeleteFiles: ClientSelectors.canDeleteFiles(state),
 
     evolutionNotes: ClientSelectors.getClientNotesOrderByDate(state),
 
@@ -319,11 +374,14 @@ ViewClientPage.propTypes = {
   selectedFormId: PropTypes.string,
 
   documents: PropTypes.array.isRequired,
+  selectedDocumentIds: PropTypes.array.isRequired,
+  canDeleteDocuments: PropTypes.bool.isRequired,
 
   files: PropTypes.array.isRequired,
   selectedFileIds: PropTypes.array.isRequired,
   selectedFiles: PropTypes.array.isRequired,
   canEditFiles: PropTypes.bool.isRequired,
+  canDeleteFiles: PropTypes.bool.isRequired,
 
   evolutionNotes: PropTypes.array.isRequired,
 

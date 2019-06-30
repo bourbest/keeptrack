@@ -46,6 +46,7 @@ const FileList = (props) => {
         markNotificationAsRead={props.markNotificationAsRead}
         selectedItemIds={selectedFileIds}
         onRowSelected={onFileSelected}
+        messageWhenEmpty={message('noImportedDocument')}
       >
         <Column
           label={message('date')}

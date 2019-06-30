@@ -11,7 +11,7 @@ import {validate} from 'sapin'
 
 // const
 import config from '../../modules/client-documents/config'
-import {DocumentStatusOptions} from '../../modules/form-templates/config'
+import {DocumentStatusOptions, DocumentDateOptions} from '../../modules/form-templates/config'
 
 // actions and selectors
 import { ActionCreators as AppActions } from '../../modules/app/actions'
@@ -24,7 +24,7 @@ import { getLocale } from '../../modules/app/selectors'
 
 // sections tabs components
 import DocumentDynamicForm from './components/DocumentDynamicForm'
-import { FormError, FieldWrapper, Select } from '../components/forms'
+import { FormError, FieldWrapper, Select, DateInput } from '../components/forms'
 import {Form} from '../components/controls/SemanticControls'
 import {createTranslate} from '../../locales/translate'
 import StandardEditToolbar from '../components/behavioral/StandardEditToolbar'
@@ -126,6 +126,16 @@ class EditClientDocumentPage extends React.PureComponent {
             />
           }
 
+          {formTemplate.documentDate === DocumentDateOptions.SET_BY_USER &&
+            <Field
+              label={formTemplate.documentDateLabels[locale]}
+              name="documentDate"
+              component={FieldWrapper}
+              InputControl={DateInput}
+              required
+              locale={locale}
+            />
+          }
           <FormSection name="values">
             <DocumentDynamicForm
               controlsById={this.props.formControlsById}

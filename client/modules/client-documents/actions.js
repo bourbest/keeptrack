@@ -11,7 +11,8 @@ export const Actions = createActions(prefix, [
   'SAVE_DOCUMENT',
   'SET_CLIENT',
   'SET_FETCHING_ENTITY',
-  'SET_TEMPLATE'
+  'SET_TEMPLATE',
+  'DELETE_DOCUMENTS'
 ])
 
 export const ActionCreators = {
@@ -23,5 +24,6 @@ export const ActionCreators = {
   setFetchingEntity: isFetching => ({type: Actions.SET_FETCHING_ENTITY, isFetching}),
   setTemplate: template => ({type: Actions.SET_TEMPLATE, template}),
 
-  setEditedEntity: (entity) => initialize(config.entityName, entity)
+  setEditedEntity: (entity) => initialize(config.entityName, entity),
+  deleteDocuments: (ids, cb) => ({type: Actions.DELETE_DOCUMENTS, ids, cb})
 }

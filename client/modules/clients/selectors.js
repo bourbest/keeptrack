@@ -61,6 +61,9 @@ Selectors.canEditFiles = createSelector(
 Selectors.canDeleteFiles = state => Selectors.getSelectedFileIds(state).length > 0
 
 Selectors.getAllClientDocuments = state => state[config.entityName].clientDocuments
+Selectors.getSelectedDocumentIds = state => state[config.entityName].selectedDocumentIds
+Selectors.canDeleteDocuments = state => Selectors.getSelectedDocumentIds(state).length > 0
+
 Selectors.getClientDocuments = createSelector(
   [Selectors.getAllClientDocuments],
   documents => filter(documents, document => document.formId !== EVOLUTIVE_NOTE_FORM_ID)
