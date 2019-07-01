@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {browserHistory} from 'react-router'
+import {browserHistory, Link} from 'react-router'
 import {get, size} from 'lodash'
 
 // redux
@@ -187,10 +187,10 @@ class ViewClientPage extends React.PureComponent {
 
   render () {
     const {locale, client, originOptionsById, messageOptionsById, organismRoleList, notificationsByNoteId, notificationsByDocumentId, notificationsByFileId} = this.props
-    const {canDeleteFiles} = this.props
+    const {canDeleteFiles, clientTypesById} = this.props
     if (!client) return null
     const {selectedFormId, selectedTabId} = this.props
-    const clientName = `${client.firstName} ${client.lastName}`
+    const clientName = `${client.firstName} ${client.lastName} (${clientTypesById[client.clientType]})`
     const backTo = get(this.props, 'location.query.backTo', baseUrl)
     const notesNotificationCount = size(notificationsByNoteId)
     const documentsNotificationCount = size(notificationsByDocumentId)
@@ -198,6 +198,8 @@ class ViewClientPage extends React.PureComponent {
     return (
       <div>
         <Toolbar title={clientName} backTo={backTo}>
+          <Link className="btn" to={`/clients/${client.id}/manage-client-links`}>{this.message('manage-links')}</Link>
+          <Link className="btn btn-primary" to={`/clients/${client.id}/edit`}>{this.message('edit', 'common')}</Link>
           {this.renderSubscriptionButton()}
         </Toolbar>
 
@@ -330,6 +332,7 @@ const mapStateToProps = (state) => {
     feedSubscription: SubscriptionSelectors.getUserSubscriptiondToEditedClientFeed(state),
     user: getUser(state),
 
+    clientTypesById: ClientFormSelectors.getClientTypeOptions(state),
     originOptionsById: ClientFormSelectors.getClientFormOriginOptions(state),
     messageOptionsById: ClientFormSelectors.getClientFormMessageOptions(state),
     organismRoleList: getOrganismRoleOptions(state),
@@ -365,6 +368,7 @@ ViewClientPage.propTypes = {
   feedSubscription: PropTypes.object,
   user: PropTypes.object.isRequired,
 
+  clientTypesById: PropTypes.object.isRequired,
   originOptionsById: PropTypes.object.isRequired,
   messageOptionsById: PropTypes.object.isRequired,
   organismRoleList: PropTypes.array.isRequired,

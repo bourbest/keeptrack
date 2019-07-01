@@ -2,6 +2,7 @@ import { all } from 'redux-saga/effects'
 import appSaga from './app/saga'
 import clientSaga from './clients/saga'
 import clientDocumentSaga from './client-documents/saga'
+import clientLinksSaga from './client-links/saga'
 import accountSaga from './accounts/saga'
 import myAccountSaga from './my-account/saga'
 import authenticationSaga from './authentication/saga'
@@ -26,6 +27,7 @@ export default function * rootSaga () {
     ...dashboardSaga,
     reportSaga,
     formShortcutSaga,
-    uploadedFileSaga
+    uploadedFileSaga,
+    clientLinksSaga
   ])
 }

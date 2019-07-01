@@ -78,6 +78,18 @@
     "documentType": "Type de document",
     "importedBy": "Importé par"
   },
+  "client-links": {
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "clientType": "Type de dossier",
+    "address": "Adresse",
+    "noLinks": "Aucun dossier lié",
+    "otherClient": "Dossier à lier",
+    "linkAlreadyExist": "Il existe déjà un lien avec ce dossier",
+    "titleSuffix": "Liste des dossiers liés",
+    "create": "Lier les dossiers ensemble",
+    "newLinkTitle": "Nouveau lien"
+  },
   "client-document": {
     "statusOptions" : {
       "draft": "À compléter",

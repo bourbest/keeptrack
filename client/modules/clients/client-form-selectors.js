@@ -62,4 +62,10 @@ Selectors.getClientFormOriginOptions = createSelector(
   }
 )
 
+Selectors.getClientTypeOptions = createSelector(
+  [Selectors.getControls, getLocale],
+  (controlsById, locale) => {
+    return getChoices(controlsById['clientType'], locale)
+  }
+)
 export default Selectors

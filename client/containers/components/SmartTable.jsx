@@ -64,7 +64,7 @@ export class SmartTable extends React.PureComponent {
   }
 
   renderCell (row, column, columnIdx, globals) {
-    const content = column.renderer ? column.renderer(row, column.name, column, globals) : row[column.name]
+    const content = column.renderer ? column.renderer(row, column.name, column, globals) : get(row, column.name, '')
     return <td key={columnIdx}>{content}</td>
   }
 

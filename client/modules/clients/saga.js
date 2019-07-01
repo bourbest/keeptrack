@@ -1,5 +1,6 @@
 import config from './config'
 import { Actions, ActionCreators } from './actions'
+import { ActionCreators as LinkActionCreators } from '../client-links/actions'
 import { createBaseSaga, createBaseSagaWatcher } from '../common/sagas'
 import {getService} from '../app/selectors'
 import Selectors from './selectors'
@@ -16,7 +17,9 @@ function * clientSaga (action) {
     case Actions.LOAD_CLIENT:
       const [clientSvc, fileSvc] = yield all([
         select(getService, 'clients'),
-        select(getService, 'uploaded-files')
+        select(getService, 'uploaded-files'),
+        put(LinkActionCreators.setLinks([])),
+        put(LinkActionCreators.loadLinksForClient(action.clientId))
       ])
 
       yield put(ActionCreators.setFetchingEntity(true))

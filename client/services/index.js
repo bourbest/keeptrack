@@ -4,6 +4,7 @@ import RestService from './base/rest-service'
 
 import ClientService from './client-service'
 import ClientDocumentService from './client-document-service'
+import ClientLinkService from './client-link-service'
 import AuthService from './authentication-service'
 import AccountService from './account-service'
 import UploadedFileService from './uploaded-file-service'
@@ -22,6 +23,9 @@ export const createService = (serviceName, apiConfig) => {
 
     case 'client-documents':
       return new ClientDocumentService(apiClient)
+
+    case 'client-links':
+      return new ClientLinkService(apiClient)
 
     case 'form-templates':
       return new RestService('form-templates', apiClient)

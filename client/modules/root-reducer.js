@@ -4,6 +4,7 @@ import auth from './authentication/reducer'
 import app from './app/reducer'
 import clients from './clients/reducer'
 import clientDocuments from './client-documents/reducer'
+import clientLinks from './client-links/reducer'
 import accounts from './accounts/reducer'
 import formTemplates from './form-templates/reducer'
 import clientFeedSubscriptions from './client-feed-subscriptions/reducer'
@@ -28,6 +29,7 @@ export default combineReducers({
   ...reports,
   ...formShortcuts,
   ...fileReducer,
+  ...clientLinks,
   toastr: toastrReducer,
   form: formReducer
 })
