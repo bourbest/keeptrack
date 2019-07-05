@@ -9,7 +9,6 @@ import { ActionCreators as AppActions } from '../../modules/app/actions'
 import { ActionCreators as ClientLinkActions } from '../../modules/client-links/actions'
 import { ActionCreators as ClientActions } from '../../modules/clients/actions'
 import ClientLinkSelectors from '../../modules/client-links/selectors'
-import ClientFormSelectors from '../../modules/clients/client-form-selectors'
 import ClientSelectors from '../../modules/clients/selectors'
 import { getLocale } from '../../modules/app/selectors'
 
@@ -75,11 +74,6 @@ class ManageClientLinksPage extends React.PureComponent {
     })
   }
 
-  renderClientType (entity, columnName, column, globals) {
-    const type = globals.clientTypesById[entity.client.clientType]
-    return type
-  }
-
   renderAddress (entity, columnName, column, globals) {
     if (entity.client.address) {
       return <AddressTile address={entity.client.address} />
@@ -88,11 +82,11 @@ class ManageClientLinksPage extends React.PureComponent {
   }
 
   render () {
-    const {formError, locale, clientFormIsLoaded, clientTypesById, client} = this.props
+    const {formError, locale, client} = this.props
 
-    if (!clientFormIsLoaded) return null
+    if (!client) return null
 
-    const title = `${client.firstName} ${client.lastName} (${clientTypesById[client.clientType]}) - ${this.message('titleSuffix')}`
+    const title = `${client.firstName} ${client.lastName} - ${this.message('titleSuffix')}`
 
     return (
       <div>
@@ -114,7 +108,7 @@ class ManageClientLinksPage extends React.PureComponent {
           >
             <Column label={this.message('firstName')} name="client.firstName" />
             <Column label={this.message('lastName')} name="client.lastName" />
-            <Column label={this.message('clientType')} renderer={this.renderClientType} />
+            <Column label={this.message('client.clientType')} />
             <Column label={this.message('address')} renderer={this.renderAddress} />
           </SmartTable>
           <h2>{this.message('newLinkTitle')}</h2>
@@ -138,10 +132,6 @@ const mapStateToProps = (state, props) => {
     canCreateLink: ClientLinkSelectors.canCreateLink(state, props),
     selectedItemIds: ClientLinkSelectors.getSelectedItemIds(state),
     client: ClientSelectors.getEditedEntity(state),
-
-    clientFormIsLoaded: ClientFormSelectors.getClientForm(state) !== null,
-    clientTypesById: ClientFormSelectors.getClientTypeOptions(state),
-
     locale: getLocale(state)
   }
 }
@@ -152,9 +142,6 @@ ManageClientLinksPage.propTypes = {
   canCreateLink: PropTypes.bool.isRequired,
   selectedItemIds: PropTypes.array.isRequired,
   client: PropTypes.object.isRequired,
-
-  clientFormIsLoaded: PropTypes.bool.isRequired,
-  clientTypesById: PropTypes.object.isRequired,
 
   locale: PropTypes.string.isRequired,
   formError: PropTypes.any,

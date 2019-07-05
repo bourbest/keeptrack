@@ -47,5 +47,7 @@ const SpecificActionCreators = {
   clearSelectedFiles: () => ({type: SpecificActions.CLEAR_SELECTED_ITEMS, itemType: 'selectedFileIds'})
 }
 
+BaseActionCreators.toggleSelectedItem = (id) => ({type: SpecificActions.TOGGLE_SELECTED_ITEM, id, itemType: 'selectedItemIds'})
+
 export const Actions = {...BaseActions, ...SpecificActions}
 export const ActionCreators = {...BaseActionCreators, ...SpecificActionCreators}

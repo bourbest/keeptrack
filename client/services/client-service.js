@@ -42,7 +42,7 @@ export default class ClientService extends RestService {
   }
 
   getDistributionList () {
-    return this.apiClient.get('/client-files/emailDistributionList')
+    return this.apiClient.get('/client-files/reports/emailDistributionList')
   }
 
   uploadFile (clientId, file) {

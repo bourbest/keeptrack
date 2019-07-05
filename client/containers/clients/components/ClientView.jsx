@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router'
 import PropTypes from 'prop-types'
 import {Icon} from '../../components/controls/SemanticControls'
 
@@ -6,6 +7,7 @@ import {Icon} from '../../components/controls/SemanticControls'
 import {createTranslate} from '../../../locales/translate'
 import AddressTile from '../../components/AddressTile'
 import {formatDate} from '../../../services/string-utils'
+import ClientFullName from './ClientFullName'
 
 class ClientCoordinates extends React.PureComponent {
   constructor (props) {
@@ -51,7 +53,7 @@ class ClientCoordinates extends React.PureComponent {
   }
 
   render () {
-    const {client, originOptionsById, messageOptionsById} = this.props
+    const {client, originOptionsById, messageOptionsById, linkedFiles, locale} = this.props
     const origin = originOptionsById[client.originId]
     return (
       <div>
@@ -67,14 +69,22 @@ class ClientCoordinates extends React.PureComponent {
             }
             {this.renderPhone(client.mainPhoneNumber, messageOptionsById)}
             {this.renderPhone(client.alternatePhoneNumber, messageOptionsById)}
-            <span>
-              <Icon name="home" className="mr-2" />{origin}
-            </span>
-            <AddressTile address={client.address} />
+            <div>
+              <Icon name="home" className="mr-2" />
+              <span>{origin}</span>
+              <AddressTile address={client.address} />
+            </div>
           </div>
           <div className="col-md-4 mt-2 mt-md-0">
-            <strong>Liens</strong>
+            <strong>{this.message('links')}</strong>
             <hr />
+            {linkedFiles.length > 0 && linkedFiles.map(link => (
+              <div key={link.id}>
+                <Link to={`/clients/${link.client.id}`}>
+                  <ClientFullName client={link.client} locale={locale} />
+                </Link>
+              </div>
+            ))}
           </div>
           <div className="col-md-4 mt-2 mt-md-0">
             <strong>Notes</strong>
@@ -92,7 +102,8 @@ class ClientCoordinates extends React.PureComponent {
 ClientCoordinates.propTypes = {
   locale: PropTypes.string.isRequired,
   originOptionsById: PropTypes.object.isRequired,
-  messageOptionsById: PropTypes.object.isRequired
+  messageOptionsById: PropTypes.object.isRequired,
+  linkedFiles: PropTypes.array.isRequired
 }
 
 export default ClientCoordinates

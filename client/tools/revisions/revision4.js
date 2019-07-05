@@ -32,7 +32,7 @@ const clientTypeField = {
       id: '3'
     }
   ],
-  id: 'clientType',
+  id: 'clientTypeId',
   controlType: 'combobox',
   order: 2.5,
   isSystem: true,
@@ -82,7 +82,7 @@ function createClientLinkTable (db) {
 function updateExistingClientFilesToSetDefaultType (db) {
   console.log('MAJ des dossiers clients existant pour mettre le type Participant par défaut')
   const clientRepo = db.collection('ClientFile')
-  return clientRepo.update({}, {clientType: '1'})
+  return clientRepo.update({}, {$set : {clientTypeId: '1'}}, {upsert: false, multi:true})
     .then(() => db)
 }
 

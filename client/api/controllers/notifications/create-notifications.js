@@ -30,10 +30,14 @@ export function createClientNotifications (notificationTemplate) {
             notifications.push(notification)
           }
         })
-        notfRepo.insertMany(notifications)
-        .then( () => {
+        if (notifications.length) {
+          notfRepo.insertMany(notifications)
+            .then( () => {
+              next()
+            })
+        } else {
           next()
-        })
+        }
       })
   }
 }

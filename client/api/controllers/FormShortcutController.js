@@ -10,9 +10,9 @@ function preInsert (req, res, next) {
   formTemplateRepo.findById(req.entity.formTemplateId)
     .then(form => {
       if (!form) {
-        throw {httpStatus: 400, message: 'form template does not exist'}
+        next({httpStatus: 400, message: 'form template does not exist'})
       } else if (form.isArchived) {
-        throw {httpStatus: 400, message: 'form template is archived'}
+        next({httpStatus: 400, message: 'form template is archived'})
       } else {
         next()
       }

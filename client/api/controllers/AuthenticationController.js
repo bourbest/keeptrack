@@ -55,6 +55,7 @@ export default (router, secret) => {
     })
     .delete(function (req, res, next) {
       res.clearCookie(COOKIE_NAMES.auth)
-      res.json({})
+      res.result = {}
+      next()
     })
 }

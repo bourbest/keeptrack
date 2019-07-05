@@ -41,7 +41,6 @@ const updateAccount = (req, res, next) => {
         entity.lastName = req.entity.lastName
         entity.roles = req.entity.roles
         entity.organismRole = req.entity.organismRole
-        entity.email = req.entity.email
         entity.modifiedOn = new Date()
 
         if (req.entity.passwordHash) {
@@ -51,11 +50,12 @@ const updateAccount = (req, res, next) => {
         return repo.update(entity)
           .then(function () {
             const ret = omit(entity, 'passwordHash')
-            res.json(ret) // return untransformed entity so id is used instead of _id
+            res.result = ret // return untransformed entity so id is used instead of _id
+            next()
           })
           .catch(next)
       } else {
-        res.status(404).json({error: 'entity not found'})
+        next({httpStatus: 404, message: 'entity not found'})
       }
     })
     .catch(next)

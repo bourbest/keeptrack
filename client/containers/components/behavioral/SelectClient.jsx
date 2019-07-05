@@ -109,7 +109,7 @@ class SelectClient extends React.Component {
         const options = response.entities.map(c => ({
           client: c,
           value: c.id,
-          label: c.firstName + ' ' + c.lastName
+          label: `${c.firstName} ${c.lastName} (${c.clientType})`
         }))
         callback(null, {options})
       })

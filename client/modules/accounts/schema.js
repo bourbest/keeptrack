@@ -4,6 +4,7 @@ import {objectId} from '../common/validate'
 const baseSchema = {
   id: objectId,
   isArchived: boolean,
+  email: string, // legacy
   username: string(required),
   firstName: string(required),
   lastName: string(required),

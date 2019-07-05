@@ -1,4 +1,4 @@
-import {size, set, forEach} from 'lodash'
+import {size, set, forEach, find} from 'lodash'
 import {ClientRepository, ClientFeedSubcriptionRepository, FormTemplateRepository} from '../repository'
 import {
   makeFindAllHandler, makeFindById, makeHandleArchive, makeHandlePost, makeHandlePut,
@@ -13,6 +13,7 @@ import {ObjectId} from 'mongodb'
 import { CLIENT_FORM_ID } from '../../modules/const'
 import { objectId } from '../../modules/common/validate'
 import ROLES from '../../modules/accounts/roles'
+import { getChoices } from '../../modules/clients/client-form-selectors'
 
 const filtersSchema = new Schema({
   contains: string,
@@ -21,7 +22,7 @@ const filtersSchema = new Schema({
 
 function deleteFeedSubscriptions (req, res, next) {
   if (!isArray(req.body) || req.body.length === 0) {
-    throw {httpStatus: 400, message: 'no ids provided in the body'}
+    return next({httpStatus: 400, message: 'no ids provided in the body'})
   }
   const repo = new ClientFeedSubcriptionRepository(req.database)
   const ids = req.body.map(ObjectId)
@@ -36,7 +37,8 @@ function getUserSubscribedClients (req, res, next) {
   const repo = new ClientFeedSubcriptionRepository(req.database) 
   repo.getClientsSubscribedForUserId(req.user.id)
     .then(function (clients) {
-      res.json(clients)
+      res.result = clients
+      next()
     })
     .catch(next)
 }
@@ -45,9 +47,26 @@ function getEmailDistributionList (req, res, next) {
   const repo = new ClientRepository(req.database)
   repo.getEmailDistributionList()
     .then(function (list) {
-      res.json(list)
+      res.result = list
+      next()
     })
     .catch(next)
+}
+
+function addClientTypeToResults (req, res, next) {
+  const formsRepo = new FormTemplateRepository(req.database)
+  formsRepo.findById(CLIENT_FORM_ID)
+    .then(formTemplate => {
+      if (!formTemplate) {
+        return next({httpStatus: 500, message: 'System Client Form Template not found'})
+      }
+      const clientTypeIdNode = find(formTemplate.fields, {id: 'clientTypeId'})
+      const clientTypesById = getChoices(clientTypeIdNode, 'fr')
+      forEach(res.result.entities, client => {
+        client.clientType = clientTypesById[client.clientTypeId]
+      })
+      next()
+    })
 }
 
 function validateClient (req, res, next) {
@@ -55,7 +74,7 @@ function validateClient (req, res, next) {
   formsRepo.findById(CLIENT_FORM_ID)
     .then(formTemplate => {
       if (!formTemplate) {
-        throw {httpStatus: 500, message: 'System Client Form Template not found'}
+        return next({httpStatus: 500, message: 'System Client Form Template not found'})
       }
       const baseSchema = {
         id: objectId,
@@ -73,7 +92,7 @@ function validateClient (req, res, next) {
       const errors = validate(req.body, clientSchema, null, true)
 
       if (size(errors)) {
-        throw {httpStatus: 400, message: 'Provided Client does not respect Schema', errors}
+        return next({httpStatus: 400, message: 'Provided Client does not respect Schema', errors})
       }
       req.entity = transform(req.body, clientSchema)
       next()
@@ -89,7 +108,8 @@ export default (router) => {
     .get([
       parsePagination(ACCEPTED_SORT_PARAMS),
       parseFilters(filtersSchema),
-      makeFindAllHandler(ClientRepository)
+      makeFindAllHandler(ClientRepository),
+      addClientTypeToResults
     ])
     .post([validateClient, makeHandlePost(ClientRepository)])
 
@@ -102,7 +122,7 @@ export default (router) => {
   router.route('/client-files/restore')
     .post(makeHandleRestore(ClientRepository))
 
-  router.route('/client-files/emailDistributionList')
+  router.route('/client-files/reports/emailDistributionList')
     .get([
       requiresRole(ROLES.statsProducer, false),
       getEmailDistributionList

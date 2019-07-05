@@ -37,7 +37,7 @@ Selectors.getClientSchema = createSelector(
   }
 )
 
-const getChoices = (field, locale) => {
+export const getChoices = (field, locale) => {
   if (field) {
     const ret = {}
     field.choices.forEach(choice => {
@@ -65,7 +65,7 @@ Selectors.getClientFormOriginOptions = createSelector(
 Selectors.getClientTypeOptions = createSelector(
   [Selectors.getControls, getLocale],
   (controlsById, locale) => {
-    return getChoices(controlsById['clientType'], locale)
+    return getChoices(controlsById['clientTypeId'], locale)
   }
 )
 export default Selectors

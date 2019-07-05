@@ -76,7 +76,10 @@
     "import-files": "Importer",
     "files": "Fichiers importés",
     "documentType": "Type de document",
-    "importedBy": "Importé par"
+    "importedBy": "Importé par",
+    "manage-links": "Gérer les liens",
+    "links": "Dossiers liés",
+    "clientType": "Type de dossier"
   },
   "client-links": {
     "firstName": "Prénom",

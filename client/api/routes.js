@@ -58,6 +58,18 @@ function createApiRouter (context, config, database) {
   registerReports(apiRouter)
   registerUploadedFiles(apiRouter, context)
   
+  // send result
+  apiRouter.use(function (req, res, next) {
+    if (res.result !== undefined) {
+      if (res.result === '') {
+        res.send('')
+      } else {
+        res.status(200)
+        res.json(res.result)
+      }
+    }
+  })
+
   apiRouter.all('*', function (req, res, next) {
     if (!res.headersSent) {
       res.status(404)
