@@ -63,7 +63,7 @@ const getUserIncompleteDocumentList = function (req, res, next) {
   const repo = new ClientDocumentRespository(req.database)
   repo.getIncompleteDocumentListForUser(req.user.id)
     .then(function (data) {
-      res.json(data)
+      res.result = data
       next()
     })
     .catch(next)
@@ -84,11 +84,10 @@ export default (router) => {
       createClientNotifications({type: NotificationTypes.ClientDocumentCreated })
     ])
     .delete([
-      makeHandleArchive(ClientDocumentRespository),
-      createClientNotifications({type: NotificationTypes.ClientDocumentArchived })
+      makeHandleArchive(ClientDocumentRespository)
     ])
 
-  router.route('/client-documents/my-incomplete')
+  router.route('/client-documents/my-incomplete/list')
     .get(getUserIncompleteDocumentList)
 
   router.route('/client-documents/:id')
@@ -98,6 +97,4 @@ export default (router) => {
       makeHandlePut(ClientDocumentRespository),
       createClientNotifications({type: NotificationTypes.ClientDocumentModified })
     ])
-
-
 }

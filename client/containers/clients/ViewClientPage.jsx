@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {browserHistory} from 'react-router'
+import {browserHistory, Link} from 'react-router'
 import {get, size} from 'lodash'
 
 // redux
@@ -15,9 +15,11 @@ import { ActionCreators as FormActions } from '../../modules/form-templates/acti
 import { ActionCreators as SubscriptionActions } from '../../modules/client-feed-subscriptions/actions'
 import { ActionCreators as NotfActions } from '../../modules/notifications/actions'
 import { ActionCreators as FileActions } from '../../modules/uploaded-files/actions'
+import { ActionCreators as ClientLinkActions } from '../../modules/client-links/actions'
 
 import ClientSelectors from '../../modules/clients/selectors'
 import ClientFormSelectors from '../../modules/clients/client-form-selectors'
+import ClientLinkSelectors from '../../modules/client-links/selectors'
 import SubscriptionSelectors from '../../modules/client-feed-subscriptions/selectors'
 import FormSelectors from '../../modules/form-templates/selectors'
 import {getLocale, getOrganismRoleOptions} from '../../modules/app/selectors'
@@ -45,7 +47,8 @@ const mapDispatchToProps = (dispatch) => {
     subscriptionActions: bindActionCreators(SubscriptionActions, dispatch),
     notfActions: bindActionCreators(NotfActions, dispatch),
     fileActions: bindActionCreators(FileActions, dispatch),
-    docActions: bindActionCreators(DocActions, dispatch)
+    docActions: bindActionCreators(DocActions, dispatch),
+    clientLinkActions: bindActionCreators(ClientLinkActions, dispatch)
   }
 }
 
@@ -76,6 +79,15 @@ class ViewClientPage extends React.PureComponent {
     this.props.actions.clearEditedEntity()
     this.props.actions.fetchEditedEntity(id)
     this.props.actions.fetchClientForm()
+    this.props.clientLinkActions.loadLinksForClient(id)
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const id = nextProps.params.id || null
+    if (id !== this.props.params.id) {
+      this.props.actions.fetchEditedEntity(id)
+      this.props.clientLinkActions.loadLinksForClient(id)
+    }
   }
 
   handleEditFiles () {
@@ -187,10 +199,10 @@ class ViewClientPage extends React.PureComponent {
 
   render () {
     const {locale, client, originOptionsById, messageOptionsById, organismRoleList, notificationsByNoteId, notificationsByDocumentId, notificationsByFileId} = this.props
-    const {canDeleteFiles} = this.props
+    const {canDeleteFiles, clientTypesById} = this.props
     if (!client) return null
     const {selectedFormId, selectedTabId} = this.props
-    const clientName = `${client.firstName} ${client.lastName}`
+    const clientName = `${client.firstName} ${client.lastName} (${clientTypesById[client.clientTypeId]})`
     const backTo = get(this.props, 'location.query.backTo', baseUrl)
     const notesNotificationCount = size(notificationsByNoteId)
     const documentsNotificationCount = size(notificationsByDocumentId)
@@ -198,6 +210,8 @@ class ViewClientPage extends React.PureComponent {
     return (
       <div>
         <Toolbar title={clientName} backTo={backTo}>
+          <Link className="btn btn-secondary" to={`/clients/${client.id}/manage-client-links`}>{this.message('manage-links')}</Link>
+          <Link className="btn btn-secondary" to={`/clients/${client.id}/edit`}>{this.message('edit', 'common')}</Link>
           {this.renderSubscriptionButton()}
         </Toolbar>
 
@@ -208,6 +222,7 @@ class ViewClientPage extends React.PureComponent {
               client={client}
               originOptionsById={originOptionsById}
               messageOptionsById={messageOptionsById}
+              linkedFiles={this.props.linkedFiles}
             />
           </div>
 
@@ -304,7 +319,7 @@ class ViewClientPage extends React.PureComponent {
                   <input type="file" className="d-none" id="inputfile" ref="fileInput" multiple onChange={this.handleFilesSelected} />
                 </div>
 
-                {this.props.documents && this.props.documents.length > 0 &&
+                {this.props.files && this.props.files.length > 0 &&
                   <FileList
                     files={this.props.files}
                     message={this.message}
@@ -329,7 +344,9 @@ const mapStateToProps = (state) => {
     client: ClientSelectors.getEditedEntity(state),
     feedSubscription: SubscriptionSelectors.getUserSubscriptiondToEditedClientFeed(state),
     user: getUser(state),
+    linkedFiles: ClientLinkSelectors.getLinks(state),
 
+    clientTypesById: ClientFormSelectors.getClientTypeOptions(state),
     originOptionsById: ClientFormSelectors.getClientFormOriginOptions(state),
     messageOptionsById: ClientFormSelectors.getClientFormMessageOptions(state),
     organismRoleList: getOrganismRoleOptions(state),
@@ -364,7 +381,9 @@ ViewClientPage.propTypes = {
   client: PropTypes.object,
   feedSubscription: PropTypes.object,
   user: PropTypes.object.isRequired,
+  linkedFiles: PropTypes.array.isRequired,
 
+  clientTypesById: PropTypes.object.isRequired,
   originOptionsById: PropTypes.object.isRequired,
   messageOptionsById: PropTypes.object.isRequired,
   organismRoleList: PropTypes.array.isRequired,

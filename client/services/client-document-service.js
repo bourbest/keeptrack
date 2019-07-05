@@ -14,7 +14,7 @@ export default class ClientDocumentService extends RestService {
   }
 
   getMyIncompleteDocuments () {
-    const documentsUrl = `${url}/my-incomplete`
+    const documentsUrl = `${url}/my-incomplete/list`
     return this.apiClient.get(documentsUrl)
   }
 }

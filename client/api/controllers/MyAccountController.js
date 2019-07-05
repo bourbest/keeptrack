@@ -38,9 +38,11 @@ export default (router) => {
           })
           .then(cmdResult => {
             if (cmdResult.result.nModified === 1 && cmdResult.result.ok === 1) {
-              res.status(200).json({})
+              res.status(200)
+              res.result = {}
+              next()
             } else {
-              throw {httpStatus: 500, message: 'database error', errors: cmdResult.result}
+              next({httpStatus: 500, message: 'database error', errors: cmdResult.result})
             }
           })
           .catch(next)

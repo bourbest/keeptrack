@@ -1,15 +1,15 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import {Link} from 'react-router'
+import PropTypes from 'prop-types'
 import {Icon} from '../../components/controls/SemanticControls'
 
 // Components
 import {createTranslate} from '../../../locales/translate'
 import AddressTile from '../../components/AddressTile'
-import ClientFullName from './ClientFullName'
 import {formatDate} from '../../../services/string-utils'
+import ClientFullName from './ClientFullName'
 
-class ClientView extends React.PureComponent {
+class ClientCoordinates extends React.PureComponent {
   constructor (props) {
     super(props)
     this.message = createTranslate('clients', this)
@@ -53,16 +53,14 @@ class ClientView extends React.PureComponent {
   }
 
   render () {
-    const {client, originOptionsById, messageOptionsById, locale} = this.props
+    const {client, originOptionsById, messageOptionsById, linkedFiles, locale} = this.props
     const origin = originOptionsById[client.originId]
     return (
       <div>
         <div className="row">
-          <div className="col-md-6">
-            <div>
-              <ClientFullName client={client} locale={locale} />
-              <Link className="ml-2 btn" to={`/clients/${client.id}/edit`}>Modifier</Link>
-            </div>
+          <div className="col-md-4">
+            <strong>Âge et coordonnées</strong>
+            <hr />
             {this.renderAge(client.birthDate)}
             {client.email && client.email.length > 0 &&
               <span>
@@ -71,18 +69,28 @@ class ClientView extends React.PureComponent {
             }
             {this.renderPhone(client.mainPhoneNumber, messageOptionsById)}
             {this.renderPhone(client.alternatePhoneNumber, messageOptionsById)}
-            <span>
-              <Icon name="home" className="mr-2" />{origin}
-            </span>
-            <AddressTile address={client.address} />
+            <div>
+              <Icon name="home" className="mr-2" />
+              <span>{origin}</span>
+              <AddressTile address={client.address} />
+            </div>
           </div>
-          <div className="col-md-6 mt-2 mt-md-0">
+          <div className="col-md-4 mt-2 mt-md-0">
+            <strong>{this.message('links')}</strong>
+            <hr />
+            {linkedFiles.length > 0 && linkedFiles.map(link => (
+              <div key={link.id}>
+                <Link to={`/clients/${link.client.id}`}>
+                  <ClientFullName client={link.client} locale={locale} />
+                </Link>
+              </div>
+            ))}
+          </div>
+          <div className="col-md-4 mt-2 mt-md-0">
             <strong>Notes</strong>
             <hr />
             {client.notes && client.notes.length > 0 &&
-              <div>
-                <p>{client.notes}</p>
-              </div>
+              <div dangerouslySetInnerHTML={{__html: client.notes}} />
             }
           </div>
         </div>
@@ -91,10 +99,11 @@ class ClientView extends React.PureComponent {
   }
 }
 
-ClientView.propTypes = {
+ClientCoordinates.propTypes = {
   locale: PropTypes.string.isRequired,
   originOptionsById: PropTypes.object.isRequired,
-  messageOptionsById: PropTypes.object.isRequired
+  messageOptionsById: PropTypes.object.isRequired,
+  linkedFiles: PropTypes.array.isRequired
 }
 
-export default ClientView
+export default ClientCoordinates

@@ -5,7 +5,7 @@ const ClientFullName = (props) => {
   const {client, locale} = props
   return (
     <span>
-      {translate(`clients.title.${client.gender}`, locale)} {client.firstName} {client.lastName}
+      {translate(`clients.title.${client.gender}`, locale)} {client.firstName} {client.lastName} ({client.clientType})
     </span>
   )
 }

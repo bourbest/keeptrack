@@ -8,6 +8,7 @@ import { connect } from 'react-redux'
 import { ActionCreators as AppActions } from '../../modules/app/actions'
 import { ActionCreators as ClientActions } from '../../modules/clients/actions'
 import ClientSelectors from '../../modules/clients/selectors'
+import ClientFormSelectors from '../../modules/clients/client-form-selectors'
 import { getLocale } from '../../modules/app/selectors'
 
 // components
@@ -38,6 +39,7 @@ class ListClientsPage extends React.PureComponent {
     this.props.actions.clearSelectedItems()
     this.props.actions.setEditedEntity(null)
     this.props.actions.fetchList(this.props.urlParams)
+    this.props.actions.fetchClientForm()
   }
 
   componentWillReceiveProps (nextProps) {
@@ -58,9 +60,11 @@ class ListClientsPage extends React.PureComponent {
           selectedItemIds={this.props.selectedItemIds}
           onRowSelected={this.props.actions.toggleSelectedItem}
           location={this.props.location}
+          clientTypesById={this.props.clientTypesById}
         >
           <Column name="lastName" label={this.message('lastName')} renderer={renderLinkToDetail} />
           <Column name="firstName" label={this.message('firstName')} renderer={renderLinkToDetail} />
+          <Column name="clientType" label={this.message('clientType')} />
         </SmartTable>
         {this.props.totalPages > 1 &&
           <div className="ui centered grid">
@@ -86,6 +90,7 @@ const mapStateToProps = (state, props) => {
     selectedItemIds: ClientSelectors.getSelectedItemIds(state),
     locale: getLocale(state),
 
+    clientTypesById: ClientFormSelectors.getClientTypeOptions(state),
     formError: ClientSelectors.getSubmitError(state),
     isDeleteEnabled: ClientSelectors.isListDeleteEnabled(state)
   }

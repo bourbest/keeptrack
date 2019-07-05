@@ -43,7 +43,6 @@ function createAdminUser () {
     .then(passwordHash => {
       return {
         username: 'admin',
-        email: '',
         passwordHash,
         fullName: 'Administrateur',
         firstName: 'Administrateur',

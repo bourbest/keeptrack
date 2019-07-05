@@ -93,7 +93,7 @@ function deleteLocalFiles (appPath) {
     const fileRepo = new UploadedFileRepository(req.database)
 
     if (!isArray(req.body) || req.body.length === 0) {
-      throw {httpStatus: 400, message: 'no ids provided in the body'}
+      next({httpStatus: 400, message: 'no ids provided in the body'})
     } else {
       const ids = req.body.map(ObjectId)
       fileRepo.findByIds(ids)

@@ -10,6 +10,7 @@ import ListClientsPage from './containers/clients/ListClientsPage'
 import EditClientPage from './containers/clients/EditClientPage'
 import ViewClientPage from './containers/clients/ViewClientPage'
 import EditFileInfoPage from './containers/clients/EditFileInfoPage'
+import ManageClientLinksPage from './containers/clients/ManageClientLinksPage'
 
 import ListAccountsPage from './containers/accounts/ListAccountsPage'
 import EditAccountsPage from './containers/accounts/EditAccountPage'
@@ -46,6 +47,7 @@ export default (
       <Route path='clients/:id' component={InteractWithClient(ViewClientPage)} />
       <Route path='clients/:id/edit' component={InteractWithClient(EditClientPage)} />
       <Route path='clients/:clientId/documents/create/:formId' component={InteractWithClient(EditClientDocumentPage)} />
+      <Route path='clients/:clientId/manage-client-links' component={InteractWithClient(ManageClientLinksPage)} />
       <Route path='client-documents/:documentId' component={EditClientDocumentPage} />
       <Route path='uploaded-files/review' component={EditFileInfoPage} />
       <Route path='accounts' component={AccountManager(ListAccountsPage)} />

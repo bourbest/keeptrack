@@ -7,6 +7,7 @@ import registerListOptions from './controllers/ListOptionsController'
 import registerFormTemplates from './controllers/FormTemplateController'
 import registerAccounts from './controllers/AccountsController'
 import registerClientDocuments from './controllers/ClientDocumentsController'
+import registerClientLinks from './controllers/ClientLinksController'
 import registerClientFeedSubscriptions from './controllers/ClientFeedSubscriptionController'
 import registerNotifications from './controllers/NotificationsController'
 import registerMyAccount from './controllers/MyAccountController'
@@ -45,6 +46,7 @@ function createApiRouter (context, config, database) {
   apiRouter.use(mustBeAuthenticated)
 
   registerClients(apiRouter)
+  registerClientLinks(apiRouter)
   registerListOptions(apiRouter)
   registerFormTemplates(apiRouter)
   registerAccounts(apiRouter)
@@ -56,6 +58,18 @@ function createApiRouter (context, config, database) {
   registerReports(apiRouter)
   registerUploadedFiles(apiRouter, context)
   
+  // send result
+  apiRouter.use(function (req, res, next) {
+    if (res.result !== undefined) {
+      if (res.result === '') {
+        res.send('')
+      } else {
+        res.status(200)
+        res.json(res.result)
+      }
+    }
+  })
+
   apiRouter.all('*', function (req, res, next) {
     if (!res.headersSent) {
       res.status(404)
