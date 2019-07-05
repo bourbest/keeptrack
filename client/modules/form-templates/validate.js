@@ -101,6 +101,7 @@ export const formSchema = new Schema({
   isArchived: boolean,
   isSystem: boolean,
   name: string(required),
+  preventReport: boolean, // legacy
   clientLink: string([required, oneOf([ClientLinkOptions.MANDATORY, ClientLinkOptions.NO_LINK])]),
   documentDate: string([required, oneOf([DocumentDateOptions.SET_BY_USER, DocumentDateOptions.USE_CREATION_DATE])]),
   documentStatus: string([required, oneOf([DocumentStatusOptions.NO_DRAFT, DocumentStatusOptions.USE_DRAFT])]),

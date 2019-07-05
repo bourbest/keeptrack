@@ -139,6 +139,19 @@ const specificReducer = (state, action) => {
 
     case Actions.TOGGLE_SHOW_TEMPLATE_PROPERTIES:
       return {...state, showTemplateProperties: !state.showTemplateProperties}
+
+    case Actions.MOVE_SECTION:
+      const sectionIds = state.editedFormNodesByParentId['c0']
+      const targetSectionIndex = sectionIds.indexOf(action.sectionId)
+      const swappedSectionId = sectionIds[targetSectionIndex + action.direction]
+      if (swappedSectionId) {
+        editedFormNodesByParentId = {...state.editedFormNodesByParentId}
+        editedFormNodesByParentId['c0'] = [...editedFormNodesByParentId['c0']]
+        editedFormNodesByParentId['c0'][targetSectionIndex] = swappedSectionId
+        editedFormNodesByParentId['c0'][targetSectionIndex + action.direction] = action.sectionId
+        return {...state, editedFormNodesByParentId}
+      }
+      throw 'Should not happen, swapped node not found'
   }
   return state
 }

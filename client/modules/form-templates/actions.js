@@ -15,7 +15,8 @@ const SpecificActions = createActions(prefix, [
   'DELETE_FIELD',
   'UPDATE_FIELD_PROPERTIES',
   'TOGGLE_SHOW_ARCHIVED_CHOICES',
-  'TOGGLE_SHOW_TEMPLATE_PROPERTIES'
+  'TOGGLE_SHOW_TEMPLATE_PROPERTIES',
+  'MOVE_SECTION'
 ])
 
 const BaseActionCreators = createBaseActionCreators(BaseActions, config.entityName)
@@ -37,6 +38,7 @@ const SpecificActionCreators = {
   addChoice: (choice) => (arrayPush(config.fieldEditorFormName, 'choices', choice)),
   toggleShowArchivedChoices: () => ({type: SpecificActions.TOGGLE_SHOW_ARCHIVED_CHOICES}),
   toggleShowTemplateProperties: () => ({type: SpecificActions.TOGGLE_SHOW_TEMPLATE_PROPERTIES}),
+  moveSection: (sectionId, direction) => ({type: SpecificActions.MOVE_SECTION, sectionId, direction}),
 
   deleteFileExtension: (index) => (arrayRemove(config.fieldEditorFormName, 'acceptedFileExtensions', index)),
   addFileExtension: (ext) => (arrayPush(config.fieldEditorFormName, 'acceptedFileExtensions', ext)),
