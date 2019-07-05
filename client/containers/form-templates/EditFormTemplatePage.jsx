@@ -196,6 +196,7 @@ class EditFormTemplate extends React.PureComponent {
                 locale={locale}
                 onFieldSelected={this.handleFieldSelected}
                 onFieldDeleted={this.props.actions.deleteField}
+                onMoveSection={this.props.actions.moveSection}
               />
               <Button secondary className="mt-2" onClick={this.handleAddZone} disabled={submitting}>
                 {this.message('addZone')}

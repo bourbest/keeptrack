@@ -1,7 +1,7 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg xmlns="http://www.w3.org/2000/svg">
-<metadata>Copyright (C) 2018 by original authors @ fontello.com</metadata>
+<metadata>Copyright (C) 2019 by original authors @ fontello.com</metadata>
 <defs>
 <font id="fontello" horiz-adv-x="1000" >
 <font-face font-family="fontello" font-weight="400" font-stretch="normal" units-per-em="1000" ascent="850" descent="-150" />
@@ -37,6 +37,10 @@
 <glyph glyph-name="phone" unicode="&#xe80e;" d="M0 615q0 50 28 76l138 138q45 37 77-13l113-211q18-39-14-71l-51-52q-5-6-5-14 25-98 132-195l31-30t36-34 34-26 41-25 40-14q20-6 27 2l61 60q39 30 72 12l203-121q22-14 25-37t-13-39l-141-139q-27-27-74-27-140 4-318 121-258 185-375 406-72 151-67 233z" horiz-adv-x="988" />
 
 <glyph glyph-name="search" unicode="&#xe80f;" d="M643 386q0 103-73 176t-177 74-177-74-73-176 73-177 177-73 177 73 73 177z m286-465q0-29-22-50t-50-21q-30 0-50 21l-191 191q-100-69-223-69-80 0-153 31t-125 84-84 125-31 153 31 152 84 126 125 84 153 31 153-31 125-84 84-126 31-152q0-123-69-223l191-191q21-21 21-51z" horiz-adv-x="928.6" />
+
+<glyph glyph-name="up-open" unicode="&#xe810;" d="M939 107l-92-92q-11-10-26-10t-25 10l-296 297-296-297q-11-10-25-10t-25 10l-93 92q-11 11-11 26t11 25l414 414q11 10 25 10t25-10l414-414q11-11 11-25t-11-26z" horiz-adv-x="1000" />
+
+<glyph glyph-name="down-open" unicode="&#xe811;" d="M939 399l-414-413q-10-11-25-11t-25 11l-414 413q-11 11-11 26t11 25l93 92q10 11 25 11t25-11l296-296 296 296q11 11 25 11t26-11l92-92q11-11 11-25t-11-26z" horiz-adv-x="1000" />
 
 <glyph glyph-name="user" unicode="&#xf061;" d="M0-119q0 9 1 23t11 47 27 49q17 17 68 38t115 43 93 38q38 19 59 56t20 76q0 27-32 63-33 38-53 102t-20 149q0 64 18 113t49 80 71 45 85 15 85-15 71-45 49-80 18-113q0-84-20-149t-52-102q-33-37-33-63 0-39 21-76t59-56q29-15 93-38t114-43 68-38q17-17 27-47t11-51l1-21h-1024z" horiz-adv-x="1024.9" />
 
