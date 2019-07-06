@@ -1,5 +1,5 @@
 import config from './config'
-import {orderBy, map, filter, startsWith, forEach, indexOf} from 'lodash'
+import {orderBy, map, filter, startsWith, forEach, indexOf, groupBy} from 'lodash'
 import NotificationSelectors from '../notifications/selectors'
 
 import {createBaseSelectors} from '../common/selectors'
@@ -81,6 +81,14 @@ Selectors.getClientDocumentsOrderByDate = createSelector(
   [Selectors.getClientDocuments],
   (documents) => {
     const ret = orderBy(documents, ['documentDate'], ['desc'])
+    return ret
+  }
+)
+
+Selectors.getClientDocumentsGroupedByFormId = createSelector(
+  [Selectors.getClientDocumentsOrderByDate],
+  (documents) => {
+    const ret = groupBy(documents, 'formId')
     return ret
   }
 )

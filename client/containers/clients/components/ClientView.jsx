@@ -90,7 +90,7 @@ class ClientCoordinates extends React.PureComponent {
             <strong>Notes</strong>
             <hr />
             {client.notes && client.notes.length > 0 &&
-              <div dangerouslySetInnerHTML={{__html: client.notes}} />
+              <div className="rendered-quill" dangerouslySetInnerHTML={{__html: client.notes}} />
             }
           </div>
         </div>

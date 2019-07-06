@@ -31,7 +31,7 @@ class EvolutionNoteView extends React.Component {
     const {authorName, authorRole, documentDate, status} = this.props.evolutionNote
     const {note, minutes} = this.props.evolutionNote.values
     const organismRole = find(this.props.organismRoles, {value: authorRole})
-    const noteClasses = this.state.expanded ? 'rendered-quill' : 'rendered-quill max-height-300 overflow-hidden'
+    const noteClasses = (this.state.expanded || this.props.noControls) ? 'rendered-quill' : 'rendered-quill max-height-300 overflow-hidden'
     return (
       <div>
         <div className={noteClasses} dangerouslySetInnerHTML={{__html: note}} />
@@ -45,18 +45,22 @@ class EvolutionNoteView extends React.Component {
               {translate('client-document.statusOptions.draft')}
             </span>
           }
-          <span className="float-right mr-4">
-            <ConfirmButton onClick={this.handleDelete} locale={this.props.locale}>
-              {translate('common.delete')}
-            </ConfirmButton>
-          </span>
-          <span className="float-right mr-4"><Link to={getLinkToEditDocument(this.props.evolutionNote, this.props.location)}>{translate('common.edit')}</Link></span>
-          <span className="float-right pr-4">
-            <a href="#" onClick={this.toggleExpand}>
-              {!this.state.expanded && translate('common.expand')}
-              {this.state.expanded && translate('common.collapse')}
-            </a>
-          </span>
+          {!this.props.noControls &&
+            <div>
+              <span className="float-right mr-4">
+                <ConfirmButton onClick={this.handleDelete} locale={this.props.locale}>
+                  {translate('common.delete')}
+                </ConfirmButton>
+              </span>
+              <span className="float-right mr-4"><Link to={getLinkToEditDocument(this.props.evolutionNote, this.props.location)}>{translate('common.edit')}</Link></span>
+              <span className="float-right pr-4">
+                <a href="#" onClick={this.toggleExpand}>
+                  {!this.state.expanded && translate('common.expand')}
+                  {this.state.expanded && translate('common.collapse')}
+                </a>
+              </span>
+            </div>
+          }
         </div>
       </div>
     )
@@ -67,8 +71,9 @@ EvolutionNoteView.propTypes = {
   evolutionNote: PropTypes.object.isRequired,
   organismRoles: PropTypes.array.isRequired,
   notification: PropTypes.object,
-  location: PropTypes.object.isRequired,
-  onDeleteNote: PropTypes.func.isRequired,
+  location: PropTypes.object,
+  onDeleteNote: PropTypes.func,
+  noControls: PropTypes.bool,
   locale: PropTypes.string.isRequired
 }
 
