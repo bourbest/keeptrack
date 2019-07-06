@@ -37,7 +37,7 @@ class DynamicForm extends React.PureComponent {
             this.props.onMoveSection(id, -1)
           } else if (el.classList.contains('movedown')) {
             this.props.onMoveSection(id, 1)
-          }else {
+          } else {
             this.props.onFieldSelected(id)
           }
           return
@@ -72,7 +72,7 @@ class DynamicForm extends React.PureComponent {
               <Icon name="up-open" className="moveup float-right clickable" data-control-id={controlId} />
             )}
             {field.id !== lastSectionId && (
-                <Icon name="down-open" className="movedown float-right clickable" data-control-id={controlId} />
+              <Icon name="down-open" className="movedown float-right clickable" data-control-id={controlId} />
             )}
           </div>
           <div className="form-zone-inner">

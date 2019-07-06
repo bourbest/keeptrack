@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 import {forEach, map, compact} from 'lodash'
-import { canInteractWithClient, formsManager, usersManager, statsProducer } from '../../modules/accounts/roles'
+import { formsManager, usersManager, statsProducer, canCreateClientFiles } from '../../modules/accounts/roles'
 import { createTranslate } from '../../locales/translate'
 
 import {DropdownMenu} from '../components/controls/DropdownMenu'
@@ -35,8 +35,8 @@ class NavBar extends React.PureComponent {
   render () {
     const {user, locale} = this.props
     const menuItems = [
-      { name: 'dashboard', link: '/dashboard', labelKey: 'dashboard', role: canInteractWithClient },
-      { name: 'clients', link: '/clients', labelKey: 'clients', role: canInteractWithClient },
+      { name: 'dashboard', link: '/dashboard', labelKey: 'dashboard' },
+      { name: 'clients', link: '/clients', labelKey: 'clients', role: canCreateClientFiles },
       { name: 'admin', labelKey: 'admin', menus: [
         { name: 'formTemplates', link: '/form-templates', labelKey: 'formTemplates', role: formsManager },
         { name: 'accounts', link: '/accounts', labelKey: 'accounts', role: usersManager },

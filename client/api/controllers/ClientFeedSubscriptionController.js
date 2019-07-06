@@ -1,6 +1,6 @@
 import {ClientFeedSubcriptionRepository} from '../repository'
 import {makeFindAllHandler, makeFindById, makeHandleDelete, makeHandlePost, makeHandlePut} from './StandardController'
-import {entityFromBody, parseFilters, parsePagination} from '../middlewares'
+import {entityFromBody, parseFilters, parsePagination, requiresRole} from '../middlewares'
 import {Schema} from 'sapin'
 import {objectId} from '../../modules/common/validate'
 import {clientFeedSubscriptionSchema} from '../../modules/client-feed-subscriptions/schema'

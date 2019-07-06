@@ -14,6 +14,7 @@ import { ActionCreators as FormTemplateActions } from '../../modules/form-templa
 import DashboardSelectors from '../../modules/dashboard/selectors'
 import FormTemplateSelectors from '../../modules/form-templates/selectors'
 import { getLocale } from '../../modules/app/selectors'
+import {canSeeClientFileContent} from '../../modules/authentication/selectors'
 
 // components
 import {createTranslate} from '../../locales/translate'
@@ -90,16 +91,20 @@ class DashboardPage extends React.PureComponent {
   render () {
     return (
       <div>
-        <Toolbar title={this.message('my-clients')} />
-        <SmartTable
-          rows={this.props.clients}
-          location={this.props.location}
-          messageWhenEmpty={this.message('notFollowingAnyClient')}
-        >
-          <Column name="lastName" label={this.message('lastName')} renderer={this.renderLinkToClient} />
-          <Column name="firstName" label={this.message('firstName')} renderer={this.renderLinkToClient} />
-          <Column name="notifications" label={this.message('notifications')} renderer={this.renderNotifications} />
-        </SmartTable>
+        {this.props.canFollowClients &&
+          <div>
+            <Toolbar title={this.message('my-clients')} />
+            <SmartTable
+              rows={this.props.clients}
+              location={this.props.location}
+              messageWhenEmpty={this.message('notFollowingAnyClient')}
+            >
+              <Column name="lastName" label={this.message('lastName')} renderer={this.renderLinkToClient} />
+              <Column name="firstName" label={this.message('firstName')} renderer={this.renderLinkToClient} />
+              <Column name="notifications" label={this.message('notifications')} renderer={this.renderNotifications} />
+            </SmartTable>
+          </div>
+        }
 
         <h4>{this.message('incompleteDocuments')}</h4>
         <SmartTable
@@ -121,6 +126,7 @@ class DashboardPage extends React.PureComponent {
 const mapStateToProps = (state, props) => {
   return {
     clients: DashboardSelectors.getOrderedClients(state),
+    canFollowClients: canSeeClientFileContent(state),
     notificationsByClientId: DashboardSelectors.getClientsNotifications(state),
     incompleteDocuments: DashboardSelectors.getSortedIncompleteDocuments(state),
     formsById: FormTemplateSelectors.getEntities(state),

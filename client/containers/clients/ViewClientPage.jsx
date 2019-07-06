@@ -23,7 +23,7 @@ import ClientLinkSelectors from '../../modules/client-links/selectors'
 import SubscriptionSelectors from '../../modules/client-feed-subscriptions/selectors'
 import FormSelectors from '../../modules/form-templates/selectors'
 import {getLocale, getOrganismRoleOptions} from '../../modules/app/selectors'
-import {getUser} from '../../modules/authentication/selectors'
+import {getUser, canSeeClientFileContent} from '../../modules/authentication/selectors'
 
 // sections tabs components
 import Toolbar from '../components/Toolbar/Toolbar'
@@ -73,8 +73,8 @@ class ViewClientPage extends React.PureComponent {
 
   componentWillMount () {
     const id = this.props.params.id || null
-    this.props.formActions.fetchList({limit: 1000, includeArchived: true})
     this.props.appActions.hideModal()
+    this.props.formActions.fetchList({limit: 1000, includeArchived: true})
     this.props.subscriptionActions.fetchList({userId: this.props.user.id})
     this.props.actions.clearEditedEntity()
     this.props.actions.fetchEditedEntity(id)
@@ -212,7 +212,7 @@ class ViewClientPage extends React.PureComponent {
         <Toolbar title={clientName} backTo={backTo}>
           <Link className="btn btn-secondary" to={`/clients/${client.id}/manage-client-links`}>{this.message('manage-links')}</Link>
           <Link className="btn btn-secondary" to={`/clients/${client.id}/edit`}>{this.message('edit', 'common')}</Link>
-          {this.renderSubscriptionButton()}
+          {this.props.canSeeClientFileContent && this.renderSubscriptionButton()}
         </Toolbar>
 
         <div>
@@ -226,113 +226,115 @@ class ViewClientPage extends React.PureComponent {
             />
           </div>
 
-          <div className="mt-2 w-100">
-            <ul className="nav nav-tabs nav-fill">
-              <NavTab active={selectedTabId === 'notes'} name="notes" onClick={this.onTabSelected}>
-                {this.message('evolutionNotes')}
-                {notesNotificationCount > 0 && <span className="ml-2 badge badge-pill badge-primary">{notesNotificationCount}</span>}
-              </NavTab>
-              <NavTab active={selectedTabId === 'documents'} name="documents" onClick={this.onTabSelected}>
-                {this.message('documents')}
-                {documentsNotificationCount > 0 && <span className="ml-2 badge badge-pill badge-primary">{documentsNotificationCount}</span>}
-              </NavTab>
-              <NavTab active={selectedTabId === 'files'} name="files" onClick={this.onTabSelected}>
-                {this.message('files')}
-                {filesNotificationCount > 0 && <span className="ml-2 badge badge-pill badge-primary">{filesNotificationCount}</span>}
-              </NavTab>
-            </ul>
-            <Tabs>
-              <Tab active={selectedTabId === 'notes'}>
-                <div>
-                  {this.props.evolutionNotes.map(note => {
-                    const notf = notificationsByNoteId[note.id]
-                    return (
-                      <div className="box-fifth mb-3" key={note.id}>
-                        {notf &&
-                          <div className="badge badge-primary float-right m-2 clickable" onClick={this.markNotificationAsRead} id={notf.targetId}>
-                            {this.message(notf.type, 'notificationTypes')}
-                          </div>
-                        }
-                        <EvolutionNoteTile
-                          evolutionNote={note}
-                          organismRoles={organismRoleList}
-                          location={this.props.location}
-                          onDeleteNote={this.handleDeleteNote}
-                          locale={locale}
-                        />
-                      </div>
-                    )
-                  })}
-                  {this.props.evolutionNotes.length === 0 &&
-                    <span>{this.message('noEvolutionNotes')}</span>
-                  }
-                </div>
-              </Tab>
-
-              <Tab active={selectedTabId === 'documents'}>
-                <div className="row mb-2">
-                  <div className="col-9">
-                    <Select
-                      instanceId="selectForm"
-                      options={this.props.formOptionList}
-                      onChange={this.handleFormSelected}
-                      value={selectedFormId}
-                      name="selectedFormId"
-                      placeholder={this.message('selectForm')}
-                    />
+          {this.props.userCanSeeFileContent &&
+            <div className="mt-2 w-100">
+              <ul className="nav nav-tabs nav-fill">
+                <NavTab active={selectedTabId === 'notes'} name="notes" onClick={this.onTabSelected}>
+                  {this.message('evolutionNotes')}
+                  {notesNotificationCount > 0 && <span className="ml-2 badge badge-pill badge-primary">{notesNotificationCount}</span>}
+                </NavTab>
+                <NavTab active={selectedTabId === 'documents'} name="documents" onClick={this.onTabSelected}>
+                  {this.message('documents')}
+                  {documentsNotificationCount > 0 && <span className="ml-2 badge badge-pill badge-primary">{documentsNotificationCount}</span>}
+                </NavTab>
+                <NavTab active={selectedTabId === 'files'} name="files" onClick={this.onTabSelected}>
+                  {this.message('files')}
+                  {filesNotificationCount > 0 && <span className="ml-2 badge badge-pill badge-primary">{filesNotificationCount}</span>}
+                </NavTab>
+              </ul>
+              <Tabs>
+                <Tab active={selectedTabId === 'notes'}>
+                  <div>
+                    {this.props.evolutionNotes.map(note => {
+                      const notf = notificationsByNoteId[note.id]
+                      return (
+                        <div className="box-fifth mb-3" key={note.id}>
+                          {notf &&
+                            <div className="badge badge-primary float-right m-2 clickable" onClick={this.markNotificationAsRead} id={notf.targetId}>
+                              {this.message(notf.type, 'notificationTypes')}
+                            </div>
+                          }
+                          <EvolutionNoteTile
+                            evolutionNote={note}
+                            organismRoles={organismRoleList}
+                            location={this.props.location}
+                            onDeleteNote={this.handleDeleteNote}
+                            locale={locale}
+                          />
+                        </div>
+                      )
+                    })}
+                    {this.props.evolutionNotes.length === 0 &&
+                      <span>{this.message('noEvolutionNotes')}</span>
+                    }
                   </div>
-                  <div className="col-3 p-0">
-                    <Button className="mr-2" primary type="button" disabled={selectedFormId === null} onClick={this.handleAddForm}>
-                      {this.message('create', 'common')}
+                </Tab>
+
+                <Tab active={selectedTabId === 'documents'}>
+                  <div className="row mb-2">
+                    <div className="col-9">
+                      <Select
+                        instanceId="selectForm"
+                        options={this.props.formOptionList}
+                        onChange={this.handleFormSelected}
+                        value={selectedFormId}
+                        name="selectedFormId"
+                        placeholder={this.message('selectForm')}
+                      />
+                    </div>
+                    <div className="col-3 p-0">
+                      <Button className="mr-2" primary type="button" disabled={selectedFormId === null} onClick={this.handleAddForm}>
+                        {this.message('create', 'common')}
+                      </Button>
+                      <ConfirmButton disabled={!this.props.canDeleteDocuments} onClick={this.handleDeleteDocuments} locale={locale}>
+                        {this.message('delete', 'common')}
+                      </ConfirmButton>
+                    </div>
+                  </div>
+
+                  {this.props.documents && this.props.documents.length > 0 &&
+                    <DocumentList
+                      location={this.props.location}
+                      documents={this.props.documents}
+                      formsById={this.props.formsById}
+                      message={this.message}
+                      notificationsByDocumentId={notificationsByDocumentId}
+                      locale={this.props.locale}
+                      markNotificationAsRead={this.markNotificationAsRead}
+                      selectedDocumentIds={this.props.selectedDocumentIds}
+                      onDocumentSelected={this.props.actions.toggleSelectedDocument}
+                    />
+                  }
+                </Tab>
+                <Tab active={selectedTabId === 'files'}>
+                  <div className="row mb-2">
+                    <Button primary type="button" className="ml-2" onClick={this.handleAddFile}>
+                      {this.message('import-files')}
                     </Button>
-                    <ConfirmButton disabled={!this.props.canDeleteDocuments} onClick={this.handleDeleteDocuments} locale={locale}>
+                    <Button primary type="button" disabled={!this.props.canEditFiles} className="ml-2 mr-2" onClick={this.handleEditFiles}>
+                      {this.message('edit', 'common')}
+                    </Button>
+                    <ConfirmButton disabled={!canDeleteFiles} onClick={this.handleDeleteFiles} locale={locale}>
                       {this.message('delete', 'common')}
                     </ConfirmButton>
+                    <input type="file" className="d-none" id="inputfile" ref="fileInput" multiple onChange={this.handleFilesSelected} />
                   </div>
-                </div>
 
-                {this.props.documents && this.props.documents.length > 0 &&
-                  <DocumentList
-                    location={this.props.location}
-                    documents={this.props.documents}
-                    formsById={this.props.formsById}
-                    message={this.message}
-                    notificationsByDocumentId={notificationsByDocumentId}
-                    locale={this.props.locale}
-                    markNotificationAsRead={this.markNotificationAsRead}
-                    selectedDocumentIds={this.props.selectedDocumentIds}
-                    onDocumentSelected={this.props.actions.toggleSelectedDocument}
-                  />
-                }
-              </Tab>
-              <Tab active={selectedTabId === 'files'}>
-                <div className="row mb-2">
-                  <Button primary type="button" className="ml-2" onClick={this.handleAddFile}>
-                    {this.message('import-files')}
-                  </Button>
-                  <Button primary type="button" disabled={!this.props.canEditFiles} className="ml-2 mr-2" onClick={this.handleEditFiles}>
-                    {this.message('edit', 'common')}
-                  </Button>
-                  <ConfirmButton disabled={!canDeleteFiles} onClick={this.handleDeleteFiles} locale={locale}>
-                    {this.message('delete', 'common')}
-                  </ConfirmButton>
-                  <input type="file" className="d-none" id="inputfile" ref="fileInput" multiple onChange={this.handleFilesSelected} />
-                </div>
-
-                {this.props.files && this.props.files.length > 0 &&
-                  <FileList
-                    files={this.props.files}
-                    message={this.message}
-                    notificationsByFileId={notificationsByFileId}
-                    locale={this.props.locale}
-                    markNotificationAsRead={this.markNotificationAsRead}
-                    selectedFileIds={this.props.selectedFileIds}
-                    onFileSelected={this.props.actions.toggleSelectedFile}
-                  />
-                }
-              </Tab>
-            </Tabs>
-          </div>
+                  {this.props.files && this.props.files.length > 0 &&
+                    <FileList
+                      files={this.props.files}
+                      message={this.message}
+                      notificationsByFileId={notificationsByFileId}
+                      locale={this.props.locale}
+                      markNotificationAsRead={this.markNotificationAsRead}
+                      selectedFileIds={this.props.selectedFileIds}
+                      onFileSelected={this.props.actions.toggleSelectedFile}
+                    />
+                  }
+                </Tab>
+              </Tabs>
+            </div>
+          }
         </div>
       </div>
     )
@@ -344,6 +346,7 @@ const mapStateToProps = (state) => {
     client: ClientSelectors.getEditedEntity(state),
     feedSubscription: SubscriptionSelectors.getUserSubscriptiondToEditedClientFeed(state),
     user: getUser(state),
+    userCanSeeFileContent: canSeeClientFileContent(state),
     linkedFiles: ClientLinkSelectors.getLinks(state),
 
     clientTypesById: ClientFormSelectors.getClientTypeOptions(state),
@@ -381,6 +384,7 @@ ViewClientPage.propTypes = {
   client: PropTypes.object,
   feedSubscription: PropTypes.object,
   user: PropTypes.object.isRequired,
+  userCanSeeFileContent: PropTypes.bool.isRequired,
   linkedFiles: PropTypes.array.isRequired,
 
   clientTypesById: PropTypes.object.isRequired,
