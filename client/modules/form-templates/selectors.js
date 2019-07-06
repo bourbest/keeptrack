@@ -1,5 +1,5 @@
 import config, {CONTROL_CONFIG_BY_TYPE, DEFAULT_CONTROL_OPTIONS, ClientLinkOptions, DocumentDateOptions, DocumentStatusOptions} from './config'
-import {isEmpty, max, map, pick, size, filter} from 'lodash'
+import {isEmpty, max, map, pick, size, filter, forEach} from 'lodash'
 import { getFormValues } from 'redux-form'
 import { createSelector } from 'reselect'
 import {
@@ -10,6 +10,7 @@ import {
 import {buildSchemaForFields} from '../client-documents/client-document-utils'
 import {string, date, Schema, required} from 'sapin'
 import {objectId} from '../common/validate'
+import {getNodesById, getOrderedNodesByParentId} from '../form-templates/form-node-utils'
 
 const Selectors = createBaseSelectors(config.entityName)
 
@@ -154,5 +155,23 @@ Selectors.getFormSchema = createSelector(
 
 Selectors.getShowArchivedChoices = state => state[config.entityName].showArchivedChoices
 Selectors.getShowTemplateProperties = state => state[config.entityName].showTemplateProperties
+
+Selectors.getControlDictByFormId = state => {
+  const ret = {}
+  const templates = Selectors.getEntities(state)
+  forEach(templates, template => {
+    ret[template.id] = getNodesById(template.fields)
+  })
+  return ret
+}
+
+Selectors.getControlIdsByFormIdAndParentId = state => {
+  const ret = {}
+  const templates = Selectors.getEntities(state)
+  forEach(templates, template => {
+    ret[template.id] = getOrderedNodesByParentId(template.fields)
+  })
+  return ret
+}
 
 export default Selectors

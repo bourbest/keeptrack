@@ -212,6 +212,7 @@ class ViewClientPage extends React.PureComponent {
         <Toolbar title={clientName} backTo={backTo}>
           <Link className="btn btn-secondary" to={`/clients/${client.id}/manage-client-links`}>{this.message('manage-links')}</Link>
           <Link className="btn btn-secondary" to={`/clients/${client.id}/edit`}>{this.message('edit', 'common')}</Link>
+          <Link className="btn btn-secondary" to={`/clients/${client.id}/print`}>{this.message('print', 'common')}</Link>
           {this.props.canSeeClientFileContent && this.renderSubscriptionButton()}
         </Toolbar>
 

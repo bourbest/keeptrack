@@ -11,6 +11,7 @@ import EditClientPage from './containers/clients/EditClientPage'
 import ViewClientPage from './containers/clients/ViewClientPage'
 import EditFileInfoPage from './containers/clients/EditFileInfoPage'
 import ManageClientLinksPage from './containers/clients/ManageClientLinksPage'
+import PrintClientPage from './containers/clients/PrintClientPage'
 
 import ListAccountsPage from './containers/accounts/ListAccountsPage'
 import EditAccountsPage from './containers/accounts/EditAccountPage'
@@ -47,6 +48,7 @@ export default (
       <Route path='clients/create' component={CreateClientFiles(EditClientPage)} />
       <Route path='clients/:id' component={CreateClientFiles(ViewClientPage)} />
       <Route path='clients/:id/edit' component={CreateClientFiles(EditClientPage)} />
+      <Route path="clients/:id/print" component={PrintClientPage} />
       <Route path='clients/:clientId/documents/create/:formId' component={CreateClientFiles(EditClientDocumentPage)} />
       <Route path='clients/:clientId/manage-client-links' component={CreateClientFiles(ManageClientLinksPage)} />
       <Route path='client-documents/:documentId' component={EditClientDocumentPage} />
