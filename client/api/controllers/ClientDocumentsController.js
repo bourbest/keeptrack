@@ -11,6 +11,7 @@ import {boolean, Schema, validate, transform, oneOf, string} from 'sapin'
 import {objectId} from '../../modules/common/validate'
 import {NotificationTypes} from '../../modules/notifications/schema'
 import { ClientLinkOptions } from '../../modules/form-templates/config'
+import ROLES from '../../modules/accounts/roles'
 
 const filtersSchema = new Schema({
   clientId: objectId,
@@ -22,6 +23,30 @@ const filtersSchema = new Schema({
 
 const ACCEPTED_SORT_PARAMS = ['createdOn', 'documentDate']
 
+function restrictToOwnerWhenUserDoesNotHavePermission (req, res, next) {
+  if (req.user && req.user.roles.indexOf(ROLES.canInteractWithClient) === -1) {
+    req.filters.ownerId = ObjectId(req.user.id)
+  }
+
+  next()
+}
+
+function mustBeOwnerIfUserDoesNotHavePermission (req, res, next) {
+  if (req.user.roles.indexOf(ROLES.canCreateClientFiles) > -1) {
+    next() // user can update any document
+  } else {
+    // user can update only the document he created
+    const docRepo = new ClientDocumentRespository(req.database)
+    docRepo.findById(req.entity.id)
+      .then(doc => {
+        if (doc && doc.ownerId.toString() !== req.user.id) {
+          next({httpStatus: 403, message: 'You are not authorized to access this entity'})
+        } else {
+          next()
+        }
+      })
+  }
+}
 
 function validateDocument (req, res, next) {
   const clients = new ClientRepository(req.database)
@@ -75,6 +100,7 @@ export default (router) => {
     .get([
       parsePagination(ACCEPTED_SORT_PARAMS),
       parseFilters(filtersSchema),
+      restrictToOwnerWhenUserDoesNotHavePermission,
       makeFindAllHandler(ClientDocumentRespository)
     ])
     .post([
@@ -94,6 +120,7 @@ export default (router) => {
     .get(makeFindById(ClientDocumentRespository))
     .put([
       validateDocument,
+      mustBeOwnerIfUserDoesNotHavePermission,
       makeHandlePut(ClientDocumentRespository),
       createClientNotifications({type: NotificationTypes.ClientDocumentModified })
     ])

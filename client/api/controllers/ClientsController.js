@@ -103,7 +103,7 @@ function validateClient (req, res, next) {
 const ACCEPTED_SORT_PARAMS = ['fullName']
 
 export default (router) => {
-  router.use('/client-files', requiresRole(ROLES.canInteractWithClient))
+  router.use('/client-files', requiresRole(ROLES.canCreateClientFiles))
   router.route('/client-files')
     .get([
       parsePagination(ACCEPTED_SORT_PARAMS),

@@ -151,7 +151,6 @@ const specificReducer = (state, action) => {
         editedFormNodesByParentId['c0'][targetSectionIndex + action.direction] = action.sectionId
         return {...state, editedFormNodesByParentId}
       }
-      throw 'Should not happen, swapped node not found'
   }
   return state
 }

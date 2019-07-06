@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route } from 'react-router'
-import { canInteractWithClient, formsManager, usersManager, statsProducer } from './modules/accounts/roles'
+import { canInteractWithClient, formsManager, usersManager, statsProducer, canCreateClientFiles } from './modules/accounts/roles'
 
 import Authorization from './containers/components/Authorization'
 import LoginPage from './containers/LoginPage'
@@ -35,21 +35,22 @@ const FormManager = Authorization(formsManager)
 const AccountManager = Authorization(usersManager)
 const InteractWithClient = Authorization(canInteractWithClient)
 const ReportUser = Authorization(statsProducer)
+const CreateClientFiles = Authorization(canCreateClientFiles)
 
 export default (
   [
     <Route path='/login' component={LoginPage} />,
     <Route path='/error/:code' component={ErrorPage} />,
     <Route path='/' component={Layout}>
-      <Route path='dashboard' component={InteractWithClient(DashboardPage)} />
-      <Route path='clients' component={InteractWithClient(ListClientsPage)} />
-      <Route path='clients/create' component={InteractWithClient(EditClientPage)} />
-      <Route path='clients/:id' component={InteractWithClient(ViewClientPage)} />
-      <Route path='clients/:id/edit' component={InteractWithClient(EditClientPage)} />
-      <Route path='clients/:clientId/documents/create/:formId' component={InteractWithClient(EditClientDocumentPage)} />
-      <Route path='clients/:clientId/manage-client-links' component={InteractWithClient(ManageClientLinksPage)} />
+      <Route path='dashboard' component={DashboardPage} />
+      <Route path='clients' component={CreateClientFiles(ListClientsPage)} />
+      <Route path='clients/create' component={CreateClientFiles(EditClientPage)} />
+      <Route path='clients/:id' component={CreateClientFiles(ViewClientPage)} />
+      <Route path='clients/:id/edit' component={CreateClientFiles(EditClientPage)} />
+      <Route path='clients/:clientId/documents/create/:formId' component={CreateClientFiles(EditClientDocumentPage)} />
+      <Route path='clients/:clientId/manage-client-links' component={CreateClientFiles(ManageClientLinksPage)} />
       <Route path='client-documents/:documentId' component={EditClientDocumentPage} />
-      <Route path='uploaded-files/review' component={EditFileInfoPage} />
+      <Route path='uploaded-files/review' component={InteractWithClient(EditFileInfoPage)} />
       <Route path='accounts' component={AccountManager(ListAccountsPage)} />
       <Route path='accounts/:id' component={AccountManager(EditAccountsPage)} />
       <Route path='form-templates' component={FormManager(ListFormTemplatesPage)} />

@@ -3,6 +3,7 @@ import { Actions, ActionCreators } from './actions'
 import { ActionCreators as LinkActionCreators } from '../client-links/actions'
 import { createBaseSaga, createBaseSagaWatcher } from '../common/sagas'
 import {getService} from '../app/selectors'
+import {canSeeClientFileContent} from '../authentication/selectors'
 import Selectors from './selectors'
 import { handleError } from '../commonHandlers'
 import {select, put, call, takeEvery, all} from 'redux-saga/effects'
@@ -15,27 +16,35 @@ function * clientSaga (action) {
   let errorAction = null
   switch (action.type) {
     case Actions.LOAD_CLIENT:
-      const [clientSvc, fileSvc] = yield all([
+      const [clientSvc, fileSvc, fetchDocuments] = yield all([
         select(getService, 'clients'),
         select(getService, 'uploaded-files'),
+        select(canSeeClientFileContent),
+        put(ActionCreators.setClientDocuments([])),
+        put(ActionCreators.setFiles([], true)),
         put(LinkActionCreators.setLinks([])),
-        put(LinkActionCreators.loadLinksForClient(action.clientId))
+        put(LinkActionCreators.loadLinksForClient(action.clientId)),
+        put(ActionCreators.setFetchingEntity(true))
       ])
 
-      yield put(ActionCreators.setFetchingEntity(true))
       try {
         const promises = [
-          clientSvc.get(action.clientId),
-          clientSvc.getDocumentsByClientId(action.clientId),
-          fileSvc.list({clientId: action.clientId})
+          clientSvc.get(action.clientId)
         ]
+        if (fetchDocuments) {
+          promises.push(clientSvc.getDocumentsByClientId(action.clientId))
+          promises.push(fileSvc.list({clientId: action.clientId}))
+        }
         const results = yield call([Promise, Promise.all], promises)
 
-        yield all([
-          put(ActionCreators.setEditedEntity(results[0])),
-          put(ActionCreators.setClientDocuments(results[1].entities)),
-          put(ActionCreators.setFiles(results[2].entities, true))
-        ])
+        const setActions = [
+          put(ActionCreators.setEditedEntity(results[0]))
+        ]
+        if (fetchDocuments) {
+          setActions.push(put(ActionCreators.setClientDocuments(results[1].entities)))
+          setActions.push(put(ActionCreators.setFiles(results[2].entities, true)))
+        }
+        yield all(setActions)
       } catch (error) {
         errorAction = handleError(config.entityName, error)
       }
