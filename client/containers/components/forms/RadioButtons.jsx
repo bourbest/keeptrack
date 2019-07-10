@@ -16,7 +16,7 @@ class RadioButtons extends React.PureComponent {
     const {value, options, disabled, onChange, name} = this.props
 
     // remove from the list archived options that are not already checked
-    const validOptions = filter(options, option => !option.isArchived || value === option.value)
+    const validOptions = filter(options, option => !option.isArchived || value === option.id)
 
     return (
       <div>

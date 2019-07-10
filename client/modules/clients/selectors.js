@@ -1,5 +1,5 @@
 import config from './config'
-import {orderBy, map, filter, startsWith, forEach, indexOf, groupBy} from 'lodash'
+import {orderBy, map, filter, startsWith, forEach, indexOf, groupBy, keyBy} from 'lodash'
 import NotificationSelectors from '../notifications/selectors'
 
 import {createBaseSelectors} from '../common/selectors'
@@ -152,6 +152,14 @@ Selectors.getNotificationsByFileId = createSelector(
       return startsWith(notf.type, 'CLIENT_FILE')
     })
     return prioritizeNewDocumentNotifications(docs)
+  }
+)
+
+Selectors.getNotificationsByLinkId = createSelector(
+  [NotificationSelectors.getEntities],
+  (notifications) => {
+    const filtered = filter(notifications, notf => startsWith(notf.type, 'CLIENT_LINK'))
+    return keyBy(filtered, 'targetId')
   }
 )
 

@@ -5,9 +5,9 @@ import {entityFromBody} from '../middlewares'
 import {clientLinkSchema} from '../../modules/client-links/schema'
 import { getChoices } from '../../modules/clients/client-form-selectors'
 import { CLIENT_FORM_ID } from '../../modules/const'
-//import {createClientNotifications} from './notifications/create-notifications'
+import {createClientNotifications} from './notifications/create-notifications'
 
-//import {NotificationTypes} from '../../modules/notifications/schema'
+import {NotificationTypes} from '../../modules/notifications/schema'
 
 const validateClientExists = (req, res, next) => {
   const newLink = req.entity
@@ -64,6 +64,13 @@ const findLinksForClientId = (req, res, next) => {
     .catch(next)
 }
 
+function getClientId1(req) {
+  return req.entity.clientId1
+}
+function getClientId2(req) {
+  return req.entity.clientId2
+}
+
 export default (router) => {
   router.route('/client-files/:clientId/client-links')
     .get(findLinksForClientId)
@@ -71,7 +78,9 @@ export default (router) => {
       entityFromBody(clientLinkSchema),
       ensureLinkIsUnique,
       validateClientExists,
-      makeHandlePost(ClientLinkRepository)
+      makeHandlePost(ClientLinkRepository),
+      createClientNotifications({type: NotificationTypes.ClientLinkCreated}, getClientId1),
+      createClientNotifications({type: NotificationTypes.ClientLinkCreated}, getClientId2)
     ])
     .delete([
       makeHandleDelete(ClientLinkRepository)

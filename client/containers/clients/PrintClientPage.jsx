@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {size, forEach} from 'lodash'
+import {size, forEach, map, concat} from 'lodash'
 
 // redux
 import { bindActionCreators } from 'redux'
@@ -48,6 +48,7 @@ class PrintClientPage extends React.PureComponent {
     super(props)
 
     this.message = createTranslate(labelNamespace, this)
+    this.renderDocuments = this.renderDocuments.bind(this)
   }
 
   componentWillMount () {
@@ -57,24 +58,28 @@ class PrintClientPage extends React.PureComponent {
     this.props.actions.fetchClientForm()
   }
 
+  renderDocuments (documents) {
+    return map(documents, doc => (
+      <div className="box-fifth mb-3 avoid-break-inside" key={doc.id}>
+        <PrintableDocument
+          document={doc}
+          controlIdsByParentId={this.props.controlIdsByFormAndParentId[doc.formId]}
+          controlsById={this.props.controlDictByFormId[doc.formId]}
+          formTemplate={this.props.formsById[doc.formId]}
+          locale={this.props.locale}
+        />
+      </div>
+    ))
+  }
+
   render () {
     const {locale, client, originOptionsById, messageOptionsById, organismRoleList, formsById} = this.props
     if (!client || size(formsById) === 0) return null
-    const renderedDocs = []
+    let renderedDocs = []
     const name = `${client.firstName} ${client.lastName}`
-    { forEach(this.props.documentsByFormId, documents => {
-      forEach(documents, doc => renderedDocs.push((
-        <div className="box-fifth mb-3 avoid-break-inside" key={doc.id}>
-          <PrintableDocument
-            document={doc}
-            controlIdsByParentId={this.props.controlIdsByFormAndParentId[doc.formId]}
-            controlsById={this.props.controlDictByFormId[doc.formId]}
-            formTemplate={formsById[doc.formId]}
-            locale={locale}
-          />
-        </div>
-      ))
-    )})}
+    forEach(this.props.documentsByFormId, documents => {
+      renderedDocs - concat(renderedDocs, this.renderDocuments(documents))
+    })
 
     return (
       <div className="mt-2">
@@ -105,7 +110,9 @@ class PrintClientPage extends React.PureComponent {
             <span>{this.message('noEvolutionNotes')}</span>
           }
         </div>
-        <h2 className="page-break-before">{this.message('documents')}</h2>
+        {renderedDocs.length > 0 &&
+          <h2 className="page-break-before">{this.message('documents')}</h2>
+        }
         <div>
           {renderedDocs}
         </div>
@@ -148,7 +155,7 @@ PrintClientPage.propTypes = {
 
   formOptionList: PropTypes.array.isRequired,
   formsById: PropTypes.object.isRequired,
-  controlsByFormId: PropTypes.object.isRequired,
+  controlDictByFormId: PropTypes.object.isRequired,
   controlIdsByFormAndParentId: PropTypes.object.isRequired,
 
   documentsByFormId: PropTypes.object.isRequired,

@@ -55,6 +55,7 @@ class DashboardPage extends React.PureComponent {
     let updatedNotes = null
     let newDocs = null
     let updatedDocs = null
+    let newLinks = null
 
     if (notifications) {
       if (notifications.newNotes) {
@@ -69,6 +70,9 @@ class DashboardPage extends React.PureComponent {
       if (notifications.updatedDocuments) {
         updatedDocs = <span>{this.message('updatedDocuments', {count: notifications.updatedDocuments})}<br /></span>
       }
+      if (notifications.newLinks) {
+        newLinks = <span>{this.message('newLinks', {count: notifications.newLinks})}<br /></span>
+      }
     }
 
     return (
@@ -77,6 +81,7 @@ class DashboardPage extends React.PureComponent {
         {updatedNotes}
         {newDocs}
         {updatedDocs}
+        {newLinks}
       </div>
     )
   }

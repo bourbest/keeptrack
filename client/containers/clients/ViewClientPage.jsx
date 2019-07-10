@@ -192,9 +192,19 @@ class ViewClientPage extends React.PureComponent {
   }
 
   markNotificationAsRead (event) {
-    const targetId = [event.target.id]
-    const ids = this.props.notificationsByTargetId[targetId]
-    this.props.notfActions.markAsRead(ids)
+    let node = event.target
+    let targetId = event.target.id
+    while (!targetId && node) {
+      node = node.parentNode
+      targetId = node.id
+    }
+
+    if (targetId) {
+      const ids = this.props.notificationsByTargetId[targetId]
+      this.props.notfActions.markAsRead(ids)
+    } else {
+      console.error('could not find targetId to mark notifications as read')
+    }
   }
 
   render () {
@@ -212,8 +222,8 @@ class ViewClientPage extends React.PureComponent {
         <Toolbar title={clientName} backTo={backTo}>
           <Link className="btn btn-secondary" to={`/clients/${client.id}/manage-client-links`}>{this.message('manage-links')}</Link>
           <Link className="btn btn-secondary" to={`/clients/${client.id}/edit`}>{this.message('edit', 'common')}</Link>
-          <Link className="btn btn-secondary" to={`/clients/${client.id}/print`}>{this.message('print', 'common')}</Link>
-          {this.props.canSeeClientFileContent && this.renderSubscriptionButton()}
+          {this.props.userCanSeeFileContent && <Link className="btn btn-secondary" to={`/clients/${client.id}/print`}>{this.message('print', 'common')}</Link>}
+          {this.props.userCanSeeFileContent && this.renderSubscriptionButton()}
         </Toolbar>
 
         <div>
@@ -224,6 +234,8 @@ class ViewClientPage extends React.PureComponent {
               originOptionsById={originOptionsById}
               messageOptionsById={messageOptionsById}
               linkedFiles={this.props.linkedFiles}
+              markNotificationAsRead={this.markNotificationAsRead}
+              notificationsByLinkId={this.props.notificationsByLinkId}
             />
           </div>
 
@@ -375,6 +387,7 @@ const mapStateToProps = (state) => {
     notificationsByNoteId: ClientSelectors.getNotificationsByNoteId(state),
     notificationsByDocumentId: ClientSelectors.getNotificationsByDocumentId(state),
     notificationsByFileId: ClientSelectors.getNotificationsByFileId(state),
+    notificationsByLinkId: ClientSelectors.getNotificationsByLinkId(state),
     notificationsByTargetId: ClientSelectors.getNotificationsByTargetId(state),
     locale: getLocale(state)
   }
@@ -413,6 +426,7 @@ ViewClientPage.propTypes = {
   notificationsByNoteId: PropTypes.object.isRequired,
   notificationsByDocumentId: PropTypes.object.isRequired,
   notificationsByFileId: PropTypes.object.isRequired,
+  notificationsByLinkId: PropTypes.object.isRequired,
   notificationsByTargetId: PropTypes.object.isRequired,
 
   locale: PropTypes.string.isRequired,

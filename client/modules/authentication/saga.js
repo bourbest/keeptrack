@@ -1,7 +1,7 @@
 import config from './config'
 import { browserHistory } from 'react-router'
 import { call, put, select, takeLatest } from 'redux-saga/effects'
-import { getService } from '../app/selectors'
+import { getService, getApiConfig } from '../app/selectors'
 import { startSubmit, stopSubmit } from 'redux-form'
 import {handleError} from '../commonHandlers'
 
@@ -47,7 +47,9 @@ function * authSaga (action) {
       } finally {
         yield put(NotfActions.stopPolling())
         yield put(AuthActionCreators.setUser({}))
-        browserHistory.push('/login')
+        const apiUrl = yield select(getApiConfig)
+        const url = apiUrl.baseURL.replace('api', 'login')
+        window.location.href = url
       }
       break
 
