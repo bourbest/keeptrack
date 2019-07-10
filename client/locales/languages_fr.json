@@ -32,6 +32,8 @@
     "updatedNotes_plural": "{{count}} notes évolutives modifiées",
     "newDocuments": "{{count}} nouveau document",
     "newDocuments_plural": "{{count}} nouveaux documents",
+    "newLinks": "{{count}} nouveau dossier lié",
+    "newLinks_plural": "{{count}} nouveaux dossiers liés",
     "updatedDocuments": "{{count}} document mis à jour",
     "updatedDocuments_plural": "{{count}} documents mis à jour",
     "incompleteDocuments": "Documents à compléter",
@@ -191,7 +193,8 @@
     "EVOLUTIVE_NOTE_CREATED": "Nouvelle",
     "CLIENT_DOCUMENT_CREATED": "Nouveau",
     "CLIENT_DOCUMENT_MODIFIED": "Modifié",
-    "CLIENT_FILE_CREATED": "Nouveau"
+    "CLIENT_FILE_CREATED": "Nouveau",
+    "CLIENT_LINK_CREATED": "Nouveau"
   },
   "editFileInfo": {
     "title": "Réviser téléchargement",
@@ -209,6 +212,7 @@
     "edit": "Modifier",
     "reset": "Réinitialiser",
     "confirm": "Confirmer",
+    "print": "Imprimer",
     "yes":"Oui",
     "no":"Non",
     "create": "Créer",

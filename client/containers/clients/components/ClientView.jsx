@@ -78,13 +78,21 @@ class ClientCoordinates extends React.PureComponent {
           <div className="col-md-4 mt-2 mt-md-0">
             <strong>{this.message('links')}</strong>
             <hr />
-            {linkedFiles.length > 0 && linkedFiles.map(link => (
-              <div key={link.id}>
-                <Link to={`/clients/${link.client.id}`}>
-                  <ClientFullName client={link.client} locale={locale} />
-                </Link>
-              </div>
-            ))}
+            {linkedFiles.length > 0 && linkedFiles.map(link => {
+              const notf = this.props.notificationsByLinkId && this.props.notificationsByLinkId[link.id]
+              return (
+                <div key={link.id}>
+                  <Link to={`/clients/${link.client.id}`} onClick={notf && this.props.markNotificationAsRead} id={notf && notf.targetId}>
+                    <ClientFullName client={link.client} locale={locale} />
+                  </Link>
+                  {notf && (
+                    <div className="badge badge-primary clickable" onClick={this.props.markNotificationAsRead} id={notf.targetId}>
+                      {this.message(notf.type, 'notificationTypes')}
+                    </div>
+                  )}
+                </div>
+              )
+            })}
           </div>
           <div className="col-md-4 mt-2 mt-md-0">
             <strong>Notes</strong>
@@ -103,7 +111,9 @@ ClientCoordinates.propTypes = {
   locale: PropTypes.string.isRequired,
   originOptionsById: PropTypes.object.isRequired,
   messageOptionsById: PropTypes.object.isRequired,
-  linkedFiles: PropTypes.array.isRequired
+  linkedFiles: PropTypes.array.isRequired,
+  markNotificationAsRead: PropTypes.func,
+  notificationsByLinkId: PropTypes.object
 }
 
 export default ClientCoordinates

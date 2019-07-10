@@ -31,7 +31,7 @@ Selectors.getClientsNotifications = createSelector(
     const ret = {}
     forEach(notifications, notf => {
       if (!ret[notf.clientId]) {
-        ret[notf.clientId] = {newDocuments: {}, updatedDocuments: {}, newNotes: {}, updatedNotes: {}}
+        ret[notf.clientId] = {newDocuments: {}, updatedDocuments: {}, newNotes: {}, updatedNotes: {}, newLinks: {}}
       }
       if (notf.type === NotificationTypes.ClientDocumentCreated || notf.type === NotificationTypes.ClientFileCreated) {
         if (notf.formId === EVOLUTIVE_NOTE_FORM_ID) {
@@ -45,6 +45,8 @@ Selectors.getClientsNotifications = createSelector(
         } else {
           ret[notf.clientId].updatedDocuments[notf.targetId] = 1
         }
+      } else if (notf.type === NotificationTypes.ClientLinkCreated) {
+        ret[notf.clientId].newLinks[notf.targetId] = 1
       }
     })
     forEach(ret, client => {
@@ -52,6 +54,7 @@ Selectors.getClientsNotifications = createSelector(
       client.newNotes = size(client.newNotes)
       client.updatedDocuments = size(omit(client.updatedDocuments, keys(client.newDocuments)))
       client.newDocuments = size(client.newDocuments)
+      client.newLinks = size(client.newLinks)
     })
 
     return ret

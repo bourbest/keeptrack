@@ -45,9 +45,9 @@ class EditFileInfoForm extends React.PureComponent {
                       <Field component={FieldWrapper} InputControl={DateInput} name={`${baseFieldName}.documentDate`} locale={locale} />
                     </div>
                   </td>
-                  <td className="d-flex justify-content-end w-25">
+                  <td className="d-flex justify-content-end">
                     {progresses.length > index && (
-                      <div className="progress">
+                      <div className="progress w-100">
                         <div className="progress-bar" style={{width: `${progresses[index]}%`}}>
                           {progresses[index]}%
                         </div>

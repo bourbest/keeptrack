@@ -70,7 +70,7 @@ function validateDocument (req, res, next) {
       }
 
       const schema = buildSchemaForDocument(form)
-      const errors = validate(req.body, schema, null, true)
+      const errors = validate(req.body, schema)
       if (size(errors)) {
         return next({httpStatus: 400, message: 'Document does not respect Form Schema', errors})
       } else if (form.clientLink === ClientLinkOptions.MANDATORY && !client) {
