@@ -101,6 +101,11 @@ const CONTROL_CONFIGS = [
     type: 'address',
     properties: BASE_INPUT_PROPERTIES,
     isInput: true
+  },
+  {
+    type: 'table',
+    properties: ['columns', 'lines'],
+    isInput: true
   }
 ]
 
@@ -196,6 +201,12 @@ export const FORM_CONTROLS = [
     labels: {fr: 'Adresse', en: 'Address'},
     image: '/public/images/controls/address.png',
     order: 9
+  },
+  {
+    controlType: 'table',
+    labels: {fr: 'Tableau', en: 'Table'},
+    image: '/public/images/controls/address.png',
+    order: 10
   }
 ]
 
