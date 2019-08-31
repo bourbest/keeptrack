@@ -111,7 +111,6 @@ const generateReport = function (req, res, next) {
   ]
 
   const docCursor = docRepo.getDocumentsForReportCursor(formTemplateId, fromDate, toDate, excludeIncompleteDocuments)
-  const hasDocs = docCursor.hasNext() // triggers the fetch
   Promise.all(promises).then(
     data => {
       const docTemplate = data[0]
@@ -134,6 +133,7 @@ const generateReport = function (req, res, next) {
       worksheet.addRow(getHeaderNames(reportFields, 'fr')).commit()
       docCursor.each(function (err, document) {
         if (document) {
+          console.log('got a document')
           if (document.client && document.client.length) {
             document.client = convertFromDatabase(document.client[0])
           } else {
@@ -141,9 +141,14 @@ const generateReport = function (req, res, next) {
           }
           worksheet.addRow(getLineValues(reportFields, document, 'fr')).commit()
         } else {
+          console.log('closing cursor')
           docCursor.close()
           worksheet.commit()
           workbook.commit()
+        }
+
+        if (err) {
+          console.log('error in doc cursor', err)
         }
       })
     }
