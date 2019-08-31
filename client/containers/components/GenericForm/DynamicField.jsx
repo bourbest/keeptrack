@@ -2,7 +2,7 @@ import React from 'react'
 import {pick} from 'lodash'
 import {Field, FormSection} from 'redux-form'
 
-import {Input, DateInput, Checkbox, TextArea, CheckboxList, RadioButtons, Select, AddressField, RichText, FieldWrapper} from '../forms'
+import {Input, DateInput, Checkbox, TextArea, CheckboxList, RadioButtons, Select, AddressField, TableField, RichText, FieldWrapper} from '../forms'
 import FormHeader from './FormHeader'
 import { Grid } from '../controls/SemanticControls'
 import FormParagraph from './FormParagraph'
@@ -19,7 +19,8 @@ const INPUT_CONTROL_MAP = {
 }
 
 const INPUT_GROUP_CONTROL_MAP = {
-  'address': AddressField
+  'address': AddressField,
+  'table': TableField
 }
 
 const LAYOUT_CONTROLS_MAP = {
@@ -65,6 +66,11 @@ const buildOptions = (field, locale) => {
     options.label = field.labels[locale]
   }
 
+  if (field.controlType === 'table') {
+    options.lines = field.lines
+    options.columns = field.columns
+  }
+
   options.locale = locale
   return options
 }
@@ -91,11 +97,10 @@ export const outputField = (field, locale) => {
       />)
   } else if (InputGroup) {
     return (
-      <FormSection name={field.id}>
-        <InputGroup key={controlId} id={controlId} {...options} />
+      <FormSection name={field.id} key={controlId}>
+        <InputGroup id={controlId} {...options} />
       </FormSection>
     )
   }
-
   return <Component key={controlId} id={controlId} {...options} />
 }

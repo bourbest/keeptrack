@@ -108,7 +108,7 @@ class ManageClientLinksPage extends React.PureComponent {
           >
             <Column label={this.message('firstName')} name="client.firstName" />
             <Column label={this.message('lastName')} name="client.lastName" />
-            <Column label={this.message('client.clientType')} />
+            <Column label={this.message('clientType')} name="client.clientType" />
             <Column label={this.message('address')} renderer={this.renderAddress} />
           </SmartTable>
           <h2>{this.message('newLinkTitle')}</h2>

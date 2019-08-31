@@ -101,6 +101,11 @@ const CONTROL_CONFIGS = [
     type: 'address',
     properties: BASE_INPUT_PROPERTIES,
     isInput: true
+  },
+  {
+    type: 'table',
+    properties: ['columns', 'lines'],
+    isInput: true
   }
 ]
 
@@ -127,7 +132,9 @@ export const DEFAULT_CONTROL_OPTIONS = {
   columnCount: 1,
   headerLevel: 1,
   required: false,
-  minHeight: 200
+  minHeight: 200,
+  columns: [{id: 'c1', label: 'titre colonne 1', width: 100}, {id: 'c2', label: 'titre colonne 2', width: 100}],
+  lines: [{id: 'L1', label: 'ligne 1'}, {id: 'L2', label: 'ligne 2'}]
 }
 
 export const FORM_CONTROLS = [
@@ -196,6 +203,12 @@ export const FORM_CONTROLS = [
     labels: {fr: 'Adresse', en: 'Address'},
     image: '/public/images/controls/address.png',
     order: 9
+  },
+  {
+    controlType: 'table',
+    labels: {fr: 'Tableau', en: 'Table'},
+    image: '/public/images/controls/address.png',
+    order: 10
   }
 ]
 

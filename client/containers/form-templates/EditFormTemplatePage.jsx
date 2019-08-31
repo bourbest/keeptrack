@@ -45,6 +45,8 @@ class EditFormTemplate extends React.PureComponent {
     this.message = createTranslate('formTemplates', this)
     this.handleFieldSelected = this.handleFieldSelected.bind(this)
     this.handleAddChoice = this.handleAddChoice.bind(this)
+    this.handleAddColumn = this.handleAddColumn.bind(this)
+    this.handleAddLine = this.handleAddLine.bind(this)
     this.handleAddField = this.handleAddField.bind(this)
     this.handleControlMoved = this.handleControlMoved.bind(this)
     this.handleAddZone = this.handleAddZone.bind(this)
@@ -144,6 +146,16 @@ class EditFormTemplate extends React.PureComponent {
     this.props.actions.addChoice(choice)
   }
 
+  handleAddColumn () {
+    const column = FormsSelectors.buildNewColumn(this.props.nextColumnId)
+    this.props.actions.addColumn(column)
+  }
+
+  handleAddLine () {
+    const line = FormsSelectors.buildNewLine(this.props.nextLineId)
+    this.props.actions.addLine(line)
+  }
+
   handleFormNameChanged (event) {
     this.props.actions.setEditedEntityFieldValue('name', event.target.value)
   }
@@ -207,9 +219,15 @@ class EditFormTemplate extends React.PureComponent {
                 locale={locale}
                 editedField={editedField}
                 showArchivedChoices={this.props.showArchivedChoices}
+                showArchivedColumns={this.props.showArchivedColumns}
+                showArchivedLines={this.props.showArchivedLines}
                 onPropertiesChanged={this.props.actions.updateFieldProperties}
                 onAddChoice={this.handleAddChoice}
+                onAddColumn={this.handleAddColumn}
+                onAddLine={this.handleAddLine}
                 onToggleShowArchived={this.props.actions.toggleShowArchivedChoices}
+                onToggleShowArchivedColumns={this.props.actions.toggleShowArchivedColumns}
+                onToggleShowArchivedLines={this.props.actions.toggleShowArchivedLines}
               />
             </div>
           </div>
@@ -228,9 +246,13 @@ const mapStateToProps = (state) => {
     controlsErrorsById: FormsSelectors.getNodeErrors(state),
     editedField: FormsSelectors.getEditedField(state),
     showArchivedChoices: FormsSelectors.getShowArchivedChoices(state),
+    showArchivedColumns: FormsSelectors.getShowArchivedColumns(state),
+    showArchivedLines: FormsSelectors.getShowArchivedLines(state),
     showTemplateProperties: FormsSelectors.getShowTemplateProperties(state),
     nextFieldId: FormsSelectors.getNextNodeId(state),
     nextChoiceId: FormsSelectors.getNextChoiceId(state),
+    nextColumnId: FormsSelectors.getNextColumnId(state),
+    nextLineId: FormsSelectors.getNextLineId(state),
     locale: getLocale(state),
     isNew: FormsSelectors.isNewEntity(state),
     canSaveEditedEntity: FormsSelectors.canSaveEditedEntity(state)

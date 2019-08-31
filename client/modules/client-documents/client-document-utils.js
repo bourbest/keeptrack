@@ -1,7 +1,7 @@
 import {isNil, forEach, map, set} from 'lodash'
 import {DocumentStatus} from './config'
 import {ClientLinkOptions, DocumentStatusOptions} from '../form-templates/config'
-import {Schema, maxLength, date, string, boolean, required, withinRange, arrayOf, isGte, isLte, oneOf} from 'sapin'
+import {Schema, maxLength, date, string, boolean, required, withinRange, arrayOf, isGte, isLte, oneOf, object} from 'sapin'
 import {objectId} from '../common/validate'
 
 const getRangeValidator = (minValue, maxValue) => {
@@ -52,6 +52,9 @@ export const getValidationsForField = (field) => {
         city: reqString,
         postalCode: reqString
       }
+
+    case 'table':
+      return object
 
     default:
       const minValue = !isNil(field.minValue) ? parseFloat(field.minValue) : null
@@ -128,6 +131,13 @@ export const getDefaultValueForField = field => {
     case 'title':
     case 'paragraph':
       return ''
+
+    case 'table':
+      const ret = {}
+      const lineTemplate = {}
+      forEach(field.columns, col => { lineTemplate[col.id] = '' })
+      forEach(field.lines, line => { ret[line.id] = {...lineTemplate} })
+      return ret
 
     default:
       throw new Error('Unexpected control type in getDefaultValueForField: ' + field.controlType)

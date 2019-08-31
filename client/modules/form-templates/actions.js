@@ -14,7 +14,7 @@ const SpecificActions = createActions(prefix, [
   'MOVE_FIELD',
   'DELETE_FIELD',
   'UPDATE_FIELD_PROPERTIES',
-  'TOGGLE_SHOW_ARCHIVED_CHOICES',
+  'TOGGLE_SHOW_ARCHIVED',
   'TOGGLE_SHOW_TEMPLATE_PROPERTIES',
   'MOVE_SECTION'
 ])
@@ -36,7 +36,12 @@ const SpecificActionCreators = {
 
   updateFieldProperties: (newProperties) => ({type: SpecificActions.UPDATE_FIELD_PROPERTIES, newProperties}),
   addChoice: (choice) => (arrayPush(config.fieldEditorFormName, 'choices', choice)),
-  toggleShowArchivedChoices: () => ({type: SpecificActions.TOGGLE_SHOW_ARCHIVED_CHOICES}),
+  addColumn: column => (arrayPush(config.fieldEditorFormName, 'columns', column)),
+  addLine: line => (arrayPush(config.fieldEditorFormName, 'lines', line)),
+
+  toggleShowArchivedChoices: () => ({type: SpecificActions.TOGGLE_SHOW_ARCHIVED, itemType: 'showArchivedChoices'}),
+  toggleShowArchivedColumns: () => ({type: SpecificActions.TOGGLE_SHOW_ARCHIVED, itemType: 'showArchivedColumns'}),
+  toggleShowArchivedLines: () => ({type: SpecificActions.TOGGLE_SHOW_ARCHIVED, itemType: 'showArchivedLines'}),
   toggleShowTemplateProperties: () => ({type: SpecificActions.TOGGLE_SHOW_TEMPLATE_PROPERTIES}),
   moveSection: (sectionId, direction) => ({type: SpecificActions.MOVE_SECTION, sectionId, direction}),
 

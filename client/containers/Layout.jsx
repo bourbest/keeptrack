@@ -45,7 +45,7 @@ class Layout extends React.PureComponent {
           onLogout={this.handleLogout}
           formShortcuts={this.props.formShortcuts}
         />
-        <div className="container">
+        <div className="mr-4 ml-4">
           {this.props.children}
         </div>
         <ReduxToastr timeOut={4000}

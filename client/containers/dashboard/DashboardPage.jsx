@@ -106,6 +106,7 @@ class DashboardPage extends React.PureComponent {
             >
               <Column name="lastName" label={this.message('lastName')} renderer={this.renderLinkToClient} />
               <Column name="firstName" label={this.message('firstName')} renderer={this.renderLinkToClient} />
+              <Column name="clientType" label={this.message('clientType')} />
               <Column name="notifications" label={this.message('notifications')} renderer={this.renderNotifications} />
             </SmartTable>
           </div>

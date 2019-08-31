@@ -49,6 +49,18 @@ const getEditedFieldChoices = (state) => {
   return null
 }
 
+const getEditedFieldColumns = (state) => {
+  const field = Selectors.getEditedField(state)
+  if (field) return field.columns
+  return null
+}
+
+const getEditedFieldLines = (state) => {
+  const field = Selectors.getEditedField(state)
+  if (field) return field.lines
+  return null
+}
+
 Selectors.buildFormReadyForSave = (formEntity, nodesById, nodesByParentId) => {
   const formData = {...formEntity}
   const nodes = []
@@ -65,6 +77,15 @@ Selectors.buildFormReadyForSave = (formEntity, nodesById, nodesByParentId) => {
   return formData
 }
 
+const getMaxIdFromArrayOfObject = objects => {
+  const ids = map(objects, field => {
+    const numbers = field.id.substring(1)
+    return Number(numbers)
+  })
+  const id = (ids.length > 0) ? max(ids) + 1 : 1
+  return id
+}
+
 Selectors.getNextChoiceId = createSelector(
   [getEditedFieldChoices],
   (choices) => {
@@ -76,14 +97,26 @@ Selectors.getNextChoiceId = createSelector(
   }
 )
 
+Selectors.getNextColumnId = createSelector(
+  [getEditedFieldColumns],
+  (columns) => {
+    const id = getMaxIdFromArrayOfObject(columns)
+    return `c${id}`
+  }
+)
+
+Selectors.getNextLineId = createSelector(
+  [getEditedFieldLines],
+  (lines) => {
+    const id = getMaxIdFromArrayOfObject(lines)
+    return `L${id}`
+  }
+)
+
 Selectors.getNextNodeId = createSelector(
   [Selectors.getControls],
   (controlsById) => {
-    const ids = map(controlsById, field => {
-      const numbers = field.id.substring(1)
-      return Number(numbers)
-    })
-    const id = (ids.length > 0) ? max(ids) + 1 : 1
+    const id = getMaxIdFromArrayOfObject(controlsById)
     return `c${id}`
   }
 )
@@ -131,6 +164,22 @@ Selectors.buildNewChoice = (id) => {
   return choice
 }
 
+Selectors.buildNewColumn = id => {
+  const column = {
+    id,
+    label: 'nouvelle'
+  }
+  return column
+}
+
+Selectors.buildNewLine = id => {
+  const line = {
+    id,
+    label: 'Nouveau'
+  }
+  return line
+}
+
 Selectors.canSaveEditedEntity = (state) => {
   return isEmpty(Selectors.getNodeErrors(state)) &&
     !Selectors.isSubmitting(state)
@@ -154,6 +203,9 @@ Selectors.getFormSchema = createSelector(
 )
 
 Selectors.getShowArchivedChoices = state => state[config.entityName].showArchivedChoices
+Selectors.getShowArchivedColumns = state => state[config.entityName].showArchivedColumns
+Selectors.getShowArchivedLines = state => state[config.entityName].showArchivedLines
+
 Selectors.getShowTemplateProperties = state => state[config.entityName].showTemplateProperties
 
 Selectors.getControlDictByFormId = state => {

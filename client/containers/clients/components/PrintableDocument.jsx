@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {chunk, find, forEach} from 'lodash'
 import {formatDate} from '../../../services/string-utils'
+import AddressTile from '../../components/AddressTile'
 
 class PrintableDocument extends React.PureComponent {
   constructor (props) {
@@ -10,10 +11,46 @@ class PrintableDocument extends React.PureComponent {
     this.outputField = this.outputField.bind(this)
   }
 
+  getCellValue (table, lineId, colId) {
+    return table && table[lineId] && table[lineId][colId]
+  }
+
+  outputTable (field, value) {
+    const { columns, lines } = field
+    return (
+      <table className="table table-bordered">
+        <thead className="thead-light">
+          <tr>
+            {columns.map(col => !col.isArchived ? <th key={col.id} style={{width: `${col.width}px`}}>{col.label}</th> : null)}
+          </tr>
+        </thead>
+        <tbody>
+          {lines.map(line => !line.isArchived && (
+            <tr key={line.id}>
+              <td>{line.label}</td>
+              {columns.map((col, colIdx) => colIdx && !col.isArchived ? <td key={col.id}>{this.getCellValue(value, line.id, col.id)}</td> : null)}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    )
+  }
+
   outputField (field, locale) {
     let value = this.props.document.values[field.id]
     let labelSuffix = ''
 
+    if (field.controlType === 'table') {
+      return this.outputTable(field, value)
+    } else if (field.controlType === 'address') {
+      return (
+        <div>
+          <label><b>{field.labels[locale]} {labelSuffix}</b></label>
+          <AddressTile address={value} />
+        </div>
+      )
+    }
+  
     if (field.choices) {
       if (field.controlType === 'checkbox-list') {
         const valuesLabel = []
