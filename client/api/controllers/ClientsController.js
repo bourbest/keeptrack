@@ -62,7 +62,8 @@ function addClientTypeToResults (req, res, next) {
       }
       const clientTypeIdNode = find(formTemplate.fields, {id: 'clientTypeId'})
       const clientTypesById = getChoices(clientTypeIdNode, 'fr')
-      forEach(res.result.entities, client => {
+      const entities = res.result.entities || res.result 
+      forEach(entities, client => {
         client.clientType = clientTypesById[client.clientTypeId]
       })
       next()
@@ -133,6 +134,6 @@ export default (router) => {
     .put([validateClient, makeHandlePut(ClientRepository)])
 
     router.route('/my-clients')
-    .get(getUserSubscribedClients)
+    .get([getUserSubscribedClients, addClientTypeToResults])
 
 }

@@ -132,7 +132,9 @@ export const DEFAULT_CONTROL_OPTIONS = {
   columnCount: 1,
   headerLevel: 1,
   required: false,
-  minHeight: 200
+  minHeight: 200,
+  columns: [{id: 'c1', label: 'titre colonne 1', width: 100}, {id: 'c2', label: 'titre colonne 2', width: 100}],
+  lines: [{id: 'L1', label: 'ligne 1'}, {id: 'L2', label: 'ligne 2'}]
 }
 
 export const FORM_CONTROLS = [

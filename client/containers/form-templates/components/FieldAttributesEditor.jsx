@@ -5,6 +5,8 @@ import {validateNode} from '../../../modules/form-templates/validate'
 // components
 import {Form} from '../../components/controls/SemanticControls'
 import ChoiceListEditor from './ChoiceListEditor'
+import ColumnsEditor from './ColumnsEditor'
+import LinesEditor from './LinesEditor'
 import { Field, FieldArray, reduxForm } from 'redux-form'
 import FormHtmlEditor from '../../components/forms/FormHtmlEditor'
 import {FieldWrapper, Input, Select, Checkbox, DateInput} from '../../components/forms'
@@ -119,6 +121,26 @@ class FieldAttributesEditor extends React.PureComponent {
               lockChoiceValues={editedField.lockChoiceValues}
             />
           }
+          {properties.has('columns') &&
+            <FieldArray name="columns"
+              component={ColumnsEditor}
+              locale={locale}
+              columns={editedField.columns}
+              showArchivedColumns={this.props.showArchivedColumns}
+              onAddColumn={this.props.onAddColumn}
+              onToggleShowArchived={this.props.onToggleShowArchivedColumns}
+            />
+          }
+          {properties.has('lines') &&
+            <FieldArray name="lines"
+              component={LinesEditor}
+              locale={locale}
+              lines={editedField.lines}
+              showArchivedLines={this.props.showArchivedLines}
+              onAddColumn={this.props.onAddLine}
+              onToggleShowArchived={this.props.onToggleShowArchivedLines}
+            />
+          }
         </Form>
       </div>
     )
@@ -141,9 +163,15 @@ FieldAttributesEditor.propTypes = {
   editedField: PropTypes.object,
   locale: PropTypes.string.isRequired,
   showArchivedChoices: PropTypes.bool.isRequired,
+  showArchivedColumns: PropTypes.bool.isRequired,
+  showArchivedLines: PropTypes.bool.isRequired,
   onToggleShowArchived: PropTypes.func.isRequired,
+  onToggleShowArchivedColumns: PropTypes.func.isRequired,
+  onToggleShowArchivedLines: PropTypes.func.isRequired,
   onPropertiesChanged: PropTypes.func.isRequired,
   onAddChoice: PropTypes.func.isRequired,
+  onAddColumn: PropTypes.func.isRequired,
+  onAddLine: PropTypes.func.isRequired,
   pristine: PropTypes.bool,
   error: PropTypes.string,
   valid: PropTypes.bool

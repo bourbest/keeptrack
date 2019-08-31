@@ -25,6 +25,7 @@
     "my-clients": "Mes participants suivis",
     "lastName": "Nom",
     "firstName": "Prénom",
+    "clientType": "Type de dossier",
     "notifications": "Notifications",
     "newNotes": "{{count}} nouvelle note évolutive",
     "newNotes_plural": "{{count}} nouvelles notes évolutives",

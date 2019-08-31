@@ -78,7 +78,7 @@ class PrintClientPage extends React.PureComponent {
     let renderedDocs = []
     const name = `${client.firstName} ${client.lastName}`
     forEach(this.props.documentsByFormId, documents => {
-      renderedDocs - concat(renderedDocs, this.renderDocuments(documents))
+      renderedDocs = concat(renderedDocs, this.renderDocuments(documents))
     })
 
     return (

@@ -17,3 +17,4 @@ export {default as Input} from './Input'
 
 export {default as PhoneFields} from './PhoneFields'
 export {default as AddressField} from './AddressField'
+export {default as TableField} from './TableField'
