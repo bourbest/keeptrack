@@ -54,10 +54,6 @@
     "list-title": "Liste des participants",
     "create-title": "Création d'un nouveau participant",
     "edit-title": "Édition d'un participant",
-    "title": {
-      "F": "Mme",
-      "M": "M."
-    },
     "firstName":"Prénom",
     "lastName":"Nom",
     "age": "{{age}} ans ({{birthDate}})",
@@ -171,7 +167,11 @@
     "choices": "Choix",
     "showArchived": "Afficher les options archivées",
     "hideArchived": "Masquer les options archivées",
-    "archived": "archivé"
+    "archived": "archivé",
+    "addColumn": "Ajouter une colonne",
+    "addLine": "Ajouter une ligne",
+    "columns": "Colonnes",
+    "lines": "Lignes"
   },
   "addressControl": {
     "civicNumber": "No civique",
@@ -234,7 +234,8 @@
     "activeElements": "Actifs",
     "details": "Détails",
     "expand": "Agrandir",
-    "collapse": "Réduire"
+    "collapse": "Réduire",
+    "largeur": "largeur"
   },
   "error-page" : {
     "title" : "Oops!",
