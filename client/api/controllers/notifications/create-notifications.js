@@ -20,7 +20,6 @@ export function createClientNotifications (notificationTemplate, getClientId = g
       .then(subscriptions => {
         const notifications = []
         const now = new Date()
-        console.log('found subscribers')
         // do not create a notification for user that created the event
         const currentUserId = ObjectId(req.user.id)
         forEach(subscriptions, subscription => {
@@ -35,7 +34,6 @@ export function createClientNotifications (notificationTemplate, getClientId = g
             notification.createdOn = now
             notification.modifiedOn = now
             notifications.push(notification)
-            console.log('notification created', notification)
           }
         })
         if (notifications.length) {
