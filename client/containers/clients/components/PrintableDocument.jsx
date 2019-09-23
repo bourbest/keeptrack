@@ -50,7 +50,7 @@ class PrintableDocument extends React.PureComponent {
         </div>
       )
     }
-  
+
     if (field.choices) {
       if (field.controlType === 'checkbox-list') {
         const valuesLabel = []

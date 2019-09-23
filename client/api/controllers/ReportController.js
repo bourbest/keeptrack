@@ -133,7 +133,6 @@ const generateReport = function (req, res, next) {
       worksheet.addRow(getHeaderNames(reportFields, 'fr')).commit()
       docCursor.each(function (err, document) {
         if (document) {
-          console.log('got a document')
           if (document.client && document.client.length) {
             document.client = convertFromDatabase(document.client[0])
           } else {
@@ -141,7 +140,6 @@ const generateReport = function (req, res, next) {
           }
           worksheet.addRow(getLineValues(reportFields, document, 'fr')).commit()
         } else {
-          console.log('closing cursor')
           docCursor.close()
           worksheet.commit()
           workbook.commit()
