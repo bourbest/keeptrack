@@ -1,6 +1,6 @@
 import {get, find, forEach} from 'lodash'
 import {parseFilters, requiresRole} from '../middlewares'
-import {FormTemplateRepository, ClientDocumentRespository} from '../repository'
+import {FormTemplateRepository, ClientDocumentRespository, ClientRepository} from '../repository'
 import {convertFromDatabase} from '../repository/MongoRepository'
 import {reportParametersSchema} from '../../modules/reports/schema'
 import {CLIENT_FORM_ID} from '../../modules/const'
@@ -12,7 +12,7 @@ const getReportFields = (docTemplate, clientTemplate) => {
   const REPORTABLE_CONTROL_TYPES = ['date', 'checkbox', 'checkbox-list', 'radio-list', 'combobox', 'input', 'textarea', 'rich-text', 'address']
   const isOk = new Set(REPORTABLE_CONTROL_TYPES)
   const ret = []
-  if (docTemplate.clientLink === ClientLinkOptions.MANDATORY) {
+  if (!docTemplate || docTemplate.clientLink === ClientLinkOptions.MANDATORY) {
     ret.push({id: 'client.id', labels: {fr: 'Id participant', en: 'participant id', controlType: 'input'}})
     forEach(clientTemplate.fields, field => {
       if (isOk.has(field.controlType)) {
@@ -22,14 +22,15 @@ const getReportFields = (docTemplate, clientTemplate) => {
     })
   }
 
-  ret.push({id: 'id', labels: {fr: 'Id document', en: 'Document id'}, controlType: 'input'})
-  forEach(docTemplate.fields, field => {
-    if (isOk.has(field.controlType)) {
-      field.id = 'values.' + field.id
-      ret.push(field)
-    }
-  })
-
+  if (docTemplate) {
+    ret.push({id: 'id', labels: {fr: 'Id document', en: 'Document id'}, controlType: 'input'})
+    forEach(docTemplate.fields, field => {
+      if (isOk.has(field.controlType)) {
+        field.id = 'values.' + field.id
+        ret.push(field)
+      }
+    })
+  }
   return ret
 }
 
@@ -153,11 +154,56 @@ const generateReport = function (req, res, next) {
   ).catch(next)
 }
 
+const generateClientList = function (req, res, next) {
+  const formRepo = new FormTemplateRepository(req.database)
+  const clientRepo = new ClientRepository(req.database)
+  const promises = [
+    formRepo.findById(CLIENT_FORM_ID),
+    clientRepo.findAll({isArchived: false})
+  ]
+
+  Promise.all(promises).then(
+    data => {
+      const clientTemplate = data[0]
+      const clients = data[1]
+      if (!clientTemplate) throw {httpStatus: 500, message: 'client form not found'}
+
+      res.writeHead(200, {
+        'Content-Disposition': `attachment; filename="participants.xlsx"`,
+        'Transfer-Encoding': 'chunked',
+        'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      })
+
+      const workbook = new Excel.stream.xlsx.WorkbookWriter({ stream: res })
+      const worksheet = workbook.addWorksheet('participants')
+
+      const reportFields = getReportFields(null, clientTemplate)
+
+      worksheet.addRow(getHeaderNames(reportFields, 'fr')).commit()
+      let first
+      forEach(clients, client => {
+        client = {client: client}  // put inside an object so that we can reuse report functions
+        first = first || client
+        worksheet.addRow(getLineValues(reportFields, client, 'fr')).commit()
+      })
+      console.log(first)
+      worksheet.commit()
+      workbook.commit()
+    }
+  ).catch(next)
+}
+
 export default (router) => {
   router.route('/reports/generate')
     .get([
       requiresRole(ROLES.statsProducer, false),
       parseFilters(reportParametersSchema),
       generateReport
+    ])
+
+  router.route('/reports/client-list')
+    .get([
+      requiresRole(ROLES.canInteractWithClient),
+      generateClientList
     ])
 }

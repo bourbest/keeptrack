@@ -15,6 +15,7 @@ import { getLocale } from '../../modules/app/selectors'
 import {createTranslate} from '../../locales/translate'
 import { FormError } from '../components/forms/FormError'
 import makeStandardToolbar from '../components/behavioral/StandardListToolbar'
+import {Button} from '../components/controls/SemanticControls'
 
 import {SmartTable, Column, renderLinkToDetail} from '../components/SmartTable'
 import {Pagination} from '../components/Pagination'
@@ -52,7 +53,9 @@ class ListClientsPage extends React.PureComponent {
     const {formError, locale} = this.props
     return (
       <div>
-        <StandardToolbar location={this.props.location} />
+        <StandardToolbar location={this.props.location}>
+          <a className="btn btn-secondary" href="/api/reports/client-list">{this.message('export', 'common')}</a>
+        </StandardToolbar>
         <FormError error={formError} locale={locale} />
         <SmartTable
           rows={this.props.entities}

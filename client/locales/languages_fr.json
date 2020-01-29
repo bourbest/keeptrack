@@ -235,7 +235,8 @@
     "details": "Détails",
     "expand": "Agrandir",
     "collapse": "Réduire",
-    "largeur": "largeur"
+    "largeur": "largeur",
+    "export": "Exporter"
   },
   "error-page" : {
     "title" : "Oops!",
