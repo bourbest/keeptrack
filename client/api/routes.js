@@ -45,7 +45,7 @@ function createApiRouter (context, config, database) {
 
   apiRouter.use(mustBeAuthenticated)
 
-  registerClients(apiRouter)
+  registerClients(apiRouter, context)
   registerClientLinks(apiRouter)
   registerListOptions(apiRouter)
   registerFormTemplates(apiRouter)

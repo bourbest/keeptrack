@@ -1,8 +1,8 @@
 import {size, set, forEach, find} from 'lodash'
-import {ClientRepository, ClientFeedSubcriptionRepository, FormTemplateRepository} from '../repository'
+import {ClientRepository, ClientFeedSubcriptionRepository, FormTemplateRepository, UploadedFileRepository, ClientLinkRepository, NotificationRepository} from '../repository'
 import {
   makeFindAllHandler, makeFindById, makeHandleArchive, makeHandlePost, makeHandlePut,
-  makeHandleRestore
+  makeHandleRestore, makeHandleDelete
 } from './StandardController'
 import {parsePagination, parseFilters, requiresRole} from '../middlewares'
 import {getValidationsForField} from '../../modules/client-documents/client-document-utils'
@@ -14,6 +14,9 @@ import { CLIENT_FORM_ID } from '../../modules/const'
 import { objectId } from '../../modules/common/validate'
 import ROLES from '../../modules/accounts/roles'
 import { getChoices } from '../../modules/clients/client-form-selectors'
+import ClientDocumentRepository from '../repository/ClientDocumentRepository'
+import fs from 'fs'
+import path from 'path'
 
 const filtersSchema = new Schema({
   contains: string,
@@ -38,16 +41,6 @@ function getUserSubscribedClients (req, res, next) {
   repo.getClientsSubscribedForUserId(req.user.id)
     .then(function (clients) {
       res.result = clients
-      next()
-    })
-    .catch(next)
-}
-
-function getEmailDistributionList (req, res, next) {
-  const repo = new ClientRepository(req.database)
-  repo.getEmailDistributionList()
-    .then(function (list) {
-      res.result = list
       next()
     })
     .catch(next)
@@ -101,9 +94,70 @@ function validateClient (req, res, next) {
     .catch(next)
 }
 
+function updateAcceptEmailModifiedOn (req, res, next) {
+  if (req.entity.id === undefined) {
+    if (req.entity.acceptPublipostage) {
+      req.entity.acceptPublipostageModifiedOn = new Date()
+    }
+    next()
+  } else {
+    const clientRepo = new ClientRepository(req.database)
+    clientRepo.findById(req.entity.id)
+      .then(oldClient => {
+        if (oldClient.acceptPublipostage !== req.entity.acceptPublipostage) {
+          req.entity.acceptPublipostageModifiedOn = new Date()
+        }
+        next()
+      })
+      .catch(next)
+  }
+}
+
+function deleteClient (database, clientId, appPath) {
+  const uploadedFileRepo = new UploadedFileRepository(database)
+  const documentRepo = new ClientDocumentRepository(database)
+  const clientLinkRepo = new ClientLinkRepository(database)
+  const notificationRepo = new NotificationRepository(database)
+
+  return uploadedFileRepo.findAll({clientId}).then(files => {
+    const promises = []
+    forEach(files, file => {
+      let fullPath = path.join(appPath, file.uri) 
+      promises.push(fs.promises.unlink(fullPath))
+    })
+
+    const deleteFilter = {clientId}
+    promises.push(uploadedFileRepo.deleteByFilters(deleteFilter))
+    promises.push(documentRepo.deleteByFilters(deleteFilter))
+    promises.push(notificationRepo.deleteByFilters(deleteFilter))
+    promises.push(clientLinkRepo.deleteByFilters({clientId1: clientId}))
+    promises.push(clientLinkRepo.deleteByFilters({clientId2: clientId}))
+
+    return Promise.all(promises)
+  })
+}
+
+function deleteClientFileComponents (appPath) {
+  return function (req, res, next) {
+    if (!isArray(req.body) || req.body.length === 0) {
+      return next({httpStatus: 400, message: 'no ids provided in the body'})
+    } else {
+      const ids = req.body.map(ObjectId)
+      const promises = []
+      forEach(ids, clientId => {
+        promises.push(deleteClient(req.database, clientId, appPath))
+      })
+      return Promise.all(promises)
+        .then(function () {
+          next()
+        })
+        .catch(next)
+    }
+  }
+}
 const ACCEPTED_SORT_PARAMS = ['fullName']
 
-export default (router) => {
+export default (router, context) => {
   router.use('/client-files', requiresRole(ROLES.canCreateClientFiles))
   router.route('/client-files')
     .get([
@@ -112,7 +166,7 @@ export default (router) => {
       makeFindAllHandler(ClientRepository),
       addClientTypeToResults
     ])
-    .post([validateClient, makeHandlePost(ClientRepository)])
+    .post([validateClient, updateAcceptEmailModifiedOn, makeHandlePost(ClientRepository)])
 
   router.route('/client-files/archive')
     .post([
@@ -123,15 +177,15 @@ export default (router) => {
   router.route('/client-files/restore')
     .post(makeHandleRestore(ClientRepository))
 
-  router.route('/client-files/reports/emailDistributionList')
-    .get([
-      requiresRole(ROLES.statsProducer, false),
-      getEmailDistributionList
+  router.route('/client-files')
+    .delete([
+      deleteClientFileComponents(context.appPath),
+      makeHandleDelete(ClientRepository)
     ])
 
   router.route('/client-files/:id')
     .get(makeFindById(ClientRepository))
-    .put([validateClient, makeHandlePut(ClientRepository)])
+    .put([validateClient, updateAcceptEmailModifiedOn, makeHandlePut(ClientRepository)])
 
     router.route('/my-clients')
     .get([getUserSubscribedClients, addClientTypeToResults])

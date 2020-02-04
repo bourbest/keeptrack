@@ -41,20 +41,4 @@ ClientRepository.prototype.convertFilters = function (filters) {
   return ret
 }
 
-ClientRepository.prototype.getEmailDistributionList = function () {
-  const filters = {
-    isArchived: false,
-    acceptPublipostage: true
-  }
-  const options = {
-    projection: {email: 1}
-  }
-
-  return this.collection.find(filters, options)
-    .toArray()
-    .then(clients => {
-      return clients.map(c => c.email)
-    })
-}
-
 export default ClientRepository

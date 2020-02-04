@@ -10,7 +10,6 @@ import formTemplateSaga from './form-templates/saga'
 import subscriptionSaga from './client-feed-subscriptions/saga'
 import notificationSaga from './notifications/saga'
 import dashboardSaga from './dashboard/saga'
-import reportSaga from './reports/saga'
 import formShortcutSaga from './form-shortcut/saga'
 import uploadedFileSaga from './uploaded-files/saga'
 export default function * rootSaga () {
@@ -25,7 +24,6 @@ export default function * rootSaga () {
     authenticationSaga,
     ...notificationSaga,
     ...dashboardSaga,
-    reportSaga,
     formShortcutSaga,
     uploadedFileSaga,
     clientLinksSaga

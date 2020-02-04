@@ -16,6 +16,8 @@ export const clientSchema = new Schema({
   email: string(isEmail),
   birthDate: date,
   originId: string(required),
+  acceptPublipostage: boolean,
+  acceptPublipostageModifiedOn: date,
   mainPhoneNumber: {
     value: string(isPhone),
     messageOption: messageOptionValidator

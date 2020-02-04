@@ -15,7 +15,7 @@ import { getLocale } from '../../modules/app/selectors'
 import {createTranslate} from '../../locales/translate'
 import { FormError } from '../components/forms/FormError'
 import makeStandardToolbar from '../components/behavioral/StandardListToolbar'
-import {Button} from '../components/controls/SemanticControls'
+import {ConfirmButton} from '../components/controls/SemanticControls'
 
 import {SmartTable, Column, renderLinkToDetail} from '../components/SmartTable'
 import {Pagination} from '../components/Pagination'
@@ -34,6 +34,7 @@ class ListClientsPage extends React.PureComponent {
   constructor (props) {
     super(props)
     this.message = createTranslate(labelNamespace, this)
+    this.handleDelete = this.handleDelete.bind(this)
   }
 
   componentWillMount () {
@@ -49,12 +50,30 @@ class ListClientsPage extends React.PureComponent {
     }
   }
 
+  handleDelete () {
+    const selectedItemIds = this.props.selectedItemIds
+    const count = selectedItemIds.length
+    const actions = this.props.actions
+    const appActions = this.props.appActions
+    actions.deleteEntities(selectedItemIds, ids => {
+      actions.clearSelectedItems()
+      appActions.notify('common.delete', 'common.deleted', {count})
+    })
+  }
+
   render () {
     const {formError, locale} = this.props
     return (
       <div>
         <StandardToolbar location={this.props.location}>
-          <a className="btn btn-secondary" href="/api/reports/client-list">{this.message('export', 'common')}</a>
+          {this.props.isDisplayingArchived === false &&
+            <a className="btn btn-secondary" href="/api/reports/client-list">{this.message('export', 'common')}</a>
+          }
+          {this.props.isDisplayingArchived &&
+            <ConfirmButton locale={locale} onClick={this.handleDelete} disabled={this.props.isListDeleteEnabled}>
+              {this.message('delete', 'common')}
+            </ConfirmButton>
+          }
         </StandardToolbar>
         <FormError error={formError} locale={locale} />
         <SmartTable
@@ -90,6 +109,7 @@ const mapStateToProps = (state, props) => {
     entities: ClientSelectors.getEntitiesPage(state),
     totalPages: ClientSelectors.getTotalPages(state, props),
     listFilters: ClientSelectors.getFilters(state, props),
+    isDisplayingArchived: ClientSelectors.isListDisplayingArchived(state, props),
     selectedItemIds: ClientSelectors.getSelectedItemIds(state),
     locale: getLocale(state),
 
@@ -104,6 +124,7 @@ ListClientsPage.propTypes = {
   entities: PropTypes.array.isRequired,
   totalPages: PropTypes.number.isRequired,
   listFilters: PropTypes.object.isRequired,
+  isDisplayingArchived: PropTypes.bool.isRequired,
   selectedItemIds: PropTypes.array.isRequired,
   locale: PropTypes.string.isRequired,
   location: PropTypes.object.isRequired,

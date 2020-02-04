@@ -18,8 +18,13 @@ const getReportFields = (docTemplate, clientTemplate) => {
       if (isOk.has(field.controlType)) {
         field.id = 'client.' + field.id
         ret.push(field)
+        if (field.id === 'client.acceptPublipostage') {
+              // add the acceptPublipostageModifiedOn 
+          ret.push({id: 'client.acceptPublipostageModifiedOn', labels: {fr: 'Accepte publi. modifié le', en: 'Accept publi. modified on', controlType: 'date'}})
+        }
       }
     })
+
   }
 
   if (docTemplate) {
@@ -180,13 +185,10 @@ const generateClientList = function (req, res, next) {
       const reportFields = getReportFields(null, clientTemplate)
 
       worksheet.addRow(getHeaderNames(reportFields, 'fr')).commit()
-      let first
       forEach(clients, client => {
         client = {client: client}  // put inside an object so that we can reuse report functions
-        first = first || client
         worksheet.addRow(getLineValues(reportFields, client, 'fr')).commit()
       })
-      console.log(first)
       worksheet.commit()
       workbook.commit()
     }
