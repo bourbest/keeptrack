@@ -10,7 +10,6 @@ import formTemplates from './form-templates/reducer'
 import clientFeedSubscriptions from './client-feed-subscriptions/reducer'
 import notifications from './notifications/reducer'
 import dashboard from './dashboard/reducer'
-import reports from './reports/reducer'
 import formShortcuts from './form-shortcut/reducer'
 import fileReducer from './uploaded-files/reducer'
 import { reducer as formReducer } from 'redux-form'
@@ -26,7 +25,6 @@ export default combineReducers({
   ...clientFeedSubscriptions,
   ...notifications,
   ...dashboard,
-  ...reports,
   ...formShortcuts,
   ...fileReducer,
   ...clientLinks,

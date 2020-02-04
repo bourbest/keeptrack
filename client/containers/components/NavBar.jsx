@@ -42,10 +42,7 @@ class NavBar extends React.PureComponent {
         { name: 'accounts', link: '/accounts', labelKey: 'accounts', role: usersManager },
         { name: 'formShortcuts', link: '/form-shortcuts', labelKey: 'formShortcuts', role: usersManager }
       ] },
-      { name: 'reports', labelKey: 'reports', menus: [
-        { name: 'distributionList', link: '/reports/distribution-list', labelKey: 'distributionList', role: statsProducer },
-        { name: 'generateReport', link: '/reports/generate', labelKey: 'generateReport', role: statsProducer }
-      ] }
+      { name: 'generateReport', link: '/reports/generate', labelKey: 'reports', role: statsProducer }
     ]
 
     forEach(this.props.formShortcuts, shortcut => {

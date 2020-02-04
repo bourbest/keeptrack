@@ -13,7 +13,6 @@
     "changePassword": "Modifier mon mot de passe",
     "generateReport": "Rapports",
     "admin": "Administration",
-    "distributionList": "Liste de distribution",
     "formShortcuts": "Menus"
   },
   "login": {
@@ -235,7 +234,8 @@
     "details": "Détails",
     "expand": "Agrandir",
     "collapse": "Réduire",
-    "largeur": "largeur"
+    "largeur": "largeur",
+    "export": "Exporter"
   },
   "error-page" : {
     "title" : "Oops!",

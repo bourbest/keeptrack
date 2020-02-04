@@ -8,9 +8,6 @@ import FormTemplateSelectors from '../form-templates/selectors'
 
 const Selectors = {}
 
-Selectors.getDistributionList = state => state[config.entityName].distributionList
-Selectors.isFetchingDistributionList = state => state[config.entityName].isFetchingDistributionList
-
 Selectors.getFormTemplateOptionList = createSelector(
   [FormTemplateSelectors.getEntities],
   (entities) => {

@@ -153,6 +153,10 @@ export function deleteByIds (ids) {
   return this.collection.deleteMany(filters)
 }
 
+export function deleteByFilters (filters) {
+  return this.collection.deleteMany(filters)
+}
+
 export const createBaseRepository = (collectionName) => {
   function BaseRepository (db) {
     this.collection = db.collection(collectionName)
@@ -168,6 +172,7 @@ export const createBaseRepository = (collectionName) => {
   BaseRepository.prototype.archive = archive
   BaseRepository.prototype.restore = restore
   BaseRepository.prototype.delete = deleteByIds
+  BaseRepository.prototype.deleteByFilters = deleteByFilters
   BaseRepository.prototype.convertFilters = identity
   BaseRepository.prototype.convertFromDatabase = convertFromDatabase
   BaseRepository.prototype.prepareForDatabase = prepareForDatabase
