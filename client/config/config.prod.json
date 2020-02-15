@@ -1,6 +1,6 @@
 {
-  "port": 80,
-  "apiEndpoint": "http://192.168.1.174/api",
+  "port": 443,
+  "apiEndpoint": "https://192.168.1.174/api",
   "secret": "aosd7nc934th247gcerfhncsa7nfhcoqwnt5cn2",
   "defaultLocale": "fr",
   "db": {

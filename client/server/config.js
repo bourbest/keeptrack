@@ -53,10 +53,18 @@ const loadServerConfiguration = () => {
   context.configuration = config
 }
 
+const loadCredentials = () => {
+  const privateKey  = fs.readFileSync(path.join(context.appPath, 'certificates/www.keeptrack.com.key'), 'utf8')
+  const certificate  = fs.readFileSync(path.join(context.appPath, 'certificates/www.keeptrack.com.cert'), 'utf8')
+
+  context.credentials = {key: privateKey, cert: certificate};
+}
+
 export const loadContext = () => {
   initPath()
   loadServerConfiguration()
   ensureManifestIsLoaded()
+  loadCredentials()
 }
 
 export const getContext = () => context

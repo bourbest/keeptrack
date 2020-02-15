@@ -1,8 +1,9 @@
 import 'babel-polyfill'
 import express from 'express'
 import cookieParser from 'cookie-parser'
-import { match } from 'react-router'
+import https from 'https'
 import path from 'path'
+import {match} from 'react-router'
 
 import {loadContext, getContext} from './config'
 import routes from '../routes'
@@ -14,11 +15,22 @@ import {CsrfTokenLayer} from '../api/middlewares/csrf'
 import {injectGlobals} from '../api/middlewares/injectGlobals'
 import {loadCache} from './cache'
 import {loadUser} from '../api/middlewares/security'
+import redirectToHttps from './redirect'
+
+// remove this if running in a production envrionment
+process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0
 
 const app = express()
 
 loadContext()
 const context = getContext()
+
+app.use(function(req, res, next) {
+  if(!req.secure) {
+    return res.redirect(['https://', req.get('Host'), req.baseUrl].join(''));
+  }
+  next();
+})
 
 app.use('/public', express.static(path.join(context.appPath, '/public')))
 
@@ -41,6 +53,10 @@ const globals = {
 }
 
 app.use(injectGlobals(globals))
+
+// create servers
+const httpsServer = https.createServer(context.credentials, app);
+const httpServer = redirectToHttps()
 
 // Connection url
 const dbConfig = context.configuration.db
@@ -74,7 +90,8 @@ connectDatabase(dbConfig.server, dbConfig.dbName)
 
     console.log('api endpoint : ' + context.configuration.apiEndpoint)
     console.log('listening on port ' + context.configuration.port)
-    app.listen(context.configuration.port)
+    httpsServer.listen(context.configuration.port)
+    httpServer.listen(80)
   })
   .catch(error => {
     console.log('error connecting to database', error)

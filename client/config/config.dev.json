@@ -1,6 +1,6 @@
 {
-  "port": 5050,
-  "apiEndpoint": "http://localhost:5050/api",
+  "port": 443,
+  "apiEndpoint": "https://www.keeptrack.com/api",
   "secret": "98fyv8cynh874chnr0rch87nidaÉdf,sdvc..3234fd",
   "defaultLocale": "fr",
   "db": {
