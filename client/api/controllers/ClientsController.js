@@ -74,7 +74,8 @@ function validateClient (req, res, next) {
         id: objectId,
         isArchived: boolean,
         createdOn: date,
-        modifiedOn: date
+        modifiedOn: date,
+        acceptPublipostageModifiedOn: date
       }
 
       forEach(formTemplate.fields, field => {
