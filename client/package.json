@@ -31,7 +31,7 @@
     "i18next-xhr-backend": "1.4.0",
     "jsonwebtoken": "^8.2.1",
     "jwt-decode": "2.1.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "mongodb": "^3.0.7",
     "multiparty": "^4.2.1",
     "prop-types": "15.6.0",
