@@ -23,7 +23,7 @@
     "corser": "^2.0.1",
     "csrf": "^3.0.6",
     "csurf": "^1.9.0",
-    "exceljs": "^1.7.0",
+    "exceljs": "^1.15.0",
     "express": "^4.16.4",
     "i18next": "7.1.2",
     "i18next-browser-languagedetector": "1.0.1",
