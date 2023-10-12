@@ -20,7 +20,7 @@ export default function create () {
     // },
     backend: {
       // path where resources get loaded from
-      loadPath: 'locales/languages_{{lng}}.json'
+      loadPath: 'public/locales/languages_{{lng}}.json'
     },
     interpolation: {
       escapeValue: false, // not needed for react!!

@@ -4,7 +4,7 @@ import {makeFindAllHandler, makeFindById, makeHandleArchive, makeHandlePost, mak
 import {entityFromBody, parsePagination, parseFilters} from '../middlewares'
 import {BaseClientDocumentSchema} from '../../modules/client-documents/schema'
 import {buildSchemaForDocument} from '../../modules/client-documents/client-document-utils'
-import {AllDocumentStatus} from '../../modules/client-documents/config'
+import {AllDocumentStatus, DocumentStatus} from '../../modules/client-documents/config'
 import {createClientNotifications} from './notifications/create-notifications'
 
 import {boolean, Schema, validate, transform, oneOf, string} from 'sapin'
@@ -12,6 +12,7 @@ import {objectId} from '../../modules/common/validate'
 import {NotificationTypes} from '../../modules/notifications/schema'
 import { ClientLinkOptions } from '../../modules/form-templates/config'
 import ROLES from '../../modules/accounts/roles'
+import {EVOLUTIVE_NOTE_FORM_ID} from '../../../client/modules/const'
 
 const filtersSchema = new Schema({
   clientId: objectId,
@@ -32,20 +33,22 @@ function restrictToOwnerWhenUserDoesNotHavePermission (req, res, next) {
 }
 
 function mustBeOwnerIfUserDoesNotHavePermission (req, res, next) {
-  if (req.user.roles.indexOf(ROLES.canCreateClientFiles) > -1) {
-    next() // user can update any document
-  } else {
-    // user can update only the document he created
-    const docRepo = new ClientDocumentRespository(req.database)
-    docRepo.findById(req.entity.id)
-      .then(doc => {
-        if (doc && doc.ownerId.toString() !== req.user.id) {
-          next({httpStatus: 403, message: 'You are not authorized to access this entity'})
-        } else {
-          next()
-        }
-      })
-  }
+  // user can update only the document he created
+  const docRepo = new ClientDocumentRespository(req.database)
+  docRepo.findById(req.entity.id)
+    .then(doc => {
+      if (doc.formId.toString() === EVOLUTIVE_NOTE_FORM_ID &&
+        doc.status === DocumentStatus.COMPLETE &&
+        doc.ownerId.toString() !== req.user.id) {
+        next({httpStatus: 403, message: 'You are not authorized to access this entity'})
+      }
+      else if (req.user.roles.indexOf(ROLES.canCreateClientFiles) === -1 &&
+        doc.ownerId.toString() !== req.user.id) {
+        next({httpStatus: 403, message: 'You are not authorized to access this entity'})
+      } else {
+        next()
+      }
+    })
 }
 
 function validateDocument (req, res, next) {

@@ -208,7 +208,7 @@ class ViewClientPage extends React.PureComponent {
   }
 
   render () {
-    const {locale, client, originOptionsById, messageOptionsById, organismRoleList, notificationsByNoteId, notificationsByDocumentId, notificationsByFileId} = this.props
+    const {locale, client, originOptionsById, messageOptionsById, organismRoleList, notificationsByNoteId, notificationsByDocumentId, notificationsByFileId, user} = this.props
     const {canDeleteFiles, clientTypesById} = this.props
     if (!client) return null
     const {selectedFormId, selectedTabId} = this.props
@@ -273,6 +273,7 @@ class ViewClientPage extends React.PureComponent {
                             location={this.props.location}
                             onDeleteNote={this.handleDeleteNote}
                             locale={locale}
+                            currentUserId={user.id}
                           />
                         </div>
                       )
