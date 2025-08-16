@@ -63,6 +63,27 @@ function * clientSaga (action) {
       yield put(ActionCreators.setFetchingClientForm(false))
       break
 
+    case Actions.GET_CLIENTS_TO_PURGE:
+      console.log('in action')
+      const clientSvc2 = yield select(getService, 'clients')
+      try {
+        const clientsToPurge = yield call(clientSvc2.getClientsToPurge)
+        yield put(ActionCreators.setClientsToPurge(clientsToPurge))
+      } catch (error) {
+        errorAction = handleError(config.entityName, error)
+      }
+      break
+
+    case Actions.PURGE_CLIENTS:
+      const clientSvc3 = yield select(getService, 'clients')
+      try {
+        yield call(clientSvc3.purgeClients)
+        yield put(ActionCreators.setClientsToPurge([]))
+      } catch (error) {
+        errorAction = handleError(config.entityName, error)
+      }
+      break
+
     default:
       throw new Error('Unexpected action in clientSaga')
   }
@@ -74,5 +95,5 @@ function * clientSaga (action) {
 
 export default [
   createBaseSagaWatcher(Actions, baseSaga),
-  takeEvery([Actions.LOAD_CLIENT, Actions.FETCH_CLIENT_FORM], clientSaga)
+  takeEvery([Actions.LOAD_CLIENT, Actions.FETCH_CLIENT_FORM, Actions.PURGE_CLIENTS, Actions.GET_CLIENTS_TO_PURGE], clientSaga)
 ]

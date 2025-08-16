@@ -208,11 +208,12 @@ class ViewClientPage extends React.PureComponent {
   }
 
   render () {
-    const {locale, client, originOptionsById, messageOptionsById, organismRoleList, notificationsByNoteId, notificationsByDocumentId, notificationsByFileId, user} = this.props
+    const {locale, client, originOptionsById, messageOptionsById, genderOptionsById, pronounOptionsById, organismRoleList, notificationsByNoteId, notificationsByDocumentId, notificationsByFileId, user} = this.props
     const {canDeleteFiles, clientTypesById} = this.props
     if (!client) return null
     const {selectedFormId, selectedTabId} = this.props
-    const clientName = `${client.firstName} ${client.lastName} (${clientTypesById[client.clientTypeId]})`
+    const pronounLabel = client.pronoun ? pronounOptionsById[client.pronoun] : 'N/D'
+    const clientName = `${client.firstName} ${client.lastName} (${clientTypesById[client.clientTypeId]}, ${pronounLabel})`
     const backTo = get(this.props, 'location.query.backTo', baseUrl)
     const notesNotificationCount = size(notificationsByNoteId)
     const documentsNotificationCount = size(notificationsByDocumentId)
@@ -233,6 +234,8 @@ class ViewClientPage extends React.PureComponent {
               client={client}
               originOptionsById={originOptionsById}
               messageOptionsById={messageOptionsById}
+              pronounOptionsById={pronounOptionsById}
+              genderOptionsById={genderOptionsById}
               linkedFiles={this.props.linkedFiles}
               markNotificationAsRead={this.markNotificationAsRead}
               notificationsByLinkId={this.props.notificationsByLinkId}
@@ -366,6 +369,8 @@ const mapStateToProps = (state) => {
     clientTypesById: ClientFormSelectors.getClientTypeOptions(state),
     originOptionsById: ClientFormSelectors.getClientFormOriginOptions(state),
     messageOptionsById: ClientFormSelectors.getClientFormMessageOptions(state),
+    pronounOptionsById: ClientFormSelectors.getClientPronounOptions(state),
+    genderOptionsById: ClientFormSelectors.getClientGenderOptions(state),
     organismRoleList: getOrganismRoleOptions(state),
 
     formsById: FormSelectors.getEntities(state),
@@ -404,6 +409,8 @@ ViewClientPage.propTypes = {
 
   clientTypesById: PropTypes.object.isRequired,
   originOptionsById: PropTypes.object.isRequired,
+  pronounOptionsById: PropTypes.object.isRequired,
+  genderOptionsById: PropTypes.object.isRequired,
   messageOptionsById: PropTypes.object.isRequired,
   organismRoleList: PropTypes.array.isRequired,
 

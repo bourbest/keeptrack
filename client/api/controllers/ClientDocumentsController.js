@@ -86,7 +86,6 @@ function validateDocument (req, res, next) {
     .catch(next)
 }
 
-
 const getUserIncompleteDocumentList = function (req, res, next) {
   const repo = new ClientDocumentRespository(req.database)
   repo.getIncompleteDocumentListForUser(req.user.id)
@@ -97,6 +96,16 @@ const getUserIncompleteDocumentList = function (req, res, next) {
     .catch(next)
 }
 
+function ensureClientIsNotBlocked (req, res, next) {
+  if (req.filters.clientId) {
+    if (req.user.blockedFiles.indexOf(req.filters.clientId.toString()) >= 0) {
+      return next({httpStatus: 403, message: 'access forbidden'})
+    }
+  }
+
+  next()
+}
+
 export default (router) => {
   router.use('/client-documents', entityFromBody(BaseClientDocumentSchema))
   router.route('/client-documents')
@@ -104,6 +113,7 @@ export default (router) => {
       parsePagination(ACCEPTED_SORT_PARAMS),
       parseFilters(filtersSchema),
       restrictToOwnerWhenUserDoesNotHavePermission,
+      ensureClientIsNotBlocked,
       makeFindAllHandler(ClientDocumentRespository)
     ])
     .post([

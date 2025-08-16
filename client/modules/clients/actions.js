@@ -20,7 +20,11 @@ const SpecificActions = createActions(prefix, [
   'REMOVE_LOCAL_FILES',
 
   'TOGGLE_SELECTED_ITEM',
-  'CLEAR_SELECTED_ITEMS'
+  'CLEAR_SELECTED_ITEMS',
+
+  'SET_CLIENTS_TO_PURGE',
+  'GET_CLIENTS_TO_PURGE',
+  'PURGE_CLIENTS'
 ])
 
 const BaseActionCreators = createBaseActionCreators(BaseActions, config.entityName)
@@ -44,7 +48,11 @@ const SpecificActionCreators = {
   clearSelectedDocuments: () => ({type: SpecificActions.CLEAR_SELECTED_ITEMS, itemType: 'selectedDocumentIds'}),
 
   toggleSelectedFile: (id) => ({type: SpecificActions.TOGGLE_SELECTED_ITEM, id, itemType: 'selectedFileIds'}),
-  clearSelectedFiles: () => ({type: SpecificActions.CLEAR_SELECTED_ITEMS, itemType: 'selectedFileIds'})
+  clearSelectedFiles: () => ({type: SpecificActions.CLEAR_SELECTED_ITEMS, itemType: 'selectedFileIds'}),
+
+  setClientsToPurge: (clients) => ({type: SpecificActions.SET_CLIENTS_TO_PURGE, clients}),
+  getClientsToPurge: () => ({type: SpecificActions.GET_CLIENTS_TO_PURGE}),
+  purgeClients: () => ({type: SpecificActions.PURGE_CLIENTS})
 }
 
 BaseActionCreators.toggleSelectedItem = (id) => ({type: SpecificActions.TOGGLE_SELECTED_ITEM, id, itemType: 'selectedItemIds'})

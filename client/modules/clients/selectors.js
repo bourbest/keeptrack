@@ -36,6 +36,9 @@ Selectors.buildNewEntity = () => {
   }
   return newEntity
 }
+
+Selectors.getClientsToPurge = state => state[config.entityName].clientsToPurge
+
 Selectors.getFiles = state => state[config.entityName].files
 Selectors.getClientFilesOrderedByDate = createSelector(
   [Selectors.getFiles],

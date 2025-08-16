@@ -12,7 +12,8 @@ const initialState = {
   clientDocuments: [],
   files: [],
   selectedFileIds: [],
-  selectedDocumentIds: []
+  selectedDocumentIds: [],
+  clientsToPurge: []
 }
 
 const specificReducer = (state, action) => {
@@ -59,6 +60,9 @@ const specificReducer = (state, action) => {
 
     case Actions.CLEAR_SELECTED_FILES:
       return {...state, [action.itemType]: []}
+
+    case Actions.SET_CLIENTS_TO_PURGE:
+      return {...state, clientsToPurge: action.clients}
   }
   return state
 }

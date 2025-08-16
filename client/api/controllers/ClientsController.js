@@ -1,5 +1,5 @@
-import {size, set, forEach, find} from 'lodash'
-import {ClientRepository, ClientFeedSubcriptionRepository, FormTemplateRepository, UploadedFileRepository, ClientLinkRepository, NotificationRepository} from '../repository'
+import {size, set, forEach, find, filter, isArray} from 'lodash'
+import {ClientRepository, ClientFeedSubcriptionRepository, FormTemplateRepository, UploadedFileRepository, ClientLinkRepository, NotificationRepository, BlockedFileRepository} from '../repository'
 import {
   makeFindAllHandler, makeFindById, makeHandleArchive, makeHandlePost, makeHandlePut,
   makeHandleRestore, makeHandleDelete
@@ -8,7 +8,6 @@ import {parsePagination, parseFilters, requiresRole} from '../middlewares'
 import {getValidationsForField} from '../../modules/client-documents/client-document-utils'
 
 import {string, boolean, Schema, validate, transform, date} from 'sapin'
-import {isArray} from 'lodash'
 import {ObjectId} from 'mongodb'
 import { CLIENT_FORM_ID } from '../../modules/const'
 import { objectId } from '../../modules/common/validate'
@@ -84,7 +83,7 @@ function validateClient (req, res, next) {
       })
     
       const clientSchema = new Schema(baseSchema)
-      const errors = validate(req.body, clientSchema, null, true)
+      const errors = validate(req.body, clientSchema, null, false)
 
       if (size(errors)) {
         return next({httpStatus: 400, message: 'Provided Client does not respect Schema', errors})
@@ -114,27 +113,47 @@ function updateAcceptEmailModifiedOn (req, res, next) {
   }
 }
 
+function ignoreError () {}
+
 function deleteClient (database, clientId, appPath) {
   const uploadedFileRepo = new UploadedFileRepository(database)
   const documentRepo = new ClientDocumentRepository(database)
   const clientLinkRepo = new ClientLinkRepository(database)
   const notificationRepo = new NotificationRepository(database)
+  const blockedFileRepo = new BlockedFileRepository(database)
+  const clientFeedSubscriptionRepo = new ClientFeedSubcriptionRepository(database)
+  const clientRepo = new ClientRepository(database)
 
   return uploadedFileRepo.findAll({clientId}).then(files => {
-    const promises = []
+    const promises = [Promise.resolve()]
     forEach(files, file => {
-      let fullPath = path.join(appPath, file.uri) 
-      promises.push(fs.promises.unlink(fullPath))
+      console.log(`delete file ${clientId} - ${file.uri}`)
+      let fullPath = path.join(appPath, file.uri)
+      promises.push(fs.promises.unlink(fullPath).catch(ignoreError))
     })
 
-    const deleteFilter = {clientId}
-    promises.push(uploadedFileRepo.deleteByFilters(deleteFilter))
-    promises.push(documentRepo.deleteByFilters(deleteFilter))
-    promises.push(notificationRepo.deleteByFilters(deleteFilter))
-    promises.push(clientLinkRepo.deleteByFilters({clientId1: clientId}))
-    promises.push(clientLinkRepo.deleteByFilters({clientId2: clientId}))
-
     return Promise.all(promises)
+      .then(function () {
+        console.log(`deleting clientId ${clientId}`)
+        const deleteFilter = {clientId}
+        promises.push(uploadedFileRepo.deleteByFilters(deleteFilter))
+        promises.push(documentRepo.deleteByFilters(deleteFilter))
+        promises.push(notificationRepo.deleteByFilters(deleteFilter))
+        promises.push(clientLinkRepo.deleteByFilters({clientId1: clientId}))
+        promises.push(clientLinkRepo.deleteByFilters({clientId2: clientId}))
+        promises.push(blockedFileRepo.deleteByFilters(deleteFilter))
+        promises.push(clientFeedSubscriptionRepo.deleteByFilters(deleteFilter))
+        promises.push(clientRepo.delete([clientId]))
+        return Promise.all(promises)
+          .then(function (x) {
+            console.log(`deleted clientId ${clientId}`)
+            return x
+          })
+          .catch(function (ex) {
+            console.log(`error deleting clientId ${clientId}: ${ex.toString()}`)
+            return ex
+          })
+      })
   })
 }
 
@@ -158,6 +177,73 @@ function deleteClientFileComponents (appPath) {
 }
 const ACCEPTED_SORT_PARAMS = ['fullName']
 
+function filterBlockedFiles (req, res, next) {
+  res.result.entities = filter(res.result.entities, c => req.user.blockedFiles.indexOf(c.id.toString()) === -1)
+  next()
+}
+
+function removeBlockedFilesFromIds (req, res, next) {
+  if (!isArray(req.body) || req.body.length === 0) {
+    return next({httpStatus: 400, message: 'no ids provided in the body'})
+  } else {
+    req.body = filter(req.body, id => req.user.blockedFiles.indexOf(id) === -1)
+    next()
+  }
+}
+
+function ensureClientIsNotBlocked (req, res, next) {
+  if (req.user.blockedFiles.indexOf(req.params.id) >= 0) {
+    return next({httpStatus: 403, message: 'access forbidden'})
+  }
+  next()
+}
+
+function purgeClientFiles (context) {
+  return function (req, res, next) {
+    const clientRepo = new ClientRepository(req.database)
+
+    const currentDate = new Date()
+
+    // Subtract 7 years from the current date
+    const sevenYearsAgo = new Date(currentDate)
+    sevenYearsAgo.setFullYear(currentDate.getFullYear() - 7)
+
+    clientRepo.findUpdatedBefore(sevenYearsAgo)
+      .then(function (list) {
+        // res.result = list
+        // next()
+        const promises = list.map(file => {
+          return deleteClient(req.database, file.id, context.appPath)
+        })
+        return Promise.all(promises)
+          .then(() => {
+            console.log('delete completed')
+            res.result = list
+            next()
+          })
+          .catch(next)
+      })
+      .catch(next)
+    }
+}
+
+function getClientsToPurge (req, res, next) {
+  const clientRepo = new ClientRepository(req.database)
+
+  const currentDate = new Date()
+
+  // Subtract 7 years from the current date
+  const sevenYearsAgo = new Date(currentDate)
+  sevenYearsAgo.setFullYear(currentDate.getFullYear() - 7)
+
+  clientRepo.findUpdatedBefore(sevenYearsAgo)
+    .then(function (list) {
+      res.result = list
+      next()
+    })
+    .catch(next)
+}
+
 export default (router, context) => {
   router.use('/client-files', requiresRole(ROLES.canCreateClientFiles))
   router.route('/client-files')
@@ -165,30 +251,41 @@ export default (router, context) => {
       parsePagination(ACCEPTED_SORT_PARAMS),
       parseFilters(filtersSchema),
       makeFindAllHandler(ClientRepository),
+      filterBlockedFiles,
       addClientTypeToResults
     ])
     .post([validateClient, updateAcceptEmailModifiedOn, makeHandlePost(ClientRepository)])
 
   router.route('/client-files/archive')
     .post([
+      removeBlockedFilesFromIds,
       makeHandleArchive(ClientRepository),
       deleteFeedSubscriptions
     ])
 
   router.route('/client-files/restore')
-    .post(makeHandleRestore(ClientRepository))
+    .post([
+      removeBlockedFilesFromIds,
+      makeHandleRestore(ClientRepository)])
 
   router.route('/client-files')
     .delete([
+      removeBlockedFilesFromIds,
       deleteClientFileComponents(context.appPath),
       makeHandleDelete(ClientRepository)
     ])
 
-  router.route('/client-files/:id')
-    .get(makeFindById(ClientRepository))
-    .put([validateClient, updateAcceptEmailModifiedOn, makeHandlePut(ClientRepository)])
+  router.route('/purge-client-files')
+    .post(purgeClientFiles(context))
+    .get(getClientsToPurge)
 
-    router.route('/my-clients')
-    .get([getUserSubscribedClients, addClientTypeToResults])
+  router.route('/client-files/:id')
+    .get([ensureClientIsNotBlocked, makeFindById(ClientRepository)])
+    .put([ensureClientIsNotBlocked, validateClient, updateAcceptEmailModifiedOn, makeHandlePut(ClientRepository)])
+
+  router.route('/my-clients')
+    .get([getUserSubscribedClients,
+      filterBlockedFiles,
+      addClientTypeToResults])
 
 }

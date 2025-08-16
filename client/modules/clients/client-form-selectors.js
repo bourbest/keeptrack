@@ -68,4 +68,19 @@ Selectors.getClientTypeOptions = createSelector(
     return getChoices(controlsById['clientTypeId'], locale)
   }
 )
+
+Selectors.getClientGenderOptions = createSelector(
+  [Selectors.getControls, getLocale],
+  (controlsById, locale) => {
+    return getChoices(controlsById['gender'], locale)
+  }
+)
+
+Selectors.getClientPronounOptions = createSelector(
+  [Selectors.getControls, getLocale],
+  (controlsById, locale) => {
+    return getChoices(controlsById['pronoun'], locale)
+  }
+)
+
 export default Selectors

@@ -13,6 +13,16 @@ export default class ClientService extends RestService {
     this.getMyClients = this.getMyClients.bind(this)
     this.getDistributionList = this.getDistributionList.bind(this)
     this.uploadFile = this.uploadFile.bind(this)
+    this.getClientsToPurge = this.getClientsToPurge.bind(this)
+    this.purgeClients = this.purgeClients.bind(this)
+  }
+
+  getClientsToPurge () {
+    return this.apiClient.get('purge-client-files')
+  }
+
+  purgeClients () {
+    return this.apiClient.post('purge-client-files')
   }
 
   getDocumentsByClientId (clientId) {

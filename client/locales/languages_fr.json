@@ -13,7 +13,8 @@
     "changePassword": "Modifier mon mot de passe",
     "generateReport": "Rapports",
     "admin": "Administration",
-    "formShortcuts": "Menus"
+    "formShortcuts": "Menus",
+    "deleteOldFiles": "Suppression des vieux dossiers"
   },
   "login": {
     "username": "Code utilisateur",
@@ -51,6 +52,7 @@
   },
   "clients":{
     "list-title": "Liste des participants",
+    "old-files": "Dossiers intouchés depuis plus de 7 ans",
     "create-title": "Création d'un nouveau participant",
     "edit-title": "Édition d'un participant",
     "firstName":"Prénom",
@@ -58,6 +60,8 @@
     "age": "{{age}} ans ({{birthDate}})",
     "notes": "Notes",
     "documents": "Documents",
+    "genre": "Genre",
+    "pronom": "Pronom",
     "date": "Date du document",
     "formName": "Formulaire",
     "selectForm": "Sélectionner un formulaire",
@@ -77,7 +81,8 @@
     "importedBy": "Importé par",
     "manage-links": "Gérer les liens",
     "links": "Dossiers liés",
-    "clientType": "Type de dossier"
+    "clientType": "Type de dossier",
+    "lastModification": "Dernière modification"
   },
   "client-links": {
     "firstName": "Prénom",
@@ -90,6 +95,17 @@
     "titleSuffix": "Liste des dossiers liés",
     "create": "Lier les dossiers ensemble",
     "newLinkTitle": "Nouveau lien"
+  },
+  "blocked-files": {
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "clientType": "Type de dossier",
+    "address": "Adresse",
+    "noLinks": "Aucun dossier bloqué",
+    "otherClient": "Dossier à bloquer",
+    "linkAlreadyExist": "Il existe déjà un lien avec ce dossier",
+    "titleSuffix": "Liste des dossiers bloqués",
+    "create": "Bloquer le dossier pour cet usager"
   },
   "client-document": {
     "statusOptions" : {

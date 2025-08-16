@@ -7,6 +7,7 @@ import ClientDocumentService from './client-document-service'
 import ClientLinkService from './client-link-service'
 import AuthService from './authentication-service'
 import AccountService from './account-service'
+import BlockedFileService from './blocked-file-service'
 import UploadedFileService from './uploaded-file-service'
 
 export const createService = (serviceName, apiConfig) => {
@@ -17,6 +18,9 @@ export const createService = (serviceName, apiConfig) => {
 
     case 'accounts':
       return new AccountService(apiClient)
+
+    case 'blocked-files':
+      return new BlockedFileService(apiClient)
 
     case 'clients':
       return new ClientService(apiClient)

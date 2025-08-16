@@ -15,6 +15,20 @@ class ClientCoordinates extends React.PureComponent {
     this.message = createTranslate('clients', this)
     this.renderAge = this.renderAge.bind(this)
     this.renderPhone = this.renderPhone.bind(this)
+    this.renderGender = this.renderGender.bind(this)
+    this.renderPronoun = this.renderPronoun.bind(this)
+  }
+
+  renderGender (gender, genderOptionsById) {
+    const genderLabel = gender ? genderOptionsById[gender] : 'N/D'
+
+    return <div>{this.message('genre')}: {genderLabel}</div>
+  }
+
+  renderPronoun (pronoun, pronounOptionsById) {
+    const pronounLabel = pronoun ? pronounOptionsById[pronoun] : 'N/D'
+
+    return <div>{this.message('pronom')}: {pronounLabel}<br /></div>
   }
 
   renderAge (birthDate) {
@@ -53,7 +67,7 @@ class ClientCoordinates extends React.PureComponent {
   }
 
   render () {
-    const {client, originOptionsById, messageOptionsById, linkedFiles, locale} = this.props
+    const {client, originOptionsById, messageOptionsById, genderOptionsById, pronounOptionsById, linkedFiles, locale} = this.props
     const origin = originOptionsById[client.originId]
     return (
       <div>
@@ -62,6 +76,8 @@ class ClientCoordinates extends React.PureComponent {
             <strong>Âge et coordonnées</strong>
             <hr />
             {this.renderAge(client.birthDate)}
+            {this.renderGender(client.gender, genderOptionsById)}
+            {this.renderPronoun(client.pronoun, pronounOptionsById)}
             {client.email && client.email.length > 0 &&
               <span>
                 <Icon name="mail-alt" className="mr-2" />{client.email}<br />
@@ -111,6 +127,8 @@ ClientCoordinates.propTypes = {
   locale: PropTypes.string.isRequired,
   originOptionsById: PropTypes.object.isRequired,
   messageOptionsById: PropTypes.object.isRequired,
+  genderOptionsById: PropTypes.object.isRequired,
+  pronounOptionsById: PropTypes.object.isRequired,
   linkedFiles: PropTypes.array.isRequired,
   markNotificationAsRead: PropTypes.func,
   notificationsByLinkId: PropTypes.object

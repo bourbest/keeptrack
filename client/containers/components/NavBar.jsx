@@ -40,7 +40,8 @@ class NavBar extends React.PureComponent {
       { name: 'admin', labelKey: 'admin', menus: [
         { name: 'formTemplates', link: '/form-templates', labelKey: 'formTemplates', role: formsManager },
         { name: 'accounts', link: '/accounts', labelKey: 'accounts', role: usersManager },
-        { name: 'formShortcuts', link: '/form-shortcuts', labelKey: 'formShortcuts', role: usersManager }
+        { name: 'formShortcuts', link: '/form-shortcuts', labelKey: 'formShortcuts', role: usersManager },
+        { name: 'deleteOldFiles', link: '/purge-client-files', labelKey: 'deleteOldFiles', role: canCreateClientFiles }
       ] },
       { name: 'generateReport', link: '/reports/generate', labelKey: 'reports', role: statsProducer }
     ]

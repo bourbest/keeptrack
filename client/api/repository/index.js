@@ -8,3 +8,4 @@ export {default as ClientFeedSubcriptionRepository} from './ClientFeedSubscripti
 export {default as NotificationRepository} from './NotificationRepository'
 export {default as FormShortcutRepository} from './FormShortcutRepository'
 export {default as UploadedFileRepository} from './UploadedFileRepository'
+export {default as BlockedFileRepository} from './BlockedFileRepository'

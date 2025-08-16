@@ -5,6 +5,7 @@ import clientDocumentSaga from './client-documents/saga'
 import clientLinksSaga from './client-links/saga'
 import accountSaga from './accounts/saga'
 import myAccountSaga from './my-account/saga'
+import blockedFilesSaga from './blocked-files/saga'
 import authenticationSaga from './authentication/saga'
 import formTemplateSaga from './form-templates/saga'
 import subscriptionSaga from './client-feed-subscriptions/saga'
@@ -26,6 +27,7 @@ export default function * rootSaga () {
     ...dashboardSaga,
     formShortcutSaga,
     uploadedFileSaga,
-    clientLinksSaga
+    clientLinksSaga,
+    blockedFilesSaga
   ])
 }

@@ -1,7 +1,7 @@
-import {omit} from 'lodash'
+import {omit, map} from 'lodash'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
-import {UserAccountRepository} from '../repository'
+import {UserAccountRepository, BlockedFileRepository} from '../repository'
 import {COOKIE_NAMES} from '../../config/const'
 
 const omitSensitiveUserData = (user) => omit(user, ['passwordHash'])
@@ -34,25 +34,41 @@ function ensurePasswordMatch (password) {
   }
 }
 
+function loadBlockedFiles (database) {
+  return function (user) {
+    const repo = new BlockedFileRepository(database)
+    return repo.findByUserId(user.id)
+      .then(result => {
+        user.blockedFiles = map(result, 'clientId')
+        return user
+      })
+  }
+}
+
+function authenticateUser (secret) {
+  return function (req, res, next) {
+    const accountRepo = new UserAccountRepository(req.database)
+    accountRepo.findByUsername(req.body.username)
+      .then(ensureAcccountExists)
+      .then(ensureAccountIsActive)
+      .then(ensurePasswordMatch(req.body.password))
+      .then(loadBlockedFiles(req.database))
+      .then(function (user) {
+        user = omitSensitiveUserData(user)
+        const token = jwt.sign(user, secret, {
+          expiresIn: '1d' // expires in 24 hours
+        })
+        res.cookie(COOKIE_NAMES.auth, token, { httpOnly: true })
+        const csrfToken = req.csrf.generateToken(req, res)
+        res.json({success: true, user, csrfToken})
+      })
+      .catch(next)
+  }
+}
+
 export default (router, secret) => {
   router.route('/authenticate')
-    .post(function (req, res, next) {
-      const repo = new UserAccountRepository(req.database)
-      return repo.findByUsername(req.body.username)
-        .then(ensureAcccountExists)
-        .then(ensureAccountIsActive)
-        .then(ensurePasswordMatch(req.body.password))
-        .then(function (user) {
-          user = omitSensitiveUserData(user)
-          const token = jwt.sign(user, secret, {
-            expiresIn: '1d' // expires in 24 hours
-          })
-          res.cookie(COOKIE_NAMES.auth, token, { httpOnly: true })
-          const csrfToken = req.csrf.generateToken(req, res)
-          res.json({success: true, user, csrfToken})
-        })
-        .catch(next)
-    })
+    .post([authenticateUser(secret)])
     .delete(function (req, res, next) {
       res.clearCookie(COOKIE_NAMES.auth)
       res.result = {}

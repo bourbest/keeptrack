@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import {Link} from 'react-router'
 
 // redux
 import { bindActionCreators } from 'redux'
@@ -20,6 +21,10 @@ import {Pagination} from '../components/Pagination'
 
 const labelNamespace = 'accounts'
 const StandardToolbar = makeStandardToolbar(AccountActions, AccountSelectors, labelNamespace, 'accounts')
+
+export const renderLinkToBlockedFiles = (entity, columnName, column, globals) => {
+  return <Link to={`/accounts/${entity.id}/manage-blocked-files`}>dossiers bloqués</Link>
+}
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -62,6 +67,7 @@ class ListAccountsPage extends React.PureComponent {
           <Column name="username" label={this.message('userName')} renderer={renderLinkToDetail} />
           <Column name="lastName" label={this.message('lastName')} />
           <Column name="firstName" label={this.message('firstName')} />
+          <Column name="dossiers bloqués" label="test" renderer={renderLinkToBlockedFiles} />
         </SmartTable>
         {this.props.totalPages > 1 &&
           <div className="ui centered grid">

@@ -12,7 +12,7 @@
     "kt": "node ./tasks/build dev && npm-run-all --parallel kt-watch kt-server-watch serve",
     "build": "node ./tasks/build dev",
     "release": "node ./tasks/build prod",
-    "initdb": "node ./tasks/initdb dev"
+    "initdb": "node ./tools/initdb dev"
   },
   "license": "",
   "dependencies": {

@@ -6,6 +6,7 @@ import clients from './clients/reducer'
 import clientDocuments from './client-documents/reducer'
 import clientLinks from './client-links/reducer'
 import accounts from './accounts/reducer'
+import blockedFiles from './blocked-files/reducer'
 import formTemplates from './form-templates/reducer'
 import clientFeedSubscriptions from './client-feed-subscriptions/reducer'
 import notifications from './notifications/reducer'
@@ -21,6 +22,7 @@ export default combineReducers({
   ...clients,
   ...clientDocuments,
   ...accounts,
+  ...blockedFiles,
   ...formTemplates,
   ...clientFeedSubscriptions,
   ...notifications,

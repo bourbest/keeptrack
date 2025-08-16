@@ -12,9 +12,11 @@ import ViewClientPage from './containers/clients/ViewClientPage'
 import EditFileInfoPage from './containers/clients/EditFileInfoPage'
 import ManageClientLinksPage from './containers/clients/ManageClientLinksPage'
 import PrintClientPage from './containers/clients/PrintClientPage'
+import PurgeClientFiles from './containers/admin/PurgeClientFilesPage'
 
 import ListAccountsPage from './containers/accounts/ListAccountsPage'
 import EditAccountsPage from './containers/accounts/EditAccountPage'
+import ManageBlockedFilesPage from './containers/accounts/ManageBlockedFilesPage'
 
 import ListFormTemplatesPage from './containers/form-templates/ListFormTemplatesPage'
 import EditFormTemplatePage from './containers/form-templates/EditFormTemplatePage'
@@ -51,9 +53,12 @@ export default (
       <Route path='clients/:clientId/documents/create/:formId' component={CreateClientFiles(EditClientDocumentPage)} />
       <Route path='clients/:clientId/manage-client-links' component={CreateClientFiles(ManageClientLinksPage)} />
       <Route path='client-documents/:documentId' component={EditClientDocumentPage} />
+      <Route path='purge-client-files' component={CreateClientFiles(PurgeClientFiles)} />
+
       <Route path='uploaded-files/review' component={InteractWithClient(EditFileInfoPage)} />
       <Route path='accounts' component={AccountManager(ListAccountsPage)} />
       <Route path='accounts/:id' component={AccountManager(EditAccountsPage)} />
+      <Route path='accounts/:userId/manage-blocked-files' component={AccountManager(ManageBlockedFilesPage)} />
       <Route path='form-templates' component={FormManager(ListFormTemplatesPage)} />
       <Route path='form-templates/:id' component={FormManager(EditFormTemplatePage)} />
       <Route path='reports/generate' component={ReportUser(GenerateReportPage)} />

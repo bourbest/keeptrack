@@ -11,7 +11,7 @@ import {Schema} from 'sapin'
 import {objectId} from '../../modules/common/validate'
 import fs from 'fs'
 import path from 'path'
-import multiparty  from 'multiparty'
+import multiparty from 'multiparty'
 
 const filtersSchema = new Schema({
   clientId: objectId
@@ -28,7 +28,7 @@ function setFileUri (req, res, next) {
   fileMeta.uri = `/public/uploaded-files/${sub1}/${sub2}/${fileId}`
   if (ext.length > 1) {
     fileMeta.uri = fileMeta.uri + '.' + ext[ext.length - 1]
-  } 
+  }
   next()
 }
 
@@ -57,12 +57,12 @@ function saveFile (appPath) {
             const form = new multiparty.Form();
 
             // Errors may be emitted
-            form.on('error', function(err) {
+            form.on('error', function (err) {
               next({httpStatus: 500, message: err})
             })
 
             // Parts are emitted when parsing the form
-            form.on('part', function(part) {
+            form.on('part', function (part) {
               // You *must* act on the part by reading it
               // NOTE: if you want to ignore it, just call "part.resume()"
               if (!part.filename) {
@@ -74,14 +74,14 @@ function saveFile (appPath) {
                 part.resume()
               }
 
-              part.on('error', function(err) {
+              part.on('error', function (err) {
                 console.log('Error on stream: ', err) 
                 next({httpStatus: 500, message: err})
               })
-            });
+            })
 
             // Parse req
-            form.parse(req);
+            form.parse(req)
           })
       })
       .catch(next)
@@ -100,7 +100,7 @@ function deleteLocalFiles (appPath) {
         .then(files => {
           const promises = []
           for (let i = 0; i < files.length; i++) {
-            let fullPath = path.join(appPath, files[i].uri) 
+            let fullPath = path.join(appPath, files[i].uri)
             promises.push(fs.promises.unlink(fullPath))
           }
           return Promise.all(promises)

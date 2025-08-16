@@ -93,7 +93,11 @@ Selectors.getNextChoiceId = createSelector(
 
     const ids = map(choices, choice => parseInt(choice.id, 10))
     if (ids.length === 0) return '1'
-    return (max(ids) + 1).toString()
+    let maxId = max(ids)
+    if (maxId === undefined) {
+      maxId = 0
+    }
+    return (maxId + 1).toString()
   }
 )
 
