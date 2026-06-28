@@ -12,6 +12,7 @@ const applyRevision7 = require('./revisions/revision7')
 const applyRevision8 = require('./revisions/revision8')
 const applyRevision9 = require('./revisions/revision9')
 const applyRevision10 = require('./revisions/revision10')
+const applyRevision11 = require('./revisions/revision11')
 
 getDbConfig = function () {
   const configPath = './config.json'
@@ -56,6 +57,7 @@ const dbConfig = getDbConfig();
     // .then(applyRevision8)
     //.then(applyRevision9)
     .then(applyRevision10)
+    .then(applyRevision11)
     .then(() => {
       console.log('initdb complete')
     })

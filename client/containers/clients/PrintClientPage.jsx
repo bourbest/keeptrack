@@ -73,7 +73,7 @@ class PrintClientPage extends React.PureComponent {
   }
 
   render () {
-    const {locale, client, originOptionsById, messageOptionsById, organismRoleList, formsById} = this.props
+    const {locale, client, originOptionsById, genderOptionsById, pronounOptionsById, messageOptionsById, organismRoleList, formsById} = this.props
     if (!client || size(formsById) === 0) return null
     let renderedDocs = []
     const name = `${client.firstName} ${client.lastName}`
@@ -89,6 +89,8 @@ class PrintClientPage extends React.PureComponent {
           client={client}
           originOptionsById={originOptionsById}
           messageOptionsById={messageOptionsById}
+          genderOptionsById={genderOptionsById}
+          pronounOptionsById={pronounOptionsById}
           linkedFiles={this.props.linkedFiles}
         />
         <hr />
@@ -102,6 +104,7 @@ class PrintClientPage extends React.PureComponent {
                   organismRoles={organismRoleList}
                   locale={locale}
                   noControls
+                  currentUserId="none"
                 />
               </div>
             )
@@ -130,7 +133,8 @@ const mapStateToProps = (state) => {
     originOptionsById: ClientFormSelectors.getClientFormOriginOptions(state),
     messageOptionsById: ClientFormSelectors.getClientFormMessageOptions(state),
     organismRoleList: getOrganismRoleOptions(state),
-
+    genderOptionsById: ClientFormSelectors.getClientGenderOptions(state),
+    pronounOptionsById: ClientFormSelectors.getClientPronounOptions(state),
     formsById: FormSelectors.getEntities(state),
     formOptionList: FormSelectors.getClientCreatableFormOptionList(state),
     controlDictByFormId: FormSelectors.getControlDictByFormId(state),
@@ -152,6 +156,8 @@ PrintClientPage.propTypes = {
   originOptionsById: PropTypes.object.isRequired,
   messageOptionsById: PropTypes.object.isRequired,
   organismRoleList: PropTypes.array.isRequired,
+  genderOptionsById: PropTypes.object.isRequired,
+  pronounOptionsById: PropTypes.object.isRequired,
 
   formOptionList: PropTypes.array.isRequired,
   formsById: PropTypes.object.isRequired,
